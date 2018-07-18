@@ -8,7 +8,6 @@
 
 #import "LoginVC.h"
 
-
 @interface LoginVC ()
     
 @property UIButton *signUpButton;
@@ -34,11 +33,12 @@
     
     // Update Constraints
     [self updateConstraints];
-    [self createTapGestureRecognizer];
+    [self createTapGestureRecognizer:@selector(wholeViewTapped)];
 }
 
 - (void)updateConstraints {
     
+    // Title Label
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.superview.mas_top).offset(120);
         make.centerX.equalTo(self.titleLabel.superview.mas_centerX);
@@ -46,6 +46,7 @@
         make.width.equalTo(@(self.titleLabel.intrinsicContentSize.width));
     }];
     
+    // Username TextField
     [self.usernameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom).offset(60);
         make.centerX.equalTo(self.usernameTextField.superview.mas_centerX);
@@ -53,6 +54,7 @@
         make.height.equalTo(@(self.usernameTextField.intrinsicContentSize.height));
     }];
     
+    // Password TextField
     [self.passwordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.usernameTextField.mas_bottom).offset(40);
         make.centerX.equalTo(self.passwordTextField.superview.mas_centerX);
@@ -60,6 +62,7 @@
         make.height.equalTo(@(self.passwordTextField.intrinsicContentSize.height));
     }];
     
+    // Signup Button
     [self.signUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.passwordTextField.mas_bottom).offset(60);
         make.left.equalTo(self.passwordTextField.mas_left);
@@ -67,6 +70,7 @@
         make.height.equalTo(@(self.signUpButton.intrinsicContentSize.height));
     }];
     
+    // Login Button
     [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.signUpButton.mas_top);
         make.right.equalTo(self.passwordTextField.mas_right);
@@ -74,19 +78,23 @@
         make.width.equalTo(@(self.loginButton.intrinsicContentSize.width));
     }];
 }
-    
+
+// Register user action
 - (void)signUpButtonTapped {
     [self registerUser];
 }
-    
+
+// Login user action
 - (void)loginButtonTapped {
     [self loginUser];
 }
-    
+ 
+// Make keyboard disappear action
 - (void)wholeViewTapped {
     [self.view endEditing:YES];
 }
     
+// Initialize Title Label
 - (void)createTitleLabel {
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.text = @"Change My Mind";
@@ -95,6 +103,7 @@
     [self.view addSubview:self.titleLabel];
 }
     
+// Initalize Password TextField
 - (void)createPasswordTextField {
     self.passwordTextField = [[UITextField alloc] init];
     self.passwordTextField.placeholder = @"Password...";
@@ -102,6 +111,7 @@
     [self.view addSubview:self.passwordTextField];
 }
     
+// Initalize Username TextField
 - (void)createUsernameTextField {
     self.usernameTextField = [[UITextField alloc] init];
     self.usernameTextField.placeholder = @"Username...";
@@ -109,6 +119,7 @@
     [self.view addSubview:self.usernameTextField];
 }
     
+// Initialize Login Button
 - (void)createLoginButton {
     self.loginButton = [[UIButton alloc] init];
     [self.loginButton setTitle:@"Login" forState:UIControlStateNormal];
@@ -118,6 +129,7 @@
     [self.view addSubview:self.loginButton];
 }
     
+// Initialize Signup Button
 - (void)createSignUpButton {
     self.signUpButton = [[UIButton alloc] init];
     [self.signUpButton setTitle:@"Sign Up" forState:UIControlStateNormal];
@@ -127,11 +139,13 @@
     [self.view addSubview:self.signUpButton];
 }
     
-- (void)createTapGestureRecognizer {
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(wholeViewTapped)];
+// Creates Generic TapGestureRecognizer
+    - (void)createTapGestureRecognizer:(SEL)selector {
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];
     [self.view addGestureRecognizer:tapGesture];
 }
     
+// Create alert with given message and title
     - (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
@@ -139,7 +153,8 @@
     [self presentViewController:alert animated:YES completion:^{
     }];
 }
-    
+ 
+// Login user into parse server
 - (void)loginUser {
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;
@@ -155,13 +170,15 @@
                 [self createAlert:@"Login Error" message:@"There was a problem logging in. Please try again."];
             } else {
                 NSLog(@"User logged in successfully");
-                [self presentViewController:[[CMMMainTabBarVC alloc] init] animated:YES completion:^{}];
+                CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
+                [self presentViewController:tabBarVC animated:YES completion:^{}];
             }
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
 }
 
+// Register new user in parse server
 - (void)registerUser {
     
     if ([self.usernameTextField.text isEqualToString: @""] || [self.passwordTextField.text isEqualToString: @""]) {
@@ -184,15 +201,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

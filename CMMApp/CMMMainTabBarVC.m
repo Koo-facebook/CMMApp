@@ -37,6 +37,11 @@
     [viewControllers addObject:profileVC];
     
     self.viewControllers = [viewControllers copy];
+    self.tabBar.layer.cornerRadius = 20;
+    CGRect newframe = self.tabBar.frame;
+    newframe.size.height -= 10;
+    self.tabBar.frame = newframe;
+    self.tabBar.clipsToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {

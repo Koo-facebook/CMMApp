@@ -30,14 +30,12 @@
     
     [Parse initializeWithConfiguration:config];
     
-    //    if (PFUser.currentUser) {
-    //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    //
-    //        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    //    }
-    
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.window.rootViewController = [[LoginVC alloc] init];
+    if (PFUser.currentUser) {
+        self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
+    } else {
+        self.window.rootViewController = [[LoginVC alloc] init];
+    }
     [self.window makeKeyAndVisible];
     
     return YES;
