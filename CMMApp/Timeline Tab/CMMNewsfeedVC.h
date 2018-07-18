@@ -1,5 +1,5 @@
 //
-//  CMMTimelineVC.h
+//  CMMNewsfeedVC.h
 //  CMMApp
 //
 //  Created by Omar Rasheed on 7/17/18.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMMTimelineVC : UINavigationController
+@interface CMMNewsfeedVC : UINavigationController
 
 @end
