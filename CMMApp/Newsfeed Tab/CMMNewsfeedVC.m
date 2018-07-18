@@ -38,13 +38,13 @@
 }
 
 - (void)fetchPosts {
-    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
-    [query orderByDescending:@"createdAt"];
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
+    //[query orderByDescending:@"createdAt"];
     query.limit = 20;
-    [query includeKey:@"owner"];
+    //[query includeKey:@"owner"];
     [query includeKey:@"question"];
-    [query includeKey:@"categories"];
-    [query includeKey:@"content"];
+    //[query includeKey:@"categories"];
+    //[query includeKey:@"content"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             self.posts = posts;
@@ -71,8 +71,9 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    cell.textLabel.text = self.posts[indexPath.row];
-    NSLog(@"%@", self.posts[indexPath.row]);
+    CMMPost *post = self.posts[indexPath.row];
+    cell.textLabel.text = post.question;
+    NSLog(@"%@", post.question);
     return cell;
 }
 

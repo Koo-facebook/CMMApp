@@ -25,21 +25,25 @@
     newsfeedVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Newsfeed" image:nil tag:0];
     [viewControllers addObject:newsfeedVC];
     
-    CMMEventsVC *eventsVC = [[CMMEventsVC alloc] init];
-    eventsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Events" image:nil tag:1];
-    [viewControllers addObject:eventsVC];
-    
     CMMInboxVC *inboxVC = [[CMMInboxVC alloc] init];
-    inboxVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Inbox" image:nil tag:2];
+    inboxVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Inbox" image:nil tag:1];
     [viewControllers addObject:inboxVC];
     
+    CMMComposerVC *composeVC = [[CMMComposerVC alloc] init];
+    UINavigationController *composeNavigation = [[UINavigationController alloc] initWithRootViewController:composeVC];
+    composeNavigation.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Compose" image:nil tag:2];
+    [viewControllers addObject:composeNavigation];
+    
+    CMMEventsVC *eventsVC = [[CMMEventsVC alloc] init];
+    eventsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Events" image:nil tag:3];
+    [viewControllers addObject:eventsVC];
+
+    
     CMMProfileVC *profileVC = [[CMMProfileVC alloc] init];
-    profileVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:3];
+    profileVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:4];
     [viewControllers addObject:profileVC];
     
-    CMMComposerVC *composeVC = [[CMMComposerVC alloc] init];
-    composeVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:4];
-    [viewControllers addObject:composeVC];
+
     
     self.viewControllers = [viewControllers copy];
 }
