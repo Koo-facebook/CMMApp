@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CMMTimelineVC.h"
+#import "CMMNewsfeedVC.h"
 #import "CMMInboxVC.h"
 #import "CMMProfileVC.h"
 #import "CMMEventsVC.h"

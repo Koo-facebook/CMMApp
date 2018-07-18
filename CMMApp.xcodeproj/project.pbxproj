@@ -23,7 +23,7 @@
 		22F9EC2320FEB2E0002ADD9D /* CMMVenue.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC2220FEB2E0002ADD9D /* CMMVenue.m */; };
 		22F9EC2620FEB30E002ADD9D /* CMMVote.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC2520FEB30E002ADD9D /* CMMVote.m */; };
 		22F9EC2920FEB600002ADD9D /* CMMInboxVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC2820FEB600002ADD9D /* CMMInboxVC.m */; };
-		22F9EC2C20FEB618002ADD9D /* CMMTimelineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC2B20FEB618002ADD9D /* CMMTimelineVC.m */; };
+		22F9EC2C20FEB618002ADD9D /* CMMNewsfeedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC2B20FEB618002ADD9D /* CMMNewsfeedVC.m */; };
 		22F9EC2F20FEB623002ADD9D /* CMMProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC2E20FEB623002ADD9D /* CMMProfileVC.m */; };
 		22F9EC3220FEB630002ADD9D /* CMMEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC3120FEB630002ADD9D /* CMMEventsVC.m */; };
 		22F9EC3520FEC2AF002ADD9D /* CMMVoteAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC3420FEC2AF002ADD9D /* CMMVoteAPIManager.m */; };
@@ -62,8 +62,8 @@
 		22F9EC2520FEB30E002ADD9D /* CMMVote.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMVote.m; sourceTree = "<group>"; };
 		22F9EC2720FEB600002ADD9D /* CMMInboxVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMInboxVC.h; sourceTree = "<group>"; };
 		22F9EC2820FEB600002ADD9D /* CMMInboxVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMInboxVC.m; sourceTree = "<group>"; };
-		22F9EC2A20FEB618002ADD9D /* CMMTimelineVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMTimelineVC.h; sourceTree = "<group>"; };
-		22F9EC2B20FEB618002ADD9D /* CMMTimelineVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMTimelineVC.m; sourceTree = "<group>"; };
+		22F9EC2A20FEB618002ADD9D /* CMMNewsfeedVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMNewsfeedVC.h; sourceTree = "<group>"; };
+		22F9EC2B20FEB618002ADD9D /* CMMNewsfeedVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMNewsfeedVC.m; sourceTree = "<group>"; };
 		22F9EC2D20FEB623002ADD9D /* CMMProfileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMProfileVC.h; sourceTree = "<group>"; };
 		22F9EC2E20FEB623002ADD9D /* CMMProfileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMProfileVC.m; sourceTree = "<group>"; };
 		22F9EC3020FEB630002ADD9D /* CMMEventsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMEventsVC.h; sourceTree = "<group>"; };
@@ -197,8 +197,8 @@
 		22F9EC0920FEAF15002ADD9D /* Timeline Tab */ = {
 			isa = PBXGroup;
 			children = (
-				22F9EC2A20FEB618002ADD9D /* CMMTimelineVC.h */,
-				22F9EC2B20FEB618002ADD9D /* CMMTimelineVC.m */,
+				22F9EC2A20FEB618002ADD9D /* CMMNewsfeedVC.h */,
+				22F9EC2B20FEB618002ADD9D /* CMMNewsfeedVC.m */,
 			);
 			path = "Timeline Tab";
 			sourceTree = "<group>";
@@ -350,7 +350,7 @@
 				22F9EC0E20FEAF44002ADD9D /* CMMLoginVC.m in Sources */,
 				22F9EC1720FEB21C002ADD9D /* CMMEvent.m in Sources */,
 				22F9EC1D20FEB289002ADD9D /* CMMPost.m in Sources */,
-				22F9EC2C20FEB618002ADD9D /* CMMTimelineVC.m in Sources */,
+				22F9EC2C20FEB618002ADD9D /* CMMNewsfeedVC.m in Sources */,
 				22F9EC3520FEC2AF002ADD9D /* CMMVoteAPIManager.m in Sources */,
 				22F9EC3E20FF06DC002ADD9D /* CMMMainTabBarVC.m in Sources */,
 				22F9EC2020FEB2B2002ADD9D /* CMMUser.m in Sources */,

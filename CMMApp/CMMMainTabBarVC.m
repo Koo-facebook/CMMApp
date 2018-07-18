@@ -20,9 +20,9 @@
     
     NSMutableArray *viewControllers = [[NSMutableArray alloc] init];
     
-    CMMTimelineVC *timelineVC = [[CMMTimelineVC alloc] init];
-    timelineVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Timeline" image:nil tag:0];
-    [viewControllers addObject:timelineVC];
+    CMMNewsfeedVC *newsfeedVC = [[CMMNewsfeedVC alloc] init];
+    newsfeedVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Newsfeed" image:nil tag:0];
+    [viewControllers addObject:newsfeedVC];
     
     CMMEventsVC *eventsVC = [[CMMEventsVC alloc] init];
     eventsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Events" image:nil tag:1];
