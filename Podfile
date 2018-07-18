@@ -9,5 +9,7 @@ target 'CMMApp' do
   pod 'Parse'
   pod 'AFNetworking'
   pod 'Bolts'
+  pod 'Masonry'
+  pod 'MBProgressHUD'
 
 end

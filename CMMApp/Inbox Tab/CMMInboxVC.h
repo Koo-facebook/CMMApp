@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMMInboxVC : UIViewController
+@interface CMMInboxVC : UINavigationController
 
 @end

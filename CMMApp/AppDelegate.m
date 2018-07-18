@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginVC.h"
+#import "Parse.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,25 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        
+        configuration.applicationId = @"myAppId";
+        configuration.clientKey = @"myMasterKey";
+        configuration.server = @"http://changemymind.herokuapp.com/parse";
+        
+    }];
+    
+    [Parse initializeWithConfiguration:config];
+    
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    if (PFUser.currentUser) {
+        self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
+    } else {
+        self.window.rootViewController = [[LoginVC alloc] init];
+    }
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

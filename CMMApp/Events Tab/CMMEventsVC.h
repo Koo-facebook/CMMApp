@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMMEventsVC : UIViewController
+@interface CMMEventsVC : UINavigationController
 
 @end
