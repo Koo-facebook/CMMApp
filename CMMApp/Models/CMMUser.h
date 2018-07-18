@@ -16,6 +16,6 @@
     @property NSMutableArray *_Nullable posts; // users posts
     @property NSMutableArray *_Nullable conversations; // users conversations
     
-    +(void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password;
+    +(instancetype _Nonnull)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password;
     
 @end

@@ -18,5 +18,16 @@
         });
         return sharedManager;
     }
+    
+    - (void)registerVoter:(CMMVote *)vote withCompletion:(void(^)(NSDictionary *result, NSError *error))completion {
+        NSMutableDictionary *voteDictionary = [self turnVoteIntoParams:vote];
+        // make request w api key
+    }
+    
+    - (NSMutableDictionary *)turnVoteIntoParams: (CMMVote *)vote {
+        NSMutableDictionary *returnDictionary = [[NSMutableDictionary alloc] init];
+        
+        return returnDictionary;
+    }
 
 @end

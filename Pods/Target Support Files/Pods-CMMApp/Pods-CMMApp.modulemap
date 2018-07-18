@@ -1,0 +1,6 @@
+module Pods_CMMApp {
+  umbrella header "Pods-CMMApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

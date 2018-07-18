@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginVC.h"
 #import "Parse.h"
 
 @interface AppDelegate ()
@@ -34,6 +35,10 @@
     //
     //        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     //    }
+    
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    self.window.rootViewController = [[LoginVC alloc] init];
+    [self.window makeKeyAndVisible];
     
     return YES;
 }

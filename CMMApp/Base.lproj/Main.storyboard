@@ -13,7 +13,7 @@
         <!--LoginVC-->
         <scene sceneID="Pc2-h5-c5S">
             <objects>
-                <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FX1-6b-N12" customClass="LoginVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FX1-6b-N12" customClass="CMMLoginVC" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8FY-os-8Cy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -44,7 +44,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Sign Up">
-                                    <color key="titleColor" red="0.0" green="0.42100253809999999" blue="0.39345558629999999" alpha="0.60209760270000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.0" green="0.42100253809999999" blue="0.39473206189661736" alpha="0.60209760270000001" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="tappedSignUp:" destination="FX1-6b-N12" eventType="touchUpInside" id="l8R-Um-gTX"/>

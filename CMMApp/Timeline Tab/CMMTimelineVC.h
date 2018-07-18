@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMMTimelineVC : UIViewController
+@interface CMMTimelineVC : UINavigationController
 
 @end

@@ -124,7 +124,6 @@
                 NSLog(@"User registered successfully");
                 //Dispaly chat view controller after successful registration
                 [self performSegueWithIdentifier:@"MoveToHome" sender:nil];
-                
             }
         }];
     }

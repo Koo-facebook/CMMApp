@@ -63,8 +63,14 @@
         return @"CMMVote";
     }
     
-    - (void)registerVoter:(CMMVote *_Nonnull)vote {
-        
+    /* - (void)registerVoter:(CMMVote *_Nonnull)vote {
+        [[CMMVoteAPIManager shared] registerVoter:vote withCompletion:^(NSDictionary *result, NSError *error) {
+            if (error) {
+                NSLog(@"%@", error.localizedDescription);
+            } else {
+                NSLog(@"%@", result);
+            }
+        }];
     }
-    
+    */
 @end

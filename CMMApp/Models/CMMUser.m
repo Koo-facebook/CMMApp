@@ -15,21 +15,14 @@
     @dynamic posts;
     @dynamic conversations;
     
-    +(void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password{
+    +(instancetype _Nonnull)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password{
         CMMUser *newUser = [CMMUser new];
         newUser.username = username;
         newUser.password = password;
         newUser.preferences = [[NSMutableArray alloc] init];
         newUser.posts = [[NSMutableArray alloc] init];
         newUser.conversations = [[NSMutableArray alloc] init];
-        
-        [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
-            if (error != nil) {
-                NSLog(@"Error: %@", error.localizedDescription);
-            } else {
-                NSLog(@"User registered successfully");
-            }
-        }];
+        return newUser;
     }
     
 @end

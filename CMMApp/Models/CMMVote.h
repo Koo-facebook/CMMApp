@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#include <Parse/Parse.h>
+#import <Parse/Parse.h>
+#import "CMMVoteAPIManager.h"
+
 
 @interface CMMVote : PFObject<PFSubclassing>
     
