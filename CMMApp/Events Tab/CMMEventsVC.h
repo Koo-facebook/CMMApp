@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
 
-@interface CMMEventsVC : UINavigationController
-
+@interface CMMEventsVC : UIViewController <MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @end

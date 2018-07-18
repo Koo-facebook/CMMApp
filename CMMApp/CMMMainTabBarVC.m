@@ -26,8 +26,9 @@
     [viewControllers addObject:newsfeedVC];
     
     CMMEventsVC *eventsVC = [[CMMEventsVC alloc] init];
-    eventsVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Events" image:nil tag:1];
-    [viewControllers addObject:eventsVC];
+    UINavigationController *eventsNavigation = [[UINavigationController alloc]initWithRootViewController:eventsVC];
+    eventsNavigation.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Events" image:nil tag:1];
+    [viewControllers addObject:eventsNavigation];
     
     CMMInboxVC *inboxVC = [[CMMInboxVC alloc] init];
     inboxVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Inbox" image:nil tag:2];
