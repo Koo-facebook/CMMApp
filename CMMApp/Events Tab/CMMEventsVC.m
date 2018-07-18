@@ -6,9 +6,18 @@
 //  Copyright © 2018 Omar Rasheed. All rights reserved.
 //
 
-#import "CMMEventsVC.h"
+#define  screenSize self.view.frame.size
 
-@interface CMMEventsVC ()
+#import "CMMEventsVC.h"
+#import "Masonry.h"
+
+@interface CMMEventsVC () <MKMapViewDelegate, CLLocationManagerDelegate>
+
+@property (strong, nonatomic) MKMapView *mapView;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) UIScrollView *scroll;
+@property (strong, nonatomic) UILabel *titleLabel;
 
 @end
 
@@ -17,23 +26,45 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"Events";
+    
+    [self createMap];
+    [self updateConstraints];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) updateConstraints {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleLabel.superview.mas_top).offset(120);
+        make.centerX.equalTo(self.titleLabel.superview.mas_centerX);
+        make.height.equalTo(@(self.titleLabel.intrinsicContentSize.height));
+        make.width.equalTo(@(self.titleLabel.intrinsicContentSize.width));
+    }];
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+
+- (void) createMap {
+    self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, screenSize.height/1.75)];
+    self.mapView.showsUserLocation = YES;
+    self.mapView.delegate = self;
+    [self.view addSubview:self.mapView];
 }
-*/
+
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    MKCoordinateRegion region;
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.22;
+    span.longitudeDelta = 0.22;
+    CLLocationCoordinate2D location;
+    location.latitude = userLocation.coordinate.latitude;
+    location.longitude = userLocation.coordinate.longitude;
+    region.span = span;
+    region.center = location;
+    [self.mapView setRegion:region animated:YES];
+}
+- (void) createTableView {
+    
+}
 
 @end
