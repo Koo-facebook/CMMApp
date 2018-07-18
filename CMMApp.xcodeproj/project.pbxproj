@@ -14,7 +14,6 @@
 		22F9EBF620FEAEAA002ADD9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBF520FEAEAA002ADD9D /* Assets.xcassets */; };
 		22F9EBF920FEAEAA002ADD9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBF720FEAEAA002ADD9D /* LaunchScreen.storyboard */; };
 		22F9EBFC20FEAEAA002ADD9D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBFB20FEAEAA002ADD9D /* main.m */; };
-		22F9EC0E20FEAF44002ADD9D /* CMMLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC0D20FEAF44002ADD9D /* CMMLoginVC.m */; };
 		22F9EC1120FEB055002ADD9D /* CMMEventAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC1020FEB055002ADD9D /* CMMEventAPIManager.m */; };
 		22F9EC1420FEB1EE002ADD9D /* CMMConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC1320FEB1EE002ADD9D /* CMMConversation.m */; };
 		22F9EC1720FEB21C002ADD9D /* CMMEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC1620FEB21C002ADD9D /* CMMEvent.m */; };
@@ -45,8 +44,6 @@
 		22F9EBF820FEAEAA002ADD9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22F9EBFA20FEAEAA002ADD9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22F9EBFB20FEAEAA002ADD9D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		22F9EC0C20FEAF44002ADD9D /* CMMLoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMLoginVC.h; sourceTree = "<group>"; };
-		22F9EC0D20FEAF44002ADD9D /* CMMLoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMLoginVC.m; sourceTree = "<group>"; };
 		22F9EC0F20FEB055002ADD9D /* CMMEventAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMEventAPIManager.h; sourceTree = "<group>"; };
 		22F9EC1020FEB055002ADD9D /* CMMEventAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMEventAPIManager.m; sourceTree = "<group>"; };
 		22F9EC1220FEB1EE002ADD9D /* CMMConversation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMConversation.h; sourceTree = "<group>"; };
@@ -149,8 +146,6 @@
 		22F9EC0320FEAEE3002ADD9D /* Login Screen */ = {
 			isa = PBXGroup;
 			children = (
-				22F9EC0C20FEAF44002ADD9D /* CMMLoginVC.h */,
-				22F9EC0D20FEAF44002ADD9D /* CMMLoginVC.m */,
 				22F9EC3920FEDB80002ADD9D /* LoginVC.h */,
 				22F9EC3A20FEDB80002ADD9D /* LoginVC.m */,
 			);
@@ -360,7 +355,6 @@
 				22F9EC3220FEB630002ADD9D /* CMMEventsVC.m in Sources */,
 				22F9EC1A20FEB256002ADD9D /* CMMMessage.m in Sources */,
 				22F9EBFC20FEAEAA002ADD9D /* main.m in Sources */,
-				22F9EC0E20FEAF44002ADD9D /* CMMLoginVC.m in Sources */,
 				22F9EC1720FEB21C002ADD9D /* CMMEvent.m in Sources */,
 				22F9EC1D20FEB289002ADD9D /* CMMPost.m in Sources */,
 				22F9EC2C20FEB618002ADD9D /* CMMNewsfeedVC.m in Sources */,
@@ -514,13 +508,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 524YAK9BG3;
+				DEVELOPMENT_TEAM = 96W3N7G5K2;
 				INFOPLIST_FILE = CMMApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = vasusGroup.CMMApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -532,13 +526,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 524YAK9BG3;
+				DEVELOPMENT_TEAM = 96W3N7G5K2;
 				INFOPLIST_FILE = CMMApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = vasusGroup.CMMApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
