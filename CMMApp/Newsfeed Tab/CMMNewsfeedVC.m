@@ -19,40 +19,49 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor purpleColor];
-    self.navigationItem.title = @"Newsfeed";
-    //self.posts = @[@"Post1", @"Post2", @"Post3"];
-    self.table = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    self.table.delegate = self;
-    self.table.dataSource = self;
-    [self.view addSubview:self.table];
-    [self fetchPosts];
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
-    [self.table insertSubview:self.refreshControl atIndex:0];}
+    [self configureView];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)configureView {
+    self.view.backgroundColor = [UIColor purpleColor];
+    self.navigationItem.title = @"Newsfeed";
+    
+    // create and populate table view
+    self.table = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.table.delegate = self;
+    self.table.dataSource = self;
+    [self.view addSubview:self.table];
+    [self fetchPosts];
+    
+    // add refresh control to table view
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
+    [self.table insertSubview:self.refreshControl atIndex:0];
+}
+
 - (void)fetchPosts {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
-    //[query orderByDescending:@"createdAt"];
+    [query orderByDescending:@"createdAt"];
     query.limit = 20;
-    //[query includeKey:@"owner"];
+    [query includeKey:@"owner"];
     [query includeKey:@"question"];
-    //[query includeKey:@"categories"];
-    //[query includeKey:@"content"];
+    [query includeKey:@"categories"];
+    [query includeKey:@"content"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             self.posts = posts;
+            [self.table reloadData];
+            [self.refreshControl endRefreshing];
             NSLog(@"%@", posts);
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
-        [self.refreshControl endRefreshing];
+        
     }];
 }
 /*
