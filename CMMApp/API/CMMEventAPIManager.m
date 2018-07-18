@@ -37,8 +37,8 @@
         return self;
     }
     
-    - (void)getAllEvents:(NSString *)endpoint withCompletion:(void(^)(NSArray *events, NSError *error))completion{
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/%@?token=%@", endpoint, NSProcessInfo.processInfo.environment[@"eventAPISecret"]]];
+    - (void)getAllEvents:(void(^)(NSArray *events, NSError *error))completion{
+        NSURL *url = [NSURL URLWithString:@"https://www.eventbriteapi.com/v3/events/search/?token=YIQCSL5B666YAANPQXF5"];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -56,8 +56,8 @@
         [task resume];
     }
     
-    - (void)searchEvents:(NSString *)endpoint parameters:(NSDictionary *)parameters withCompletion:(void(^)(NSArray *events, NSError *error))completion{
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/%@?%@token=%@", endpoint, [self returnParamString:parameters], NSProcessInfo.processInfo.environment[@"eventAPISecret"]]];
+    - (void)searchEvents:(NSDictionary *)parameters withCompletion:(void(^)(NSArray *events, NSError *error))completion{
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/events/search/?q=%@&token=YIQCSL5B666YAANPQXF5", [self returnParamString:parameters]]];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -70,13 +70,13 @@
                 NSArray *eventsDictionaries = dataDictionary[@"results"];
                 NSArray *events = [CMMEvent eventsWithArray:eventsDictionaries];
                 completion(events, nil);
-            }
+                }
         }];
         [task resume];
     }
     
     - (void)pullCategories:(void(^)(NSDictionary *categories, NSError *error))completion{
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/categies/?token=%@", NSProcessInfo.processInfo.environment[@"eventAPISecret"]]];
+        NSURL *url = [NSURL URLWithString:@"https://www.eventbriteapi.com/v3/categies/?token=YIQCSL5B666YAANPQXF5"];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -100,7 +100,7 @@
     }
     
     - (void)pullVenues:(NSString *)venue_id withCompletion:(void(^)(NSDictionary *venue, NSError *error))completion{
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/venues/%@/?token=%@", venue_id, NSProcessInfo.processInfo.environment[@"eventAPISecret"]]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/venues/%@/?token=YIQCSL5B666YAANPQXF5", venue_id]];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -120,7 +120,7 @@
     - (NSString *)returnParamString:(NSDictionary *)params {
         NSMutableString *finalString = [[NSMutableString alloc] init];
         for (NSString* each in [params allKeys]) {
-            [finalString appendString:[NSString stringWithFormat:@"%@=%@", each, params[each]]];
+            [finalString appendString:[NSString stringWithFormat:@"%@=%@&", each, params[each]]];
         }
         return finalString;
     }

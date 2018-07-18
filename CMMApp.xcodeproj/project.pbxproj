@@ -26,6 +26,7 @@
 		22F9EC2C20FEB618002ADD9D /* CMMTimelineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC2B20FEB618002ADD9D /* CMMTimelineVC.m */; };
 		22F9EC2F20FEB623002ADD9D /* CMMProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC2E20FEB623002ADD9D /* CMMProfileVC.m */; };
 		22F9EC3220FEB630002ADD9D /* CMMEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC3120FEB630002ADD9D /* CMMEventsVC.m */; };
+		22F9EC3520FEC2AF002ADD9D /* CMMVoteAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC3420FEC2AF002ADD9D /* CMMVoteAPIManager.m */; };
 		58CAD9A28C1D5F2665E78B76 /* libPods-CMMApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42343A9FCBEA5767CBCBBB45 /* libPods-CMMApp.a */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +56,7 @@
 		22F9EC1F20FEB2B2002ADD9D /* CMMUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMUser.m; sourceTree = "<group>"; };
 		22F9EC2120FEB2E0002ADD9D /* CMMVenue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMVenue.h; sourceTree = "<group>"; };
 		22F9EC2220FEB2E0002ADD9D /* CMMVenue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMVenue.m; sourceTree = "<group>"; };
-		22F9EC2420FEB30E002ADD9D /* CMMVote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMVote.h; sourceTree = "<group>"; };
+		22F9EC2420FEB30E002ADD9D /* CMMVote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMVote.h; sourceTree = "<group>"; usesTabs = 0; };
 		22F9EC2520FEB30E002ADD9D /* CMMVote.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMVote.m; sourceTree = "<group>"; };
 		22F9EC2720FEB600002ADD9D /* CMMInboxVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMInboxVC.h; sourceTree = "<group>"; };
 		22F9EC2820FEB600002ADD9D /* CMMInboxVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMInboxVC.m; sourceTree = "<group>"; };
@@ -65,6 +66,8 @@
 		22F9EC2E20FEB623002ADD9D /* CMMProfileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMProfileVC.m; sourceTree = "<group>"; };
 		22F9EC3020FEB630002ADD9D /* CMMEventsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMEventsVC.h; sourceTree = "<group>"; };
 		22F9EC3120FEB630002ADD9D /* CMMEventsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMEventsVC.m; sourceTree = "<group>"; };
+		22F9EC3320FEC2AF002ADD9D /* CMMVoteAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMVoteAPIManager.h; sourceTree = "<group>"; };
+		22F9EC3420FEC2AF002ADD9D /* CMMVoteAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMVoteAPIManager.m; sourceTree = "<group>"; };
 		42343A9FCBEA5767CBCBBB45 /* libPods-CMMApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CMMApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E730F120A16D190FE4A6AE /* Pods-CMMApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMMApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMMApp/Pods-CMMApp.release.xcconfig"; sourceTree = "<group>"; };
 		5BD9EEAF9B309EA5FA4FF18F /* Pods-CMMApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMMApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CMMApp/Pods-CMMApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -157,6 +160,8 @@
 			children = (
 				22F9EC0F20FEB055002ADD9D /* CMMEventAPIManager.h */,
 				22F9EC1020FEB055002ADD9D /* CMMEventAPIManager.m */,
+				22F9EC3320FEC2AF002ADD9D /* CMMVoteAPIManager.h */,
+				22F9EC3420FEC2AF002ADD9D /* CMMVoteAPIManager.m */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -335,6 +340,7 @@
 				22F9EC1720FEB21C002ADD9D /* CMMEvent.m in Sources */,
 				22F9EC1D20FEB289002ADD9D /* CMMPost.m in Sources */,
 				22F9EC2C20FEB618002ADD9D /* CMMTimelineVC.m in Sources */,
+				22F9EC3520FEC2AF002ADD9D /* CMMVoteAPIManager.m in Sources */,
 				22F9EC2020FEB2B2002ADD9D /* CMMUser.m in Sources */,
 				22F9EC2920FEB600002ADD9D /* CMMInboxVC.m in Sources */,
 				22F9EC1120FEB055002ADD9D /* CMMEventAPIManager.m in Sources */,

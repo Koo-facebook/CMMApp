@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Parse.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        
+        configuration.applicationId = @"myAppId";
+        configuration.clientKey = @"myMasterKey";
+        configuration.server = @"http://changemymind.herokuapp.com/parse";
+        
+    }];
+    
+    [Parse initializeWithConfiguration:config];
+    
+    //    if (PFUser.currentUser) {
+    //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //
+    //        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    //    }
+    
     return YES;
 }
 
