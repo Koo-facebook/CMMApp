@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305820FFC11A009B4180 /* CMMComposerVC.m */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
 		22F9EBF120FEAEA9002ADD9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBEF20FEAEA9002ADD9D /* Main.storyboard */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
@@ -33,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		136E305720FFC11A009B4180 /* CMMComposerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMComposerVC.h; sourceTree = "<group>"; };
+		136E305820FFC11A009B4180 /* CMMComposerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMComposerVC.m; sourceTree = "<group>"; };
 		22F9EBE620FEAEA9002ADD9D /* CMMApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMMApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F9EBE920FEAEA9002ADD9D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -91,6 +94,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		136E305620FFC0F4009B4180 /* Composer Tab */ = {
+			isa = PBXGroup;
+			children = (
+				136E305720FFC11A009B4180 /* CMMComposerVC.h */,
+				136E305820FFC11A009B4180 /* CMMComposerVC.m */,
+			);
+			path = "Composer Tab";
+			sourceTree = "<group>";
+		};
 		22F9EBDD20FEAEA9002ADD9D = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +131,7 @@
 				22F9EC0720FEAF03002ADD9D /* Events Tab */,
 				22F9EC0520FEAEF2002ADD9D /* API */,
 				22F9EC0420FEAEEB002ADD9D /* Models */,
+				136E305620FFC0F4009B4180 /* Composer Tab */,
 				22F9EC3C20FF06DC002ADD9D /* CMMMainTabBarVC.h */,
 				22F9EC3D20FF06DC002ADD9D /* CMMMainTabBarVC.m */,
 				22F9EBE920FEAEA9002ADD9D /* AppDelegate.h */,
@@ -352,6 +365,7 @@
 				22F9EC1D20FEB289002ADD9D /* CMMPost.m in Sources */,
 				22F9EC2C20FEB618002ADD9D /* CMMNewsfeedVC.m in Sources */,
 				22F9EC3520FEC2AF002ADD9D /* CMMVoteAPIManager.m in Sources */,
+				136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */,
 				22F9EC3E20FF06DC002ADD9D /* CMMMainTabBarVC.m in Sources */,
 				22F9EC2020FEB2B2002ADD9D /* CMMUser.m in Sources */,
 				22F9EC2920FEB600002ADD9D /* CMMInboxVC.m in Sources */,
