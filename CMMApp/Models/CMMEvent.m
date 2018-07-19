@@ -44,10 +44,10 @@
             self.title = dictionary[@"name"][@"text"];
             self.details = dictionary[@"description"][@"text"];
             self.category = sharedManager.categories[dictionary[@"category_id"]];
-            self.startTime = dictionary[@"start"][@"local"];
-            self.endTime = dictionary[@"end"][@"local"];
             self.onlineOnly = dictionary[@"online_event"];
             
+            self.startTime = dictionary[@"start"][@"local"];
+            self.endTime = dictionary[@"end"][@"local"];
         }
         return self;
     }
