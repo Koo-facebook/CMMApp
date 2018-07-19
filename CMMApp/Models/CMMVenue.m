@@ -24,6 +24,15 @@
     + (nonnull NSString *)parseClassName {
         return @"CMMVenue";
     }
+
+    + (NSMutableArray *)venuesWithArray:(NSArray *)dictionaries{
+        NSMutableArray *venues = [NSMutableArray array];
+        for (NSDictionary *dictionary in dictionaries) {
+            CMMVenue *venue = [[CMMVenue alloc] initWithDictionary:dictionary];
+            [venues addObject:venue];
+        }
+        return venues;
+    }
     
     - (instancetype)initWithDictionary:(NSDictionary *)venueDictionary {
         self = [super init];

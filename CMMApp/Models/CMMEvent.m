@@ -45,7 +45,7 @@
             self.details = dictionary[@"description"][@"text"];
             self.category = sharedManager.categories[dictionary[@"category_id"]];
             self.onlineOnly = dictionary[@"online_event"];
-            
+            //self.venueID = dictionary[@"venue_id"];
             self.startTime = dictionary[@"start"][@"local"];
             self.endTime = dictionary[@"end"][@"local"];
         }

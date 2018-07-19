@@ -23,5 +23,6 @@
     @property NSString *_Nullable area;
     
     - (instancetype _Nonnull )initWithDictionary: (NSDictionary *_Nonnull)venueDictionary;
-    
+    + (NSMutableArray *_Nonnull)venuesWithArray:(NSArray *_Nonnull)dictionaries;
+
 @end

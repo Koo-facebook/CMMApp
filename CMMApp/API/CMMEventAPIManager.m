@@ -100,7 +100,7 @@
         }];
         [task resume];
     }
-    
+
     - (void)pullVenues:(NSString *)venue_id withCompletion:(void(^)(NSDictionary *venue, NSError *error))completion{
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/venues/%@/?token=YIQCSL5B666YAANPQXF5", venue_id]];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
@@ -112,8 +112,8 @@
             } else {
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
-                NSDictionary *venueDictionary = dataDictionary[@"address"];
-                completion(venueDictionary, nil);
+                NSDictionary *venue = dataDictionary[@"address"];
+                completion(venue, nil);
             }
         }];
         [task resume];

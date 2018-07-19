@@ -17,8 +17,8 @@
     @property NSString *_Nonnull title;
     @property NSString *_Nullable details;
     @property NSString *_Nullable category;
-    @property NSDate *_Nullable startTime;
-    @property NSDate *_Nullable endTime;
+    @property NSString *_Nullable startTime;
+    @property NSString *_Nullable endTime;
     @property CMMVenue *_Nullable venue;
     @property BOOL onlineOnly;
     
