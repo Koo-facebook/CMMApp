@@ -11,9 +11,10 @@
 #import "NewsfeedCell.h"
 #import "Masonry.h"
 
-@interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate>
+@interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) UITableView *table;
 @property (strong, nonatomic) NSArray *posts;
+@property (strong, nonatomic) NSArray *filteredPosts;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @end
@@ -35,15 +36,21 @@
     self.title = @"Newsfeed";
     
     // create and populate table view
-    int topBuffer = 100;
+    int topBuffer = 0;
     CGRect tableViewFrame = CGRectMake(0, topBuffer, self.view.frame.size.width, self.view.frame.size.height - topBuffer);
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     self.table.rowHeight = UITableViewAutomaticDimension;
     self.table.estimatedRowHeight = 55;
     self.table.delegate = self;
     self.table.dataSource = self;
-    [self.view addSubview:self.table];
     [self fetchPosts];
+    
+    // add search bar to table view
+    CGRect searchFrame = CGRectMake(0, 0, self.view.frame.size.width, 50);
+    self.searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
+    self.searchBar.delegate = self;
+    self.table.tableHeaderView = self.searchBar;
+    [self.view addSubview:self.table];
     
     // add refresh control to table view
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -62,6 +69,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             self.posts = posts;
+            self.filteredPosts = posts;
             [self.table reloadData];
             [self.refreshControl endRefreshing];
             NSLog(@"%@", posts);
@@ -70,6 +78,29 @@
         }
         
     }];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (searchText.length != 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
+            NSString *title = evaluatedObject[@"question"];
+            return [title containsString:searchText];
+        }];
+        self.filteredPosts = [self.posts filteredArrayUsingPredicate:predicate];
+    } else {
+        self.filteredPosts = self.posts;
+    }
+    [self.table reloadData];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = NO;
+    self.searchBar.text = @"";
+    [self.searchBar resignFirstResponder];
 }
 
 /*
@@ -84,13 +115,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NewsfeedCell *cell = [[NewsfeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"feedCell"];
-    CMMPost *post = self.posts[indexPath.row];
+    CMMPost *post = self.filteredPosts[indexPath.row];
     [cell configureCell:post];
     return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.posts.count;
+    return self.filteredPosts.count;
 }
 
 @end

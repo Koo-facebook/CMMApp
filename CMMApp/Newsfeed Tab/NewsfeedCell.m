@@ -51,17 +51,17 @@
         make.bottom.equalTo(self.contentView.mas_bottom).with.offset(-titlePadding.bottom);
         make.right.equalTo(self.contentView.mas_right).with.offset(-titlePadding.right);
     }];
-    UIEdgeInsets datePadding = UIEdgeInsetsMake(12, 12, 12, 12);
-    [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView.mas_top).with.offset(datePadding.top);
-        make.left.equalTo(self.contentView.mas_left).with.offset(datePadding.left);
-        make.right.equalTo(self.contentView.mas_right).with.offset(-datePadding.right);
-    }];
-    UIEdgeInsets categoryPadding = UIEdgeInsetsMake(12, 150, 12, 12);
+    UIEdgeInsets categoryPadding = UIEdgeInsetsMake(12, 12, 12, 12);
     [categoryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).with.offset(categoryPadding.top);
         make.left.equalTo(self.contentView.mas_left).with.offset(categoryPadding.left);
-        make.right.equalTo(self.contentView.mas_right).with.offset(-categoryPadding.right);
+        make.width.equalTo(@(categoryLabel.intrinsicContentSize.width));
+    }];
+    UIEdgeInsets datePadding = UIEdgeInsetsMake(12, 12, 12, 12);
+    [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).with.offset(datePadding.top);
+        make.left.equalTo(categoryLabel.mas_right).with.offset(datePadding.left);
+        make.right.equalTo(self.contentView.mas_right).with.offset(-datePadding.right);
     }];
     
 }
