@@ -11,6 +11,8 @@
 #import "CMMEventsVC.h"
 #import "Masonry.h"
 #import "EventsCell.h"
+#import "CMMEventAPIManager.h"
+#import "CMMEvent.h"
 
 @interface CMMEventsVC () 
 
@@ -19,6 +21,7 @@
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UIScrollView *scroll;
 @property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) NSArray *eventList;
 
 @end
 
@@ -27,13 +30,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.eventList = [[NSArray alloc]init];
+    //Navigation Bar Set-up
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Events";
+    
+    [self.tableView registerClass:[EventsCell class] forCellReuseIdentifier:@"eventsCell"];
     
     //Create items on View Controller
     [self createMap];
     [self createTableView];
     [self updateConstraints];
+    
+    [self fetchEvents];
+
 }
 
 - (void) updateConstraints {
@@ -76,6 +87,24 @@
     [self.mapView setRegion:region animated:YES];
 }
 
+-(void) fetchEvents {
+    [[CMMEventAPIManager shared] getAllEvents:^(NSArray *eventsArray, NSError *error) {
+       if (eventsArray) {
+        //NSLog(@"%@", events[1]);
+            self.eventList = eventsArray;
+            for (CMMEvent *event in eventsArray) {
+                NSString *name = event.title;
+                NSLog(@"%@", name);
+            }
+            NSLog(@"😎😎😎 Successfully loaded events table");
+            [self.tableView reloadData];
+        } else {
+           NSLog(@"😫😫😫 Error getting events: %@", error.localizedDescription);
+        }
+    }
+     ];
+}
+
 //Create tableView
 - (void) createTableView {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -84,16 +113,18 @@
     [self.view addSubview:self.tableView];
 }
 
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"eventCell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"eventCell"];
-    }
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //EventsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"eventsCell"];
+    EventsCell *cell = [[EventsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"eventsCell"];
+    
+    cell.event = self.eventList[indexPath.row];
+    //NSLog(@"%@", cell.event);
+    
     return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return self.eventList.count;
 }
 
 @end
