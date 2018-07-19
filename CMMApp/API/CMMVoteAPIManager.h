@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#include "CMMVote.h"
+#import "CMMVote.h"
 #import <Parse/Parse.h>
 
 @interface CMMVoteAPIManager : NSObject
     
-    + (instancetype)shared;
++ (instancetype)shared;
     
-    //- (void)registerVoter:(CMMVote *)vote withCompletion:(void(^)(NSDictionary *result, NSError *error))completion;
+    - (void)registerVoter:(CMMVote *)vote withCompletion:(void(^)(NSDictionary *result, NSError *error))completion;
 
 @end

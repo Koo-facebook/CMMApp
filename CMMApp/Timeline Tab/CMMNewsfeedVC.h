@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CMMParseQueryManager.h"
 
 @interface CMMNewsfeedVC : UIViewController
 

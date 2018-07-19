@@ -219,7 +219,7 @@
     }
     else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [CMMUser createUserWithCompletion:self.usernameTextField.text password:self.passwordTextField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        [CMMUser createUser:self.usernameTextField.text password:self.passwordTextField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
             if (error != nil) {
                 NSLog(@"Error: %@", error.localizedDescription);
                 [self createAlert:@"Sign Up Error" message:@"There was a problem signing up. Please try again"];

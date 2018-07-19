@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSMutableArray *_Nullable posts; // users posts
 @property (nonatomic, strong) NSMutableArray *_Nullable conversations; // users conversations
     
-+ (void)createUserWithCompletion: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion;
++ (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion;
 + (PFFile *_Nullable)getPFFileFromImage: (UIImage * _Nullable)image;
     
 @end

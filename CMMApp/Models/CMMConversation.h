@@ -14,7 +14,7 @@
     
 @property (nonatomic, weak) CMMUser *_Nullable user1;
 @property (nonatomic, weak) CMMUser *_Nullable user2;
-@property (nonatomic, weak) NSMutableArray *_Nullable messages; // list of Messages in conversation
+@property (nonatomic, strong) NSMutableArray *_Nullable messages; // list of Messages in conversation
 @property (nonatomic, strong) NSString *_Nonnull topic;
 @property BOOL userOneRead;
 @property BOOL userTwoRead;
