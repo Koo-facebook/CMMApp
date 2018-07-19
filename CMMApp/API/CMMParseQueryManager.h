@@ -12,5 +12,8 @@
 @interface CMMParseQueryManager : NSObject
 
 + (instancetype)shared;
+- (void)fetchConversationMessagesWithCompletion:(NSString *)idString withCompletion: (void(^)(NSArray *messages, NSError *error))completion;
+- (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error))completion;
+- (void)fetchPostsWithCompletion:(void(^)(NSArray *posts, NSError *error))completion;
 
 @end

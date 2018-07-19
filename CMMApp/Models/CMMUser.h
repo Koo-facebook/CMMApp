@@ -17,6 +17,6 @@
 @property NSMutableArray *_Nullable conversations; // users conversations
     
 + (void)createUserWithCompletion: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion;
-+ (PFFile *)getPFFileFromImage: (UIImage * _Nullable)image;
++ (PFFile *_Nullable)getPFFileFromImage: (UIImage * _Nullable)image;
     
 @end
