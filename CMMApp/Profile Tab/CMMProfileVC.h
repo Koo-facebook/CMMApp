@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMMProfileVC : UINavigationController
+@interface CMMProfileVC : UIViewController
 
 @end

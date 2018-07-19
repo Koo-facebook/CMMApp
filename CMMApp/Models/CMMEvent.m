@@ -10,28 +10,28 @@
 
 @implementation CMMEvent
     
-    @dynamic url;
-    @dynamic title;
-    @dynamic details;
-    @dynamic category;
-    @dynamic startTime;
-    @dynamic endTime;
-    @dynamic onlineOnly;
-    @dynamic venue;
-    
-    + (nonnull NSString *)parseClassName {
-        return @"CMMEvent";
+@dynamic url;
+@dynamic title;
+@dynamic details;
+@dynamic category;
+@dynamic startTime;
+@dynamic endTime;
+@dynamic onlineOnly;
+@dynamic venue;
+
++ (nonnull NSString *)parseClassName {
+    return @"CMMEvent";
+}
+
++ (NSMutableArray *)eventsWithArray:(NSArray *)dictionaries{
+    NSMutableArray *events = [NSMutableArray array];
+    for (NSDictionary *dictionary in dictionaries) {
+        CMMEvent *event = [[CMMEvent alloc] initWithDictionary:dictionary];
+        [events addObject:event];
     }
-    
-    + (NSMutableArray *)eventsWithArray:(NSArray *)dictionaries{
-        NSMutableArray *events = [NSMutableArray array];
-        for (NSDictionary *dictionary in dictionaries) {
-            CMMEvent *event = [[CMMEvent alloc] initWithDictionary:dictionary];
-            [events addObject:event];
-        }
-        return events;
-    }
-    
+  return events;
+}
+
     - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
         self = [super init];
         if (self) {
@@ -45,11 +45,10 @@
             self.details = dictionary[@"description"][@"text"];
             self.category = sharedManager.categories[dictionary[@"category_id"]];
             self.onlineOnly = dictionary[@"online_event"];
-            //self.venueID = dictionary[@"venue_id"];
             self.startTime = dictionary[@"start"][@"local"];
             self.endTime = dictionary[@"end"][@"local"];
         }
         return self;
-    }
+}
     
-    @end
+@end

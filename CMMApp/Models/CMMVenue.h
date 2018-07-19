@@ -11,18 +11,18 @@
 
 @interface CMMVenue : PFObject<PFSubclassing>
     
-    @property NSString *_Nullable address1;
-    @property NSString *_Nullable address2;
-    @property NSString *_Nullable city;
-    @property NSString *_Nullable region;
-    @property NSString *_Nullable postalCode;
-    @property NSString *_Nullable country;
-    @property NSNumber *_Nullable latitude;
-    @property NSNumber *_Nullable longitude;
-    @property NSString *_Nullable addressText;
-    @property NSString *_Nullable area;
+@property NSString *_Nullable address1;
+@property NSString *_Nullable address2;
+@property NSString *_Nullable city;
+@property NSString *_Nullable region;
+@property NSString *_Nullable postalCode;
+@property NSString *_Nullable country;
+@property NSNumber *_Nullable latitude;
+@property NSNumber *_Nullable longitude;
+@property NSString *_Nullable addressText;
+@property NSString *_Nullable area;
     
-    - (instancetype _Nonnull )initWithDictionary: (NSDictionary *_Nonnull)venueDictionary;
-    + (NSMutableArray *_Nonnull)venuesWithArray:(NSArray *_Nonnull)dictionaries;
+
+- (instancetype _Nonnull )initWithDictionary: (NSDictionary *_Nonnull)venueDictionary;
 
 @end

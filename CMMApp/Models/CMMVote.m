@@ -9,68 +9,69 @@
 #import "CMMVote.h"
 
 @implementation CMMVote
-    
-    @synthesize language;
-    @synthesize partnerId;
-    @synthesize sendConfirmationReminderEmails;
-    @synthesize collectEmailAddress;
-    @synthesize dateOfBirth;
-    @synthesize licenseId;
-    @synthesize emailAddress;
-    @synthesize firstRegistration;
-    @synthesize homeZipCode;
-    @synthesize usCitizen;
-    @synthesize hasLicense;
-    @synthesize isEighteenOrOlder;
-    @synthesize nameTitle;
-    @synthesize firstName;
-    @synthesize middleName;
-    @synthesize lastName;
-    @synthesize nameSuffix;
-    @synthesize homeAddress;
-    @synthesize homeUnit;
-    @synthesize homeCity;
-    @synthesize homeStateId;
-    @synthesize hasMailingAddress;
-    @synthesize mailingAddress;
-    @synthesize mailingUnit;
-    @synthesize mailingCity;
-    @synthesize mailingStateId;
-    @synthesize mailingZipCode;
-    @synthesize race;
-    @synthesize phone;
-    @synthesize phoneType;
-    @synthesize changeOfName;
-    @synthesize previousNameTitle;
-    @synthesize previousFirstName;
-    @synthesize previousMiddleName;
-    @synthesize previousLastName;
-    @synthesize previousNameSuffix;
-    @synthesize changeOfAddress;
-    @synthesize previousAddress;
-    @synthesize previousUnit;
-    @synthesize previousCity;
-    @synthesize previousStateId;
-    @synthesize previousZipCode;
-    @synthesize optInEmail;
-    @synthesize optInSMS;
-    @synthesize optInVolunteer;
-    @synthesize partnerOptInEmail;
-    @synthesize partnerOptInSMS;
-    @synthesize partnerOptInVolunteer;
-    
-    + (nonnull NSString *)parseClassName {
-        return @"CMMVote";
-    }
-    
-    /* - (void)registerVoter:(CMMVote *_Nonnull)vote {
-        [[CMMVoteAPIManager shared] registerVoter:vote withCompletion:^(NSDictionary *result, NSError *error) {
-            if (error) {
-                NSLog(@"%@", error.localizedDescription);
-            } else {
-                NSLog(@"%@", result);
-            }
-        }];
-    }
-    */
+
+@synthesize language;
+@synthesize partnerId;
+@synthesize sendConfirmationReminderEmails;
+@synthesize collectEmailAddress;
+@synthesize dateOfBirth;
+@synthesize licenseId;
+@synthesize emailAddress;
+@synthesize firstRegistration;
+@synthesize homeZipCode;
+@synthesize usCitizen;
+@synthesize hasLicense;
+@synthesize isEighteenOrOlder;
+@synthesize nameTitle;
+@synthesize firstName;
+@synthesize middleName;
+@synthesize lastName;
+@synthesize nameSuffix;
+@synthesize homeAddress;
+@synthesize homeUnit;
+@synthesize homeCity;
+@synthesize homeStateId;
+@synthesize hasMailingAddress;
+@synthesize mailingAddress;
+@synthesize mailingUnit;
+@synthesize mailingCity;
+@synthesize mailingStateId;
+@synthesize mailingZipCode;
+@synthesize race;
+@synthesize phone;
+@synthesize phoneType;
+@synthesize changeOfName;
+@synthesize previousNameTitle;
+@synthesize previousFirstName;
+@synthesize previousMiddleName;
+@synthesize previousLastName;
+@synthesize previousNameSuffix;
+@synthesize changeOfAddress;
+@synthesize previousAddress;
+@synthesize previousUnit;
+@synthesize previousCity;
+@synthesize previousStateId;
+@synthesize previousZipCode;
+@synthesize optInEmail;
+@synthesize optInSMS;
+@synthesize optInVolunteer;
+@synthesize partnerOptInEmail;
+@synthesize partnerOptInSMS;
+@synthesize partnerOptInVolunteer;
+
++ (nonnull NSString *)parseClassName {
+return @"CMMVote";
+}
+
+/*
+- (void)registerVoter:(CMMVote *_Nonnull)vote {
+    [[CMMVoteAPIManager shared] registerVoter:vote withCompletion:^(NSDictionary *result, NSError *error) {
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            NSLog(@"%@", result);
+        }
+    }];
+}
+*/
 @end

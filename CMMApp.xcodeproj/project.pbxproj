@@ -11,8 +11,8 @@
 		136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305B20FFFDD3009B4180 /* EventsCell.m */; };
 		136E305E21013BCB009B4180 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 136E305D21013BCB009B4180 /* MapKit.framework */; };
 		136E306121013CAB009B4180 /* CMMEventDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E306021013CAB009B4180 /* CMMEventDetailsVC.m */; };
+		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
-		22F9EBF120FEAEA9002ADD9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBEF20FEAEA9002ADD9D /* Main.storyboard */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
 		22F9EBF620FEAEAA002ADD9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBF520FEAEAA002ADD9D /* Assets.xcassets */; };
 		22F9EBF920FEAEAA002ADD9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBF720FEAEAA002ADD9D /* LaunchScreen.storyboard */; };
@@ -30,8 +30,11 @@
 		22F9EC2F20FEB623002ADD9D /* CMMProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC2E20FEB623002ADD9D /* CMMProfileVC.m */; };
 		22F9EC3220FEB630002ADD9D /* CMMEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC3120FEB630002ADD9D /* CMMEventsVC.m */; };
 		22F9EC3520FEC2AF002ADD9D /* CMMVoteAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC3420FEC2AF002ADD9D /* CMMVoteAPIManager.m */; };
-		22F9EC3B20FEDB80002ADD9D /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC3A20FEDB80002ADD9D /* LoginVC.m */; };
+		22F9EC3B20FEDB80002ADD9D /* CMMLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC3A20FEDB80002ADD9D /* CMMLoginVC.m */; };
 		22F9EC3E20FF06DC002ADD9D /* CMMMainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC3D20FF06DC002ADD9D /* CMMMainTabBarVC.m */; };
+		22F9EC4421000CA9002ADD9D /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC4321000CA9002ADD9D /* ConversationCell.m */; };
+		22F9EC472100168F002ADD9D /* CMMChatVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC462100168F002ADD9D /* CMMChatVC.m */; };
+		22F9EC4A21004F33002ADD9D /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EC4921004F33002ADD9D /* ChatCell.m */; };
 		58CAD9A28C1D5F2665E78B76 /* libPods-CMMApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42343A9FCBEA5767CBCBBB45 /* libPods-CMMApp.a */; };
 /* End PBXBuildFile section */
 
@@ -43,10 +46,11 @@
 		136E305D21013BCB009B4180 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		136E305F21013CAB009B4180 /* CMMEventDetailsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMEventDetailsVC.h; sourceTree = "<group>"; };
 		136E306021013CAB009B4180 /* CMMEventDetailsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMEventDetailsVC.m; sourceTree = "<group>"; };
+		228588D02101183C0087E455 /* CMMParseQueryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMParseQueryManager.h; sourceTree = "<group>"; };
+		228588D12101183C0087E455 /* CMMParseQueryManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMParseQueryManager.m; sourceTree = "<group>"; };
 		22F9EBE620FEAEA9002ADD9D /* CMMApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMMApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F9EBE920FEAEA9002ADD9D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		22F9EBF020FEAEA9002ADD9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		22F9EBF320FEAEA9002ADD9D /* CMMApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CMMApp.xcdatamodel; sourceTree = "<group>"; };
 		22F9EBF520FEAEAA002ADD9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22F9EBF820FEAEAA002ADD9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -78,10 +82,16 @@
 		22F9EC3120FEB630002ADD9D /* CMMEventsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMEventsVC.m; sourceTree = "<group>"; };
 		22F9EC3320FEC2AF002ADD9D /* CMMVoteAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMVoteAPIManager.h; sourceTree = "<group>"; };
 		22F9EC3420FEC2AF002ADD9D /* CMMVoteAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMVoteAPIManager.m; sourceTree = "<group>"; };
-		22F9EC3920FEDB80002ADD9D /* LoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
-		22F9EC3A20FEDB80002ADD9D /* LoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
+		22F9EC3920FEDB80002ADD9D /* CMMLoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMLoginVC.h; sourceTree = "<group>"; };
+		22F9EC3A20FEDB80002ADD9D /* CMMLoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMLoginVC.m; sourceTree = "<group>"; };
 		22F9EC3C20FF06DC002ADD9D /* CMMMainTabBarVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMMainTabBarVC.h; sourceTree = "<group>"; };
 		22F9EC3D20FF06DC002ADD9D /* CMMMainTabBarVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMMainTabBarVC.m; sourceTree = "<group>"; };
+		22F9EC4221000CA9002ADD9D /* ConversationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationCell.h; sourceTree = "<group>"; };
+		22F9EC4321000CA9002ADD9D /* ConversationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationCell.m; sourceTree = "<group>"; };
+		22F9EC452100168F002ADD9D /* CMMChatVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMChatVC.h; sourceTree = "<group>"; };
+		22F9EC462100168F002ADD9D /* CMMChatVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMChatVC.m; sourceTree = "<group>"; };
+		22F9EC4821004F33002ADD9D /* ChatCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
+		22F9EC4921004F33002ADD9D /* ChatCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
 		42343A9FCBEA5767CBCBBB45 /* libPods-CMMApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CMMApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E730F120A16D190FE4A6AE /* Pods-CMMApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMMApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMMApp/Pods-CMMApp.release.xcconfig"; sourceTree = "<group>"; };
 		5BD9EEAF9B309EA5FA4FF18F /* Pods-CMMApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMMApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CMMApp/Pods-CMMApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -107,6 +117,28 @@
 				136E305820FFC11A009B4180 /* CMMComposerVC.m */,
 			);
 			path = "Composer Tab";
+			sourceTree = "<group>";
+		};
+		228588CB2100FD670087E455 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				22F9EC2720FEB600002ADD9D /* CMMInboxVC.h */,
+				22F9EC2820FEB600002ADD9D /* CMMInboxVC.m */,
+				22F9EC452100168F002ADD9D /* CMMChatVC.h */,
+				22F9EC462100168F002ADD9D /* CMMChatVC.m */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		228588CC2100FD7D0087E455 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				22F9EC4221000CA9002ADD9D /* ConversationCell.h */,
+				22F9EC4321000CA9002ADD9D /* ConversationCell.m */,
+				22F9EC4821004F33002ADD9D /* ChatCell.h */,
+				22F9EC4921004F33002ADD9D /* ChatCell.m */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		22F9EBDD20FEAEA9002ADD9D = {
@@ -142,7 +174,6 @@
 				22F9EC3D20FF06DC002ADD9D /* CMMMainTabBarVC.m */,
 				22F9EBE920FEAEA9002ADD9D /* AppDelegate.h */,
 				22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */,
-				22F9EBEF20FEAEA9002ADD9D /* Main.storyboard */,
 				22F9EBF520FEAEAA002ADD9D /* Assets.xcassets */,
 				22F9EBF720FEAEAA002ADD9D /* LaunchScreen.storyboard */,
 				22F9EBFA20FEAEAA002ADD9D /* Info.plist */,
@@ -155,8 +186,8 @@
 		22F9EC0320FEAEE3002ADD9D /* Login Screen */ = {
 			isa = PBXGroup;
 			children = (
-				22F9EC3920FEDB80002ADD9D /* LoginVC.h */,
-				22F9EC3A20FEDB80002ADD9D /* LoginVC.m */,
+				22F9EC3920FEDB80002ADD9D /* CMMLoginVC.h */,
+				22F9EC3A20FEDB80002ADD9D /* CMMLoginVC.m */,
 			);
 			path = "Login Screen";
 			sourceTree = "<group>";
@@ -189,6 +220,8 @@
 				22F9EC1020FEB055002ADD9D /* CMMEventAPIManager.m */,
 				22F9EC3320FEC2AF002ADD9D /* CMMVoteAPIManager.h */,
 				22F9EC3420FEC2AF002ADD9D /* CMMVoteAPIManager.m */,
+				228588D02101183C0087E455 /* CMMParseQueryManager.h */,
+				228588D12101183C0087E455 /* CMMParseQueryManager.m */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -227,8 +260,8 @@
 		22F9EC0B20FEAF26002ADD9D /* Inbox Tab */ = {
 			isa = PBXGroup;
 			children = (
-				22F9EC2720FEB600002ADD9D /* CMMInboxVC.h */,
-				22F9EC2820FEB600002ADD9D /* CMMInboxVC.m */,
+				228588CC2100FD7D0087E455 /* Cells */,
+				228588CB2100FD670087E455 /* View Controllers */,
 			);
 			path = "Inbox Tab";
 			sourceTree = "<group>";
@@ -312,7 +345,6 @@
 			files = (
 				22F9EBF920FEAEAA002ADD9D /* LaunchScreen.storyboard in Resources */,
 				22F9EBF620FEAEAA002ADD9D /* Assets.xcassets in Resources */,
-				22F9EBF120FEAEA9002ADD9D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,12 +396,15 @@
 			files = (
 				22F9EC2320FEB2E0002ADD9D /* CMMVenue.m in Sources */,
 				22F9EC2F20FEB623002ADD9D /* CMMProfileVC.m in Sources */,
-				22F9EC3B20FEDB80002ADD9D /* LoginVC.m in Sources */,
+				228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */,
+				22F9EC472100168F002ADD9D /* CMMChatVC.m in Sources */,
+				22F9EC3B20FEDB80002ADD9D /* CMMLoginVC.m in Sources */,
 				22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */,
 				136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */,
 				22F9EC3220FEB630002ADD9D /* CMMEventsVC.m in Sources */,
 				22F9EC1A20FEB256002ADD9D /* CMMMessage.m in Sources */,
 				22F9EBFC20FEAEAA002ADD9D /* main.m in Sources */,
+				22F9EC4421000CA9002ADD9D /* ConversationCell.m in Sources */,
 				22F9EC1720FEB21C002ADD9D /* CMMEvent.m in Sources */,
 				22F9EC1D20FEB289002ADD9D /* CMMPost.m in Sources */,
 				22F9EC2C20FEB618002ADD9D /* CMMNewsfeedVC.m in Sources */,
@@ -382,6 +417,7 @@
 				22F9EC1120FEB055002ADD9D /* CMMEventAPIManager.m in Sources */,
 				22F9EC1420FEB1EE002ADD9D /* CMMConversation.m in Sources */,
 				22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */,
+				22F9EC4A21004F33002ADD9D /* ChatCell.m in Sources */,
 				22F9EC2620FEB30E002ADD9D /* CMMVote.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,14 +425,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		22F9EBEF20FEAEA9002ADD9D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				22F9EBF020FEAEA9002ADD9D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		22F9EBF720FEAEAA002ADD9D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

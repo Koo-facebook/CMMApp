@@ -12,7 +12,8 @@
 #import "CMMVenue.h"
 
 @interface CMMEvent : PFObject<PFSubclassing>
-    
+
+
     @property NSString *_Nonnull url;
     @property NSString *_Nonnull title;
     @property NSString *_Nullable details;
@@ -23,5 +24,6 @@
     @property BOOL onlineOnly;
     
     + (NSMutableArray *_Nonnull)eventsWithArray:(NSArray *_Nonnull)dictionaries;
+
     
-    @end
+@end
