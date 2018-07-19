@@ -21,9 +21,11 @@
 @dynamic addressText;
 @dynamic area;
     
+
 + (nonnull NSString *)parseClassName {
     return @"CMMVenue";
 }
+
     
 - (instancetype)initWithDictionary:(NSDictionary *)venueDictionary {
     self = [super init];
