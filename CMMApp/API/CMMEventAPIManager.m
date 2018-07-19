@@ -72,24 +72,6 @@
             NSArray *events = [CMMEvent eventsWithArray:eventsDictionaries];
             completion(events, nil);
             }
-        }];
-        [task resume];
-    }
-
-    - (void)pullVenues:(NSString *)venue_id withCompletion:(void(^)(NSDictionary *venue, NSError *error))completion{
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/venues/%@/?token=YIQCSL5B666YAANPQXF5", venue_id]];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            if (error != nil) {
-                NSLog(@"%@", [error localizedDescription]);
-                completion(nil, error);
-            } else {
-                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                
-                NSDictionary *venue = dataDictionary[@"address"];
-                completion(venue, nil);
-
     }];
     [task resume];
 }
@@ -118,6 +100,23 @@
     [task resume];
 }
     
+- (void)pullVenues:(NSString *)venue_id withCompletion:(void(^)(NSDictionary *venue, NSError *error))completion{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/venues/%@/?token=YIQCSL5B666YAANPQXF5", venue_id]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            NSLog(@"%@", [error localizedDescription]);
+            completion(nil, error);
+        } else {
+            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                
+            NSDictionary *venueDictionary = dataDictionary[@"address"];
+            completion(venueDictionary, nil);
+        }
+    }];
+    [task resume];
+}
     
 - (NSString *)returnParamString:(NSDictionary *)params {
     NSMutableString *finalString = [[NSMutableString alloc] init];

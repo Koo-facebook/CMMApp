@@ -22,7 +22,6 @@
 @property (strong, nonatomic) UIScrollView *scroll;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) NSArray *eventList;
-@property (strong, nonatomic) NSArray *venueList;
 
 @end
 
@@ -38,7 +37,6 @@
     self.title = @"Events";
     
     [self.tableView registerClass:[EventsCell class] forCellReuseIdentifier:@"eventsCell"];
-
     
     //Create items on View Controller
     [self createMap];
@@ -73,7 +71,6 @@
     self.mapView.showsUserLocation = YES;
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
-    
 }
 
 //Delegate function of mapView that will center map on user location
@@ -90,15 +87,6 @@
     [self.mapView setRegion:region animated:YES];
 }
 
-//Adding Pins
--(void) addingPins: (CLLocationCoordinate2D)location {
-    MKPointAnnotation *annotation = [MKPointAnnotation new];
-    //CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(37.783333, -122.416667);
-    annotation.coordinate = location;
-    annotation.title = @"Event";
-    [self.mapView addAnnotation:annotation];
-}
-
 -(void) fetchEvents {
     [[CMMEventAPIManager shared] getAllEvents:^(NSArray *eventsArray, NSError *error) {
        if (eventsArray) {
@@ -107,12 +95,6 @@
             for (CMMEvent *event in eventsArray) {
                 NSString *name = event.title;
                 NSLog(@"%@", name);
-                NSNumber *lat = event.venue.latitude;
-                NSLog(@"%@", event.venue.longitude.stringValue);
-                NSNumber *lon = event.venue.longitude;
-                NSLog(@"%@", lon);
-                CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(lat.floatValue,lon.floatValue);
-                [self addingPins:venueLocation];
             }
             NSLog(@"😎😎😎 Successfully loaded events table");
             [self.tableView reloadData];
@@ -122,7 +104,6 @@
     }
      ];
 }
-
 
 //Create tableView
 - (void) createTableView {
@@ -140,6 +121,7 @@
     EventsCell *cell = [[EventsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"eventsCell"];
     
     cell.event = self.eventList[indexPath.row];
+    //NSLog(@"%@", cell.event);
     
     return cell;
 }
