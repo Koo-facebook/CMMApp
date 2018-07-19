@@ -110,6 +110,9 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    self.tableView.rowHeight = 100;
+    
     [self.view addSubview:self.tableView];
 }
 
@@ -126,5 +129,6 @@
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.eventList.count;
 }
+
 
 @end
