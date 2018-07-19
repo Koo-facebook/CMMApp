@@ -13,7 +13,7 @@
 @dynamic owner;
 @dynamic topic;
 @dynamic detailedDescription;
-@dynamic categories;
+@dynamic category;
 @dynamic tags;
 @dynamic agreeingUsers;
 @dynamic disagreeingUsers;
@@ -22,13 +22,13 @@
     return @"CMMPost";
 }
     
-+ (void)createPost:(NSString *)topic description:(NSString *)description categories:(NSMutableArray *)categories tags:(NSMutableArray *)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (void)createPost:(NSString *)topic description:(NSString *)description category:(NSString *)category tags:(NSMutableArray *)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion {
         
     CMMPost *newPost = [CMMPost new];
     newPost.owner = CMMUser.currentUser;
     newPost.topic = topic;
     newPost.detailedDescription = description;
-    newPost.categories = categories;
+    newPost.category = category;
     newPost.tags = tags;
     newPost.agreeingUsers = [NSMutableArray new];
     newPost.disagreeingUsers = [NSMutableArray new];
