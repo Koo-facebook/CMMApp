@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CMMEvent.h"
+#import "AFNetworking.h"
 
 @interface CMMEventAPIManager : NSObject {
     NSDictionary *categories;

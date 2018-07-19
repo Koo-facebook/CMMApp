@@ -40,9 +40,9 @@
             [sharedManager pullVenues:dictionary[@"venue_id"] withCompletion:^(NSDictionary *venue, NSError *error) {
                 self.venue = [[CMMVenue new] initWithDictionary:venue];
             }];
-            self.url = [NSURL URLWithString:dictionary[@"url"]];
-            self.title = dictionary[@"name"];
-            self.details = dictionary[@"description"];
+            self.url = dictionary[@"url"];
+            self.title = dictionary[@"name"][@"text"];
+            self.details = dictionary[@"description"][@"text"];
             self.category = sharedManager.categories[dictionary[@"category_id"]];
             self.startTime = dictionary[@"start"][@"local"];
             self.endTime = dictionary[@"end"][@"local"];

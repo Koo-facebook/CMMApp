@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CMMEvent.h"
 
 @interface EventsCell : UITableViewCell
+
+@property (strong, nonatomic) UILabel *eventName;
+@property (strong, nonatomic) UILabel *date;
+@property (strong, nonatomic) UILabel *time;
+@property (strong, nonatomic) CMMEvent *event;
 
 @end

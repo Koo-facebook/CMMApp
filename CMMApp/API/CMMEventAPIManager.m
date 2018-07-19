@@ -7,6 +7,7 @@
 //
 
 #import "CMMEventAPIManager.h"
+#import "CMMEvent.h"
 
 @implementation CMMEventAPIManager
     
@@ -46,11 +47,12 @@
                 NSLog(@"%@", [error localizedDescription]);
                 completion(nil, error);
             } else {
+                NSLog(@"😎😎😎 Successfully got all events");
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
-                NSArray *eventsDictionaries = dataDictionary[@"results"];
-                NSArray *events = [CMMEvent eventsWithArray:eventsDictionaries];
-                completion(events, nil);
+                NSArray *eventsDictionaries = dataDictionary[@"events"];
+                NSArray *eventsArray = [CMMEvent eventsWithArray:eventsDictionaries];
+             completion(eventsArray, nil);
             }
         }];
         [task resume];

@@ -13,7 +13,7 @@
 
 @interface CMMEvent : PFObject<PFSubclassing>
     
-    @property NSURL *_Nonnull url;
+    @property NSString *_Nonnull url;
     @property NSString *_Nonnull title;
     @property NSString *_Nullable details;
     @property NSString *_Nullable category;
