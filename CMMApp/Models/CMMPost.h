@@ -15,11 +15,11 @@
     @property CMMUser *_Nonnull owner;
     @property NSString *_Nonnull question;
     @property NSString *_Nullable content;
-    @property NSMutableArray *_Nullable categories;
+    @property NSString *_Nullable category;
     @property NSMutableArray *_Nullable tags;
     @property NSMutableArray *_Nullable agreeingUsers;
     @property NSMutableArray *_Nullable disagreeingUsers;
     
-    + (void)createPost:(NSString *_Nonnull)question description:(NSString *_Nullable)description categories:(NSMutableArray *_Nullable)categories tags:(NSMutableArray *_Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (void)createPost:(NSString *_Nonnull)question description:(NSString *_Nullable)description category:(NSString *_Nullable)category tags:(NSMutableArray *_Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
     
 @end

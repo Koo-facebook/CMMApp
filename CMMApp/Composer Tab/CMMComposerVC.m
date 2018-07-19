@@ -49,7 +49,7 @@
 }
 
 - (IBAction)didPressPost:(id)sender {
-    [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text categories:nil tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+    [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:@"category" tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"successful post");
             [self dismissViewControllerAnimated:YES completion:nil];

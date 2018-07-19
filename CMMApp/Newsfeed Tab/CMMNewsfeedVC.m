@@ -8,11 +8,14 @@
 
 #import "CMMNewsfeedVC.h"
 #import "CMMPost.h"
+#import "NewsfeedCell.h"
+#import "Masonry.h"
 
 @interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UITableView *table;
 @property (strong, nonatomic) NSArray *posts;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) UISearchBar *searchBar;
 @end
 
 @implementation CMMNewsfeedVC
@@ -29,10 +32,14 @@
 
 - (void)configureView {
     self.view.backgroundColor = [UIColor purpleColor];
-    self.navigationItem.title = @"Newsfeed";
+    self.title = @"Newsfeed";
     
     // create and populate table view
-    self.table = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    int topBuffer = 100;
+    CGRect tableViewFrame = CGRectMake(0, topBuffer, self.view.frame.size.width, self.view.frame.size.height - topBuffer);
+    self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
+    self.table.rowHeight = UITableViewAutomaticDimension;
+    self.table.estimatedRowHeight = 55;
     self.table.delegate = self;
     self.table.dataSource = self;
     [self.view addSubview:self.table];
@@ -50,7 +57,7 @@
     query.limit = 20;
     [query includeKey:@"owner"];
     [query includeKey:@"question"];
-    [query includeKey:@"categories"];
+    [query includeKey:@"category"];
     [query includeKey:@"content"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
@@ -64,6 +71,7 @@
         
     }];
 }
+
 /*
 #pragma mark - Navigation
 
@@ -74,15 +82,10 @@
 }
 */
 
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    NSString *cellID = @"cellID";
-    UITableViewCell *cell = [self.table dequeueReusableCellWithIdentifier:cellID];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-    }
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NewsfeedCell *cell = [[NewsfeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"feedCell"];
     CMMPost *post = self.posts[indexPath.row];
-    cell.textLabel.text = post.question;
-    NSLog(@"%@", post.question);
+    [cell configureCell:post];
     return cell;
 }
 
