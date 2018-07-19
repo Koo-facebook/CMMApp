@@ -22,7 +22,6 @@
 @property NSString *_Nullable addressText;
 @property NSString *_Nullable area;
     
-
 - (instancetype _Nonnull )initWithDictionary: (NSDictionary *_Nonnull)venueDictionary;
-
+    
 @end
