@@ -100,11 +100,11 @@
 }
 
 -(void) fetchEvents {
-    [[CMMEventAPIManager shared] getAllEvents:^(NSArray *eventsArray, NSError *error) {
-       if (eventsArray) {
+    [[CMMEventAPIManager shared] getAllEvents:^(NSArray *events, NSError *error) {
+       if (events) {
         //NSLog(@"%@", events[1]);
-            self.eventList = eventsArray;
-            for (CMMEvent *event in eventsArray) {
+            self.eventList = events;
+            for (CMMEvent *event in events) {
                 NSString *name = event.title;
                 NSLog(@"%@", name);
                 NSNumber *lat = event.venue.latitude;
