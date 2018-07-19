@@ -30,8 +30,8 @@
     newPost.detailedDescription = description;
     newPost.categories = categories;
     newPost.tags = tags;
-    newPost.agreeingUsers = [[NSMutableArray alloc] init];
-    newPost.disagreeingUsers = [[NSMutableArray alloc] init];
+    newPost.agreeingUsers = [NSMutableArray new];
+    newPost.disagreeingUsers = [NSMutableArray new];
     
     [CMMUser.currentUser.posts addObject:newPost];
         

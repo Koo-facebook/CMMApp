@@ -12,7 +12,7 @@
 
 @interface CMMMessage : PFObject<PFSubclassing>
     
-@property (nonatomic, strong) CMMUser *_Nonnull messageSender;
+@property (nonatomic, weak) CMMUser *_Nullable messageSender;
 @property (nonatomic, strong) NSString *_Nullable content;
 @property (nonatomic, strong) PFFile *_Nullable attachment;
 @property (nonatomic, strong) NSString *_Nonnull conversationId;

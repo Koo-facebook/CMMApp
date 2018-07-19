@@ -12,7 +12,7 @@
 
 @interface CMMPost : PFObject<PFSubclassing>
     
-@property (nonatomic, strong) CMMUser *_Nonnull owner;
+@property (nonatomic, weak) CMMUser *_Nullable owner;
 @property (nonatomic, strong) NSString *_Nonnull topic;
 @property (nonatomic, strong) NSString *_Nullable detailedDescription;
 @property (nonatomic, strong) NSMutableArray *_Nullable categories;

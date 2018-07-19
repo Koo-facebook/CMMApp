@@ -17,6 +17,15 @@
 @end
 
 @implementation CMMInboxVC
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.conversations = CMMUser.currentUser.conversations;
+    }
+    return self;
+}
     
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -93,7 +102,14 @@
 }
 
 - (void)pullConversations {
-    
+    [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
+        if (conversations) {
+            self.conversations = [NSMutableArray arrayWithArray:conversations];
+            [self.messagesTableView reloadData];
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
 }
     
 - (void)didReceiveMemoryWarning {

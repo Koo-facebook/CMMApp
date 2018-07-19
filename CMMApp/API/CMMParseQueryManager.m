@@ -35,10 +35,11 @@
     [query findObjectsInBackgroundWithBlock:completion];
 }
 
-- (void)fetchConversationMessagesWithCompletion:(NSString *)idString withCompletion: (void(^)(NSArray *messages, NSError *error)) completion {
+- (void)fetchConversationMessagesWithCompletion:(NSString *)conversationIdString withCompletion: (void(^)(NSArray *messages, NSError *error)) completion {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMMessages"];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"messageSender"];
+    [query whereKey:@"conversationId" equalTo:conversationIdString];
     [query findObjectsInBackgroundWithBlock:completion];
 }
 

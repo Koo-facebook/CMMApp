@@ -12,7 +12,7 @@
 
 
 @interface CMMVote : PFObject<PFSubclassing>
-    
+
 @property NSString *_Nonnull language;
 @property NSString *_Nonnull partnerId;
 @property BOOL *_Nonnull sendConfirmationReminderEmails;
