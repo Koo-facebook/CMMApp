@@ -16,6 +16,7 @@
 @property NSMutableArray *_Nullable posts; // users posts
 @property NSMutableArray *_Nullable conversations; // users conversations
     
-+(instancetype _Nonnull)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password;
++ (void)createUserWithCompletion: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion;
++ (PFFile *)getPFFileFromImage: (UIImage * _Nullable)image;
     
 @end

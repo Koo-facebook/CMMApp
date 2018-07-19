@@ -32,8 +32,11 @@
     newPost.tags = tags;
     newPost.agreeingUsers = [[NSMutableArray alloc] init];
     newPost.disagreeingUsers = [[NSMutableArray alloc] init];
+    
+    [CMMUser.currentUser.posts addObject:newPost];
         
     [newPost saveInBackgroundWithBlock:completion];
+    [CMMUser.currentUser saveInBackground];
 }
     
 @end

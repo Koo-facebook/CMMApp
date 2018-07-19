@@ -13,6 +13,7 @@
 @dynamic content;
 @dynamic attachment;
 @dynamic conversationId;
+@dynamic messageSender;
     
 + (nonnull NSString *)parseClassName {
     return @"CMMMessage";
@@ -25,8 +26,11 @@
     newMessage.conversationId = conversation.objectId;
     newMessage.content = content;
     newMessage.attachment = attachment;
+    newMessage.messageSender = CMMUser.currentUser;
+    [conversation.messages addObject:newMessage];
         
     [newMessage saveInBackgroundWithBlock:completion];
+    [conversation saveInBackground];
 }
     
 @end

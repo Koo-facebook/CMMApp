@@ -26,12 +26,6 @@
     
 - (void)setupUsernameLabel {
     self.usernameLabel = [UILabel new];
-    for (CMMUser *user in self.conversation.users) {
-        if (![user isEqual:PFUser.currentUser]) {
-            
-            //self.usernameLabel.text = user.username;
-        }
-    }
     self.usernameLabel.text = @"testing";
     self.usernameLabel.textColor = [UIColor colorWithRed:54.0/255.0 green:173.0/255.0 blue:157.0/255.0 alpha:1.0];
     [self.usernameLabel sizeToFit];

@@ -12,7 +12,7 @@
     
 @property UISearchBar *messagesSearchBar;
 @property UITableView *messagesTableView;
-@property NSArray *conversations;
+@property NSMutableArray *conversations;
     
 @end
 
@@ -21,6 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.title = @"Inbox";
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self createSearchBar];
@@ -55,7 +58,7 @@
     
     // Search Bar
     [self.messagesSearchBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.navigationBar.mas_bottom);
+        make.top.equalTo(self.messagesSearchBar.superview.mas_safeAreaLayoutGuideTop);
         make.trailing.equalTo(self.view.mas_trailing);
         make.leading.equalTo(self.view.mas_leading);
         make.height.equalTo(@(self.messagesSearchBar.intrinsicContentSize.height));
@@ -79,7 +82,18 @@
 }
     
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.conversations.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.messagesTableView deselectRowAtIndexPath:indexPath animated:NO];
+    CMMChatVC *chatVC = [CMMChatVC new];
+    //chatVC.conversation = self.conversations[indexPath.row];
+    [self.navigationController pushViewController:chatVC animated:YES];
+}
+
+- (void)pullConversations {
+    
 }
     
 - (void)didReceiveMemoryWarning {

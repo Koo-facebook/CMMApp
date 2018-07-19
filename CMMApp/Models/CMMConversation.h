@@ -12,12 +12,13 @@
 
 @interface CMMConversation : PFObject
     
-@property (nonatomic, strong) NSMutableArray *_Nonnull users; // 2 users in conversation
+@property (nonatomic, strong) CMMUser *_Nonnull user1; 
+@property (nonatomic, strong) CMMUser *_Nullable user2;
 @property (nonatomic, strong) NSMutableArray *_Nullable messages; // list of Messages in conversation
-@property (nonatomic, strong) CMMPost *_Nonnull post;
+@property (nonatomic, strong) NSString *_Nonnull topic;
 @property BOOL userOneRead;
 @property BOOL userTwoRead;
     
-+(void)createConversation:(NSMutableArray *_Nonnull)users withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++(void)createConversation:(CMMUser *_Nonnull)user2 topic:(NSString *_Nullable)topic withCompletion: (PFBooleanResultBlock  _Nullable)completion;
     
 @end
