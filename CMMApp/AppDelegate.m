@@ -7,8 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "LoginVC.h"
+#import "CMMLoginVC.h"
 #import "Parse.h"
+#import "NGKeyboardTracker.h"
 
 @interface AppDelegate ()
 
@@ -19,6 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [[NgKeyboardTracker sharedTracker] start]; // start tracking
     
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
@@ -31,10 +34,10 @@
     [Parse initializeWithConfiguration:config];
     
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    if (PFUser.currentUser) {
+    if (CMMUser.currentUser) {
         self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
     } else {
-        self.window.rootViewController = [[LoginVC alloc] init];
+        self.window.rootViewController = [[CMMLoginVC alloc] init];
     }
     [self.window makeKeyAndVisible];
     
@@ -67,6 +70,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
+    [[NgKeyboardTracker sharedTracker] stop];
     [self saveContext];
 }
 

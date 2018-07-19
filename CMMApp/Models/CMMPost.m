@@ -10,30 +10,33 @@
 
 @implementation CMMPost
     
-    @dynamic owner;
-    @dynamic question;
-    @dynamic content;
-    @dynamic categories;
-    @dynamic tags;
-    @dynamic agreeingUsers;
-    @dynamic disagreeingUsers;
+@dynamic owner;
+@dynamic topic;
+@dynamic detailedDescription;
+@dynamic categories;
+@dynamic tags;
+@dynamic agreeingUsers;
+@dynamic disagreeingUsers;
     
-    + (nonnull NSString *)parseClassName {
-        return @"CMMPost";
-    }
++ (nonnull NSString *)parseClassName {
+    return @"CMMPost";
+}
     
-    + (void)createPost:(NSString *)question description:(NSString *)description categories:(NSMutableArray *)categories tags:(NSMutableArray *)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (void)createPost:(NSString *)topic description:(NSString *)description categories:(NSMutableArray *)categories tags:(NSMutableArray *)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion {
         
-        CMMPost *newPost = [CMMPost new];
-        newPost.owner = CMMUser.currentUser;
-        newPost.question = question;
-        newPost.content = description;
-        newPost.categories = categories;
-        newPost.tags = tags;
-        newPost.agreeingUsers = [[NSMutableArray alloc] init];
-        newPost.disagreeingUsers = [[NSMutableArray alloc] init];
-        
-        [newPost saveInBackgroundWithBlock:completion];
-    }
+    CMMPost *newPost = [CMMPost new];
+    newPost.owner = CMMUser.currentUser;
+    newPost.topic = topic;
+    newPost.detailedDescription = description;
+    newPost.categories = categories;
+    newPost.tags = tags;
+    newPost.agreeingUsers = [NSMutableArray new];
+    newPost.disagreeingUsers = [NSMutableArray new];
     
-    @end
+    [CMMUser.currentUser.posts addObject:newPost];
+        
+    [newPost saveInBackgroundWithBlock:completion];
+    [CMMUser.currentUser saveInBackground];
+}
+    
+@end

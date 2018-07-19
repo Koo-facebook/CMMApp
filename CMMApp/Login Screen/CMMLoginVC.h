@@ -13,6 +13,6 @@
 #import "CMMMainTabBarVC.h"
 #import "MBProgressHUD.h"
 
-@interface LoginVC : UIViewController 
+@interface CMMLoginVC : UIViewController 
 
 @end

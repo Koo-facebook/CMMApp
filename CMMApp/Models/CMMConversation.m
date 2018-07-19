@@ -10,20 +10,30 @@
 
 @implementation CMMConversation
     
-    @dynamic users;
-    @dynamic messages;
+@dynamic user1;
+@dynamic user2;
+@dynamic messages;
+@dynamic topic;
+@dynamic userOneRead;
+@dynamic userTwoRead;
     
-    + (nonnull NSString *)parseClassName {
-        return @"CMMConversation";
-    }
++ (nonnull NSString *)parseClassName {
+    return @"CMMConversation";
+}
     
-    +(void)createConversation:(NSMutableArray *_Nonnull)users withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++(void)createConversation:(CMMUser *_Nonnull)user2 topic:(NSString *_Nullable)topic withCompletion: (PFBooleanResultBlock  _Nullable)completion {
         
-        CMMConversation *newConversation = [CMMConversation new];
-        newConversation.users = users;
-        newConversation.messages = [[NSMutableArray alloc] init];
-        
-        [newConversation saveInBackgroundWithBlock: completion];
-    }
+    CMMConversation *newConversation = [CMMConversation new];
+    newConversation.user1 = CMMUser.currentUser;
+    newConversation.user2 = user2;
+    newConversation.messages = [[NSMutableArray alloc] init];
     
-    @end
+    [user2.conversations addObject:newConversation];
+    [CMMUser.currentUser.conversations addObject:newConversation];
+        
+    [newConversation saveInBackgroundWithBlock: completion];
+    [user2 saveInBackground];
+    [CMMUser.currentUser saveInBackground];
+}
+    
+@end
