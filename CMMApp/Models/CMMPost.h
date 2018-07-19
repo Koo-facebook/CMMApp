@@ -15,11 +15,11 @@
 @property (nonatomic, weak) CMMUser *_Nullable owner;
 @property (nonatomic, strong) NSString *_Nonnull topic;
 @property (nonatomic, strong) NSString *_Nullable detailedDescription;
-@property (nonatomic, strong) NSMutableArray *_Nullable categories;
+@property (nonatomic, strong) NSString *_Nullable category;
 @property (nonatomic, strong) NSMutableArray *_Nullable tags;
 @property (nonatomic, strong) NSMutableArray *_Nullable agreeingUsers;
 @property (nonatomic, strong) NSMutableArray *_Nullable disagreeingUsers;
     
-+ (void)createPost:(NSString *_Nonnull)topic description:(NSString *_Nullable)description categories:(NSMutableArray *_Nullable)categories tags:(NSMutableArray *_Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (void)createPost:(NSString *_Nonnull)topic description:(NSString *_Nullable)description category:(NSString *_Nullable)category tags:(NSMutableArray *_Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
     
 @end
