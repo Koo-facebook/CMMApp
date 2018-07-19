@@ -44,32 +44,17 @@
 - (void) setEvent:(CMMEvent *)event {
     _event = event;
     
-    //Set event name
-    //self.eventName.text = self.event.title;
-    self.eventName.text = self.event.venue.address1;
+    self.eventName.text = self.event.title;
+    self.date.text = @"July 19th, 2018";
+    self.time.text = @"4 pm to 5pm";
+    /*NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
-    //Format date to appear as "July 21, 2018" and set
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
-    NSDate *date = [formatter dateFromString:self.event.startTime];
-
-    [formatter setDateFormat:@"MMMM dd, yyyy"];
-    self.date.text = [formatter stringFromDate:date];
-    
-    //Formate time to appear as "4:30 PM - 6:00 PM" and set
-    NSDateFormatter *timeformatter = [[NSDateFormatter alloc] init];
-    [timeformatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
-    NSDate *stime = [timeformatter dateFromString:self.event.startTime];
-    NSDate *etime = [timeformatter dateFromString:self.event.endTime];
-    
-    [timeformatter setDateFormat:@"h:mm a"];
-    NSString *startTime = [timeformatter stringFromDate:stime];
-    NSString *endTime = [timeformatter stringFromDate:etime];
-    
-    NSString *dashAdded = [startTime stringByAppendingString:@"-"];
-    NSString *interval = [dashAdded stringByAppendingString:endTime];
-    self.time.text = interval;
-    //NSLog(@"%@", self.date.text);
+    // Convert to new Date Format
+    [dateFormatter setDateFormat:@"MM-dd-yyyy"];
+    NSString *newDate = [dateFormatter stringFromDate:self.event.startTime];
+    self.date.text = newDate;
+    NSLog(@"%@", newDate);*/
 }
 
 @end

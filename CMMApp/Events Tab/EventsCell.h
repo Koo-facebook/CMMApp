@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CMMEvent.h"
-#import "CMMVenue.h"
 
 @interface EventsCell : UITableViewCell
 
@@ -16,6 +15,5 @@
 @property (strong, nonatomic) UILabel *date;
 @property (strong, nonatomic) UILabel *time;
 @property (strong, nonatomic) CMMEvent *event;
-@property (strong, nonatomic) CMMVenue *venue;
 
 @end
