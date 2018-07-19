@@ -47,7 +47,6 @@
         self.startTime = dictionary[@"start"][@"local"];
         self.endTime = dictionary[@"end"][@"local"];
         self.onlineOnly = dictionary[@"online_event"];
-        
     }
     return self;
 }

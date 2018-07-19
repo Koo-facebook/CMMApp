@@ -12,7 +12,7 @@
 #import "CMMVenue.h"
 
 @interface CMMEvent : PFObject<PFSubclassing>
-    
+
 @property (nonatomic, strong) NSURL *_Nonnull url;
 @property (nonatomic, strong) NSString *_Nonnull title;
 @property (nonatomic, strong) NSString *_Nullable details;

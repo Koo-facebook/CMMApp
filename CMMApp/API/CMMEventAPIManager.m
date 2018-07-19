@@ -7,6 +7,7 @@
 //
 
 #import "CMMEventAPIManager.h"
+#import "CMMEvent.h"
 
 @implementation CMMEventAPIManager
     
@@ -33,9 +34,8 @@
                 }
             }];
         }
+        return self;
     }
-    return self;
-}
     
 - (void)getAllEvents:(void(^)(NSArray *events, NSError *error))completion{
     NSURL *url = [NSURL URLWithString:@"https://www.eventbriteapi.com/v3/events/search/?token=YIQCSL5B666YAANPQXF5"];
@@ -46,11 +46,12 @@
             NSLog(@"%@", [error localizedDescription]);
             completion(nil, error);
         } else {
+            NSLog(@"😎😎😎 Successfully got all events");
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
-            NSArray *eventsDictionaries = dataDictionary[@"results"];
-            NSArray *events = [CMMEvent eventsWithArray:eventsDictionaries];
-            completion(events, nil);
+            NSArray *eventsDictionaries = dataDictionary[@"events"];
+            NSArray *eventsArray = [CMMEvent eventsWithArray:eventsDictionaries];
+        completion(eventsArray, nil);
         }
     }];
     [task resume];
@@ -126,3 +127,5 @@
 }
 
 @end
+
+
