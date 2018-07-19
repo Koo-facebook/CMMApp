@@ -27,6 +27,9 @@
     newConversation.user1 = CMMUser.currentUser;
     newConversation.user2 = user2;
     newConversation.messages = [[NSMutableArray alloc] init];
+    newConversation.topic = topic;
+    newConversation.userTwoRead = NO;
+    newConversation.userOneRead = YES;
     
     [user2.conversations addObject:newConversation];
     [CMMUser.currentUser.conversations addObject:newConversation];

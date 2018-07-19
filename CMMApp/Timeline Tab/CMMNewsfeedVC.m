@@ -59,14 +59,7 @@
 }
 
 - (void)fetchPosts {
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
-    [query orderByDescending:@"createdAt"];
-    query.limit = 20;
-    [query includeKey:@"owner"];
-    [query includeKey:@"topic"];
-    [query includeKey:@"category"];
-    [query includeKey:@"detailedDescription"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+    [[CMMParseQueryManager shared] fetchPostsWithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             self.posts = posts;
             self.filteredPosts = posts;
@@ -102,15 +95,6 @@
     self.searchBar.text = @"";
     [self.searchBar resignFirstResponder];
 }
-
-/*
- #pragma mark - Navigation
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NewsfeedCell *cell = [[NewsfeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"feedCell"];

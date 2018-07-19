@@ -15,7 +15,7 @@
 @dynamic posts;
 @dynamic conversations;
     
-+ (void)createUserWithCompletion: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion{
++ (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion{
     CMMUser *newUser = [CMMUser new];
     newUser.username = username;
     newUser.password = password;
