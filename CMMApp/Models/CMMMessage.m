@@ -10,23 +10,23 @@
 
 @implementation CMMMessage
     
-    @dynamic content;
-    @dynamic attachment;
-    @dynamic conversationId;
+@dynamic content;
+@dynamic attachment;
+@dynamic conversationId;
     
-    + (nonnull NSString *)parseClassName {
-        return @"CMMMessage";
-    }
++ (nonnull NSString *)parseClassName {
+    return @"CMMMessage";
+}
     
-    + (void)createMessage:(CMMConversation *_Nonnull)conversation content:(NSString *_Nonnull)content attachment:(PFFile *_Nullable)attachment withCompletion:(PFBooleanResultBlock _Nullable)completion {
++ (void)createMessage:(CMMConversation *_Nonnull)conversation content:(NSString *_Nonnull)content attachment:(PFFile *_Nullable)attachment withCompletion:(PFBooleanResultBlock _Nullable)completion {
         
-        CMMMessage *newMessage = [CMMMessage new];
+    CMMMessage *newMessage = [CMMMessage new];
         
-        newMessage.conversationId = conversation.objectId;
-        newMessage.content = content;
-        newMessage.attachment = attachment;
+    newMessage.conversationId = conversation.objectId;
+    newMessage.content = content;
+    newMessage.attachment = attachment;
         
-        [newMessage saveInBackgroundWithBlock:completion];
-    }
+    [newMessage saveInBackgroundWithBlock:completion];
+}
     
 @end

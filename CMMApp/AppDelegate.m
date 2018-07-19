@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "LoginVC.h"
+#import "CMMLoginVC.h"
 #import "Parse.h"
 
 @interface AppDelegate ()
@@ -34,7 +34,7 @@
     if (PFUser.currentUser) {
         self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
     } else {
-        self.window.rootViewController = [[LoginVC alloc] init];
+        self.window.rootViewController = [[CMMLoginVC alloc] init];
     }
     [self.window makeKeyAndVisible];
     

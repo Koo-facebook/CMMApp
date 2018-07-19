@@ -8,12 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
+#import "CMMPost.h"
 
 @interface CMMConversation : PFObject
     
-    @property NSMutableArray *_Nonnull users; // 2 users in conversation
-    @property NSMutableArray *_Nonnull messages; // list of Messages in conversation
+@property (nonatomic, strong) NSMutableArray *_Nonnull users; // 2 users in conversation
+@property (nonatomic, strong) NSMutableArray *_Nullable messages; // list of Messages in conversation
+@property (nonatomic, strong) CMMPost *_Nonnull post;
+@property BOOL userOneRead;
+@property BOOL userTwoRead;
     
-    +(void)createConversation:(NSMutableArray *_Nonnull)users withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++(void)createConversation:(NSMutableArray *_Nonnull)users withCompletion: (PFBooleanResultBlock  _Nullable)completion;
     
-    @end
+@end

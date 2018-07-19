@@ -12,14 +12,14 @@
 
 @interface CMMPost : PFObject<PFSubclassing>
     
-    @property CMMUser *_Nonnull owner;
-    @property NSString *_Nonnull question;
-    @property NSString *_Nullable content;
-    @property NSMutableArray *_Nullable categories;
-    @property NSMutableArray *_Nullable tags;
-    @property NSMutableArray *_Nullable agreeingUsers;
-    @property NSMutableArray *_Nullable disagreeingUsers;
+@property (nonatomic, strong) CMMUser *_Nonnull owner;
+@property (nonatomic, strong) NSString *_Nonnull topic;
+@property (nonatomic, strong) NSString *_Nullable detailedDescription;
+@property (nonatomic, strong) NSMutableArray *_Nullable categories;
+@property (nonatomic, strong) NSMutableArray *_Nullable tags;
+@property (nonatomic, strong) NSMutableArray *_Nullable agreeingUsers;
+@property (nonatomic, strong) NSMutableArray *_Nullable disagreeingUsers;
     
-    + (void)createPost:(NSString *_Nonnull)question description:(NSString *_Nullable)description categories:(NSMutableArray *_Nullable)categories tags:(NSMutableArray *_Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (void)createPost:(NSString *_Nonnull)topic description:(NSString *_Nullable)description categories:(NSMutableArray *_Nullable)categories tags:(NSMutableArray *_Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
     
 @end

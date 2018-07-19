@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Masonry.h"
+#import "ConversationCell.h"
 
-@interface CMMInboxVC : UINavigationController
+@interface CMMInboxVC : UINavigationController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @end

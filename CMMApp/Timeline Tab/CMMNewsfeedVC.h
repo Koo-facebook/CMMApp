@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMMNewsfeedVC : UINavigationController
+@interface CMMNewsfeedVC : UIViewController
 
 @end

@@ -30,6 +30,11 @@
     eventsNavigation.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Events" image:nil tag:1];
     [viewControllers addObject:eventsNavigation];
     
+    CMMComposerVC *composeVC = [[CMMComposerVC alloc] init];
+    UINavigationController *composeNavVC = [[UINavigationController alloc] initWithRootViewController:composeVC];
+    composeNavVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Compose" image:nil tag:4];
+    [viewControllers addObject:composeVC];
+    
     CMMInboxVC *inboxVC = [[CMMInboxVC alloc] init];
     inboxVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Inbox" image:nil tag:2];
     [viewControllers addObject:inboxVC];
@@ -38,9 +43,6 @@
     profileVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:3];
     [viewControllers addObject:profileVC];
     
-    CMMComposerVC *composeVC = [[CMMComposerVC alloc] init];
-    composeVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:4];
-    [viewControllers addObject:composeVC];
     
     self.viewControllers = [viewControllers copy];
 }
