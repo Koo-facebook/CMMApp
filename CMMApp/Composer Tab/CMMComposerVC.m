@@ -31,8 +31,18 @@
 }
 
 - (void)configureViews {
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    
     self.title = @"Compose";
+    
+    // set background gradient
+    CGRect backgroundFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    UIImage *backgroundImage = [[UIImage alloc] init];
+    backgroundImage = [UIImage imageNamed:@"backgroundPic"];
+    UIImageView *pictureView = [[UIImageView alloc] initWithFrame:backgroundFrame];
+    [pictureView setImage:backgroundImage];
+    [self.view addSubview:pictureView];
+    
+    // create typing fields
     int minimumSideBuffer = 15;
     int textCornerRadius = 5;
     CGRect questionFrame = CGRectMake(minimumSideBuffer, 100, self.view.frame.size.width - 2 * minimumSideBuffer, 40);
@@ -45,6 +55,7 @@
     [self.view addSubview:self.questionTextField];
     [self.view addSubview:self.descriptionTextField];
     
+    // create dropdown menu for category
     CGRect menuFrame = CGRectMake(minimumSideBuffer, 270, 150, 50);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
     menu.delegate = self;
