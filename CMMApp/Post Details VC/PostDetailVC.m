@@ -10,6 +10,7 @@
 #import "CMMUser.h"
 #import <DateTools.h>
 #import <Masonry.h>
+#import "UIImageView+AFNetworking.h"
 
 @interface PostDetailVC ()
 @end
@@ -36,7 +37,7 @@
     titleLabel.numberOfLines = 0;
     titleLabel.text = post.topic;
     [self.view addSubview:titleLabel];
-    [titleLabel setFont:[UIFont systemFontOfSize:14]];
+    [titleLabel setFont:[UIFont systemFontOfSize:16]];
     NSLog(@"%@", titleLabel.text);
     
     UILabel *dateLabel = [[UILabel alloc] init];
@@ -44,44 +45,52 @@
     UIColor *tealColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
     dateLabel.textColor = tealColor;
     [self.view addSubview:dateLabel];
-    [dateLabel setFont:[UIFont systemFontOfSize:10]];
+    [dateLabel setFont:[UIFont systemFontOfSize:14]];
     
     UILabel *categoryLabel = [[UILabel alloc] init];
     categoryLabel.text = post.category;
     categoryLabel.textColor = tealColor;
     [self.view addSubview:categoryLabel];
-    [categoryLabel setFont:[UIFont systemFontOfSize:10]];
+    [categoryLabel setFont:[UIFont systemFontOfSize:14]];
     
     UILabel *detailLabel = [[UILabel alloc] init];
     detailLabel.text = post.detailedDescription;
     detailLabel.numberOfLines = 0;
     [self.view addSubview:detailLabel];
-    [detailLabel setFont:[UIFont systemFontOfSize:14]];
+    [detailLabel setFont:[UIFont systemFontOfSize:16]];
     
     UILabel *authorLabel = [[UILabel alloc] init];
     authorLabel.text = post.owner.username;
     authorLabel.textColor = tealColor;
     [self.view addSubview:authorLabel];
-    [authorLabel setFont:[UIFont systemFontOfSize:10]];
+    [authorLabel setFont:[UIFont systemFontOfSize:14]];
+    
+    int topPadding = 80;
+    int imageSize = 70;
+    CGRect imageFrame = CGRectMake(12, topPadding, imageSize, imageSize);
+    UIImageView *authorImage = [[UIImageView alloc] initWithFrame:imageFrame];
+    authorImage.image = nil;
+    [authorImage setImageWithURL:[NSURL URLWithString:post.owner.profileImage.url] placeholderImage:[UIImage imageNamed:@"placeholderProfileImage"]];
+    authorImage.layer.cornerRadius = imageSize/2;
+    authorImage.clipsToBounds = YES;
+    [self.view addSubview:authorImage];
     
     // Autolayout for the labels
-    int topPadding = 60;
     
-    UIEdgeInsets titlePadding = UIEdgeInsetsMake(topPadding + 50, 12, 12, 12);
+    UIEdgeInsets titlePadding = UIEdgeInsetsMake(topPadding + imageSize + 36, 12, 12, 12);
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(titlePadding.top);
         make.left.equalTo(self.view.mas_left).with.offset(titlePadding.left);
         //make.height.equalTo(@(titleLabel.intrinsicContentSize.height));
-        NSLog(@"height is %f", titleLabel.intrinsicContentSize.height);
         make.right.equalTo(self.view.mas_right).with.offset(-titlePadding.right);
     }];
-    UIEdgeInsets categoryPadding = UIEdgeInsetsMake(topPadding + 34, 12, 12, 12);
+    UIEdgeInsets categoryPadding = UIEdgeInsetsMake(topPadding + imageSize + 12, 12, 12, 12);
     [categoryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(categoryPadding.top);
         make.left.equalTo(self.view.mas_left).with.offset(categoryPadding.left);
         make.width.equalTo(@(categoryLabel.intrinsicContentSize.width));
     }];
-    UIEdgeInsets datePadding = UIEdgeInsetsMake(topPadding + 34, 12, 12, 12);
+    UIEdgeInsets datePadding = UIEdgeInsetsMake(topPadding + imageSize + 12, 12, 12, 12);
     [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(datePadding.top);
         make.left.equalTo(categoryLabel.mas_right).with.offset(datePadding.left);
@@ -94,10 +103,10 @@
         make.right.equalTo(self.view.mas_right).with.offset(-detailPadding.right);
         //make.height.equalTo(@(detailLabel.intrinsicContentSize.height));
     }];
-    UIEdgeInsets authorPadding = UIEdgeInsetsMake(topPadding + 12, 12, 12, 12);
+    UIEdgeInsets authorPadding = UIEdgeInsetsMake(topPadding + imageSize/2, 12, 12, 12);
     [authorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(authorPadding.top);
-        make.left.equalTo(self.view.mas_left).with.offset(authorPadding.left);
+        make.left.equalTo(authorImage.mas_right).with.offset(authorPadding.left);
         make.right.equalTo(self.view.mas_right).with.offset(-authorPadding.right);
     }];
 }
