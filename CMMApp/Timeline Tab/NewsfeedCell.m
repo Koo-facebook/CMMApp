@@ -8,7 +8,7 @@
 
 #import "NewsfeedCell.h"
 #import <DateTools.h>
-#import "Masonry.h"
+#import <Masonry.h>
 
 @implementation NewsfeedCell
 
@@ -25,8 +25,6 @@
 
 - (void)configureCell:(CMMPost *)post {
     
-    self.post = post;
-    
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.numberOfLines = 0;
     titleLabel.text = post.topic;
@@ -35,13 +33,14 @@
     
     UILabel *dateLabel = [[UILabel alloc] init];
     dateLabel.text = [post.createdAt timeAgoSinceNow];
-    dateLabel.textColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
+    UIColor *textColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
+    dateLabel.textColor = textColor;
     [self.contentView addSubview:dateLabel];
     [dateLabel setFont:[UIFont systemFontOfSize:10]];
     
     UILabel *categoryLabel = [[UILabel alloc] init];
     categoryLabel.text = post.category;
-    categoryLabel.textColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
+    categoryLabel.textColor = textColor;
     [self.contentView addSubview:categoryLabel];
     [categoryLabel setFont:[UIFont systemFontOfSize:10]];
     
@@ -65,6 +64,6 @@
         make.left.equalTo(categoryLabel.mas_right).with.offset(datePadding.left);
         make.right.equalTo(self.contentView.mas_right).with.offset(-datePadding.right);
     }];
-    
 }
+
 @end

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D221014A02007629AD /* NewsfeedCell.m */; };
+		03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D621024F11007629AD /* PostDetailVC.m */; };
 		136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305820FFC11A009B4180 /* CMMComposerVC.m */; };
 		136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305B20FFFDD3009B4180 /* EventsCell.m */; };
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
@@ -40,6 +41,8 @@
 /* Begin PBXFileReference section */
 		03CDE9D121014A02007629AD /* NewsfeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsfeedCell.h; sourceTree = "<group>"; };
 		03CDE9D221014A02007629AD /* NewsfeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedCell.m; sourceTree = "<group>"; };
+		03CDE9D521024F11007629AD /* PostDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailVC.h; sourceTree = "<group>"; };
+		03CDE9D621024F11007629AD /* PostDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDetailVC.m; sourceTree = "<group>"; };
 		136E305720FFC11A009B4180 /* CMMComposerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMComposerVC.h; sourceTree = "<group>"; };
 		136E305820FFC11A009B4180 /* CMMComposerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMComposerVC.m; sourceTree = "<group>"; };
 		136E305A20FFFDD3009B4180 /* EventsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsCell.h; sourceTree = "<group>"; };
@@ -107,6 +110,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03CDE9D421024EAB007629AD /* Post Details VC */ = {
+			isa = PBXGroup;
+			children = (
+				03CDE9D521024F11007629AD /* PostDetailVC.h */,
+				03CDE9D621024F11007629AD /* PostDetailVC.m */,
+			);
+			path = "Post Details VC";
+			sourceTree = "<group>";
+		};
 		136E305620FFC0F4009B4180 /* Composer Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +174,7 @@
 				22F9EC0320FEAEE3002ADD9D /* Login Screen */,
 				22F9EC0B20FEAF26002ADD9D /* Inbox Tab */,
 				22F9EC0920FEAF15002ADD9D /* Newsfeed Tab */,
+				03CDE9D421024EAB007629AD /* Post Details VC */,
 				22F9EC0820FEAF0D002ADD9D /* Profile Tab */,
 				22F9EC0720FEAF03002ADD9D /* Events Tab */,
 				136E305620FFC0F4009B4180 /* Composer Tab */,
@@ -418,6 +431,7 @@
 				22F9EC1420FEB1EE002ADD9D /* CMMConversation.m in Sources */,
 				03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */,
 				22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */,
+				03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */,
 				22F9EC4A21004F33002ADD9D /* ChatCell.m in Sources */,
 				22F9EC2620FEB30E002ADD9D /* CMMVote.m in Sources */,
 			);
