@@ -12,7 +12,7 @@
 #import <CCDropDownMenus/CCDropDownMenus.h>
 
 @interface CMMComposerVC () <CCDropDownMenuDelegate>
-@property (strong, nonatomic) UITextView *questionTextField;
+@property (strong, nonatomic) UITextField *questionTextField;
 @property (strong, nonatomic) UITextField *descriptionTextField;
 @property (strong, nonatomic) NSString *categoryString;
 @property (strong, nonatomic) NSArray *categoryOptions;
@@ -47,11 +47,14 @@
     int textCornerRadius = 5;
     CGRect questionFrame = CGRectMake(minimumSideBuffer, 100, self.view.frame.size.width - 2 * minimumSideBuffer, 40);
     CGRect descriptionFrame = CGRectMake(minimumSideBuffer, 150, self.view.frame.size.width - 2 * minimumSideBuffer, 100);
-    self.questionTextField = [[UITextView alloc] initWithFrame:questionFrame];
+    self.questionTextField = [[UITextField alloc] initWithFrame:questionFrame];
     self.descriptionTextField = [[UITextField alloc] initWithFrame:descriptionFrame];
     self.questionTextField.layer.cornerRadius = textCornerRadius;
     self.descriptionTextField.layer.cornerRadius = textCornerRadius;
+    self.questionTextField.backgroundColor = [UIColor whiteColor];
     self.descriptionTextField.backgroundColor = [UIColor whiteColor];
+    self.questionTextField.placeholder = @"What's your stance?";
+    self.descriptionTextField.placeholder = @"Tell us why!";
     [self.view addSubview:self.questionTextField];
     [self.view addSubview:self.descriptionTextField];
     
@@ -74,7 +77,10 @@
     [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"successful post");
+            self.questionTextField.text = @"";
+            self.descriptionTextField.text = @"";
             [self dismissViewControllerAnimated:YES completion:nil];
+            // TODO: present newsfeed tab
             //[self.navigationController presentViewController:destinationVC animated:YES completion:nil];
         } else {
             NSLog(@"Error: %@", error.localizedDescription);
