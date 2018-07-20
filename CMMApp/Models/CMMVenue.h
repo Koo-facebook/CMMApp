@@ -17,8 +17,8 @@
 @property NSString *_Nullable region;
 @property NSString *_Nullable postalCode;
 @property NSString *_Nullable country;
-@property NSNumber *_Nullable latitude;
-@property NSNumber *_Nullable longitude;
+@property NSDecimalNumber *_Nullable latitude;
+@property NSDecimalNumber *_Nullable longitude;
 @property NSString *_Nullable addressText;
 @property NSString *_Nullable area;
     

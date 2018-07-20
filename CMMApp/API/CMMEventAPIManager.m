@@ -40,7 +40,7 @@
 
     
 - (void)getAllEvents:(void(^)(NSArray *events, NSError *error))completion {
-        NSURL *url = [NSURL URLWithString:@"https://www.eventbriteapi.com/v3/events/search/?token=YIQCSL5B666YAANPQXF5"];
+        NSURL *url = [NSURL URLWithString:@"https://www.eventbriteapi.com/v3/events/search/?q=politics&token=YIQCSL5B666YAANPQXF5"];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -52,8 +52,8 @@
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
                 NSArray *eventsDictionaries = dataDictionary[@"events"];
-                NSArray *eventsArray = [CMMEvent eventsWithArray:eventsDictionaries];
-                completion(eventsArray, nil);
+                NSArray *events = [CMMEvent eventsWithArray:eventsDictionaries];
+                completion(events, nil);
             }
         }];
         [task resume];
@@ -113,8 +113,8 @@
             } else {
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
-                NSDictionary *venueDictionary = dataDictionary[@"address"];
-                completion(venueDictionary, nil);
+                NSDictionary *venue = dataDictionary[@"address"];
+                completion(venue, nil);
             }
         }];
         [task resume];

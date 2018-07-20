@@ -10,4 +10,6 @@
 #import <MapKit/MapKit.h>
 
 @interface CMMEventsVC : UIViewController <MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource>
+
+
 @end

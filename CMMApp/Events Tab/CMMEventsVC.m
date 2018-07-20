@@ -22,6 +22,8 @@
 @property (strong, nonatomic) UIScrollView *scroll;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) NSArray *eventList;
+@property (strong, nonatomic) NSMutableArray *venueList;
+
 
 @end
 
@@ -73,6 +75,15 @@
     [self.view addSubview:self.mapView];
 }
 
+//Adding Pins
+-(void) addingPins: (CLLocationCoordinate2D)location {
+    MKPointAnnotation *annotation = [MKPointAnnotation new];
+    //CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(37.783333, -122.416667);
+    annotation.coordinate = location;
+    annotation.title = @"Event";
+    [self.mapView addAnnotation:annotation];
+}
+
 //Delegate function of mapView that will center map on user location
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
     MKCoordinateRegion region;
@@ -89,21 +100,24 @@
 
 -(void) fetchEvents {
     [[CMMEventAPIManager shared] getAllEvents:^(NSArray *events, NSError *error) {
-       if (events) {
-        //NSLog(@"%@", events[1]);
+        if (events) {
+            //NSLog(@"%@", events[1]);
             self.eventList = events;
             for (CMMEvent *event in events) {
                 NSString *name = event.title;
                 NSLog(@"%@", name);
+                //CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(lat.floatValue,lon.floatValue);
+                //[self addingPins:venueLocation];
             }
             NSLog(@"😎😎😎 Successfully loaded events table");
             [self.tableView reloadData];
         } else {
-           NSLog(@"😫😫😫 Error getting events: %@", error.localizedDescription);
+            NSLog(@"😫😫😫 Error getting events: %@", error.localizedDescription);
         }
     }
      ];
 }
+
 
 //Create tableView
 - (void) createTableView {

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CMMEvent.h"
+#import "CMMEventsVC.h"
 
 @interface EventsCell : UITableViewCell
 
