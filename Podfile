@@ -12,5 +12,13 @@ target 'CMMApp' do
   pod 'Masonry'
   pod 'MBProgressHUD'
   pod 'NgKeyboardTracker'
-
+  pod 'DateTools'
+  pod 'CCDropDownMenus'
+end
+post_install do |lib|
+    lib.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+        end
+    end
 end

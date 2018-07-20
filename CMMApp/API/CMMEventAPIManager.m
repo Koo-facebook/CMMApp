@@ -35,8 +35,8 @@
             }];
         }
     }
-        return self;
-    }
+    return self;
+}
 
     
 - (void)getAllEvents:(void(^)(NSArray *events, NSError *error))completion {

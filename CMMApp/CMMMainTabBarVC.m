@@ -22,8 +22,9 @@
     NSMutableArray *viewControllers = [[NSMutableArray alloc] init];
     
     CMMNewsfeedVC *newsfeedVC = [[CMMNewsfeedVC alloc] init];
-    newsfeedVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Newsfeed" image:nil tag:0];
-    [viewControllers addObject:newsfeedVC];
+    UINavigationController *feedNavVC = [[UINavigationController alloc] initWithRootViewController:newsfeedVC];
+    feedNavVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Newsfeed" image:nil tag:0];
+    [viewControllers addObject:feedNavVC];
     
     CMMEventsVC *eventsVC = [[CMMEventsVC alloc] init];
     UINavigationController *eventsNavigation = [[UINavigationController alloc]initWithRootViewController:eventsVC];
@@ -41,8 +42,9 @@
     [viewControllers addObject:inboxNavVC];
     
     CMMProfileVC *profileVC = [[CMMProfileVC alloc] init];
-    profileVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:3];
-    [viewControllers addObject:profileVC];
+    UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
+    profileNavVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:3];
+    [viewControllers addObject:profileNavVC];
     
     
     self.viewControllers = [viewControllers copy];

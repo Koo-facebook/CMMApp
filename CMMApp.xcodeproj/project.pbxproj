@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D221014A02007629AD /* NewsfeedCell.m */; };
 		136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305820FFC11A009B4180 /* CMMComposerVC.m */; };
 		136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305B20FFFDD3009B4180 /* EventsCell.m */; };
+		136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E3064210249CB009B4180 /* CMMEventDetailsVC.m */; };
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
@@ -37,10 +39,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		03CDE9D121014A02007629AD /* NewsfeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsfeedCell.h; sourceTree = "<group>"; };
+		03CDE9D221014A02007629AD /* NewsfeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedCell.m; sourceTree = "<group>"; };
 		136E305720FFC11A009B4180 /* CMMComposerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMComposerVC.h; sourceTree = "<group>"; };
 		136E305820FFC11A009B4180 /* CMMComposerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMComposerVC.m; sourceTree = "<group>"; };
 		136E305A20FFFDD3009B4180 /* EventsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsCell.h; sourceTree = "<group>"; };
 		136E305B20FFFDD3009B4180 /* EventsCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventsCell.m; sourceTree = "<group>"; };
+		136E3063210249CB009B4180 /* CMMEventDetailsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMEventDetailsVC.h; sourceTree = "<group>"; };
+		136E3064210249CB009B4180 /* CMMEventDetailsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMEventDetailsVC.m; sourceTree = "<group>"; };
 		228588D02101183C0087E455 /* CMMParseQueryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMParseQueryManager.h; sourceTree = "<group>"; };
 		228588D12101183C0087E455 /* CMMParseQueryManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMParseQueryManager.m; sourceTree = "<group>"; };
 		22F9EBE620FEAEA9002ADD9D /* CMMApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMMApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,7 +164,7 @@
 			children = (
 				22F9EC0320FEAEE3002ADD9D /* Login Screen */,
 				22F9EC0B20FEAF26002ADD9D /* Inbox Tab */,
-				22F9EC0920FEAF15002ADD9D /* Timeline Tab */,
+				22F9EC0920FEAF15002ADD9D /* Newsfeed Tab */,
 				22F9EC0820FEAF0D002ADD9D /* Profile Tab */,
 				22F9EC0720FEAF03002ADD9D /* Events Tab */,
 				136E305620FFC0F4009B4180 /* Composer Tab */,
@@ -227,6 +233,8 @@
 				22F9EC3120FEB630002ADD9D /* CMMEventsVC.m */,
 				136E305A20FFFDD3009B4180 /* EventsCell.h */,
 				136E305B20FFFDD3009B4180 /* EventsCell.m */,
+				136E3063210249CB009B4180 /* CMMEventDetailsVC.h */,
+				136E3064210249CB009B4180 /* CMMEventDetailsVC.m */,
 			);
 			path = "Events Tab";
 			sourceTree = "<group>";
@@ -240,12 +248,15 @@
 			path = "Profile Tab";
 			sourceTree = "<group>";
 		};
-		22F9EC0920FEAF15002ADD9D /* Timeline Tab */ = {
+		22F9EC0920FEAF15002ADD9D /* Newsfeed Tab */ = {
 			isa = PBXGroup;
 			children = (
 				22F9EC2A20FEB618002ADD9D /* CMMNewsfeedVC.h */,
 				22F9EC2B20FEB618002ADD9D /* CMMNewsfeedVC.m */,
+				03CDE9D121014A02007629AD /* NewsfeedCell.h */,
+				03CDE9D221014A02007629AD /* NewsfeedCell.m */,
 			);
+			name = "Newsfeed Tab";
 			path = "Timeline Tab";
 			sourceTree = "<group>";
 		};
@@ -367,10 +378,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CMMApp/Pods-CMMApp-resources.sh",
+				"${PODS_ROOT}/CCDropDownMenus/CCDropDownMenu/arrow.png",
+				"${PODS_ROOT}/DateTools/DateTools/DateTools/DateTools.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Parse/Parse.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/arrow.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DateTools.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Parse.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -405,7 +420,9 @@
 				22F9EC2020FEB2B2002ADD9D /* CMMUser.m in Sources */,
 				22F9EC2920FEB600002ADD9D /* CMMInboxVC.m in Sources */,
 				22F9EC1120FEB055002ADD9D /* CMMEventAPIManager.m in Sources */,
+				136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */,
 				22F9EC1420FEB1EE002ADD9D /* CMMConversation.m in Sources */,
+				03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */,
 				22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */,
 				22F9EC4A21004F33002ADD9D /* ChatCell.m in Sources */,
 				22F9EC2620FEB30E002ADD9D /* CMMVote.m in Sources */,
