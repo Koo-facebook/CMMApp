@@ -11,10 +11,13 @@
 #import "CMMConversation.h"
 
 @interface ConversationCell : UITableViewCell
-    
+
+@property BOOL isUserOne;
 @property (nonatomic, strong) UIImageView *readIndicator;
 @property (nonatomic, strong) UILabel *usernameLabel;
 @property (nonatomic, strong) UILabel *topicLabel;
 @property (nonatomic, strong) CMMConversation *conversation;
+
+- (void)setupCell;
     
 @end

@@ -173,19 +173,19 @@
 }
     
     // Creates Generic TapGestureRecognizer
-    - (void)createTapGestureRecognizer:(SEL)selector {
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];
-        [self.view addGestureRecognizer:tapGesture];
-    }
+- (void)createTapGestureRecognizer:(SEL)selector {
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];
+    [self.view addGestureRecognizer:tapGesture];
+}
     
-    // Create alert with given message and title
-    - (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
-        [alert addAction:okAction];
-        [self presentViewController:alert animated:YES completion:^{
-        }];
-    }
+// Create alert with given message and title
+- (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{
+    }];
+}
     
     // Login user into parse server
 - (void)loginUser {
