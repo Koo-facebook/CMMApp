@@ -14,7 +14,8 @@
 @property (nonatomic, strong) UILabel *topicLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UITableView *chatTableView;
-@property (nonatomic, strong) UITextField *writeMessageTextField;
+@property (nonatomic, strong) UITextView *writeMessageTextView;
+@property (nonatomic, strong) UIButton *sendButton;
 
 @end
 
@@ -23,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Chat";
     
@@ -32,16 +33,21 @@
     [self setupUserProfileImage];
     [self setupTopicLabel];
     [self setupChatTableView];
-    [self setupMessagingTextField];
+    [self setupMessagingTextView];
+    [self setupSendButton];
     
     [self updateConstraints];
 }
 
-- (void)setupMessagingTextField {
-    self.writeMessageTextField = [UITextField new];
-    self.writeMessageTextField.borderStyle = UITextBorderStyleRoundedRect;
+- (void)setupMessagingTextView {
+
+    self.writeMessageTextView = [UITextView new];
+    self.writeMessageTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.writeMessageTextView.layer.borderWidth = 0.5;
+    self.writeMessageTextView.layer.cornerRadius = self.writeMessageTextView.intrinsicContentSize.height/2;
+    self.writeMessageTextView.clipsToBounds = YES;
     
-    [self.view addSubview:self.writeMessageTextField];
+    [self.view addSubview:self.writeMessageTextView];
 }
 
 - (void)setupChatTableView {
@@ -51,14 +57,19 @@
     self.chatTableView.rowHeight = UITableViewAutomaticDimension;
     self.chatTableView.estimatedRowHeight = 100;
     self.chatTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+    self.chatTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.view addSubview:self.chatTableView];
 }
 
 - (void)setupUsernameTitleLabel {
     self.titleLabel = [UILabel new];
-    self.titleLabel.text = @"Chatting with X";
-    //self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", self.conversation.users[1]];
+    self.titleLabel.backgroundColor = [UIColor purpleColor];
+    if (self.isUserOne) {
+        self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", self.conversation.user2.username];
+    } else {
+        self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", self.conversation.user1.username];
+    }
     [self.titleLabel sizeToFit];
     
     [self.view addSubview:self.titleLabel];
@@ -66,8 +77,7 @@
 
 - (void)setupTopicLabel {
     self.topicLabel = [UILabel new];
-    self.topicLabel.text = @"Topic";
-    //self.topicLabel.text = self.conversation.post.topic;
+    self.topicLabel.text = self.conversation.topic;
     [self.topicLabel sizeToFit];
     
     [self.view addSubview:self.topicLabel];
@@ -79,6 +89,15 @@
     self.usersProfileImage.contentMode = UIViewContentModeScaleAspectFill;
     
     [self.view addSubview:self.usersProfileImage];
+}
+
+- (void)setupSendButton {
+    self.sendButton = [UIButton new];
+    self.sendButton.backgroundColor = [UIColor orangeColor];
+    [self.sendButton setTitle:@"Send" forState:UIControlStateNormal];
+    [self.sendButton addTarget:self action:@selector(sendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:self.sendButton];
 }
 
 - (void)updateConstraints {
@@ -94,7 +113,8 @@
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.usersProfileImage.mas_right).offset(10);
         make.centerY.equalTo(self.usersProfileImage.mas_centerY);
-        make.right.equalTo(self.view.mas_right).offset(10);
+        make.width.equalTo(@(self.titleLabel.intrinsicContentSize.width));
+        //make.right.equalTo(self.view.mas_right).offset(10);
     }];
     
     // Topic Label
@@ -109,17 +129,24 @@
     [self.chatTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topicLabel.mas_bottom).offset(10);
         make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.writeMessageTextField.mas_top).offset(-10);
+        make.bottom.equalTo(self.writeMessageTextView.mas_top).offset(-10);
     }];
     
     // Send Message Text Field
-    [self.writeMessageTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.writeMessageTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-8);
         make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
         make.left.equalTo(self.view).offset(8);
-        make.height.equalTo(@(self.writeMessageTextField.intrinsicContentSize.height));
+        make.height.equalTo(@(30));
     }];
     
+    // Send button
+    [self.sendButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.usersProfileImage.mas_top);
+        make.right.equalTo(self.view.mas_right).offset(-8);
+        make.height.equalTo(@(self.sendButton.intrinsicContentSize.height));
+        make.width.equalTo(@(self.sendButton.intrinsicContentSize.width));
+    }];
 }
 
 - (void)createBarButtonItem {
@@ -139,15 +166,27 @@
         cell = [[ChatCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatCell"];
     }
     
+    cell.message = self.conversation.messages[indexPath.row];
+    [cell setupChatCell];
+    
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    
+    return self.conversation.messages.count;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.chatTableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+- (void)sendButtonPressed:(id)sender {
+    [CMMMessage createMessage:self.conversation content:self.writeMessageTextView.text attachment:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            [self.chatTableView reloadData];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

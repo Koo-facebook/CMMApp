@@ -32,6 +32,7 @@
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"user1"];
     [query includeKey:@"user2"];
+    [query includeKey:@"messages"];
     [query findObjectsInBackgroundWithBlock:completion];
 }
 

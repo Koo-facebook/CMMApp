@@ -15,4 +15,6 @@
 @property (nonatomic, strong) CMMMessage *message;
 @property (nonatomic, strong) UILabel *chatMessageContent;
 
+- (void)setupChatCell;
+
 @end

@@ -13,20 +13,36 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
         self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
         if (self) {
-            
             self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
-            [self setupUsernameLabel];
-            [self setupReadIndicator];
-            [self setupTopicLabel];
-            [self updateConstraints];
         }
         return self;
     }
+
+- (void)setupCell {
+    [self checkWhichUser];
+    [self setupUsernameLabel];
+    [self setupReadIndicator];
+    [self setupTopicLabel];
+    [self updateConstraints];
+}
+
+- (void)checkWhichUser {
+    if ([CMMUser.currentUser isEqual:self.conversation.user1]) {
+        self.isUserOne = YES;
+    } else {
+        self.isUserOne = NO;
+    }
+}
     
 - (void)setupUsernameLabel {
     self.usernameLabel = [UILabel new];
-    self.usernameLabel.text = @"testing";
+    if (self.isUserOne) {
+        self.usernameLabel.text = self.conversation.user1.username;
+        NSLog(@"%@", self.conversation.user1.username);
+    } else {
+        self.usernameLabel.text = self.conversation.user2.username;
+        NSLog(@"%@", self.conversation.user2.username);
+    }
     self.usernameLabel.textColor = [UIColor colorWithRed:54.0/255.0 green:173.0/255.0 blue:157.0/255.0 alpha:1.0];
     [self.usernameLabel sizeToFit];
     
@@ -43,8 +59,7 @@
     
 - (void)setupTopicLabel {
     self.topicLabel = [UILabel new];
-    self.topicLabel.text = @"still testing";
-    //self.topicLabel.text = self.conversation.post.topic;
+    self.topicLabel.text = self.conversation.topic;
     self.topicLabel.numberOfLines = 0;
     [self.topicLabel sizeToFit];
     
