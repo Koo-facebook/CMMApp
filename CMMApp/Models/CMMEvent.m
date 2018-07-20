@@ -40,23 +40,13 @@
     if (self) {
         CMMEventAPIManager *sharedManager = [CMMEventAPIManager shared];
         //if (![dictionary[@"venue_id"] isKindOfClass:[NSNull class]]) {
-        [sharedManager pullVenues:dictionary[@"venue_id"] withCompletion:^(NSDictionary *venue, NSError *error) {
-            self.venue = [[CMMVenue new] initWithDictionary:venue];
-            self.latitude = self.venue.latitude;
+        //[sharedManager pullVenues:dictionary[@"venue_id"] withCompletion:^(NSDictionary *venue, NSError *error) {
+          //  self.venue = [[CMMVenue new] initWithDictionary:venue];
+            /*self.latitude = self.venue.latitude;
             self.longitude = self.venue.longitude;
-            /*if (venue) {
-                self.category = sharedManager.categories[dictionary[@"category_id"]];
-                self.url = dictionary[@"url"];
-                self.title = dictionary[@"name"][@"text"];
-                self.details = dictionary[@"description"][@"text"];
-                self.category = sharedManager.categories[dictionary[@"category_id"]];
-                self.startTime = dictionary[@"start"][@"local"];
-                self.endTime = dictionary[@"end"][@"local"];
-                self.onlineOnly = dictionary[@"online_event"];
-            }*/
-        }];
-        //}
-        self.category = sharedManager.categories[dictionary[@"category_id"]];
+        //}];
+        //}*/
+        self.venue_id = dictionary[@"venue_id"];
         self.url = dictionary[@"url"];
         self.title = dictionary[@"name"][@"text"];
         self.details = dictionary[@"description"][@"text"];

@@ -52,6 +52,9 @@
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
                 NSArray *eventsDictionaries = dataDictionary[@"events"];
+                /*for (NSDictionary *event in eventsDictionaries) {
+                    NSString *name = event[@"venue_id"];
+                }*/
                 NSArray *events = [CMMEvent eventsWithArray:eventsDictionaries];
                 completion(events, nil);
             }
@@ -102,7 +105,7 @@
         [task resume];
     }
     
-- (void)pullVenues:(NSString *)venue_id withCompletion:(void(^)(NSDictionary *venue, NSError *error))completion{
+- (void)pullVenues:(NSString *)venue_id withCompletion:(void(^)(NSDictionary *venues, NSError *error))completion{
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/venues/%@/?token=YIQCSL5B666YAANPQXF5", venue_id]];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
@@ -113,8 +116,10 @@
             } else {
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
-                NSDictionary *venue = dataDictionary[@"address"];
-                completion(venue, nil);
+                NSDictionary *venues = dataDictionary[@"address"];
+                //NSArray *venues = [CMMVenue venuesWithArray:venue];
+
+                completion(venues, nil);
             }
         }];
         [task resume];

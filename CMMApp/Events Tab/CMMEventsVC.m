@@ -13,6 +13,7 @@
 #import "EventsCell.h"
 #import "CMMEventAPIManager.h"
 #import "CMMEvent.h"
+#import "CMMVenue.h"
 
 @interface CMMEventsVC () 
 
@@ -106,8 +107,15 @@
             for (CMMEvent *event in events) {
                 NSString *name = event.title;
                 NSLog(@"%@", name);
-                //CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(lat.floatValue,lon.floatValue);
-                //[self addingPins:venueLocation];
+                [[CMMEventAPIManager shared] pullVenues:event.venue_id withCompletion:^(NSDictionary *venues, NSError *error) {
+                    NSNumber *latitude = venues[@"latitude"];
+                    NSNumber *longitude = venues [@"longitude"];
+                    NSLog(@"Latitude: %@", latitude);
+                    NSLog(@"Longitude: %@", longitude);
+                    CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(latitude.floatValue,longitude.floatValue);
+                    [self addingPins:venueLocation];
+                }
+            ];
             }
             NSLog(@"😎😎😎 Successfully loaded events table");
             [self.tableView reloadData];
@@ -117,6 +125,7 @@
     }
      ];
 }
+
 
 
 //Create tableView
