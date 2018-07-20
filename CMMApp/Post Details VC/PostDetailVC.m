@@ -19,6 +19,8 @@
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
 @property (strong, nonatomic) UIImageView *authorImage;
+@property (strong, nonatomic) UIButton *chatButton;
+@property (strong, nonatomic) UIButton *resourceButton;
 @end
 
 @implementation PostDetailVC
@@ -34,7 +36,6 @@
 }
 
 - (void)configureDetails:(CMMPost *)post {
-    
     self.view.backgroundColor = [UIColor whiteColor];
     self.post = post;
     self.title = @"Post Details";
@@ -45,6 +46,7 @@
     [self createLabels];
     [self displayProfileImageWithSize:imageSize padding:topPadding];
     [self layOutLabelsWithImageSize:imageSize padding:topPadding];
+    [self createButtons];
 }
 
 - (void)configureLabel:(UILabel *)label text:(NSString *)text fontSize:(int)fontSize {
@@ -88,12 +90,7 @@
 }
 
 - (void)layOutLabelsWithImageSize:(int)imageSize padding:(int)topPadding {
-    UIEdgeInsets titlePadding = UIEdgeInsetsMake(topPadding + imageSize + 36, 12, 12, 12);
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).with.offset(titlePadding.top);
-        make.left.equalTo(self.view.mas_left).with.offset(titlePadding.left);
-        make.right.equalTo(self.view.mas_right).with.offset(-titlePadding.right);
-    }];
+    [self topLeftRightConstraints:self.titleLabel withPadding:UIEdgeInsetsMake(topPadding + imageSize + 36, 12, 12, 12)];
     UIEdgeInsets categoryPadding = UIEdgeInsetsMake(topPadding + imageSize + 12, 12, 12, 12);
     [self.categoryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(categoryPadding.top);
@@ -120,6 +117,44 @@
     }];
 }
 
+- (void)createButtons {
+    UIColor *tealColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
+    
+    // chat button
+    self.chatButton = [[UIButton alloc] init];
+    [self.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
+    [self.chatButton setTitle:@"Let's Chat!" forState:UIControlStateNormal];
+    [self.chatButton setBackgroundColor:tealColor];
+    [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.view addSubview:self.chatButton];
+    [self topLeftRightConstraints:self.chatButton withPadding:UIEdgeInsetsMake(300, 12, 12, self.view.frame.size.width/2 + 6)];
+    
+    // resources button
+    self.resourceButton = [[UIButton alloc] init];
+    [self.resourceButton addTarget:self action:@selector(didPressResources) forControlEvents:UIControlEventTouchUpInside];
+    [self.resourceButton setTitle:@"Tell Me More!" forState:UIControlStateNormal];
+    [self.resourceButton setBackgroundColor:[UIColor grayColor]];
+    [self.resourceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.view addSubview:self.resourceButton];
+    [self topLeftRightConstraints:self.resourceButton withPadding:UIEdgeInsetsMake(300, self.view.frame.size.width/2 + 6, 12, 12)];
+}
+
+- (void)topLeftRightConstraints:(UIView *)view withPadding:(UIEdgeInsets)padding {
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset(padding.top);
+        make.left.equalTo(self.view.mas_left).with.offset(padding.left);
+        make.right.equalTo(self.view.mas_right).with.offset(-padding.right);
+    }];
+}
+
+- (void)didPressChat {
+    
+}
+
+- (void)didPressResources {
+    
+}
+
 /*
 #pragma mark - Navigation
 
@@ -129,5 +164,4 @@
     // Pass the selected object to the new view controller.
 }
 */
-
 @end
