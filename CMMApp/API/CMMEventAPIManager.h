@@ -19,7 +19,7 @@
 
 + (instancetype)shared;
     
-- (void)getAllEvents:(void(^)(NSArray *events,NSError *error))completion;
+- (void)getAllEventswithLatitude:(NSNumber *)latitude withLongitude:(NSNumber *)longitude withCompletion:(void(^)(NSArray *events, NSError *error))completion;
 - (void)searchEvents:(NSDictionary *)parameters withCompletion:(void(^)(NSArray *events, NSError *error))completion;
 - (void)pullCategories:(void(^)(NSDictionary *categories, NSError *error))completion;
 - (void)pullVenues:(NSString *)venue_id withCompletion:(void(^)(NSDictionary *venues, NSError *error))completion;

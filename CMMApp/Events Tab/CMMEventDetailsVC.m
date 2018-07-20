@@ -88,7 +88,7 @@ self.eventName = [[UILabel alloc] init];
 self.eventName.textColor = [UIColor blackColor];
 self.eventName.font = [UIFont fontWithName:@"Arial" size:26];
 self.eventName.numberOfLines = 0;
-    self.eventName.text = @"March on Washington";
+    self.eventName.text = self.event.title;
 [self.view addSubview:self.eventName];
 }
 
@@ -96,7 +96,13 @@ self.eventName.numberOfLines = 0;
 self.date = [[UILabel alloc] init];
 self.date.textColor = [UIColor blackColor];
 self.date.font = [UIFont fontWithName:@"Arial" size:16];
-    self.date.text = @" March 23rd, 2018";
+    //Format date to appear as "July 21, 2018" and set
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+    NSDate *date = [formatter dateFromString:self.event.startTime];
+    
+    [formatter setDateFormat:@"MMMM dd, yyyy"];
+    self.date.text = [formatter stringFromDate:date];
 [self.view addSubview:self.date];
 }
 
@@ -104,7 +110,19 @@ self.date.font = [UIFont fontWithName:@"Arial" size:16];
 self.time = [[UILabel alloc] init];
 self.time.textColor = [UIColor blackColor];
 self.time.font = [UIFont fontWithName:@"Arial" size:16];
-    self.time.text = @"8:00 AM to 5:00 PM";
+    //Formate time to appear as "4:30 PM - 6:00 PM" and set
+    NSDateFormatter *timeformatter = [[NSDateFormatter alloc] init];
+    [timeformatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+    NSDate *stime = [timeformatter dateFromString:self.event.startTime];
+    NSDate *etime = [timeformatter dateFromString:self.event.endTime];
+    
+    [timeformatter setDateFormat:@"h:mm a"];
+    NSString *startTime = [timeformatter stringFromDate:stime];
+    NSString *endTime = [timeformatter stringFromDate:etime];
+    
+    NSString *dashAdded = [startTime stringByAppendingString:@"-"];
+    NSString *interval = [dashAdded stringByAppendingString:endTime];
+    self.time.text = interval;
 [self.view addSubview:self.time];
 }
 
@@ -112,7 +130,7 @@ self.time.font = [UIFont fontWithName:@"Arial" size:16];
     self.location = [[UILabel alloc] init];
     self.location.textColor = [UIColor blackColor];
     self.location.font = [UIFont fontWithName:@"Arial" size:16];
-    self.location.text = @"1600 Pennsylvania Ave, Washington D.C., USA";
+    self.location.text = self.event.venue.address1;
     [self.view addSubview:self.location];
 }
 
@@ -121,8 +139,8 @@ self.time.font = [UIFont fontWithName:@"Arial" size:16];
     self.eventDescription.textColor = [UIColor blackColor];
     self.eventDescription.font = [UIFont fontWithName:@"Arial" size:14];
     self.eventDescription.numberOfLines = 0;
-    self.eventDescription.text = @"Eyeing this month as the last, best chance for a deal to ensure that nearly 700,000 Dreamers be granted reprieve from deportation, thousands of protesters will descend on the US Capitol and Congressional offices around the country to demand action on the contentious issue.We ask the government to pass a version of the DREAM Act that could preserve the sense of normalcy that the Deferred Action for Childhood Arrivals (DACA) program granted them. Dreamers and activists are hoping that Saturday's nationwide protest will help tip the scales and pressure Congress to pass the Dream Act bill. Come join us in our fight for the dreamers!";
-    self.eventDescription.textAlignment = NSTextAlignmentJustified;
+    self.eventDescription.text = self.event.details;
+    //self.eventDescription.textAlignment = NSTextAlignmentJustified;
     [self.view addSubview:self.eventDescription];
 }
 
