@@ -35,11 +35,13 @@
     
     UILabel *dateLabel = [[UILabel alloc] init];
     dateLabel.text = [post.createdAt timeAgoSinceNow];
+    dateLabel.textColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
     [self.contentView addSubview:dateLabel];
     [dateLabel setFont:[UIFont systemFontOfSize:10]];
     
     UILabel *categoryLabel = [[UILabel alloc] init];
     categoryLabel.text = post.category;
+    categoryLabel.textColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
     [self.contentView addSubview:categoryLabel];
     [categoryLabel setFont:[UIFont systemFontOfSize:10]];
     
