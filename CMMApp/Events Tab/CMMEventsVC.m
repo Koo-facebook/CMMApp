@@ -13,10 +13,15 @@
 #import "EventsCell.h"
 #import "CMMEventAPIManager.h"
 #import "CMMEvent.h"
+#import "CMMEventDetailsVC.h"
+#import "CMMVenue.h"
 
 @interface CMMEventsVC () 
 
 @property (strong, nonatomic) MKMapView *mapView;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) NSNumber *userLongitude;
+@property (strong, nonatomic) NSNumber *userLatitude;
 @property (strong, nonatomic) UINavigationBar *navBar;
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UIScrollView *scroll;
@@ -45,7 +50,11 @@
     [self createTableView];
     [self updateConstraints];
     
-    [self fetchEvents];
+    //Get location of user to filter events
+    [self getCurrentLocation];
+    
+    //Get events
+    //[self fetchEvents];
 
 }
 
@@ -98,16 +107,82 @@
     [self.mapView setRegion:region animated:YES];
 }
 
+-(void) getCurrentLocation {
+    self.locationManager = [[CLLocationManager alloc]init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    // Request Authorization
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
+    // Start Updating Location only when user authorized us
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)
+    {
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    CLLocation *currentLocation = newLocation;
+    
+    if (currentLocation != nil) {
+        double lon = currentLocation.coordinate.longitude;
+        self.userLongitude = [NSNumber numberWithFloat:lon];
+        NSLog(@"%@", self.userLongitude);
+        double lat = currentLocation.coordinate.latitude;
+        self.userLatitude = [NSNumber numberWithFloat:lat];
+        NSLog(@"%@", self.userLatitude);
+        [self fetchEvents];
+    }
+}
+
+//Warnings for User (map errors)
+- (void)locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    switch (status) {
+        case kCLAuthorizationStatusNotDetermined: {
+            NSLog(@"User still thinking granting location access!");
+        } break;
+        case kCLAuthorizationStatusDenied: {
+            [self createAlert:@"Location Services are off!" message:@"Location services are currently disabled. \nTo enable, go to Settings>App_Name>Location>\nWhile Using the App."];
+        } break;
+        case kCLAuthorizationStatusAuthorizedWhenInUse:
+        case kCLAuthorizationStatusAuthorizedAlways: {
+            NSLog(@"user permits location, do nothing...");
+            [self.locationManager startUpdatingLocation];
+        } break;
+        default:
+            break;
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    [self createAlert:@"No Internet Connection!" message:@"Sorry! Please check your internet connection."];
+    
+}
+
 -(void) fetchEvents {
-    [[CMMEventAPIManager shared] getAllEvents:^(NSArray *events, NSError *error) {
+    [[CMMEventAPIManager shared] getAllEventswithLatitude:self.userLatitude withLongitude:self.userLongitude withCompletion:^(NSArray *events, NSError *error) {
         if (events) {
-            //NSLog(@"%@", events[1]);
+            NSLog(@"I am in the fetch Events method");
             self.eventList = events;
             for (CMMEvent *event in events) {
                 NSString *name = event.title;
                 NSLog(@"%@", name);
-                //CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(lat.floatValue,lon.floatValue);
-                //[self addingPins:venueLocation];
+                [[CMMEventAPIManager shared] pullVenues:event.venue_id withCompletion:^(NSDictionary *venues, NSError *error) {
+                    NSNumber *latitude = venues[@"latitude"];
+                    NSNumber *longitude = venues [@"longitude"];
+                    //NSLog(@"Latitude: %@", latitude);
+                    //NSLog(@"Longitude: %@", longitude);
+                    CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(latitude.floatValue,longitude.floatValue);
+                    [self addingPins:venueLocation];
+                }
+            ];
             }
             NSLog(@"😎😎😎 Successfully loaded events table");
             [self.tableView reloadData];
@@ -118,6 +193,14 @@
      ];
 }
 
+// Create alert with given message and title
+- (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{
+    }];
+}
 
 //Create tableView
 - (void) createTableView {
@@ -142,6 +225,12 @@
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.eventList.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
+    eventDetailsVC.event = self.eventList[indexPath.row];
+    [self presentViewController:eventDetailsVC animated:YES completion:^{}];
 }
 
 

@@ -12,7 +12,7 @@
     
 @dynamic content;
 @dynamic attachment;
-@dynamic conversationId;
+@dynamic conversation;
 @dynamic messageSender;
     
 + (nonnull NSString *)parseClassName {
@@ -23,14 +23,21 @@
         
     CMMMessage *newMessage = [CMMMessage new];
         
-    newMessage.conversationId = conversation.objectId;
+    newMessage.conversation = conversation;
     newMessage.content = content;
     newMessage.attachment = attachment;
     newMessage.messageSender = CMMUser.currentUser;
-    [conversation.messages addObject:newMessage];
-        
+    
+    [conversation addObject:newMessage forKey:@"messages"];
+    
     [newMessage saveInBackgroundWithBlock:completion];
-    [conversation saveInBackground];
+    [conversation saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if(succeeded) {
+            NSLog(@"hit the success block");
+        } else {
+            NSLog(@"nah fam");
+        }
+    }];
 }
     
 @end

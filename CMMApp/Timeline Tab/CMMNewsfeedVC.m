@@ -66,6 +66,9 @@
             self.filteredPosts = posts;
             [self.table reloadData];
             [self.refreshControl endRefreshing];
+//            for (CMMPost *post in self.posts) {
+//                [CMMConversation createConversation:post.owner topic:post.topic withCompletion:nil];
+//            }
             NSLog(@"%@", posts);
         } else {
             NSLog(@"%@", error.localizedDescription);

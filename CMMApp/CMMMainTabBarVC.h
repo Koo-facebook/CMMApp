@@ -11,6 +11,7 @@
 #import "CMMInboxVC.h"
 #import "CMMProfileVC.h"
 #import "CMMEventsVC.h"
+#import "CMMEventDetailsVC.h"
 
 @interface CMMMainTabBarVC : UITabBarController
 

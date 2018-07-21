@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *_Nullable category;
 @property (nonatomic, strong) NSString *_Nullable startTime;
 @property (nonatomic, strong) NSString *_Nullable endTime;
+@property (nonatomic, strong) NSString *_Nullable venue_id;
 @property (nonatomic, strong) CMMVenue *_Nullable venue;
 @property (nonatomic, strong) NSNumber *_Nullable latitude;
 @property (nonatomic, strong) NSNumber *_Nullable longitude;

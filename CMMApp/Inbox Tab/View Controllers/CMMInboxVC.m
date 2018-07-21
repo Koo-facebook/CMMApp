@@ -37,8 +37,11 @@
     
     [self createSearchBar];
     [self createMessagesTableView];
+    [self createTapGestureRecognizer:@selector(screenTapped:)];
     
     [self updateConstraints];
+    
+    [self pullConversations];
 }
     
 - (void)createMessagesTableView {
@@ -61,6 +64,12 @@
     self.messagesSearchBar.searchBarStyle = UISearchBarStyleMinimal;
     
     [self.view addSubview:self.messagesSearchBar];
+}
+
+- (void)createTapGestureRecognizer:(SEL)selector {
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];
+    tapGesture.cancelsTouchesInView = NO;
+    [self.messagesTableView addGestureRecognizer:tapGesture];
 }
     
 - (void)updateConstraints {
@@ -85,26 +94,45 @@
     
     if (cell == nil) {
         cell = [[ConversationCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationCell"];
+        cell.conversation = self.conversations[indexPath.row];
+        [cell setupCell];
     }
     
     return cell;
 }
     
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
     return self.conversations.count;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.messagesTableView deselectRowAtIndexPath:indexPath animated:NO];
+    ConversationCell *tappedCell = [self.messagesTableView cellForRowAtIndexPath:indexPath];
     CMMChatVC *chatVC = [CMMChatVC new];
-    //chatVC.conversation = self.conversations[indexPath.row];
+    chatVC.isUserOne = tappedCell.isUserOne;
+    chatVC.conversation = self.conversations[indexPath.row];
     [self.navigationController pushViewController:chatVC animated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
+}
+
+- (void)screenTapped:(id)sender {
+    [self.view endEditing:YES];
 }
 
 - (void)pullConversations {
     [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
         if (conversations) {
+            for (CMMConversation *conversation in conversations) {
+                NSMutableArray *messages = conversation.messages;
+                
+                conversation.messages = messages;
+            }
             self.conversations = [NSMutableArray arrayWithArray:conversations];
+            
             [self.messagesTableView reloadData];
         } else {
             NSLog(@"%@", error.localizedDescription);

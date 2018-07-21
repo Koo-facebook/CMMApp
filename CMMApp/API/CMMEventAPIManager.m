@@ -39,8 +39,17 @@
 }
 
     
-- (void)getAllEvents:(void(^)(NSArray *events, NSError *error))completion {
-        NSURL *url = [NSURL URLWithString:@"https://www.eventbriteapi.com/v3/events/search/?q=politics&token=YIQCSL5B666YAANPQXF5"];
+- (void)getAllEventswithLatitude:(NSNumber *)latitude withLongitude:(NSNumber *)longitude withCompletion:(void(^)(NSArray *events, NSError *error))completion {
+    //Formatting the URL
+    NSString *baseURL = @"https://www.eventbriteapi.com/v3/events/search/?q=politics+government&sort_by=date&location.within=15mi&location.latitude=";
+    NSString *addlatitude = [latitude stringValue];
+    NSString *middleURL = @"&location.longitude=";
+    NSString *addlongitude = [longitude stringValue];
+    NSString *endURL = @"&token=YIQCSL5B666YAANPQXF5";
+    
+    NSString *fullURL = [NSString stringWithFormat:@"%@%@%@%@%@", baseURL, addlatitude, middleURL, addlongitude, endURL];
+    NSLog(@"%@", fullURL);
+        NSURL *url = [NSURL URLWithString:fullURL];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -52,6 +61,9 @@
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
                 NSArray *eventsDictionaries = dataDictionary[@"events"];
+                /*for (NSDictionary *event in eventsDictionaries) {
+                    NSString *name = event[@"venue_id"];
+                }*/
                 NSArray *events = [CMMEvent eventsWithArray:eventsDictionaries];
                 completion(events, nil);
             }
@@ -79,7 +91,7 @@
     }
     
 - (void)pullCategories:(void(^)(NSDictionary *categories, NSError *error))completion{
-        NSURL *url = [NSURL URLWithString:@"https://www.eventbriteapi.com/v3/categies/?token=YIQCSL5B666YAANPQXF5"];
+        NSURL *url = [NSURL URLWithString:@"https://www.eventbriteapi.com/v3/categories/?token=YIQCSL5B666YAANPQXF5"];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -102,7 +114,7 @@
         [task resume];
     }
     
-- (void)pullVenues:(NSString *)venue_id withCompletion:(void(^)(NSDictionary *venue, NSError *error))completion{
+- (void)pullVenues:(NSString *)venue_id withCompletion:(void(^)(NSDictionary *venues, NSError *error))completion{
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.eventbriteapi.com/v3/venues/%@/?token=YIQCSL5B666YAANPQXF5", venue_id]];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
@@ -113,8 +125,10 @@
             } else {
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
-                NSDictionary *venue = dataDictionary[@"address"];
-                completion(venue, nil);
+                NSDictionary *venues = dataDictionary[@"address"];
+                //NSArray *venues = [CMMVenue venuesWithArray:venue];
+
+                completion(venues, nil);
             }
         }];
         [task resume];

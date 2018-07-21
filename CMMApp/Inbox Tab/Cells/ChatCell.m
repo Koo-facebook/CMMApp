@@ -10,14 +10,9 @@
 
 @implementation ChatCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        [self setupChatMessage];
-        [self updateConstraints];
-    }
-    return self;
+- (void)setupChatCell {
+    [self setupChatMessage];
+    [self updateConstraints];
 }
 
 - (void)setupChatMessage {

@@ -11,9 +11,9 @@ target 'CMMApp' do
   pod 'Bolts'
   pod 'Masonry'
   pod 'MBProgressHUD'
-  pod 'NgKeyboardTracker'
   pod 'DateTools'
   pod 'CCDropDownMenus'
+  
 end
 post_install do |lib|
     lib.pods_project.targets.each do |target|
