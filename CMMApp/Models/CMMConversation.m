@@ -32,7 +32,7 @@
     newConversation.userOneRead = YES;
     
     [user2.conversations addObject:newConversation];
-    [CMMUser.currentUser.conversations addObject:newConversation];
+    [CMMUser.currentUser addObject:newConversation forKey:@"conversations"];
         
     [newConversation saveInBackgroundWithBlock: completion];
     [user2 saveInBackground];

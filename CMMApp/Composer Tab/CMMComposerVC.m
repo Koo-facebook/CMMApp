@@ -33,14 +33,7 @@
 - (void)configureViews {
     
     self.title = @"Compose";
-    
-    // set background gradient
-    CGRect backgroundFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    UIImage *backgroundImage = [[UIImage alloc] init];
-    backgroundImage = [UIImage imageNamed:@"backgroundPic"];
-    UIImageView *pictureView = [[UIImageView alloc] initWithFrame:backgroundFrame];
-    [pictureView setImage:backgroundImage];
-    [self.view addSubview:pictureView];
+    [self createBackgroundGradient];
     
     // create typing fields
     int minimumSideBuffer = 15;
@@ -75,21 +68,34 @@
 
 - (IBAction)didPressPost:(id)sender {
     [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
+        // Two things to work on here: it always shows an error even though it works. This may be the same error Omar is working on now. Once we fix that, I want to make it switch to the newsfeed tab when someone posts (not segue within the compose tab)
+        if (error) {
+            NSLog(@"CUSTOM Error: %@", error.localizedDescription);
+        } else {
             NSLog(@"successful post");
             self.questionTextField.text = @"";
             self.descriptionTextField.text = @"";
-            [self dismissViewControllerAnimated:YES completion:nil];
-            // TODO: present newsfeed tab
-            //[self.navigationController presentViewController:destinationVC animated:YES completion:nil];
-        } else {
-            NSLog(@"Error: %@", error.localizedDescription);
+            CMMNewsfeedVC *feedVC = [[CMMNewsfeedVC alloc] init];
+            [[self navigationController] pushViewController:feedVC animated:YES];
         }
     }];
 }
 
 - (void)dropDownMenu:(CCDropDownMenu *)dropDownMenu didSelectRowAtIndex:(NSInteger)index {
     self.categoryString = self.categoryOptions[index];
+}
+
+- (void)createBackgroundGradient {
+    UIColor *color1 = [UIColor colorWithRed:75.0/255.0 green:228.0/255.0 blue:180.0/255.0 alpha:1.0];
+    UIColor *color2 = [UIColor colorWithRed:35.0/255.0 green:110.0/255.0 blue:174.0/255.0 alpha:1.0];
+    
+    CAGradientLayer *theViewGradient = [CAGradientLayer layer];
+    theViewGradient.colors = [NSArray arrayWithObjects: (id)color1.CGColor, (id)color2.CGColor, nil];
+    theViewGradient.frame = self.view.bounds;
+    theViewGradient.startPoint = CGPointMake(0, 0);
+    theViewGradient.endPoint = CGPointMake(1, 1);
+    
+    [self.view.layer insertSublayer:theViewGradient atIndex:0];
 }
 
 /*

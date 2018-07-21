@@ -113,7 +113,6 @@
     CMMPost *post = self.filteredPosts[indexPath.row];
     [detailVC configureDetails:post];
     [[self navigationController] pushViewController:detailVC animated:YES];
-    //[self presentViewController:detailVC animated:YES completion:nil];
 }
 
 @end

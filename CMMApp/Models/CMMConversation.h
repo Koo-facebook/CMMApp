@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "CMMPost.h"
 
-@interface CMMConversation : PFObject
+@interface CMMConversation : PFObject <PFSubclassing>
     
 @property (nonatomic, weak) CMMUser *_Nullable user1;
 @property (nonatomic, weak) CMMUser *_Nullable user2;

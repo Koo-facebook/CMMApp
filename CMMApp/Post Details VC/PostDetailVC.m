@@ -11,6 +11,8 @@
 #import <DateTools.h>
 #import <Masonry.h>
 #import "UIImageView+AFNetworking.h"
+#import "CMMConversation.h"
+#import "CMMChatVC.h"
 
 @interface PostDetailVC ()
 @property (strong, nonatomic) UILabel *authorLabel;
@@ -127,7 +129,12 @@
     [self.chatButton setBackgroundColor:tealColor];
     [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:self.chatButton];
-    [self topLeftRightConstraints:self.chatButton withPadding:UIEdgeInsetsMake(300, 12, 12, self.view.frame.size.width/2 + 6)];
+    UIEdgeInsets chatPadding = UIEdgeInsetsMake(30, 12, 12, self.view.frame.size.width/2 + 6);
+    [self.chatButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.detailLabel.mas_bottom).with.offset(chatPadding.top);
+        make.left.equalTo(self.view.mas_left).with.offset(chatPadding.left);
+        make.right.equalTo(self.view.mas_right).with.offset(-chatPadding.right);
+    }];
     
     // resources button
     self.resourceButton = [[UIButton alloc] init];
@@ -136,7 +143,12 @@
     [self.resourceButton setBackgroundColor:[UIColor grayColor]];
     [self.resourceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:self.resourceButton];
-    [self topLeftRightConstraints:self.resourceButton withPadding:UIEdgeInsetsMake(300, self.view.frame.size.width/2 + 6, 12, 12)];
+    UIEdgeInsets resourcePadding = UIEdgeInsetsMake(30, self.view.frame.size.width/2 + 6, 12, 12);
+    [self.resourceButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.detailLabel.mas_bottom).with.offset(resourcePadding.top);
+        make.left.equalTo(self.view.mas_left).with.offset(resourcePadding.left);
+        make.right.equalTo(self.view.mas_right).with.offset(-resourcePadding.right);
+    }];
 }
 
 - (void)topLeftRightConstraints:(UIView *)view withPadding:(UIEdgeInsets)padding {
@@ -148,11 +160,19 @@
 }
 
 - (void)didPressChat {
-    
+    [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            CMMChatVC *chatVC = [[CMMChatVC alloc] init];
+            chatVC.conversation = CMMUser.currentUser.conversations[CMMUser.currentUser.conversations.count - 1];
+            [[self navigationController] pushViewController:chatVC animated:YES];
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void)didPressResources {
-    
+    NSLog(@"Resources page does not exist yet");
 }
 
 /*
