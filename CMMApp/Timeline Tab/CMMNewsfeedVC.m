@@ -10,6 +10,7 @@
 #import "CMMPost.h"
 #import "NewsfeedCell.h"
 #import "Masonry.h"
+#import "PostDetailVC.h"
 
 @interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) UITableView *table;
@@ -108,6 +109,13 @@
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.filteredPosts.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    PostDetailVC *detailVC = [[PostDetailVC alloc] init];
+    CMMPost *post = self.filteredPosts[indexPath.row];
+    [detailVC configureDetails:post];
+    [[self navigationController] pushViewController:detailVC animated:YES];
 }
 
 @end

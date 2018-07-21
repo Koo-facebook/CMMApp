@@ -34,7 +34,7 @@
     newPost.disagreeingUsers = [NSMutableArray new];
     
     [CMMUser.currentUser addObject:newPost forKey:@"posts"];
-        
+  
     [newPost saveInBackgroundWithBlock:completion];
     [CMMUser.currentUser saveInBackground];
 }
