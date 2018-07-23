@@ -163,7 +163,7 @@
     [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             CMMChatVC *chatVC = [[CMMChatVC alloc] init];
-            chatVC.conversation = CMMUser.currentUser.conversations[CMMUser.currentUser.conversations.count - 1];
+            //chatVC.conversation = CMMUser.currentUser.conversations[CMMUser.currentUser.conversations.count - 1];
             [[self navigationController] pushViewController:chatVC animated:YES];
         } else {
             NSLog(@"Error: %@", error.localizedDescription);

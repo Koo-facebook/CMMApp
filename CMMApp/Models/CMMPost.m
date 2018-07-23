@@ -9,14 +9,14 @@
 #import "CMMPost.h"
 
 @implementation CMMPost
-    
+
 @dynamic owner;
 @dynamic topic;
 @dynamic detailedDescription;
 @dynamic category;
 @dynamic tags;
-@dynamic agreeingUsers;
-@dynamic disagreeingUsers;
+@dynamic agreeingUsersIds;
+@dynamic disagreeingUsersIds;
     
 + (nonnull NSString *)parseClassName {
     return @"CMMPost";
@@ -30,13 +30,11 @@
     newPost.detailedDescription = description;
     newPost.category = category;
     newPost.tags = tags;
-    newPost.agreeingUsers = [NSMutableArray new];
-    newPost.disagreeingUsers = [NSMutableArray new];
+    newPost.agreeingUsersIds = [NSMutableArray new];
+    newPost.disagreeingUsersIds = [NSMutableArray new];
     
-    [CMMUser.currentUser addObject:newPost forKey:@"posts"];
-  
     [newPost saveInBackgroundWithBlock:completion];
-    [CMMUser.currentUser saveInBackground];
+    
 }
     
 @end

@@ -24,7 +24,7 @@
         
         configuration.applicationId = @"myAppId";
         configuration.clientKey = @"myMasterKey";
-        configuration.server = @"http://changemymind.herokuapp.com/parse";
+        configuration.server = @"http://testingarena.herokuapp.com/parse";
         
     }];
     
@@ -32,7 +32,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     if (CMMUser.currentUser) {
-        self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
+        self.window.rootViewController = [[CMMLoginVC alloc] init];
     } else {
         self.window.rootViewController = [[CMMLoginVC alloc] init];
     }

@@ -161,8 +161,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NewsfeedCell *cell = [[NewsfeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"postsCell"];
     
-    cell.post = self.profileFeed[indexPath.row];
-    //NSLog(@"%@", cell.post);
+    //[cell configureCell: self.]
     
     return cell;
 }

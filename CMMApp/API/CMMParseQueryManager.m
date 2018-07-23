@@ -21,27 +21,62 @@
 
 - (void)fetchPostsWithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
+    [query includeKey:@"owner"];
     [query orderByDescending:@"createdAt"];
     query.limit = 20;
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+            completion(posts, nil);
+        }
+    }];
+}
+
+- (void)fetchUsersPostsWithCompletion:(CMMUser *)user withCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"owner = %@", user];
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMPost" predicate:predicate];
     [query includeKey:@"owner"];
-    [query findObjectsInBackgroundWithBlock:completion];
+    [query orderByDescending:@"createdAt"];
+    query.limit = 20;
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+            completion(posts, nil);
+        }
+    }];
 }
 
 - (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error)) completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMConversation"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(user1 = %@) OR (user2 = %@)", CMMUser.currentUser, CMMUser.currentUser];
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMConversation" predicate:predicate];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"user1"];
     [query includeKey:@"user2"];
-    [query includeKey:@"messages"];
-    [query findObjectsInBackgroundWithBlock:completion];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable conversations, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+            completion(conversations, nil);
+        }
+    }];
 }
 
-- (void)fetchConversationMessagesWithCompletion:(NSString *)conversationIdString withCompletion: (void(^)(NSArray *messages, NSError *error)) completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessages"];
+- (void)fetchConversationMessagesWithCompletion:(CMMConversation *)conversation withCompletion: (void(^)(NSArray *messages, NSError *error)) completion {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"conversation = ", conversation];
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessages" predicate:predicate];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"messageSender"];
-    [query whereKey:@"conversationId" equalTo:conversationIdString];
-    [query findObjectsInBackgroundWithBlock:completion];
+    [query includeKey:@"conversation"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable messages, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+            completion(messages, nil);
+        }
+    }];
+    
 }
 
 
