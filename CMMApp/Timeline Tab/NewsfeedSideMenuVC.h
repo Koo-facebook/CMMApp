@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface NewsfeedSideMenuVC : UIViewController
-
+@property (strong, nonatomic) NSArray *categoryArray;
+@property (strong, nonatomic) UITableView *table;
 @end

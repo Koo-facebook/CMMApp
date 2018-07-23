@@ -29,7 +29,7 @@
     NewsfeedSideMenuVC *sideMenuVC = [[NewsfeedSideMenuVC alloc] init];
     LGSideMenuController *sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:feedNavVC leftViewController:nil rightViewController:sideMenuVC];
     sideMenuController.leftViewBackgroundBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
-    sideMenuController.rightViewWidth = 200;
+    sideMenuController.rightViewWidth = 300;
     sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleScaleFromLittle;
     sideMenuController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Newsfeed" image:nil tag:0];
     [viewControllers addObject:sideMenuController];

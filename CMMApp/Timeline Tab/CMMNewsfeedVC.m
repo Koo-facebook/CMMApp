@@ -44,8 +44,7 @@
     self.navigationItem.rightBarButtonItem = filterButton;
     
     // create and populate table view
-    int topBuffer = 0;
-    CGRect tableViewFrame = CGRectMake(0, topBuffer, self.view.frame.size.width, self.view.frame.size.height - topBuffer);
+    CGRect tableViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     self.table.rowHeight = UITableViewAutomaticDimension;
     self.table.estimatedRowHeight = 55;
@@ -84,7 +83,6 @@
 }
 
 - (void)didPressFilter:(id)sender {
-    NSLog(@"filtering");
     [self.sideMenuController showRightViewAnimated];
 }
 
@@ -143,5 +141,6 @@
         }
     }
 }
+
 
 @end
