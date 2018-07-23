@@ -9,11 +9,12 @@
 #import "CMMMessage.h"
 
 @implementation CMMMessage
-    
-@dynamic content;
-@dynamic attachment;
+
 @dynamic conversation;
 @dynamic messageSender;
+@dynamic content;
+@dynamic attachment;
+
     
 + (nonnull NSString *)parseClassName {
     return @"CMMMessage";
@@ -27,17 +28,9 @@
     newMessage.content = content;
     newMessage.attachment = attachment;
     newMessage.messageSender = CMMUser.currentUser;
-    
-    [conversation addObject:newMessage forKey:@"messages"];
-    
+
     [newMessage saveInBackgroundWithBlock:completion];
-    [conversation saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if(succeeded) {
-            NSLog(@"hit the success block");
-        } else {
-            NSLog(@"nah fam");
-        }
-    }];
+    
 }
     
 @end

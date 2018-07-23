@@ -172,6 +172,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  
     NewsfeedCell *cell = [[NewsfeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"feedCell"];
     CMMPost *post = self.profileFeed[indexPath.row];
     //NSLog(@"😎😎😎%@", post);

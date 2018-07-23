@@ -166,7 +166,7 @@
         cell = [[ChatCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatCell"];
     }
     
-    cell.message = self.conversation.messages[indexPath.row];
+    //cell.message = self.conversation.messages[indexPath.row];
     [cell setupChatCell];
     
     return cell;
@@ -174,7 +174,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.conversation.messages.count;
+    return 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

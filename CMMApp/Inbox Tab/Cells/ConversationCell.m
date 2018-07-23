@@ -40,6 +40,7 @@
         self.usernameLabel.text = self.conversation.user1.username;
         NSLog(@"%@", self.conversation.user1.username);
     } else {
+        NSLog(@"%@", self.conversation.user2.objectId);
         self.usernameLabel.text = self.conversation.user2.username;
         NSLog(@"%@", self.conversation.user2.username);
     }

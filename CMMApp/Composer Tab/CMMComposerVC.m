@@ -73,10 +73,12 @@
             NSLog(@"CUSTOM Error: %@", error.localizedDescription);
         } else {
             NSLog(@"successful post");
+            [CMMUser.currentUser saveInBackground];
             self.questionTextField.text = @"";
             self.descriptionTextField.text = @"";
-            CMMNewsfeedVC *feedVC = [[CMMNewsfeedVC alloc] init];
-            [[self navigationController] pushViewController:feedVC animated:YES];
+            //CMMNewsfeedVC *feedVC = [[CMMNewsfeedVC alloc] init];
+            self.tabBarController.selectedIndex = 0;
+            //[[self navigationController] pushViewController:feedVC animated:YES];
         }
     }];
 }
