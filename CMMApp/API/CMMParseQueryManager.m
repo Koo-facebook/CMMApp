@@ -19,11 +19,11 @@
     return sharedManager;
 }
 
-- (void)fetchPostsWithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
+- (void)fetchPosts:(int)number WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
     [query includeKey:@"owner"];
     [query orderByDescending:@"createdAt"];
-    query.limit = 20;
+    query.limit = number;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);

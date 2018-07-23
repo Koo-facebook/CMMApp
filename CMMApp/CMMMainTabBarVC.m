@@ -8,6 +8,9 @@
 
 #import "CMMMainTabBarVC.h"
 #import "CMMComposerVC.h"
+#import <LGSideMenuController/LGSideMenuController.h>
+#import <LGSideMenuController/UIViewController+LGSideMenuController.h>
+#import "NewsfeedSideMenuVC.h"
 
 @interface CMMMainTabBarVC ()
 
@@ -23,8 +26,13 @@
     
     CMMNewsfeedVC *newsfeedVC = [[CMMNewsfeedVC alloc] init];
     UINavigationController *feedNavVC = [[UINavigationController alloc] initWithRootViewController:newsfeedVC];
-    feedNavVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Newsfeed" image:nil tag:0];
-    [viewControllers addObject:feedNavVC];
+    NewsfeedSideMenuVC *sideMenuVC = [[NewsfeedSideMenuVC alloc] init];
+    LGSideMenuController *sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:feedNavVC leftViewController:nil rightViewController:sideMenuVC];
+    sideMenuController.leftViewBackgroundBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+    sideMenuController.rightViewWidth = 200;
+    sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleScaleFromLittle;
+    sideMenuController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Newsfeed" image:nil tag:0];
+    [viewControllers addObject:sideMenuController];
     
     CMMEventsVC *eventsVC = [[CMMEventsVC alloc] init];
     UINavigationController *eventsNavigation = [[UINavigationController alloc]initWithRootViewController:eventsVC];
