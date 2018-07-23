@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ParseUI.h"
 
 @interface CMMEditProfileVC : UIViewController
 
-@property (strong, nonatomic) UILabel *helloLabel;
-
+@property (strong, nonatomic) UITextField *displayedName;
+@property (strong, nonatomic) UITextField *profileBio;
+@property (strong, nonatomic) UIImageView *profileImage;
+@property (strong, nonatomic) UILabel *tapPhotoLabel;
 
 @end

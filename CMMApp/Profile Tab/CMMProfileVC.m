@@ -64,7 +64,6 @@
         
     }];
     
-    
     // Profile Bio Label
     [self.profileBioLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.usernameLabel.mas_bottom).offset(20);
@@ -104,7 +103,11 @@
 -(void) createProfileImage {
     self.profileImage = [[PFImageView alloc] init];
     self.profileImage.backgroundColor = [UIColor blackColor];
-    // CONVERT TO BE VIEWED
+    
+    PFUser * user = PFUser.currentUser;
+    self.profileImage.file = user[@"profileImage"];
+    [self.profileImage loadInBackground];
+    
     self.profileImage.frame = CGRectMake(self.profileImage.frame.origin.x, self.profileImage.frame.origin.y, 150, 150);
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2;
     self.profileImage.clipsToBounds = YES;
