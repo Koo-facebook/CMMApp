@@ -12,8 +12,9 @@
 @interface CMMEditProfileVC : UIViewController
 
 @property (strong, nonatomic) UITextField *displayedName;
-@property (strong, nonatomic) UITextField *profileBio;
+@property (strong, nonatomic) UITextView *profileBio;
 @property (strong, nonatomic) UIImageView *profileImage;
 @property (strong, nonatomic) UILabel *tapPhotoLabel;
+@property (strong,nonatomic) PFImageView *imageFile;
 
 @end
