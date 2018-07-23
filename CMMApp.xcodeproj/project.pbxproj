@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D221014A02007629AD /* NewsfeedCell.m */; };
 		03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D621024F11007629AD /* PostDetailVC.m */; };
+		03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */; };
 		136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305820FFC11A009B4180 /* CMMComposerVC.m */; };
 		136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305B20FFFDD3009B4180 /* EventsCell.m */; };
 		136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E3064210249CB009B4180 /* CMMEventDetailsVC.m */; };
@@ -48,6 +49,8 @@
 		03CDE9D221014A02007629AD /* NewsfeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedCell.m; sourceTree = "<group>"; };
 		03CDE9D521024F11007629AD /* PostDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailVC.h; sourceTree = "<group>"; };
 		03CDE9D621024F11007629AD /* PostDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDetailVC.m; sourceTree = "<group>"; };
+		03CDE9DE21068B26007629AD /* NewsfeedSideMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsfeedSideMenuVC.h; sourceTree = "<group>"; };
+		03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedSideMenuVC.m; sourceTree = "<group>"; };
 		136E305720FFC11A009B4180 /* CMMComposerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMComposerVC.h; sourceTree = "<group>"; };
 		136E305820FFC11A009B4180 /* CMMComposerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMComposerVC.m; sourceTree = "<group>"; };
 		136E305A20FFFDD3009B4180 /* EventsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsCell.h; sourceTree = "<group>"; };
@@ -125,15 +128,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03CDE9D421024EAB007629AD /* Post Details VC */ = {
-			isa = PBXGroup;
-			children = (
-				03CDE9D521024F11007629AD /* PostDetailVC.h */,
-				03CDE9D621024F11007629AD /* PostDetailVC.m */,
-			);
-			path = "Post Details VC";
-			sourceTree = "<group>";
-		};
 		136E305620FFC0F4009B4180 /* Composer Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,7 +183,6 @@
 				22F9EC0320FEAEE3002ADD9D /* Login Screen */,
 				22F9EC0B20FEAF26002ADD9D /* Inbox Tab */,
 				22F9EC0920FEAF15002ADD9D /* Newsfeed Tab */,
-				03CDE9D421024EAB007629AD /* Post Details VC */,
 				22F9EC0820FEAF0D002ADD9D /* Profile Tab */,
 				22F9EC0720FEAF03002ADD9D /* Events Tab */,
 				136E305620FFC0F4009B4180 /* Composer Tab */,
@@ -284,6 +277,10 @@
 				22F9EC2B20FEB618002ADD9D /* CMMNewsfeedVC.m */,
 				03CDE9D121014A02007629AD /* NewsfeedCell.h */,
 				03CDE9D221014A02007629AD /* NewsfeedCell.m */,
+				03CDE9D521024F11007629AD /* PostDetailVC.h */,
+				03CDE9D621024F11007629AD /* PostDetailVC.m */,
+				03CDE9DE21068B26007629AD /* NewsfeedSideMenuVC.h */,
+				03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */,
 			);
 			name = "Newsfeed Tab";
 			path = "Timeline Tab";
@@ -412,12 +409,18 @@
 				"${PODS_ROOT}/CCDropDownMenus/CCDropDownMenu/arrow.png",
 				"${PODS_ROOT}/DateTools/DateTools/DateTools/DateTools.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Parse/Parse.bundle",
+				"${PODS_ROOT}/ParseUI/ParseUI/Resources/Localization/en.lproj",
+				"${PODS_ROOT}/ParseUI/ParseUI/Resources/Localization/fr.lproj",
+				"${PODS_ROOT}/ParseUI/ParseUI/Resources/Localization/pt-BR.lproj",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/arrow.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DateTools.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Parse.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/en.lproj",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/fr.lproj",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/pt-BR.lproj",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -446,6 +449,7 @@
 				22F9EC4421000CA9002ADD9D /* ConversationCell.m in Sources */,
 				22F9EC1720FEB21C002ADD9D /* CMMEvent.m in Sources */,
 				22F9EC1D20FEB289002ADD9D /* CMMPost.m in Sources */,
+				03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */,
 				22F9EC2C20FEB618002ADD9D /* CMMNewsfeedVC.m in Sources */,
 				22F9EC3520FEC2AF002ADD9D /* CMMVoteAPIManager.m in Sources */,
 				136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */,

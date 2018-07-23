@@ -14,6 +14,7 @@ target 'CMMApp' do
   pod 'MBProgressHUD'
   pod 'DateTools'
   pod 'CCDropDownMenus'
+  pod 'LGSideMenuController'
   
 end
 post_install do |lib|
