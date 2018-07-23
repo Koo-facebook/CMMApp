@@ -38,8 +38,8 @@
     [self.eventName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.eventName.superview.mas_top).offset(115);
         make.centerX.equalTo(self.eventName.superview.mas_centerX);
-        make.height.equalTo(@(self.eventName.intrinsicContentSize.height));
-        make.width.equalTo(@(self.eventName.intrinsicContentSize.width));
+        //make.height.equalTo(@(self.eventName.intrinsicContentSize.height));
+        make.width.equalTo(@(340));
     }];
     
     // Date Label
@@ -88,6 +88,7 @@ self.eventName = [[UILabel alloc] init];
 self.eventName.textColor = [UIColor blackColor];
 self.eventName.font = [UIFont fontWithName:@"Arial" size:26];
 self.eventName.numberOfLines = 0;
+self.eventName.textAlignment = NSTextAlignmentCenter;
     self.eventName.text = self.event.title;
 [self.view addSubview:self.eventName];
 }
@@ -102,7 +103,8 @@ self.date.font = [UIFont fontWithName:@"Arial" size:16];
     NSDate *date = [formatter dateFromString:self.event.startTime];
     
     [formatter setDateFormat:@"MMMM dd, yyyy"];
-    self.date.text = [formatter stringFromDate:date];
+self.date.text = [formatter stringFromDate:date];
+    
 [self.view addSubview:self.date];
 }
 
