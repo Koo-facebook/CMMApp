@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ParseUI.h"
 
-@interface CMMProfileVC : UIViewController
+@interface CMMProfileVC : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+@property (strong, nonatomic) PFImageView *profileImage;
+@property (strong, nonatomic) UILabel *usernameLabel;
+@property (strong, nonatomic) UIButton *editProfileButton;
+@property (strong, nonatomic) UILabel *profileBioLabel;
+@property (strong, nonatomic) UITableView *tableView;
+@property (nonatomic, weak) PFUser *user;
 
 @end

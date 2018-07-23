@@ -7,6 +7,7 @@ target 'CMMApp' do
 
   # Pods for CMMApp
   pod 'Parse'
+  pod 'ParseUI'
   pod 'AFNetworking'
   pod 'Bolts'
   pod 'Masonry'
