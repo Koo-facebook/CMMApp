@@ -1,5 +1,5 @@
 //
-//  CMMEditProfileVC.h
+//  ProfileCell.h
 //  CMMApp
 //
 //  Created by Keylonnie Miller on 7/23/18.
@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMMEditProfileVC : UIViewController
-
-@property (strong, nonatomic) UILabel *helloLabel;
-
+@interface ProfileCell : UITableViewCell
 
 @end
