@@ -15,6 +15,7 @@
 		136E306721027E23009B4180 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 136E306621027E21009B4180 /* MapKit.framework */; };
 		136E306921027E2C009B4180 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 136E306821027E2C009B4180 /* CoreLocation.framework */; };
 		136E306C21064916009B4180 /* CMMEditProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E306B21064916009B4180 /* CMMEditProfileVC.m */; };
+		136E306F21064ECA009B4180 /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E306E21064ECA009B4180 /* ProfileCell.m */; };
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
@@ -57,6 +58,8 @@
 		136E306821027E2C009B4180 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		136E306A21064916009B4180 /* CMMEditProfileVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMEditProfileVC.h; sourceTree = "<group>"; };
 		136E306B21064916009B4180 /* CMMEditProfileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMEditProfileVC.m; sourceTree = "<group>"; };
+		136E306D21064ECA009B4180 /* ProfileCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileCell.h; sourceTree = "<group>"; };
+		136E306E21064ECA009B4180 /* ProfileCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileCell.m; sourceTree = "<group>"; };
 		228588D02101183C0087E455 /* CMMParseQueryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMParseQueryManager.h; sourceTree = "<group>"; };
 		228588D12101183C0087E455 /* CMMParseQueryManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMParseQueryManager.m; sourceTree = "<group>"; };
 		22F9EBE620FEAEA9002ADD9D /* CMMApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMMApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,6 +271,8 @@
 				22F9EC2E20FEB623002ADD9D /* CMMProfileVC.m */,
 				136E306A21064916009B4180 /* CMMEditProfileVC.h */,
 				136E306B21064916009B4180 /* CMMEditProfileVC.m */,
+				136E306D21064ECA009B4180 /* ProfileCell.h */,
+				136E306E21064ECA009B4180 /* ProfileCell.m */,
 			);
 			path = "Profile Tab";
 			sourceTree = "<group>";
@@ -435,6 +440,7 @@
 				22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */,
 				136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */,
 				22F9EC3220FEB630002ADD9D /* CMMEventsVC.m in Sources */,
+				136E306F21064ECA009B4180 /* ProfileCell.m in Sources */,
 				22F9EC1A20FEB256002ADD9D /* CMMMessage.m in Sources */,
 				22F9EBFC20FEAEAA002ADD9D /* main.m in Sources */,
 				22F9EC4421000CA9002ADD9D /* ConversationCell.m in Sources */,
