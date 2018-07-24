@@ -12,4 +12,5 @@
 @interface CMMStyles : NSObject
 + (UIColor *)getTealColor;
 + (UIFont *)getFontWithSize:(CGFloat)size Weight:(UIFontWeight)weight;
++ (NSArray *)getCategories;
 @end

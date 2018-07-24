@@ -10,6 +10,7 @@
 #import "CMMNewsfeedVC.h"
 #import "CMMPost.h"
 #import <CCDropDownMenus/CCDropDownMenus.h>
+#import "CMMStyles.h"
 
 @interface CMMComposerVC () <CCDropDownMenuDelegate>
 @property (strong, nonatomic) UITextField *questionTextField;
@@ -56,7 +57,7 @@
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
     menu.delegate = self;
     menu.numberOfRows = 3;
-    self.categoryOptions = @[@"Economics", @"Immigration", @"Healthcare"];
+    self.categoryOptions = [CMMStyles getCategories];
     menu.textOfRows = self.categoryOptions;
     [self.view addSubview:menu];
 }

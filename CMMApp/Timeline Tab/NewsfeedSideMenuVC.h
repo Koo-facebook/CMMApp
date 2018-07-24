@@ -11,4 +11,5 @@
 @interface NewsfeedSideMenuVC : UIViewController
 @property (strong, nonatomic) NSArray *categoryArray;
 @property (strong, nonatomic) UITableView *table;
+@property (strong, nonatomic) NSMutableArray *selectedCategories;
 @end
