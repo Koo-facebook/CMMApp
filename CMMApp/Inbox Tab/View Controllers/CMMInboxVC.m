@@ -22,7 +22,7 @@
 {
     self = [super init];
     if (self) {
-        self.conversations = CMMUser.currentUser.conversations;
+        //self.conversations = CMMUser.currentUser.conversations;
     }
     return self;
 }
@@ -92,6 +92,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ConversationCell *cell = [self.messagesTableView dequeueReusableCellWithIdentifier:@"conversationCell"];
     
+    if ([self.conversations[0] isKindOfClass:[CMMConversation class]]) {
+        CMMConversation *convo = self.conversations[0];
+        CMMUser *user2 = convo.user2;
+        NSLog(@"%@", user2.username);
+    }
+    
     if (cell == nil) {
         cell = [[ConversationCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationCell"];
         cell.conversation = self.conversations[indexPath.row];
@@ -127,9 +133,9 @@
     [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
         if (conversations) {
             for (CMMConversation *conversation in conversations) {
-                NSMutableArray *messages = conversation.messages;
+                //NSMutableArray *messages = conversation.messages;
                 
-                conversation.messages = messages;
+                //conversation.messages = messages;
             }
             self.conversations = [NSMutableArray arrayWithArray:conversations];
             

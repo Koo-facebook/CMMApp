@@ -11,14 +11,14 @@
 #import "CMMUser.h"
 
 @interface CMMPost : PFObject<PFSubclassing>
-    
+
 @property (nonatomic, weak) CMMUser *_Nullable owner;
 @property (nonatomic, strong) NSString *_Nonnull topic;
 @property (nonatomic, strong) NSString *_Nullable detailedDescription;
 @property (nonatomic, strong) NSString *_Nullable category;
 @property (nonatomic, strong) NSMutableArray *_Nullable tags;
-@property (nonatomic, strong) NSMutableArray *_Nullable agreeingUsers;
-@property (nonatomic, strong) NSMutableArray *_Nullable disagreeingUsers;
+@property (nonatomic, strong) NSMutableArray *_Nullable agreeingUsersIds;
+@property (nonatomic, strong) NSMutableArray *_Nullable disagreeingUsersIds;
     
 + (void)createPost:(NSString *_Nonnull)topic description:(NSString *_Nullable)description category:(NSString *_Nullable)category tags:(NSMutableArray *_Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
     

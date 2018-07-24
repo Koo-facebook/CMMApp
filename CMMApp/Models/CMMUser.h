@@ -10,11 +10,9 @@
 #import <Parse/Parse.h>
 
 @interface CMMUser : PFUser
-    
+
 @property (nonatomic, strong) PFFile * _Nullable profileImage; // users profile image
 @property (nonatomic, strong) NSMutableArray *_Nullable preferences; // users set preferences (if any)
-@property (nonatomic, strong) NSMutableArray *_Nullable posts; // users posts
-@property (nonatomic, strong) NSMutableArray *_Nullable conversations; // users conversations
     
 + (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion;
 + (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withCompletion: (PFBooleanResultBlock  _Nullable)completion;

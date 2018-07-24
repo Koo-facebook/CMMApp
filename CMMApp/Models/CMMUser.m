@@ -12,16 +12,12 @@
     
 @dynamic profileImage;
 @dynamic preferences;
-@dynamic posts;
-@dynamic conversations;
     
 + (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion{
     CMMUser *newUser = [CMMUser new];
     newUser.username = username;
     newUser.password = password;
-    newUser.preferences = [[NSMutableArray alloc] init];
-    newUser.posts = [[NSMutableArray alloc] init];
-    newUser.conversations = [[NSMutableArray alloc] init];
+    newUser.preferences = [NSMutableArray new];
     newUser.profileImage = [CMMUser getPFFileFromImage:[UIImage imageNamed:@"placeholderProfileImage"]];
     
     [newUser signUpInBackgroundWithBlock:completion];

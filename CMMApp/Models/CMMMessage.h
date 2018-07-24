@@ -11,11 +11,11 @@
 #import "CMMConversation.h"
 
 @interface CMMMessage : PFObject<PFSubclassing>
-    
+
+@property (nonatomic, weak) CMMConversation *_Nullable conversation;
 @property (nonatomic, weak) CMMUser *_Nullable messageSender;
 @property (nonatomic, strong) NSString *_Nullable content;
 @property (nonatomic, strong) PFFile *_Nullable attachment;
-@property (nonatomic, strong) CMMConversation *_Nonnull conversation;
     
 + (void)createMessage:(CMMConversation *_Nonnull)conversation content:(NSString *_Nonnull)content attachment:(PFFile *_Nullable)attachment withCompletion:(PFBooleanResultBlock _Nullable)completion;
     

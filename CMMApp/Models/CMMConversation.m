@@ -9,10 +9,9 @@
 #import "CMMConversation.h"
 
 @implementation CMMConversation
-    
+
 @dynamic user1;
 @dynamic user2;
-@dynamic messages;
 @dynamic topic;
 @dynamic userOneRead;
 @dynamic userTwoRead;
@@ -26,17 +25,12 @@
     CMMConversation *newConversation = [CMMConversation new];
     newConversation.user1 = CMMUser.currentUser;
     newConversation.user2 = user2;
-    newConversation.messages = [[NSMutableArray alloc] init];
     newConversation.topic = topic;
     newConversation.userTwoRead = NO;
     newConversation.userOneRead = YES;
     
-    [user2 addObject:newConversation forKey:@"conversations"];
-    [CMMUser.currentUser addObject:newConversation forKey:@"conversations"];
-        
-    [newConversation saveInBackgroundWithBlock: completion];
-    [user2 saveInBackground];
-    [CMMUser.currentUser saveInBackground];
+    [newConversation saveInBackgroundWithBlock:completion];
+    
 }
     
 @end

@@ -10,6 +10,10 @@
 #import "CMMPost.h"
 #import "NewsfeedCell.h"
 #import "Masonry.h"
+#import "PostDetailVC.h"
+#import <LGSideMenuController/LGSideMenuController.h>
+#import <LGSideMenuController/UIViewController+LGSideMenuController.h>
+#import "NewsfeedSideMenuVC.h"
 
 @interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) UITableView *table;
@@ -17,6 +21,8 @@
 @property (strong, nonatomic) NSArray *filteredPosts;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) UISearchBar *searchBar;
+@property (assign, nonatomic) BOOL isMoreDataLoading;
+@property (assign, nonatomic) int queryNumber;
 @end
 
 @implementation CMMNewsfeedVC
@@ -34,6 +40,8 @@
 - (void)configureView {
     self.view.backgroundColor = [UIColor purpleColor];
     self.title = @"Newsfeed";
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
+    self.navigationItem.rightBarButtonItem = filterButton;
     
     // create and populate table view
     int topBuffer = 0;
@@ -43,6 +51,7 @@
     self.table.estimatedRowHeight = 55;
     self.table.delegate = self;
     self.table.dataSource = self;
+    self.queryNumber = 20;
     [self fetchPosts];
     
     // add search bar to table view
@@ -59,21 +68,24 @@
 }
 
 - (void)fetchPosts {
-    [[CMMParseQueryManager shared] fetchPostsWithCompletion:^(NSArray *posts, NSError *error) {
+    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             self.posts = posts;
             self.filteredPosts = posts;
             [self.table reloadData];
             [self.refreshControl endRefreshing];
-//            for (CMMPost *post in self.posts) {
-//                [CMMConversation createConversation:post.owner topic:post.topic withCompletion:nil];
-//            }
-            NSLog(@"%@", posts);
+            if (self.filteredPosts.count == self.queryNumber) {
+                self.isMoreDataLoading = NO;
+            }
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
-        
     }];
+}
+
+- (void)didPressFilter:(id)sender {
+    NSLog(@"filtering");
+    [self.sideMenuController showRightViewAnimated];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -108,6 +120,28 @@
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.filteredPosts.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    PostDetailVC *detailVC = [[PostDetailVC alloc] init];
+    CMMPost *post = self.filteredPosts[indexPath.row];
+    [detailVC configureDetails:post];
+    [[self navigationController] pushViewController:detailVC animated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if(!self.isMoreDataLoading){
+        // Calculate the position of one screen length before the bottom of the results
+        int scrollViewContentHeight = self.table.contentSize.height;
+        int scrollOffsetThreshold = scrollViewContentHeight - self.table.bounds.size.height;
+        
+        // When the user has scrolled past the threshold, start requesting
+        if(scrollView.contentOffset.y > scrollOffsetThreshold && self.table.isDragging) {
+            self.isMoreDataLoading = true;
+            self.queryNumber += 10;
+            [self fetchPosts];
+        }
+    }
 }
 
 @end
