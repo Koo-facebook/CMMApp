@@ -38,7 +38,6 @@
 }
 
 - (void)configureView {
-    self.view.backgroundColor = [UIColor purpleColor];
     self.title = @"Newsfeed";
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
