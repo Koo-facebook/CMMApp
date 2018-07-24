@@ -11,6 +11,7 @@
 #import "CMMUser.h"
 #import "Masonry.h"
 #import "Parse.h"
+#import "ParseUI.h"
 
 @interface CMMEditProfileVC () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -25,7 +26,7 @@
     //[self createLabel];
     [self createCancelButton];
     [self createEditButton];
-    [self createBioTextField];
+    [self createBioTextView];
     [self createNameTextField];
     [self createTapPhotoLabel];
     [self createProfileImageContainer];
@@ -97,10 +98,10 @@
     [self.view addSubview:self.displayedName];
 }
 
--(void)createBioTextField {
-    self.profileBio = [[UITextField alloc]init];
-    self.profileBio.placeholder = @"Short Profile Bio";
+-(void)createBioTextView {
+    self.profileBio = [[UITextView alloc]init];
     self.profileBio.backgroundColor = [UIColor grayColor];
+    self.profileBio.font = [UIFont fontWithName:@"Arial" size:14];
     [self.view addSubview:self.profileBio];
 }
 
@@ -135,9 +136,20 @@
 }
 
 -(void)finishedEditing {
-   [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-       [self dismissViewControllerAnimated:YES completion:^{}];
-   }];
+    /*if (self.profileImage.image == nil){
+        PFUser *user = [PFUser currentUser];
+        [CMMUser editUserInfo:user[@"profileImage"] withBio:self.profileBio.text withName:self.displayedName.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+            [self dismissViewControllerAnimated:YES completion:^{}];
+        }];
+    }
+    else {
+        [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+            [self dismissViewControllerAnimated:YES completion:^{}];
+        }];
+    }*/
+    [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        [self dismissViewControllerAnimated:YES completion:^{}];
+    }];
 }
 
 //IMAGEPICKER CODE

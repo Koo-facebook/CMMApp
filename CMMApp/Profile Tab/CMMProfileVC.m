@@ -96,7 +96,7 @@
     self.usernameLabel.textColor = [UIColor blackColor];
     self.usernameLabel.font = [UIFont fontWithName:@"Arial" size:26];
     self.usernameLabel.numberOfLines = 1;
-    self.usernameLabel.text = user.username;
+    self.usernameLabel.text = user[@"displayedName"];
     [self.view addSubview:self.usernameLabel];
 }
 
