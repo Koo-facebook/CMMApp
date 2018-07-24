@@ -120,7 +120,7 @@
 }
 
 - (void)createButtons {
-    UIColor *tealColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
+    UIColor *tealColor = [CMMStyles getTealColor];
     
     // chat button
     self.chatButton = [[UIButton alloc] init];

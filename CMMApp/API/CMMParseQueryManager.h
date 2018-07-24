@@ -17,7 +17,7 @@
 + (instancetype)shared;
 - (void)fetchConversationMessagesWithCompletion:(NSString *)conversationIdString withCompletion: (void(^)(NSArray *messages, NSError *error))completion;
 - (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error))completion;
-- (void)fetchPosts:(int)number WithCompletion:(void(^)(NSArray *posts, NSError *error))completion;
+- (void)fetchPosts:(int)number Categories:(NSArray *)categories WithCompletion:(void(^)(NSArray *posts, NSError *error))completion;
 - (void)fetchUsersPostsWithCompletion:(CMMUser *)user withCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 
 @end

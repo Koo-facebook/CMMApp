@@ -19,10 +19,20 @@
     return sharedManager;
 }
 
-- (void)fetchPosts:(int)number WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
-    [query includeKey:@"owner"];
+- (void)fetchPosts:(int)number Categories:(NSArray *)categories WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
+    NSMutableArray *queries = [[NSMutableArray alloc] init];
+    for (NSString *category in categories) {
+        PFQuery *categoryQuery = [PFQuery queryWithClassName:@"CMMPost"];
+        [categoryQuery whereKey:@"category" equalTo:category];
+        //[categoryQuery includeKey:@"owner"];
+        //[categoryQuery orderByDescending:@"createdAt"];
+        [queries addObject:categoryQuery];
+    }
+    PFQuery *query = [PFQuery orQueryWithSubqueries:queries];
     [query orderByDescending:@"createdAt"];
+    /*PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
+    [query includeKey:@"owner"];
+    [query orderByDescending:@"createdAt"];*/
     query.limit = number;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
         if (error) {

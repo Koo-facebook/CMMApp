@@ -14,11 +14,13 @@
 #import <LGSideMenuController/LGSideMenuController.h>
 #import <LGSideMenuController/UIViewController+LGSideMenuController.h>
 #import "NewsfeedSideMenuVC.h"
+#import "CMMStyles.h"
 
-@interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
-@property (strong, nonatomic) UITableView *table;
+@interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SideMenuDelegate>
 @property (strong, nonatomic) NSArray *posts;
 @property (strong, nonatomic) NSArray *filteredPosts;
+@property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) UITableView *table;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
@@ -50,6 +52,9 @@
     self.table.delegate = self;
     self.table.dataSource = self;
     self.queryNumber = 20;
+    self.categories = [CMMStyles getCategories];
+    NewsfeedSideMenuVC *sideMenuVC = self.sideMenuController.rightViewController;
+    sideMenuVC.delegate = self;
     [self fetchPosts];
     
     // add search bar to table view
@@ -66,7 +71,7 @@
 }
 
 - (void)fetchPosts {
-    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber WithCompletion:^(NSArray *posts, NSError *error) {
+    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             self.posts = posts;
             self.filteredPosts = posts;
@@ -141,5 +146,10 @@
     }
 }
 
+- (void)reloadCategories:(NSArray *)categories {
+    self.categories = categories;
+    [self fetchPosts];
+    [self.table reloadData];
+}
 
 @end
