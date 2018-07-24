@@ -169,14 +169,14 @@ self.time.font = [UIFont fontWithName:@"Arial" size:16];
         NSDate *stime = [timeformatter dateFromString:self.event.startTime];
         NSDate *etime = [timeformatter dateFromString:self.event.endTime];
         
-         [timeformatter setDateFormat:@"EEE MMM dd HH:mm:ss yyyy"];
+        [timeformatter setDateFormat:@"EEE MMM dd HH:mm:ss yyyy"];
         NSString *stTime = [timeformatter stringFromDate:stime];
         NSString *enTime = [timeformatter stringFromDate:etime];
          
          [timeformatter setDateFormat:@"EEE MMM dd HH:mm:ss yyyy"];
          NSDate *startTime = [timeformatter dateFromString:stTime];
          NSDate *endTime = [timeformatter dateFromString:enTime];
-        
+
         //Start Date & End Date
         event.startDate = startTime;
         NSLog(@"%@", event.startDate);//today
@@ -191,4 +191,6 @@ self.time.font = [UIFont fontWithName:@"Arial" size:16];
     }];
     NSLog(@"Add to Calendar Button Pressed");
 }
+
+
 @end

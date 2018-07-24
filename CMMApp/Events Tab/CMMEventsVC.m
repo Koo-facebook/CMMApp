@@ -48,6 +48,7 @@
     //Create items on View Controller
     [self createMap];
     [self createTableView];
+    [self createPullToRefresh];
     [self updateConstraints];
     
     //Get location of user to filter events
@@ -236,5 +237,19 @@
     //[self presentViewController:eventDetailsNavigation animated:YES completion:^{}];
 }
 
+-(void)createPullToRefresh {
+    //Initialize pull down to refresh control
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    //Linking pull down action to refresh control
+    [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+    //Adding refresh information to the tableview
+    [self.tableView insertSubview:refreshControl atIndex:0];
+}
+
+- (void)beginRefresh:(UIRefreshControl *)refreshControl {
+    [self fetchEvents];
+    // Tell the refreshControl to stop spinning
+    [refreshControl endRefreshing];
+}
 
 @end
