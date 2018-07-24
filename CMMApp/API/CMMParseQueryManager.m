@@ -24,15 +24,10 @@
     for (NSString *category in categories) {
         PFQuery *categoryQuery = [PFQuery queryWithClassName:@"CMMPost"];
         [categoryQuery whereKey:@"category" equalTo:category];
-        //[categoryQuery includeKey:@"owner"];
-        //[categoryQuery orderByDescending:@"createdAt"];
         [queries addObject:categoryQuery];
     }
     PFQuery *query = [PFQuery orQueryWithSubqueries:queries];
     [query orderByDescending:@"createdAt"];
-    /*PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
-    [query includeKey:@"owner"];
-    [query orderByDescending:@"createdAt"];*/
     query.limit = number;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
         if (error) {
