@@ -152,7 +152,43 @@ self.time.font = [UIFont fontWithName:@"Arial" size:16];
     [self.addToCalendarButton setTitle:@"Add to Calendar" forState:UIControlStateNormal];
     [self.addToCalendarButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     self.addToCalendarButton.titleLabel.font = [UIFont systemFontOfSize:18];
-    //[self.addToCalendarButton addTarget:self action:@selector(addToCalendarButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.addToCalendarButton addTarget:self action:@selector(createCalendarEvent) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addToCalendarButton];
+}
+
+-(void)createCalendarEvent {
+    EKEventStore *store = [EKEventStore new];
+    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        if (!granted) { return; }
+        EKEvent *event = [EKEvent eventWithEventStore:store];
+        //Event Title
+        event.title = self.event.title;
+        
+        NSDateFormatter *timeformatter = [[NSDateFormatter alloc] init];
+        [timeformatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+        NSDate *stime = [timeformatter dateFromString:self.event.startTime];
+        NSDate *etime = [timeformatter dateFromString:self.event.endTime];
+        
+         [timeformatter setDateFormat:@"EEE MMM dd HH:mm:ss yyyy"];
+        NSString *stTime = [timeformatter stringFromDate:stime];
+        NSString *enTime = [timeformatter stringFromDate:etime];
+         
+         [timeformatter setDateFormat:@"EEE MMM dd HH:mm:ss yyyy"];
+         NSDate *startTime = [timeformatter dateFromString:stTime];
+         NSDate *endTime = [timeformatter dateFromString:enTime];
+        
+        //Start Date & End Date
+        event.startDate = startTime;
+        NSLog(@"%@", event.startDate);//today
+        event.endDate = endTime;
+        //event.endDate = [event.startDate dateByAddingTimeInterval:60*60];  //set 1 hour meeting, time in sec
+        
+        //Calendar to store in
+        event.calendar = [store defaultCalendarForNewEvents];
+        
+        NSError *err = nil;
+        [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
+    }];
+    NSLog(@"Add to Calendar Button Pressed");
 }
 @end
