@@ -17,4 +17,5 @@
 @property (strong, nonatomic) UITableView *table;
 @property (strong, nonatomic) NSMutableArray *selectedCategories;
 @property (weak, nonatomic) id<SideMenuDelegate> delegate;
+@property (assign, nonatomic) BOOL sortByTrending;
 @end

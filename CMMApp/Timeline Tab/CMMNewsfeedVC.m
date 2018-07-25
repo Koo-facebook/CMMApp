@@ -44,6 +44,7 @@
     self.title = @"Newsfeed";
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
+    self.sortByTrending = NO;
     
     // create and populate table view
     CGRect tableViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -56,6 +57,7 @@
     self.categories = [CMMStyles getCategories];
     NewsfeedSideMenuVC *sideMenuVC = self.sideMenuController.rightViewController;
     sideMenuVC.delegate = self;
+    sideMenuVC.sortByTrending = self.sortByTrending;
     [self fetchPosts];
     
     // add search bar to table view

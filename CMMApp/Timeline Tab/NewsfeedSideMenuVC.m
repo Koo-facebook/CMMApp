@@ -22,7 +22,6 @@
 @property (assign, nonatomic) int middleBuffer;
 @property (strong, nonatomic) UIButton *recentButton;
 @property (strong, nonatomic) UIButton *trendingButton;
-@property (assign, nonatomic) BOOL sortByTrending;
 @end
 
 @implementation NewsfeedSideMenuVC
@@ -82,8 +81,9 @@
     [self.recentButton setTitle:@"Most Recent" forState:UIControlStateNormal];
     self.recentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.recentButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.recentButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
     [self.recentButton setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+    self.recentButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
+    self.recentButton.selected = !self.sortByTrending;
     [self.recentButton addTarget:self action:@selector(didPressRecent) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.recentButton];
     
@@ -93,6 +93,7 @@
     self.trendingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.trendingButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.trendingButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
+    self.trendingButton.selected = self.sortByTrending;
     [self.trendingButton setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
     [self.trendingButton addTarget:self action:@selector(didPressTrending) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.trendingButton];
