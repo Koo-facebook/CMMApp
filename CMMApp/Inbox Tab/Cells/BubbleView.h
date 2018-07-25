@@ -10,6 +10,6 @@
 
 @interface BubbleView : UIView
 
-@property BOOL outgoing;
+@property (nonatomic, assign) BOOL incoming;
 
 @end

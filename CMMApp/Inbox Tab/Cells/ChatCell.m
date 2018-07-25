@@ -10,13 +10,19 @@
 
 @interface ChatCell ()
 
-@property (nonatomic, assign) BOOL isIncoming;
+@property (nonatomic, assign) BOOL isOutgoing;
 
 @end
 
 @implementation ChatCell
 
-- (void)showIncomingMessage {
+- (void)showMessage {
+
+    if ([self.message.messageSender.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        self.isOutgoing = YES;
+    } else {
+        self.isOutgoing = NO;
+    }
 
     self.chatMessageContent = [UILabel new];
     self.chatMessageContent.numberOfLines = 0;
@@ -33,6 +39,10 @@
     CGSize bubbleSize = CGSizeMake(self.chatMessageContent.frame.size.width + 28, self.chatMessageContent.frame.size.height + 28);
     
     self.chatBox = [BubbleView new];
+    if (!self.isOutgoing) {
+        self.chatBox.incoming = YES;
+        self.chatMessageContent.textColor = [UIColor blackColor];
+    }
     self.chatBox.backgroundColor = [UIColor clearColor];
     self.chatBox.frame = CGRectMake(50, 50, bubbleSize.width, bubbleSize.height);
     
@@ -42,7 +52,7 @@
 
 - (void)updateConstraints {
 
-    if (!self.isIncoming) {
+    if (self.isOutgoing) {
         [self.chatBox mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView.mas_top);
             make.right.equalTo(self.contentView.mas_right);
@@ -63,7 +73,7 @@
             make.height.equalTo(@(self.chatBox.frame.size.height));
         }];
         [self.chatMessageContent mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView.mas_left).offset(-14);
+            make.left.equalTo(self.contentView.mas_left).offset(14);
             make.width.equalTo(@(self.chatBox.frame.size.width - 28));
             make.top.equalTo(self.contentView.mas_top).offset(14);
             make.bottom.equalTo(self.contentView.mas_bottom).offset(-22);

@@ -17,6 +17,6 @@
 @property (nonatomic, strong) UILabel *chatMessageContent;
 @property (nonatomic, strong) BubbleView *chatBox;
 
-- (void)showIncomingMessage;
+- (void)showMessage;
 
 @end

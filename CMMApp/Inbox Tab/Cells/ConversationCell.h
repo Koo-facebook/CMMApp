@@ -12,7 +12,7 @@
 
 @interface ConversationCell : UITableViewCell
 
-@property BOOL isUserOne;
+@property (nonatomic, assign) BOOL isUserOne;
 @property (nonatomic, strong) UIImageView *readIndicator;
 @property (nonatomic, strong) UILabel *usernameLabel;
 @property (nonatomic, strong) UILabel *topicLabel;

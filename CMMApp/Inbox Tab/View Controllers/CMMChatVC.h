@@ -12,7 +12,7 @@
 #import "ChatCell.h"
 #import "CMMParseQueryManager.h"
 
-@interface CMMChatVC : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
+@interface CMMChatVC : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIScrollViewDelegate, UITextViewDelegate>
 
 @property BOOL isUserOne;
 @property (nonatomic, strong) CMMConversation *conversation;

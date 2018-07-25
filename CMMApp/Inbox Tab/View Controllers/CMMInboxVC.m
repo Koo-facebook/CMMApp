@@ -10,9 +10,10 @@
 
 @interface CMMInboxVC ()
     
-@property UISearchBar *messagesSearchBar;
-@property UITableView *messagesTableView;
-@property NSMutableArray *conversations;
+@property (strong, nonatomic) UISearchBar *messagesSearchBar;
+@property (strong, nonatomic) UITableView *messagesTableView;
+@property (strong, nonatomic) NSMutableArray *conversations;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
     
 @end
 
@@ -31,6 +32,7 @@
     [self createSearchBar];
     [self createMessagesTableView];
     [self createTapGestureRecognizer:@selector(screenTapped:)];
+    [self createRefreshControl];
     
     [self updateConstraints];
 }
@@ -61,6 +63,12 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];
     tapGesture.cancelsTouchesInView = NO;
     [self.messagesTableView addGestureRecognizer:tapGesture];
+}
+
+- (void)createRefreshControl {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(pullConversations) forControlEvents:UIControlEventValueChanged];
+    [self.messagesTableView insertSubview:self.refreshControl atIndex:0];
 }
     
 - (void)updateConstraints {
@@ -119,9 +127,19 @@
         if (conversations) {
             self.conversations = [NSMutableArray arrayWithArray:conversations];
             [self.messagesTableView reloadData];
+            [self.refreshControl endRefreshing];
         } else {
             NSLog(@"%@", error.localizedDescription);
+            [self createAlert:@"Error" message:@"Unable to retrieve conversations. Check Connection"];
         }
+    }];
+}
+
+- (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{
     }];
 }
     

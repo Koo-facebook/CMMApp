@@ -61,14 +61,8 @@
     [self.view addSubview:menu];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)didPressPost:(id)sender {
+- (void)didPressPost:(id)sender {
     [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-        // Two things to work on here: it always shows an error even though it works. This may be the same error Omar is working on now. Once we fix that, I want to make it switch to the newsfeed tab when someone posts (not segue within the compose tab)
         if (error) {
             NSLog(@"CUSTOM Error: %@", error.localizedDescription);
         } else {
@@ -76,9 +70,7 @@
             [CMMUser.currentUser saveInBackground];
             self.questionTextField.text = @"";
             self.descriptionTextField.text = @"";
-            //CMMNewsfeedVC *feedVC = [[CMMNewsfeedVC alloc] init];
             self.tabBarController.selectedIndex = 0;
-            //[[self navigationController] pushViewController:feedVC animated:YES];
         }
     }];
 }
@@ -99,14 +91,5 @@
     
     [self.view.layer insertSublayer:theViewGradient atIndex:0];
 }
-
-/*
- #pragma mark - Navigation
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

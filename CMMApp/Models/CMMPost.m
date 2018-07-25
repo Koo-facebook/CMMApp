@@ -15,8 +15,6 @@
 @dynamic detailedDescription;
 @dynamic category;
 @dynamic tags;
-@dynamic agreeingUsersIds;
-@dynamic disagreeingUsersIds;
     
 + (nonnull NSString *)parseClassName {
     return @"CMMPost";
@@ -30,8 +28,6 @@
     newPost.detailedDescription = description;
     newPost.category = category;
     newPost.tags = tags;
-    newPost.agreeingUsersIds = [NSMutableArray new];
-    newPost.disagreeingUsersIds = [NSMutableArray new];
     
     [newPost saveInBackgroundWithBlock:completion];
     
