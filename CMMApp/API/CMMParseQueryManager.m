@@ -22,9 +22,6 @@
 
 - (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
     PFQuery *query;
-    if (trending) {
-        [self updateTrending];
-    }
     if (categories.count > 0) {
         NSMutableArray *queries = [[NSMutableArray alloc] init];
         for (NSString *category in categories) {
@@ -37,18 +34,35 @@
         query = [PFQuery queryWithClassName:@"CMMPost"];
     }
     [query includeKey:@"owner"];
-    [query orderByDescending:@"createdAt"];
     query.limit = number;
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Error: %@", error.localizedDescription);
-        } else {
-            completion(posts, nil);
-        }
-    }];
+    if (trending) {
+        [self updateTrendingWithCompletion:^(NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@", error.localizedDescription);
+            } else {
+                [query orderByDescending:@"trendingIndex"];
+                [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+                    if (error) {
+                        NSLog(@"Error: %@", error.localizedDescription);
+                    } else {
+                        completion(posts, nil);
+                    }
+                }];
+            }
+        }];
+    } else {
+        [query orderByDescending:@"createdAt"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error: %@", error.localizedDescription);
+            } else {
+                completion(posts, nil);
+            }
+        }];
+    }
 }
 
-- (void)updateTrending {
+- (void)updateTrendingWithCompletion:(void(^)(NSError *error))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
     query.limit = 20;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
@@ -56,16 +70,17 @@
             NSLog(@"Error: %@", error.localizedDescription);
         } else {
             for (CMMPost *post in posts) {
-                NSLog(@"Post: %@", post.topic);
+                //NSLog(@"Post: %@", post.topic);
                 float trendingIndex = 0;
                 for (NSDate *time in post.userChatTaps) {
-                    NSLog(@"Adding to index: %f", (1 / [[NSDate date] minutesFrom:time]));
+                    //NSLog(@"Adding to index: %f", (1 / [[NSDate date] minutesFrom:time]));
                     trendingIndex += (1 / [[NSDate date] minutesFrom:time]);
                 }
                 post.trendingIndex = trendingIndex;
-                NSLog(@"total index: %f", trendingIndex);
+                //NSLog(@"total index: %f", trendingIndex);
                 [post saveInBackground];
             }
+            completion(nil);
         }
     }];
 }
