@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) PFFile * _Nullable profileImage; // users profile image
 @property (nonatomic, strong) NSMutableArray *_Nullable preferences; // users set preferences (if any)
+@property (nonatomic, assign) BOOL online;
     
 + (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion;
 + (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withCompletion: (PFBooleanResultBlock  _Nullable)completion;

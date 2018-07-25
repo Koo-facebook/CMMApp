@@ -27,7 +27,7 @@
 }
 
 - (void)checkWhichUser {
-    if ([CMMUser.currentUser isEqual:self.conversation.user1]) {
+    if ([CMMUser.currentUser.objectId isEqualToString:self.conversation.user1.objectId]) {
         self.isUserOne = YES;
     } else {
         self.isUserOne = NO;
@@ -38,11 +38,8 @@
     self.usernameLabel = [UILabel new];
     if (self.isUserOne) {
         self.usernameLabel.text = self.conversation.user1.username;
-        NSLog(@"%@", self.conversation.user1.username);
     } else {
-        NSLog(@"%@", self.conversation.user2.objectId);
         self.usernameLabel.text = self.conversation.user2.username;
-        NSLog(@"%@", self.conversation.user2.username);
     }
     self.usernameLabel.textColor = [UIColor colorWithRed:54.0/255.0 green:173.0/255.0 blue:157.0/255.0 alpha:1.0];
     [self.usernameLabel sizeToFit];
@@ -69,8 +66,6 @@
     
 - (void)updateConstraints {
     
-    [super updateConstraints];
-    
     // Read indicator
     [self.readIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.readIndicator.superview.mas_top).offset(15);
@@ -93,6 +88,8 @@
         make.right.equalTo(self.usernameLabel.mas_right);
         make.bottom.equalTo(self.topicLabel.superview.mas_bottom).offset(-15);
     }];
+    
+    [super updateConstraints];
 }
     
 - (void)awakeFromNib {
