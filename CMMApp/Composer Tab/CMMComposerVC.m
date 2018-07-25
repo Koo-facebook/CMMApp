@@ -10,6 +10,7 @@
 #import "CMMNewsfeedVC.h"
 #import "CMMPost.h"
 #import <CCDropDownMenus/CCDropDownMenus.h>
+#import "CMMStyles.h"
 
 @interface CMMComposerVC () <CCDropDownMenuDelegate>
 @property (strong, nonatomic) UITextField *questionTextField;
@@ -56,7 +57,7 @@
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
     menu.delegate = self;
     menu.numberOfRows = 3;
-    self.categoryOptions = @[@"Economics", @"Immigration", @"Healthcare"];
+    self.categoryOptions = [CMMStyles getCategories];
     menu.textOfRows = self.categoryOptions;
     [self.view addSubview:menu];
 }
@@ -68,17 +69,14 @@
 
 - (IBAction)didPressPost:(id)sender {
     [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-        // Two things to work on here: it always shows an error even though it works. This may be the same error Omar is working on now. Once we fix that, I want to make it switch to the newsfeed tab when someone posts (not segue within the compose tab)
         if (error) {
-            NSLog(@"CUSTOM Error: %@", error.localizedDescription);
+            NSLog(@"Error: %@", error.localizedDescription);
         } else {
             NSLog(@"successful post");
             [CMMUser.currentUser saveInBackground];
             self.questionTextField.text = @"";
             self.descriptionTextField.text = @"";
-            //CMMNewsfeedVC *feedVC = [[CMMNewsfeedVC alloc] init];
             self.tabBarController.selectedIndex = 0;
-            //[[self navigationController] pushViewController:feedVC animated:YES];
         }
     }];
 }

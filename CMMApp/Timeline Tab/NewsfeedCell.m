@@ -9,6 +9,7 @@
 #import "NewsfeedCell.h"
 #import <DateTools.h>
 #import <Masonry.h>
+#import "CMMStyles.h"
 
 @implementation NewsfeedCell
 
@@ -29,20 +30,19 @@
     titleLabel.numberOfLines = 0;
     titleLabel.text = post.topic;
     [self.contentView addSubview:titleLabel];
-    [titleLabel setFont:[UIFont systemFontOfSize:14]];
+    [titleLabel setFont:[CMMStyles getFontWithSize:14 Weight:UIFontWeightLight]];
     
     UILabel *dateLabel = [[UILabel alloc] init];
     dateLabel.text = [post.createdAt timeAgoSinceNow];
-    UIColor *textColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
-    dateLabel.textColor = textColor;
+    dateLabel.textColor = [CMMStyles getTealColor];
     [self.contentView addSubview:dateLabel];
-    [dateLabel setFont:[UIFont systemFontOfSize:10]];
+    [dateLabel setFont:[CMMStyles getFontWithSize:10 Weight:UIFontWeightLight]];
     
     UILabel *categoryLabel = [[UILabel alloc] init];
     categoryLabel.text = post.category;
-    categoryLabel.textColor = textColor;
+    categoryLabel.textColor = [CMMStyles getTealColor];
     [self.contentView addSubview:categoryLabel];
-    [categoryLabel setFont:[UIFont systemFontOfSize:10]];
+    [categoryLabel setFont:[CMMStyles getFontWithSize:10 Weight:UIFontWeightBold]];
     
     // Autolayout for the labels
     UIEdgeInsets titlePadding = UIEdgeInsetsMake(28, 12, 12, 12);

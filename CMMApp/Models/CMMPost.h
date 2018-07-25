@@ -17,8 +17,8 @@
 @property (nonatomic, strong) NSString *_Nullable detailedDescription;
 @property (nonatomic, strong) NSString *_Nullable category;
 @property (nonatomic, strong) NSMutableArray *_Nullable tags;
-@property (nonatomic, strong) NSMutableArray *_Nullable agreeingUsersIds;
-@property (nonatomic, strong) NSMutableArray *_Nullable disagreeingUsersIds;
+@property (nonatomic, strong) NSMutableArray *_Nullable userChatTaps;
+@property (nonatomic, assign) float trendingIndex;
     
 + (void)createPost:(NSString *_Nonnull)topic description:(NSString *_Nullable)description category:(NSString *_Nullable)category tags:(NSMutableArray *_Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
     
