@@ -12,6 +12,7 @@
 #import "CMMProfileVC.h"
 #import "CMMEventsVC.h"
 #import "CMMEventDetailsVC.h"
+#import "CMMResourcesVC.h"
 
 @interface CMMMainTabBarVC : UITabBarController
 
