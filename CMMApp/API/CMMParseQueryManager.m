@@ -20,13 +20,18 @@
 }
 
 - (void)fetchPosts:(int)number Categories:(NSArray *)categories WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
-    NSMutableArray *queries = [[NSMutableArray alloc] init];
-    for (NSString *category in categories) {
-        PFQuery *categoryQuery = [PFQuery queryWithClassName:@"CMMPost"];
-        [categoryQuery whereKey:@"category" equalTo:category];
-        [queries addObject:categoryQuery];
+    PFQuery *query;
+    if (categories.count > 0) {
+        NSMutableArray *queries = [[NSMutableArray alloc] init];
+        for (NSString *category in categories) {
+            PFQuery *categoryQuery = [PFQuery queryWithClassName:@"CMMPost"];
+            [categoryQuery whereKey:@"category" equalTo:category];
+            [queries addObject:categoryQuery];
+        }
+        query = [PFQuery orQueryWithSubqueries:queries];
+    } else {
+        query = [PFQuery queryWithClassName:@"CMMPost"];
     }
-    PFQuery *query = [PFQuery orQueryWithSubqueries:queries];
     [query orderByDescending:@"createdAt"];
     query.limit = number;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {

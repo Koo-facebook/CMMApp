@@ -16,6 +16,10 @@
 @interface NewsfeedSideMenuVC () <UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UIButton *doneButton;
 //@property (strong, nonatomic) UIButton *cancelButton;
+@property (assign, nonatomic) int labelHeight;
+@property (assign, nonatomic) int topBuffer;
+@property (assign, nonatomic) int sideBuffer;
+@property (assign, nonatomic) int middleBuffer;
 @end
 
 @implementation NewsfeedSideMenuVC
@@ -29,15 +33,19 @@
 
 - (void)createMenu {
     self.categoryArray = [CMMStyles getCategories];
+    self.labelHeight = 30;
+    self.topBuffer = 40;
+    self.sideBuffer = 15;
+    self.middleBuffer = 50;
     
-    CGRect categoryHeaderFrame = CGRectMake(15, 36, 2*self.view.frame.size.width/3 - 30, 30);
+    CGRect categoryHeaderFrame = CGRectMake(self.sideBuffer, self.topBuffer, 2*self.view.frame.size.width/3 - 2*self.sideBuffer, self.labelHeight);
     UILabel *categoryHeader = [[UILabel alloc] initWithFrame:categoryHeaderFrame];
     categoryHeader.text = @"Pick your categories";
     categoryHeader.textColor = [UIColor whiteColor];
     categoryHeader.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightBold];
     [self.view addSubview:categoryHeader];
     
-    CGRect tableViewFrame = CGRectMake(0, 70, 2*self.view.frame.size.width/3, 240);
+    CGRect tableViewFrame = CGRectMake(0, self.topBuffer + self.labelHeight, 2*self.view.frame.size.width/3, self.labelHeight * self.categoryArray.count);
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     self.table.backgroundColor = [CMMStyles getTealColor];
     self.table.rowHeight = 30;
@@ -47,14 +55,14 @@
     [self.view addSubview:self.table];
     self.selectedCategories = [[NSMutableArray alloc] init];
     
-    CGRect sortHeaderFrame = CGRectMake(15, 340, 2*self.view.frame.size.width/3 - 30, 30);
+    CGRect sortHeaderFrame = CGRectMake(self.sideBuffer, self.topBuffer + self.labelHeight*(self.categoryArray.count) + self.middleBuffer, 2*self.view.frame.size.width/3 - 2 * self.sideBuffer, self.labelHeight);
     UILabel *sortHeader = [[UILabel alloc] initWithFrame:sortHeaderFrame];
     sortHeader.text = @"Sort by...";
     sortHeader.textColor = [UIColor whiteColor];
     sortHeader.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightBold];
     [self.view addSubview:sortHeader];
     
-    CGRect recentButtonFrame = CGRectMake(15, 370, 2*self.view.frame.size.width/3 - 30, 30);
+    CGRect recentButtonFrame = CGRectMake(self.sideBuffer, self.topBuffer + self.labelHeight*(self.categoryArray.count + 1) + self.middleBuffer, 2*self.view.frame.size.width/3 - 2*self.sideBuffer, self.labelHeight);
     UIButton *recentButton = [[UIButton alloc] initWithFrame:recentButtonFrame];
     [recentButton setTitle:@"Most Recent" forState:UIControlStateNormal];
     recentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -62,7 +70,7 @@
     recentButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
     [self.view addSubview:recentButton];
     
-    CGRect trendingButtonFrame = CGRectMake(15, 400, 2*self.view.frame.size.width/3 - 30, 30);
+    CGRect trendingButtonFrame = CGRectMake(self.sideBuffer, self.topBuffer + self.labelHeight*(self.categoryArray.count + 2) + self.middleBuffer, 2*self.view.frame.size.width/3 - 2*self.sideBuffer, self.labelHeight);
     UIButton *trendingButton = [[UIButton alloc] initWithFrame:trendingButtonFrame];
     [trendingButton setTitle:@"Trending" forState:UIControlStateNormal];
     trendingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -74,18 +82,19 @@
 - (void)createButtons {
     
     // done button
-    self.doneButton = [[UIButton alloc] init];
+    CGRect doneButtonFrame = CGRectMake(self.sideBuffer, self.view.frame.size.height - 60 - self.labelHeight, 2*self.view.frame.size.width/3 - 2*self.sideBuffer, self.labelHeight);
+    self.doneButton = [[UIButton alloc] initWithFrame:doneButtonFrame];
     [self.doneButton addTarget:self action:@selector(didPressDone) forControlEvents:UIControlEventTouchUpInside];
     [self.doneButton setTitle:@"Done" forState:UIControlStateNormal];
     [self.doneButton setBackgroundColor:[UIColor whiteColor]];
     [self.doneButton setTitleColor:[CMMStyles getTealColor] forState:UIControlStateNormal];
     [self.view addSubview:self.doneButton];
-    UIEdgeInsets donePadding = UIEdgeInsetsMake(0, 12, 60, 12);
+    /*UIEdgeInsets donePadding = UIEdgeInsetsMake(0, 12, 60, 12);
     [self.doneButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).with.offset(donePadding.left);
         make.right.equalTo(self.view.mas_right).with.offset(-donePadding.right);
         make.bottom.equalTo(self.view.mas_bottom).with.offset(-donePadding.bottom);
-    }];
+    }];*/
 }
 
 - (void)didPressDone {
@@ -121,7 +130,7 @@
         [self.selectedCategories removeObject:cell.textLabel.text];
     } else {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        cell.textLabel.textColor = [UIColor grayColor];
+        cell.textLabel.textColor = [UIColor blueColor];
         [self.selectedCategories addObject:cell.textLabel.text];
     }
 }
