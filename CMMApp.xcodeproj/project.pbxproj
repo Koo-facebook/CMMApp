@@ -16,6 +16,7 @@
 		136E306921027E2C009B4180 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 136E306821027E2C009B4180 /* CoreLocation.framework */; };
 		136E306C21064916009B4180 /* CMMEditProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E306B21064916009B4180 /* CMMEditProfileVC.m */; };
 		136E306F21064ECA009B4180 /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E306E21064ECA009B4180 /* ProfileCell.m */; };
+		2233AD3D2106AADE00F72593 /* BubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2233AD3C2106AADE00F72593 /* BubbleView.m */; };
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
@@ -60,6 +61,8 @@
 		136E306B21064916009B4180 /* CMMEditProfileVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMEditProfileVC.m; sourceTree = "<group>"; };
 		136E306D21064ECA009B4180 /* ProfileCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileCell.h; sourceTree = "<group>"; };
 		136E306E21064ECA009B4180 /* ProfileCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileCell.m; sourceTree = "<group>"; };
+		2233AD3B2106AADE00F72593 /* BubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BubbleView.h; sourceTree = "<group>"; };
+		2233AD3C2106AADE00F72593 /* BubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleView.m; sourceTree = "<group>"; };
 		228588D02101183C0087E455 /* CMMParseQueryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMParseQueryManager.h; sourceTree = "<group>"; };
 		228588D12101183C0087E455 /* CMMParseQueryManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMParseQueryManager.m; sourceTree = "<group>"; };
 		22F9EBE620FEAEA9002ADD9D /* CMMApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMMApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +164,8 @@
 				22F9EC4321000CA9002ADD9D /* ConversationCell.m */,
 				22F9EC4821004F33002ADD9D /* ChatCell.h */,
 				22F9EC4921004F33002ADD9D /* ChatCell.m */,
+				2233AD3B2106AADE00F72593 /* BubbleView.h */,
+				2233AD3C2106AADE00F72593 /* BubbleView.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -350,6 +355,11 @@
 				TargetAttributes = {
 					22F9EBE520FEAEA9002ADD9D = {
 						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -453,6 +463,7 @@
 				22F9EC2020FEB2B2002ADD9D /* CMMUser.m in Sources */,
 				22F9EC2920FEB600002ADD9D /* CMMInboxVC.m in Sources */,
 				22F9EC1120FEB055002ADD9D /* CMMEventAPIManager.m in Sources */,
+				2233AD3D2106AADE00F72593 /* BubbleView.m in Sources */,
 				136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */,
 				22F9EC1420FEB1EE002ADD9D /* CMMConversation.m in Sources */,
 				03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */,
@@ -593,13 +604,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 96W3N7G5K2;
+				DEVELOPMENT_TEAM = 524YAK9BG3;
 				INFOPLIST_FILE = CMMApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Omarasdf.CMMApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -611,13 +622,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 96W3N7G5K2;
+				DEVELOPMENT_TEAM = 524YAK9BG3;
 				INFOPLIST_FILE = CMMApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Omarasdf.CMMApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

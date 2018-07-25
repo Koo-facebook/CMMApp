@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UITableView *chatTableView;
 @property (nonatomic, strong) UITextView *writeMessageTextView;
 @property (nonatomic, strong) UIButton *sendButton;
+@property (nonatomic, strong) NSMutableDictionary *offscreenCells;
 
 @end
 
@@ -24,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self pullMessages];
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Chat";
@@ -55,9 +57,11 @@
     self.chatTableView.delegate = self;
     self.chatTableView.dataSource = self;
     self.chatTableView.rowHeight = UITableViewAutomaticDimension;
-    self.chatTableView.estimatedRowHeight = 100;
+    self.chatTableView.estimatedRowHeight = 150;
     self.chatTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     self.chatTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.chatTableView registerClass:[ChatCell class] forCellReuseIdentifier:@"chatCell"];
+    self.chatTableView.translatesAutoresizingMaskIntoConstraints = false;
     
     [self.view addSubview:self.chatTableView];
 }
@@ -160,21 +164,23 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     ChatCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:@"chatCell"];
     
     if (cell == nil) {
         cell = [[ChatCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatCell"];
     }
     
-    //cell.message = self.conversation.messages[indexPath.row];
-    [cell setupChatCell];
+    cell.message = self.messages[indexPath.row];
+    [cell showIncomingMessage];
+    [cell setNeedsUpdateConstraints];
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 0;
+    return self.messages.count;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -184,24 +190,18 @@
 - (void)sendButtonPressed:(id)sender {
     [CMMMessage createMessage:self.conversation content:self.writeMessageTextView.text attachment:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
-            [self.chatTableView reloadData];
+            [self pullMessages];
         }
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)pullMessages {
+    [[CMMParseQueryManager shared] fetchConversationMessagesWithCompletion:self.conversation withCompletion:^(NSArray *messages, NSError *error) {
+        if (messages) {
+            self.messages = [NSMutableArray arrayWithArray:messages];
+            [self.chatTableView reloadData];
+        }
+    }];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

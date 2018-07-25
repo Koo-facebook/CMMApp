@@ -10,10 +10,12 @@
 #import "CMMConversation.h"
 #import "CMMMessage.h"
 #import "ChatCell.h"
+#import "CMMParseQueryManager.h"
 
 @interface CMMChatVC : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
 
 @property BOOL isUserOne;
 @property (nonatomic, strong) CMMConversation *conversation;
+@property (nonatomic, strong) NSMutableArray *messages;
 
 @end

@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "CMMLoginVC.h"
-#import "Parse.h"
+#define SYSTEM_VERSION_GRATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 @interface AppDelegate ()
 
@@ -16,9 +15,10 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //[self registerForRemoteNotifications];
     
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
@@ -115,5 +115,20 @@
         abort();
     }
 }
+
+//- (void)registerForRemoteNotifications {
+//    if(SYSTEM_VERSION_GRATERTHAN_OR_EQUALTO(@"10.0")){
+//        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+//        center.delegate = self;
+//        [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
+//             if(!error){
+//                 [[UIApplication sharedApplication] registerForRemoteNotifications];
+//             }
+//         }];
+//    }
+//    else {
+//        // Code for old versions
+//    }
+//}
 
 @end

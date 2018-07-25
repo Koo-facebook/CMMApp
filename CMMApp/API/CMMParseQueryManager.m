@@ -64,9 +64,9 @@
 }
 
 - (void)fetchConversationMessagesWithCompletion:(CMMConversation *)conversation withCompletion: (void(^)(NSArray *messages, NSError *error)) completion {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"conversation = ", conversation];
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessages" predicate:predicate];
-    [query orderByDescending:@"createdAt"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"conversation = %@", conversation];
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessage" predicate:predicate];
+    [query orderByAscending:@"createdAt"];
     [query includeKey:@"messageSender"];
     [query includeKey:@"conversation"];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable messages, NSError * _Nullable error) {

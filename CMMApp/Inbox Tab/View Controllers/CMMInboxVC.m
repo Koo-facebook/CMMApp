@@ -17,19 +17,12 @@
 @end
 
 @implementation CMMInboxVC
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        //self.conversations = CMMUser.currentUser.conversations;
-    }
-    return self;
-}
     
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self pullConversations];
     
     self.title = @"Inbox";
     
@@ -40,8 +33,6 @@
     [self createTapGestureRecognizer:@selector(screenTapped:)];
     
     [self updateConstraints];
-    
-    [self pullConversations];
 }
     
 - (void)createMessagesTableView {
@@ -92,12 +83,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ConversationCell *cell = [self.messagesTableView dequeueReusableCellWithIdentifier:@"conversationCell"];
     
-    if ([self.conversations[0] isKindOfClass:[CMMConversation class]]) {
-        CMMConversation *convo = self.conversations[0];
-        CMMUser *user2 = convo.user2;
-        NSLog(@"%@", user2.username);
-    }
-    
     if (cell == nil) {
         cell = [[ConversationCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationCell"];
         cell.conversation = self.conversations[indexPath.row];
@@ -132,33 +117,12 @@
 - (void)pullConversations {
     [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
         if (conversations) {
-            for (CMMConversation *conversation in conversations) {
-                //NSMutableArray *messages = conversation.messages;
-                
-                //conversation.messages = messages;
-            }
             self.conversations = [NSMutableArray arrayWithArray:conversations];
-            
             [self.messagesTableView reloadData];
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
     }];
 }
-    
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-    
-    /*
-     #pragma mark - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-     // Get the new view controller using [segue destinationViewController].
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 @end
