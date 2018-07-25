@@ -17,7 +17,7 @@
 + (instancetype)shared;
 - (void)fetchConversationMessagesWithCompletion:(CMMConversation *)conversation skipCount:(NSInteger)skipCount withCompletion: (void(^)(NSArray *messages, NSError *error)) completion;
 - (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error))completion;
-- (void)fetchPostsWithCompletion:(void(^)(NSArray *posts, NSError *error))completion;
+- (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending WithCompletion:(void(^)(NSArray *posts, NSError *error))completion;
 - (void)fetchUsersPostsWithCompletion:(CMMUser *)user withCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 
 @end

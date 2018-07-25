@@ -10,6 +10,7 @@
 #import "CMMNewsfeedVC.h"
 #import "CMMPost.h"
 #import <CCDropDownMenus/CCDropDownMenus.h>
+#import "CMMStyles.h"
 
 @interface CMMComposerVC () <CCDropDownMenuDelegate>
 @property (strong, nonatomic) UITextField *questionTextField;
@@ -56,7 +57,7 @@
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
     menu.delegate = self;
     menu.numberOfRows = 3;
-    self.categoryOptions = @[@"Economics", @"Immigration", @"Healthcare"];
+    self.categoryOptions = [CMMStyles getCategories];
     menu.textOfRows = self.categoryOptions;
     [self.view addSubview:menu];
 }
@@ -64,7 +65,7 @@
 - (void)didPressPost:(id)sender {
     [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"CUSTOM Error: %@", error.localizedDescription);
+            NSLog(@"Error: %@", error.localizedDescription);
         } else {
             NSLog(@"successful post");
             [CMMUser.currentUser saveInBackground];

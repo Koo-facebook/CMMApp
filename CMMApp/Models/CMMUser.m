@@ -25,6 +25,18 @@
     [newUser signUpInBackgroundWithBlock:completion];
 }
 
++ (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withCompletion: (PFBooleanResultBlock  _Nullable)completion {
+    
+    PFUser *user = [PFUser currentUser];
+    user[@"profileImage"] = [self getPFFileFromImage:image];
+    //user.username = PFUser.currentUser.username;
+    user[@"profileBio"] = bio;
+    user[@"displayedName"] = name;
+    
+    [user saveInBackgroundWithBlock: completion];
+    
+}
+
 + (PFFile *)getPFFileFromImage: (UIImage * _Nullable)image {
     if (!image) {
         return nil;

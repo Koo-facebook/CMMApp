@@ -16,6 +16,7 @@
 @property (nonatomic, assign) BOOL online;
     
 + (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion;
++ (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 + (PFFile *_Nullable)getPFFileFromImage: (UIImage * _Nullable)image;
     
 @end

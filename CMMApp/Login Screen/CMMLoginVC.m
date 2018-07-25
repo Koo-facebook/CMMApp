@@ -226,6 +226,8 @@
                 [self createAlert:@"Sign Up Error" message:@"There was a problem signing up. Please try again"];
             } else {
                 NSLog(@"User registered successfully");
+                CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
+                [self presentViewController:tabBarVC animated:YES completion:^{}];
             }
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];

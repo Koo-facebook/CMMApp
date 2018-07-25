@@ -64,7 +64,6 @@
         
     }];
     
-    
     // Profile Bio Label
     [self.profileBioLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.usernameLabel.mas_bottom).offset(20);
@@ -97,14 +96,18 @@
     self.usernameLabel.textColor = [UIColor blackColor];
     self.usernameLabel.font = [UIFont fontWithName:@"Arial" size:26];
     self.usernameLabel.numberOfLines = 1;
-    self.usernameLabel.text = user.username;
+    self.usernameLabel.text = user[@"displayedName"];
     [self.view addSubview:self.usernameLabel];
 }
 
 -(void) createProfileImage {
     self.profileImage = [[PFImageView alloc] init];
     self.profileImage.backgroundColor = [UIColor blackColor];
-    // CONVERT TO BE VIEWED
+    
+    PFUser * user = PFUser.currentUser;
+    self.profileImage.file = user[@"profileImage"];
+    [self.profileImage loadInBackground];
+    
     self.profileImage.frame = CGRectMake(self.profileImage.frame.origin.x, self.profileImage.frame.origin.y, 150, 150);
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2;
     self.profileImage.clipsToBounds = YES;
