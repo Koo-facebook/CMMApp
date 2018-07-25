@@ -170,7 +170,6 @@
         }
     }];
     [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
-    NSLog(@"%@", self.post.userChatTaps);
     [self.post saveInBackground];
 }
 

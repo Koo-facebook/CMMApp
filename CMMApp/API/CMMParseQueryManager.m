@@ -36,7 +36,7 @@
     [query includeKey:@"owner"];
     query.limit = number;
     if (trending) {
-        [self updateTrendingWithCompletion:^(NSError *error) {
+        [self updateTrendingLimit:number WithCompletion:^(NSError *error) {
             if (error) {
                 NSLog(@"Error: %@", error.localizedDescription);
             } else {
@@ -62,22 +62,19 @@
     }
 }
 
-- (void)updateTrendingWithCompletion:(void(^)(NSError *error))completion {
+- (void)updateTrendingLimit:(int)limit WithCompletion:(void(^)(NSError *error))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
-    query.limit = 20;
+    query.limit = limit;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         } else {
             for (CMMPost *post in posts) {
-                //NSLog(@"Post: %@", post.topic);
                 float trendingIndex = 0;
                 for (NSDate *time in post.userChatTaps) {
-                    //NSLog(@"Adding to index: %f", (1 / [[NSDate date] minutesFrom:time]));
                     trendingIndex += (1 / [[NSDate date] minutesFrom:time]);
                 }
                 post.trendingIndex = trendingIndex;
-                //NSLog(@"total index: %f", trendingIndex);
                 [post saveInBackground];
             }
             completion(nil);
