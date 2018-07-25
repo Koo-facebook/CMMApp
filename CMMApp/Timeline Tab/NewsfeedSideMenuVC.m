@@ -20,6 +20,9 @@
 @property (assign, nonatomic) int topBuffer;
 @property (assign, nonatomic) int sideBuffer;
 @property (assign, nonatomic) int middleBuffer;
+@property (strong, nonatomic) UIButton *recentButton;
+@property (strong, nonatomic) UIButton *trendingButton;
+@property (assign, nonatomic) BOOL sortByTrending;
 @end
 
 @implementation NewsfeedSideMenuVC
@@ -61,22 +64,6 @@
     sortHeader.textColor = [UIColor whiteColor];
     sortHeader.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightBold];
     [self.view addSubview:sortHeader];
-    
-    CGRect recentButtonFrame = CGRectMake(self.sideBuffer, self.topBuffer + self.labelHeight*(self.categoryArray.count + 1) + self.middleBuffer, 2*self.view.frame.size.width/3 - 2*self.sideBuffer, self.labelHeight);
-    UIButton *recentButton = [[UIButton alloc] initWithFrame:recentButtonFrame];
-    [recentButton setTitle:@"Most Recent" forState:UIControlStateNormal];
-    recentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [recentButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    recentButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
-    [self.view addSubview:recentButton];
-    
-    CGRect trendingButtonFrame = CGRectMake(self.sideBuffer, self.topBuffer + self.labelHeight*(self.categoryArray.count + 2) + self.middleBuffer, 2*self.view.frame.size.width/3 - 2*self.sideBuffer, self.labelHeight);
-    UIButton *trendingButton = [[UIButton alloc] initWithFrame:trendingButtonFrame];
-    [trendingButton setTitle:@"Trending" forState:UIControlStateNormal];
-    trendingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [trendingButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    trendingButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
-    [self.view addSubview:trendingButton];
 }
 
 - (void)createButtons {
@@ -89,17 +76,43 @@
     [self.doneButton setBackgroundColor:[UIColor whiteColor]];
     [self.doneButton setTitleColor:[CMMStyles getTealColor] forState:UIControlStateNormal];
     [self.view addSubview:self.doneButton];
-    /*UIEdgeInsets donePadding = UIEdgeInsetsMake(0, 12, 60, 12);
-    [self.doneButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left).with.offset(donePadding.left);
-        make.right.equalTo(self.view.mas_right).with.offset(-donePadding.right);
-        make.bottom.equalTo(self.view.mas_bottom).with.offset(-donePadding.bottom);
-    }];*/
+    
+    CGRect recentButtonFrame = CGRectMake(self.sideBuffer, self.topBuffer + self.labelHeight*(self.categoryArray.count + 1) + self.middleBuffer, 2*self.view.frame.size.width/3 - 2*self.sideBuffer, self.labelHeight);
+    self.recentButton = [[UIButton alloc] initWithFrame:recentButtonFrame];
+    [self.recentButton setTitle:@"Most Recent" forState:UIControlStateNormal];
+    self.recentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self.recentButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.recentButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
+    [self.recentButton setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+    [self.recentButton addTarget:self action:@selector(didPressRecent) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.recentButton];
+    
+    CGRect trendingButtonFrame = CGRectMake(self.sideBuffer, self.topBuffer + self.labelHeight*(self.categoryArray.count + 2) + self.middleBuffer, 2*self.view.frame.size.width/3 - 2*self.sideBuffer, self.labelHeight);
+    self.trendingButton = [[UIButton alloc] initWithFrame:trendingButtonFrame];
+    [self.trendingButton setTitle:@"Trending" forState:UIControlStateNormal];
+    self.trendingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self.trendingButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.trendingButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
+    [self.trendingButton setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+    [self.trendingButton addTarget:self action:@selector(didPressTrending) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.trendingButton];
 }
 
 - (void)didPressDone {
-    [self.delegate reloadCategories:self.selectedCategories];
+    [self.delegate reloadNewsfeedWithCategories:self.selectedCategories Trending:self.sortByTrending];
     [self.sideMenuController hideRightViewAnimated];
+}
+
+- (void)didPressRecent {
+    self.recentButton.selected = YES;
+    self.trendingButton.selected = NO;
+    self.sortByTrending = NO;
+}
+
+- (void)didPressTrending {
+    self.recentButton.selected = NO;
+    self.trendingButton.selected = YES;
+    self.sortByTrending = YES;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -25,6 +25,7 @@
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
 @property (assign, nonatomic) int queryNumber;
+@property (assign, nonatomic) BOOL sortByTrending;
 @end
 
 @implementation CMMNewsfeedVC
@@ -71,7 +72,7 @@
 }
 
 - (void)fetchPosts {
-    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories WithCompletion:^(NSArray *posts, NSError *error) {
+    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             self.posts = posts;
             self.filteredPosts = posts;
@@ -129,6 +130,7 @@
     CMMPost *post = self.filteredPosts[indexPath.row];
     [detailVC configureDetails:post];
     [[self navigationController] pushViewController:detailVC animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -146,8 +148,9 @@
     }
 }
 
-- (void)reloadCategories:(NSArray *)categories {
+- (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending {
     self.categories = categories;
+    self.sortByTrending = trending;
     [self fetchPosts];
     [self.table reloadData];
 }

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @protocol SideMenuDelegate
-- (void)reloadCategories:(NSArray *)categories;
+- (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending;
 @end
 
 @interface NewsfeedSideMenuVC : UIViewController

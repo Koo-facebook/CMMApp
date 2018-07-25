@@ -169,6 +169,8 @@
             NSLog(@"Error: %@", error.localizedDescription);
         }
     }];
+    [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
+    [self.post saveInBackground];
 }
 
 - (void)didPressResources {
