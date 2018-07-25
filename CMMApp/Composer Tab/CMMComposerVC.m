@@ -36,12 +36,14 @@
     
     self.title = @"Compose";
     [self createBackgroundGradient];
+    self.categoryOptions = [CMMStyles getCategories];
     
     // scroll view
     CGRect scrollFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.scrollView = [[UIScrollView alloc] initWithFrame:scrollFrame];
     self.scrollView.scrollEnabled=YES;
     self.scrollView.userInteractionEnabled=YES;
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 50*(self.categoryOptions.count + 2) + 200);
     [self.view addSubview:self.scrollView];
     
     // create typing fields
@@ -60,14 +62,15 @@
     [self.scrollView addSubview:self.questionTextField];
     [self.scrollView addSubview:self.descriptionTextField];
     
+    // tap gesture recognizer
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.view addGestureRecognizer:tapRecognizer];
     
     // create dropdown menu for category
     CGRect menuFrame = CGRectMake(minimumSideBuffer, 200, 150, 50);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
-    self.categoryOptions = [CMMStyles getCategories];
     //menu.heightOfRows = (self.view.frame.size.height - 380)/self.categoryOptions.count;
+    menu.heightOfRows = 50;
     menu.delegate = self;
     menu.numberOfRows = self.categoryOptions.count;
     menu.textOfRows = self.categoryOptions;
