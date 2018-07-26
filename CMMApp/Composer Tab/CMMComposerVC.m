@@ -63,7 +63,7 @@
 }
 
 - (void)didPressPost:(id)sender {
-    [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+    [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMPost *newPost) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         } else {

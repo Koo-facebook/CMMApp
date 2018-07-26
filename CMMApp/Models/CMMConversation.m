@@ -13,6 +13,7 @@
 @dynamic user1;
 @dynamic user2;
 @dynamic topic;
+@dynamic lastMessageSent;
 @dynamic userOneRead;
 @dynamic userTwoRead;
     
@@ -20,7 +21,7 @@
     return @"CMMConversation";
 }
     
-+(void)createConversation:(CMMUser *_Nonnull)user2 topic:(NSString *_Nullable)topic withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (void)createConversation:(CMMUser *_Nonnull)user2 topic:(NSString *_Nullable)topic withCompletion: (void(^)(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation))completion {
         
     CMMConversation *newConversation = [CMMConversation new];
     newConversation.user1 = CMMUser.currentUser;
@@ -29,7 +30,9 @@
     newConversation.userTwoRead = NO;
     newConversation.userOneRead = YES;
     
-    [newConversation saveInBackgroundWithBlock:completion];
+    [newConversation saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        completion(succeeded, error, newConversation);
+    }];
     
 }
     

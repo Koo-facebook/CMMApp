@@ -23,7 +23,8 @@
     if (self) {
         self.incoming = NO;
         self.incomingColor = [UIColor colorWithWhite:229.5/255.0 alpha:1];
-        self.outgoingColor = [UIColor colorWithRed:22.95/255.0 green:137.7/255.0 blue:255.0/255.0 alpha:1];
+        self.outgoingColor = [UIColor colorWithRed:54.0/255.0 green:173.0/255.0 blue:157.0/255.0 alpha:0.6];
+        //self.outgoingColor = [UIColor colorWithRed:22.95/255.0 green:137.7/255.0 blue:255.0/255.0 alpha:1];
     }
     return self;
 }

@@ -43,7 +43,8 @@
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     if (CMMUser.currentUser) {
         CMMUser.currentUser.online = YES;
-        self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
+        [CMMUser.currentUser saveInBackground];
+        self.window.rootViewController = [[CMMLoginVC alloc] init];
     } else {
         self.window.rootViewController = [[CMMLoginVC alloc] init];
     }
@@ -56,8 +57,10 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    [CMMUser.currentUser fetch];
     if (CMMUser.currentUser) {
         CMMUser.currentUser.online = NO;
+        [CMMUser.currentUser saveInBackground];
     }
 }
 
@@ -75,8 +78,15 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [CMMUser.currentUser fetch];
     if (CMMUser.currentUser) {
-        CMMUser.currentUser.online = YES;
+        if (CMMUser.currentUser.online == YES) {
+//            [CMMUser logOutInBackground];
+//            self.window.rootViewController = [[CMMLoginVC alloc] init];
+        } else {
+            CMMUser.currentUser.online = YES;
+            [CMMUser.currentUser saveInBackground];
+        }
     }
 }
 
@@ -84,6 +94,11 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
+    [CMMUser.currentUser fetch];
+    if (CMMUser.currentUser) {
+        CMMUser.currentUser.online = NO;
+        [CMMUser.currentUser saveInBackground];
+    }
     [self saveContext];
 }
 
@@ -132,20 +147,5 @@
         abort();
     }
 }
-
-//- (void)registerForRemoteNotifications {
-//    if(SYSTEM_VERSION_GRATERTHAN_OR_EQUALTO(@"10.0")){
-//        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-//        center.delegate = self;
-//        [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
-//             if(!error){
-//                 [[UIApplication sharedApplication] registerForRemoteNotifications];
-//             }
-//         }];
-//    }
-//    else {
-//        // Code for old versions
-//    }
-//}
 
 @end

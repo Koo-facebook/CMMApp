@@ -17,6 +17,6 @@
 @property (nonatomic, strong) NSString *_Nullable content;
 @property (nonatomic, strong) PFFile *_Nullable attachment;
     
-+ (void)createMessage:(CMMConversation *_Nonnull)conversation content:(NSString *_Nonnull)content attachment:(PFFile *_Nullable)attachment withCompletion:(PFBooleanResultBlock _Nullable)completion;
++ (void)createMessage:(CMMConversation *_Nonnull)conversation content:(NSString *_Nonnull)content attachment:(PFFile *_Nullable)attachment withCompletion:(void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMMessage * _Nullable message))completion;
     
 @end

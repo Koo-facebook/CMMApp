@@ -11,6 +11,8 @@
 #import "CMMMessage.h"
 #import "ChatCell.h"
 #import "CMMParseQueryManager.h"
+#import <ParseUI/ParseUI.h>
+#import "CMMProfileVC.h"
 
 @interface CMMChatVC : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIScrollViewDelegate, UITextViewDelegate>
 

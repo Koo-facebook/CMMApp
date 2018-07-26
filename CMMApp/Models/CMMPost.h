@@ -20,6 +20,6 @@
 @property (nonatomic, strong) NSMutableArray *_Nullable userChatTaps;
 @property (nonatomic, assign) float trendingIndex;
     
-+ (void)createPost:(NSString *_Nonnull)topic description:(NSString *_Nullable)description category:(NSString *_Nullable)category tags:(NSMutableArray *_Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (void)createPost:(NSString *_Nullable)topic description:(NSString *_Nullable)description category:(NSString *_Nullable)category tags:(NSMutableArray *_Nullable)tags withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMPost * _Nullable post))completion;
     
 @end
