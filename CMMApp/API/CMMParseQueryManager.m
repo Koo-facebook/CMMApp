@@ -112,12 +112,14 @@
     }];
 }
 
-- (void)fetchConversationMessagesWithCompletion:(CMMConversation *)conversation withCompletion: (void(^)(NSArray *messages, NSError *error)) completion {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"conversation = ", conversation];
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessages" predicate:predicate];
+- (void)fetchConversationMessagesWithCompletion:(CMMConversation *)conversation skipCount:(NSInteger)skipCount withCompletion: (void(^)(NSArray *messages, NSError *error)) completion {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"conversation = %@", conversation];
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessage" predicate:predicate];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"messageSender"];
     [query includeKey:@"conversation"];
+    query.limit = 20;
+    query.skip = skipCount;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable messages, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);

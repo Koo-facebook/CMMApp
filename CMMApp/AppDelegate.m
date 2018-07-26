@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "CMMLoginVC.h"
-#import "Parse.h"
+#define SYSTEM_VERSION_GRATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 @interface AppDelegate ()
 
@@ -16,9 +15,20 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //[self registerForRemoteNotifications];
+
+    // Navigation Customization
+    /*[[UINavigationBar appearance] setBarTintColor:[UIColor grayColor]];
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+    shadow.shadowOffset = CGSizeMake(0, 1);
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0], NSForegroundColorAttributeName,
+                                                           shadow, NSShadowAttributeName,
+                                                           [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:21.0], NSFontAttributeName, nil]]; */
     
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
@@ -32,6 +42,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     if (CMMUser.currentUser) {
+        CMMUser.currentUser.online = YES;
         self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
     } else {
         self.window.rootViewController = [[CMMLoginVC alloc] init];
@@ -45,6 +56,9 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    if (CMMUser.currentUser) {
+        CMMUser.currentUser.online = NO;
+    }
 }
 
 
@@ -61,6 +75,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if (CMMUser.currentUser) {
+        CMMUser.currentUser.online = YES;
+    }
 }
 
 
@@ -115,5 +132,20 @@
         abort();
     }
 }
+
+//- (void)registerForRemoteNotifications {
+//    if(SYSTEM_VERSION_GRATERTHAN_OR_EQUALTO(@"10.0")){
+//        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+//        center.delegate = self;
+//        [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
+//             if(!error){
+//                 [[UIApplication sharedApplication] registerForRemoteNotifications];
+//             }
+//         }];
+//    }
+//    else {
+//        // Code for old versions
+//    }
+//}
 
 @end

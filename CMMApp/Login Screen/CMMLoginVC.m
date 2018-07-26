@@ -10,14 +10,14 @@
 
 @interface CMMLoginVC ()
     
-    @property (nonatomic, strong) UIButton *signUpButton;
-    @property (nonatomic, strong) UIButton *loginButton;
-    @property (nonatomic, strong) UITextField *usernameTextField;
-    @property (nonatomic, strong) UITextField *passwordTextField;
-    @property (nonatomic, strong) UILabel *titleLabel;
-    @property (nonatomic, strong) UIImageView *logoImage;
+@property (nonatomic, strong) UIButton *signUpButton;
+@property (nonatomic, strong) UIButton *loginButton;
+@property (nonatomic, strong) UITextField *usernameTextField;
+@property (nonatomic, strong) UITextField *passwordTextField;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *logoImage;
     
-    @end
+@end
 
 @implementation CMMLoginVC
     
@@ -203,6 +203,7 @@
                 [self createAlert:@"Login Error" message:@"There was a problem logging in. Please try again."];
             } else {
                 NSLog(@"User logged in successfully");
+                CMMUser.currentUser.online = YES;
                 CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
                 [self presentViewController:tabBarVC animated:YES completion:^{}];
             }

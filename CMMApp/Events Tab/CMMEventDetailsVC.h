@@ -11,7 +11,7 @@
 #import "CMMEvent.h"
 #import "CMMVenue.h"
 
-@interface CMMEventDetailsVC : UIViewController
+@interface CMMEventDetailsVC : UIViewController <UIScrollViewDelegate>
 
 @property (strong, nonatomic) UILabel *eventName;
 @property (strong, nonatomic) UILabel *date;
@@ -19,6 +19,7 @@
 @property (strong, nonatomic) UILabel *location;
 @property (strong, nonatomic) UILabel *eventDescription;
 @property (nonatomic, strong) UIButton *addToCalendarButton;
+@property (nonatomic, strong) UIScrollView *scroll;
 @property (strong, nonatomic) CMMEvent *event;
 @property (strong, nonatomic) CMMVenue *venue;
 

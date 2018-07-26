@@ -10,26 +10,20 @@
 
 @interface CMMInboxVC ()
     
-@property UISearchBar *messagesSearchBar;
-@property UITableView *messagesTableView;
-@property NSMutableArray *conversations;
+@property (strong, nonatomic) UISearchBar *messagesSearchBar;
+@property (strong, nonatomic) UITableView *messagesTableView;
+@property (strong, nonatomic) NSMutableArray *conversations;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
     
 @end
 
 @implementation CMMInboxVC
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        //self.conversations = CMMUser.currentUser.conversations;
-    }
-    return self;
-}
     
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self pullConversations];
     
     self.title = @"Inbox";
     
@@ -38,10 +32,9 @@
     [self createSearchBar];
     [self createMessagesTableView];
     [self createTapGestureRecognizer:@selector(screenTapped:)];
+    [self createRefreshControl];
     
     [self updateConstraints];
-    
-    [self pullConversations];
 }
     
 - (void)createMessagesTableView {
@@ -71,6 +64,12 @@
     tapGesture.cancelsTouchesInView = NO;
     [self.messagesTableView addGestureRecognizer:tapGesture];
 }
+
+- (void)createRefreshControl {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(pullConversations) forControlEvents:UIControlEventValueChanged];
+    [self.messagesTableView insertSubview:self.refreshControl atIndex:0];
+}
     
 - (void)updateConstraints {
     
@@ -91,12 +90,6 @@
     
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ConversationCell *cell = [self.messagesTableView dequeueReusableCellWithIdentifier:@"conversationCell"];
-    
-    if ([self.conversations[0] isKindOfClass:[CMMConversation class]]) {
-        CMMConversation *convo = self.conversations[0];
-        CMMUser *user2 = convo.user2;
-        NSLog(@"%@", user2.username);
-    }
     
     if (cell == nil) {
         cell = [[ConversationCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationCell"];
@@ -132,33 +125,22 @@
 - (void)pullConversations {
     [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
         if (conversations) {
-            for (CMMConversation *conversation in conversations) {
-                //NSMutableArray *messages = conversation.messages;
-                
-                //conversation.messages = messages;
-            }
             self.conversations = [NSMutableArray arrayWithArray:conversations];
-            
             [self.messagesTableView reloadData];
+            [self.refreshControl endRefreshing];
         } else {
             NSLog(@"%@", error.localizedDescription);
+            [self createAlert:@"Error" message:@"Unable to retrieve conversations. Check Connection"];
         }
     }];
 }
-    
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{
+    }];
 }
-    
-    /*
-     #pragma mark - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-     // Get the new view controller using [segue destinationViewController].
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 @end

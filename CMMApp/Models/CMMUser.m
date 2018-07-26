@@ -12,6 +12,7 @@
     
 @dynamic profileImage;
 @dynamic preferences;
+@dynamic online;
     
 + (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion{
     CMMUser *newUser = [CMMUser new];
@@ -19,6 +20,7 @@
     newUser.password = password;
     newUser.preferences = [NSMutableArray new];
     newUser.profileImage = [CMMUser getPFFileFromImage:[UIImage imageNamed:@"placeholderProfileImage"]];
+    newUser.online = NO;
     
     [newUser signUpInBackgroundWithBlock:completion];
 }
