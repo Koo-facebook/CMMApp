@@ -13,6 +13,7 @@
 #import "CMMStyles.h"
 
 @interface CMMComposerVC () <CCDropDownMenuDelegate>
+@property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UITextField *questionTextField;
 @property (strong, nonatomic) UITextField *descriptionTextField;
 @property (strong, nonatomic) NSString *categoryString;
@@ -35,12 +36,21 @@
     
     self.title = @"Compose";
     [self createBackgroundGradient];
+    self.categoryOptions = [CMMStyles getCategories];
+    
+    // scroll view
+    CGRect scrollFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.scrollView = [[UIScrollView alloc] initWithFrame:scrollFrame];
+    self.scrollView.scrollEnabled=YES;
+    self.scrollView.userInteractionEnabled=YES;
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 50*(self.categoryOptions.count + 2) + 200);
+    [self.view addSubview:self.scrollView];
     
     // create typing fields
     int minimumSideBuffer = 15;
     int textCornerRadius = 5;
-    CGRect questionFrame = CGRectMake(minimumSideBuffer, 100, self.view.frame.size.width - 2 * minimumSideBuffer, 40);
-    CGRect descriptionFrame = CGRectMake(minimumSideBuffer, 150, self.view.frame.size.width - 2 * minimumSideBuffer, 100);
+    CGRect questionFrame = CGRectMake(minimumSideBuffer, 20, self.view.frame.size.width - 2 * minimumSideBuffer, 40);
+    CGRect descriptionFrame = CGRectMake(minimumSideBuffer, 70, self.view.frame.size.width - 2 * minimumSideBuffer, 100);
     self.questionTextField = [[UITextField alloc] initWithFrame:questionFrame];
     self.descriptionTextField = [[UITextField alloc] initWithFrame:descriptionFrame];
     self.questionTextField.layer.cornerRadius = textCornerRadius;
@@ -49,20 +59,33 @@
     self.descriptionTextField.backgroundColor = [UIColor whiteColor];
     self.questionTextField.placeholder = @"What's your stance?";
     self.descriptionTextField.placeholder = @"Tell us why!";
-    [self.view addSubview:self.questionTextField];
-    [self.view addSubview:self.descriptionTextField];
+    [self.scrollView addSubview:self.questionTextField];
+    [self.scrollView addSubview:self.descriptionTextField];
+    
+    // tap gesture recognizer
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    [self.view addGestureRecognizer:tapRecognizer];
     
     // create dropdown menu for category
-    CGRect menuFrame = CGRectMake(minimumSideBuffer, 270, 150, 50);
+    CGRect menuFrame = CGRectMake(minimumSideBuffer, 200, 150, 50);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
+    menu.heightOfRows = 50;
     menu.delegate = self;
-    menu.numberOfRows = 3;
-    self.categoryOptions = [CMMStyles getCategories];
+    menu.numberOfRows = self.categoryOptions.count;
     menu.textOfRows = self.categoryOptions;
-    [self.view addSubview:menu];
+    [self.scrollView addSubview:menu];
 }
 
-- (void)didPressPost:(id)sender {
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)hideKeyboard {
+    [self.view endEditing:YES];
+}
+
+- (IBAction)didPressPost:(id)sender {
     [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);

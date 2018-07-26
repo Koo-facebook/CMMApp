@@ -19,7 +19,7 @@
 }
 
 + (NSArray *)getCategories {
-    NSArray *array = @[@"Economics", @"Immigration", @"Healthcare", @"Another Category", @"Also this one!", @"Local Politics"];
+    NSArray *array = @[@"Criminal Issues", @"Economics", @"Education", @"Elections", @"Environment", @"Foreign Poicy", @"Healthcare", @"Immigration", @"Local Politics", @"National Security", @"Social Issues"];
     return array;
 }
 
