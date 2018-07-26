@@ -160,17 +160,21 @@
 }
 
 - (void)didPressChat {
-    [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
-            CMMChatVC *chatVC = [[CMMChatVC alloc] init];
-            //chatVC.conversation = CMMUser.currentUser.conversations[CMMUser.currentUser.conversations.count - 1];
-            [[self navigationController] pushViewController:chatVC animated:YES];
-        } else {
-            NSLog(@"Error: %@", error.localizedDescription);
-        }
-    }];
-    [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
-    [self.post saveInBackground];
+    if (![self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
+            if (succeeded) {
+                CMMChatVC *chatVC = [[CMMChatVC alloc] init];
+                chatVC.conversation = conversation;
+                [[self navigationController] pushViewController:chatVC animated:YES];
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+            }
+        }];
+        [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
+        [self.post saveInBackground];
+    } else {
+        
+    }
 }
 
 - (void)didPressResources {

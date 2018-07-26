@@ -22,6 +22,7 @@
 		136E307B2108EEF2009B4180 /* TopicsCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E307A2108EEF2009B4180 /* TopicsCollectionCell.m */; };
 		136E307E21092D73009B4180 /* CMMResourcesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E307D21092D73009B4180 /* CMMResourcesVC.m */; };
 		2233AD3D2106AADE00F72593 /* BubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2233AD3C2106AADE00F72593 /* BubbleView.m */; };
+		2256C0D2210996C500FE9422 /* CMMRegisterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2256C0D1210996C500FE9422 /* CMMRegisterVC.m */; };
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
@@ -77,6 +78,8 @@
 		136E307D21092D73009B4180 /* CMMResourcesVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMResourcesVC.m; sourceTree = "<group>"; };
 		2233AD3B2106AADE00F72593 /* BubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BubbleView.h; sourceTree = "<group>"; };
 		2233AD3C2106AADE00F72593 /* BubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleView.m; sourceTree = "<group>"; };
+		2256C0D0210996C500FE9422 /* CMMRegisterVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMRegisterVC.h; sourceTree = "<group>"; };
+		2256C0D1210996C500FE9422 /* CMMRegisterVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMRegisterVC.m; sourceTree = "<group>"; };
 		228588D02101183C0087E455 /* CMMParseQueryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMParseQueryManager.h; sourceTree = "<group>"; };
 		228588D12101183C0087E455 /* CMMParseQueryManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMParseQueryManager.m; sourceTree = "<group>"; };
 		22F9EBE620FEAEA9002ADD9D /* CMMApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMMApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,6 +240,8 @@
 			children = (
 				22F9EC3920FEDB80002ADD9D /* CMMLoginVC.h */,
 				22F9EC3A20FEDB80002ADD9D /* CMMLoginVC.m */,
+				2256C0D0210996C500FE9422 /* CMMRegisterVC.h */,
+				2256C0D1210996C500FE9422 /* CMMRegisterVC.m */,
 			);
 			path = "Login Screen";
 			sourceTree = "<group>";
@@ -490,6 +495,7 @@
 				136E307B2108EEF2009B4180 /* TopicsCollectionCell.m in Sources */,
 				03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */,
 				22F9EC2C20FEB618002ADD9D /* CMMNewsfeedVC.m in Sources */,
+				2256C0D2210996C500FE9422 /* CMMRegisterVC.m in Sources */,
 				22F9EC3520FEC2AF002ADD9D /* CMMVoteAPIManager.m in Sources */,
 				136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */,
 				22F9EC3E20FF06DC002ADD9D /* CMMMainTabBarVC.m in Sources */,
@@ -638,7 +644,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U2589U8592;
+				DEVELOPMENT_TEAM = 524YAK9BG3;
 				INFOPLIST_FILE = CMMApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -656,7 +662,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U2589U8592;
+				DEVELOPMENT_TEAM = 524YAK9BG3;
 				INFOPLIST_FILE = CMMApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

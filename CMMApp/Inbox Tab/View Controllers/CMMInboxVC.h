@@ -12,6 +12,6 @@
 #import "CMMChatVC.h"
 #import "CMMParseQueryManager.h"
 
-@interface CMMInboxVC : UIViewController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface CMMInboxVC : UIViewController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate>
 
 @end

@@ -30,12 +30,15 @@
     self.chatMessageContent.textColor = [UIColor whiteColor];
     self.chatMessageContent.text = self.message.content;
     
+    // Area to restrict text size to
     CGSize constraintRect = CGSizeMake(0.66 * self.contentView.frame.size.width, CGFLOAT_MAX);
     
+    // Area that is required for the text to be presented
     CGRect boundingBox = [self.message.content boundingRectWithSize:constraintRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.chatMessageContent.font} context:nil];
     
     self.chatMessageContent.frame = CGRectMake(0, 0, ceil(boundingBox.size.width), ceil(boundingBox.size.height));
     
+    // Area of bubble around the text
     CGSize bubbleSize = CGSizeMake(self.chatMessageContent.frame.size.width + 28, self.chatMessageContent.frame.size.height + 28);
     
     self.chatBox = [BubbleView new];
