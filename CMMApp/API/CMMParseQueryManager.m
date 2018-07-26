@@ -62,6 +62,22 @@
     }
 }
 
+- (void)fetchPosts:(int)number ByAuthor:(CMMUser *)user WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
+    PFQuery *query;
+    query = [PFQuery queryWithClassName:@"CMMPost"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"owner" equalTo:user];
+    [query includeKey:@"owner"];
+    query.limit = number;
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+            completion(posts, nil);
+        }
+    }];
+}
+
 - (void)updateTrendingLimit:(int)limit WithCompletion:(void(^)(NSError *error))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
     query.limit = limit;
