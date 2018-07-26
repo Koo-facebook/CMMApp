@@ -12,6 +12,8 @@
 #import "CMMUser.h"
 #import "NewsfeedCell.h"
 #import "Masonry.h"
+#import "PostDetailVC.h"
+#import "CMMParseQueryManager.h"
 
 @interface CMMProfileVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -145,21 +147,13 @@
 }
 
 - (void) fetchPosts {
- // construct PFQuery
- PFQuery *postQuery = [CMMPost query];
- [postQuery orderByDescending:@"createdAt"];
- [postQuery whereKey:@"owner" equalTo:[PFUser currentUser]];
- postQuery.limit = 20;
- 
- // fetch data asynchronously
- [postQuery findObjectsInBackgroundWithBlock:^(NSArray<CMMPost *> * _Nullable posts, NSError * _Nullable error) {
-     if (posts) {
-     self.profileFeed = posts;
-     [self.tableView reloadData];
-    }
-    else {
-        // handle error
-        NSLog(@"%@", error.localizedDescription);
+    [[CMMParseQueryManager shared] fetchPosts:20 ByAuthor:CMMUser.currentUser WithCompletion:^(NSArray *posts, NSError *error) {
+        if (posts) {
+            self.profileFeed = posts;
+            [self.tableView reloadData];
+        }
+        else {
+            NSLog(@"%@", error.localizedDescription);
         }
     }];
 }
@@ -187,10 +181,12 @@
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.profileFeed.count;
 }
-/*
+
  - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
- CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
- eventDetailsVC.event = self.eventList[indexPath.row];
- [self presentViewController:eventDetailsVC animated:YES completion:^{}];
- }*/
+     PostDetailVC *detailVC = [[PostDetailVC alloc] init];
+     CMMPost *post = self.profileFeed[indexPath.row];
+     [detailVC configureDetails:post];
+     [[self navigationController] pushViewController:detailVC animated:YES];
+     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 @end

@@ -63,9 +63,11 @@
     [self.scrollView addSubview:self.descriptionTextField];
     
     // tap gesture recognizer
+    UIView *tapView = [[UIView alloc] initWithFrame:CGRectMake(minimumSideBuffer + 150, 170, self.view.frame.size.width - 150 - minimumSideBuffer, self.scrollView.frame.size.height - 170)];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-    [self.view addGestureRecognizer:tapRecognizer];
-    
+    [self.scrollView addSubview:tapView];
+    [tapView addGestureRecognizer:tapRecognizer];
+
     // create dropdown menu for category
     CGRect menuFrame = CGRectMake(minimumSideBuffer, 200, 150, 50);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
