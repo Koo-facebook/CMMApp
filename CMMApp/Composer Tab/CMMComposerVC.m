@@ -69,7 +69,6 @@
     // create dropdown menu for category
     CGRect menuFrame = CGRectMake(minimumSideBuffer, 200, 150, 50);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
-    //menu.heightOfRows = (self.view.frame.size.height - 380)/self.categoryOptions.count;
     menu.heightOfRows = 50;
     menu.delegate = self;
     menu.numberOfRows = self.categoryOptions.count;
