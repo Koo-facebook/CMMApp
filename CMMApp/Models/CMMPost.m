@@ -22,7 +22,7 @@
     return @"CMMPost";
 }
     
-+ (void)createPost:(NSString *)topic description:(NSString *)description category:(NSString *)category tags:(NSMutableArray *)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (void)createPost:(NSString *_Nullable)topic description:(NSString *_Nullable)description category:(NSString *_Nullable)category tags:(NSMutableArray *_Nullable)tags withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMPost * _Nullable post))completion {
         
     CMMPost *newPost = [CMMPost new];
     newPost.owner = CMMUser.currentUser;
@@ -33,7 +33,9 @@
     newPost.userChatTaps = [NSMutableArray new];
     newPost.trendingIndex = 0;
     
-    [newPost saveInBackgroundWithBlock:completion];
+    [newPost saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        completion(succeeded, error, newPost);
+    }];
     
 }
     

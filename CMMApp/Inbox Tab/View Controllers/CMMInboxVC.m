@@ -9,8 +9,8 @@
 #import "CMMInboxVC.h"
 
 @interface CMMInboxVC ()
-    
-@property (strong, nonatomic) UISearchBar *messagesSearchBar;
+
+@property (strong, nonatomic) UISearchController *messagesSearchController;
 @property (strong, nonatomic) UITableView *messagesTableView;
 @property (strong, nonatomic) NSMutableArray *conversations;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -18,6 +18,16 @@
 @end
 
 @implementation CMMInboxVC
+
+#pragma mark - View Setup
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationItem.hidesSearchBarWhenScrolling = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    self.navigationItem.hidesSearchBarWhenScrolling = YES;
+}
     
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,7 +39,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self createSearchBar];
+    [self createSearchController];
     [self createMessagesTableView];
     [self createTapGestureRecognizer:@selector(screenTapped:)];
     [self createRefreshControl];
@@ -41,22 +51,23 @@
     self.messagesTableView = [[UITableView alloc] init];
     self.messagesTableView.delegate = self;
     self.messagesTableView.dataSource = self;
-    
     self.messagesTableView.rowHeight = UITableViewAutomaticDimension;
     self.messagesTableView.estimatedRowHeight = 100;
     
     [self.view addSubview:self.messagesTableView];
 }
+
+- (void)createSearchController {
+    self.messagesSearchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.messagesSearchController.searchResultsUpdater = self;
+    self.messagesSearchController.delegate = self;
+    self.messagesSearchController.searchBar.delegate = self;
     
-- (void)createSearchBar {
-    self.messagesSearchBar = [[UISearchBar alloc] init];
-    self.messagesSearchBar.delegate = self;
-    
-    self.messagesSearchBar.layer.cornerRadius = 20;
-    self.messagesSearchBar.clipsToBounds = YES;
-    self.messagesSearchBar.searchBarStyle = UISearchBarStyleMinimal;
-    
-    [self.view addSubview:self.messagesSearchBar];
+    self.messagesSearchController.hidesNavigationBarDuringPresentation = NO;
+    self.messagesSearchController.dimsBackgroundDuringPresentation = YES;
+    self.navigationItem.searchController = self.messagesSearchController;
+    self.definesPresentationContext = YES;
+    [self.navigationItem.searchController becomeFirstResponder];
 }
 
 - (void)createTapGestureRecognizer:(SEL)selector {
@@ -72,22 +83,29 @@
 }
     
 - (void)updateConstraints {
-    
-    // Search Bar
-    [self.messagesSearchBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.messagesSearchBar.superview.mas_safeAreaLayoutGuideTop);
-        make.trailing.equalTo(self.view.mas_trailing);
-        make.leading.equalTo(self.view.mas_leading);
-        make.height.equalTo(@(self.messagesSearchBar.intrinsicContentSize.height));
-    }];
-    
     // Messages TableView
     [self.messagesTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.messagesSearchBar.mas_bottom);
+        make.top.equalTo(self.view.mas_top);
         make.bottom.left.right.equalTo(self.messagesTableView.superview);
     }];
 }
-    
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
+}
+
+#pragma mark - Actions
+
+- (void)screenTapped:(id)sender {
+    [self.view endEditing:YES];
+}
+
+- (void)updateSearchResultsForSearchController:(nonnull UISearchController *)searchController {
+    NSLog(@"hit this func");
+}
+
+#pragma mark - TableView Delegate & Datasource
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ConversationCell *cell = [self.messagesTableView dequeueReusableCellWithIdentifier:@"conversationCell"];
     
@@ -99,7 +117,7 @@
     
     return cell;
 }
-    
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     return self.conversations.count;
@@ -107,20 +125,36 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.messagesTableView deselectRowAtIndexPath:indexPath animated:NO];
-    ConversationCell *tappedCell = [self.messagesTableView cellForRowAtIndexPath:indexPath];
     CMMChatVC *chatVC = [CMMChatVC new];
-    chatVC.isUserOne = tappedCell.isUserOne;
     chatVC.conversation = self.conversations[indexPath.row];
     [self.navigationController pushViewController:chatVC animated:YES];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.view endEditing:YES];
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"tried to delete");
+    }];
+
+    UITableViewRowAction *share = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Share" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"tried to share");
+    }];
+
+    share.backgroundColor = [UIColor lightGrayColor];
+
+    return [[NSArray alloc] initWithObjects:delete, share, nil];
 }
 
-- (void)screenTapped:(id)sender {
-    [self.view endEditing:YES];
+#pragma mark - Helpers
+
+- (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{
+    }];
 }
+
+#pragma mark - API functions
 
 - (void)pullConversations {
     [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
@@ -135,12 +169,4 @@
     }];
 }
 
-- (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
-    [alert addAction:okAction];
-    [self presentViewController:alert animated:YES completion:^{
-    }];
-}
-    
 @end

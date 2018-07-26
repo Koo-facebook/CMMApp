@@ -7,7 +7,7 @@
 //
 
 
-#import "ResourcesVC.h"
+#import "CMMResourcesVC.h"
 #import "TopicsCollectionCell.h"
 #import "Masonry.h"
 #import "Parse.h"

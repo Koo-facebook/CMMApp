@@ -6,19 +6,19 @@
 
 The following **required** functionality is completed:
 
-- [ ] User can log in and log out of his or her account
-- [ ] The current signed in user is persisted across app restarts
-- [ ] Newsfeed displays opinion posts
+- [x] User can log in and log out of his or her account
+- [x] The current signed in user is persisted across app restarts
+- [x] Newsfeed displays opinion posts
 - [ ] User can search in newsfeed, filter it by category, and view trending posts
-- [ ] User can compose a new post and post it to the newsfeed
-- [ ] User can click on a post to chat with its author
-- [ ] User can view their message threads in a separate tab
+- [x] User can compose a new post and post it to the newsfeed
+- [x] User can click on a post to chat with its author
+- [x] User can view their message threads in a separate tab
 - [ ] User gets push notifications when someone responds to their post or messafes them
-- [ ] User can view nearby political events
+- [x] User can view nearby political events
 
 The following **optional** features are implemented:
 
-- [ ] Users have a profile page with their interests and a profile picture
+- [x] Users have a profile page with their interests and a profile picture
 - [ ] Users can view curated resources about political issues
 - [ ] Users can meet up with other users to discuss issues in person
 - [ ] Users can register to vote through the app
