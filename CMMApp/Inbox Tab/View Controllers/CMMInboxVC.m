@@ -14,6 +14,7 @@
 @property (strong, nonatomic) UITableView *messagesTableView;
 @property (strong, nonatomic) NSMutableArray *conversations;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSTimer *timer;
     
 @end
 
@@ -28,13 +29,12 @@
 - (void)viewDidAppear:(BOOL)animated {
     self.navigationItem.hidesSearchBarWhenScrolling = YES;
     [self pullConversations];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(pullConversations) userInfo:nil repeats:true];
 }
     
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(pullConversations) userInfo:nil repeats:true];
     
     self.title = @"Inbox";
     
@@ -46,6 +46,11 @@
     [self createRefreshControl];
     
     [self updateConstraints];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [self.timer invalidate];
+    self.timer = nil;
 }
     
 - (void)createMessagesTableView {

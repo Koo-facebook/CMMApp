@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UITableView *chatTableView;
 @property (nonatomic, strong) UITextView *writeMessageTextView;
+@property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) CGSize keyboardSize;
 @property (nonatomic, assign) BOOL isMoreDataLoading;
 
@@ -29,12 +30,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [self pullMessages];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.isMoreDataLoading = YES;
-    [self pullMessages];
-    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Chat";
@@ -54,6 +58,8 @@
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 #pragma mark - View Setup
@@ -265,7 +271,7 @@
     }
 }
 
-- (void)markMessageAsRead: (CMMMessage *)message {
+- (void)markConversationAsRead {
     if ([self.conversation.user1.objectId isEqualToString:CMMUser.currentUser.objectId]) {
         self.conversation.userOneRead = YES;
     } else {
@@ -279,6 +285,24 @@
         return YES;
     } else {
         return NO;
+    }
+}
+
+- (BOOL)gotNewMessages: (NSArray *)messages {
+    if (messages.count == 0) {
+        return NO;
+    } else if (self.messages == nil) {
+        return YES;
+    } else {
+        CMMMessage *messageFromQuery = messages.firstObject;
+        CMMMessage *messageFromSelf = self.messages.lastObject;
+        NSLog(@"%@", messageFromQuery.content);
+        NSLog(@"%@", messageFromSelf.content);
+        if ([messageFromSelf.objectId isEqualToString:messageFromQuery.objectId]) {
+            return NO;
+        } else {
+            return YES;
+        }
     }
 }
 
@@ -413,38 +437,34 @@
 
 - (void)pullMessages {
     if ([self checkIfUserOne]) {
-        [self.conversation.user2 fetchInBackground];
+        [self.conversation.user2 fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            if (!error) {
+                [self setRespectiveOnlineImage];
+            }
+        }];
     } else {
-        [self.conversation.user1 fetchInBackground];
+        [self.conversation.user1 fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            if (!error) {
+                [self setRespectiveOnlineImage];
+            }
+        }];
     }
     [[CMMParseQueryManager shared] fetchConversationMessagesWithCompletion:self.conversation skipCount:0 withCompletion:^(NSArray *messages, NSError *error) {
-        if ((messages) && (messages.count > 0)) {
-            if (self.messages != nil) {
-                CMMMessage *firstMessage = messages[0];
-                CMMMessage *mostRecentMessageShown = self.messages[self.messages.count - 1];
-                if (![firstMessage.objectId isEqualToString: mostRecentMessageShown.objectId]) {
-                    self.messages = [NSMutableArray new];
-                    for (CMMMessage *message in messages) {
-                        [self.messages insertObject:message atIndex:0];
-                    }
-                    [self.chatTableView reloadData];
-                    [self scrollToBottom: NO];
-                    self.isMoreDataLoading = NO;
-                }
-            } else {
+        if (messages) {
+            if ([self gotNewMessages:messages]) {
                 self.messages = [NSMutableArray new];
-                    for (CMMMessage *message in messages) {
-                        [self.messages insertObject:message atIndex:0];
-                    }
-                    [self.chatTableView reloadData];
-                    [self scrollToBottom: NO];
-                    self.isMoreDataLoading = NO;
+                for (CMMMessage *message in messages) {
+                    [self.messages insertObject:message atIndex:0];
                 }
+                [self.chatTableView reloadData];
+                [self scrollToBottom: NO];
+                self.isMoreDataLoading = NO;
+                [self markConversationAsRead];
+            }
         } else if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
             [self createAlert:@"Error" message:@"Unable load messages. Please Check Connection"];
         }
-        [self setRespectiveOnlineImage];
     }];
 }
 
@@ -454,7 +474,7 @@
             for (CMMMessage *message in messages) {
                 [self.messages insertObject:message atIndex:0];
             }
-            self.isMoreDataLoading = false;
+            self.isMoreDataLoading = NO;
             [self.chatTableView reloadData];
             [self scrollToSelectedRow:messages.count];
         } else if (messages.count == 0) {
