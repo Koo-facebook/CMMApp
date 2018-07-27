@@ -87,8 +87,25 @@
     [self.view endEditing:YES];
 }
 
+// This is here for now but should go in the styles framework
+- (void)showAlert:(NSString *)title Message:(NSString *)message Sender:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:okAction];
+    [sender presentViewController:alert animated:YES completion:^{
+    }];
+}
 
 - (IBAction)didPressPost:(id)sender {
+    if ([self.questionTextField.text isEqualToString:@""]) {
+        [self showAlert:@"Oops!" Message:@"Don't forget to type your post" Sender:self];
+        return;
+    }
+    if (!self.categoryString) {
+        [self showAlert:@"Oops!" Message:@"Don't forget to categorize your post" Sender:self];
+        return;
+    }
     [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMPost *post) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
