@@ -54,7 +54,6 @@
         query = [PFQuery queryWithClassName:@"CMMPost"];
     }
     [query includeKey:@"owner"];
-    query.limit = number;
     if (trending) {
         [self updateTrendingLimit:number WithCompletion:^(NSError *error) {
             if (error) {
@@ -71,6 +70,7 @@
             }
         }];
     } else {
+        query.limit = number;
         [query orderByDescending:@"createdAt"];
         [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
             if (error) {

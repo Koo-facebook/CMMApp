@@ -45,6 +45,7 @@
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
     self.sortByTrending = NO;
+    self.isMoreDataLoading = NO;
     
     // create and populate table view
     CGRect tableViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -143,7 +144,7 @@
         
         // When the user has scrolled past the threshold, start requesting
         if(scrollView.contentOffset.y > scrollOffsetThreshold && self.table.isDragging) {
-            self.isMoreDataLoading = true;
+            self.isMoreDataLoading = YES;
             self.queryNumber += 10;
             [self fetchPosts];
         }
