@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CMMConversation.h"
 #import "CMMMessage.h"
-#import "ChatCell.h"
+#import "CMMChatCell.h"
 #import "CMMParseQueryManager.h"
 #import <ParseUI/ParseUI.h>
 #import "CMMProfileVC.h"
@@ -18,6 +18,5 @@
 
 @property BOOL isUserOne;
 @property (nonatomic, strong) CMMConversation *conversation;
-@property (nonatomic, strong) NSMutableArray *messages;
 
 @end

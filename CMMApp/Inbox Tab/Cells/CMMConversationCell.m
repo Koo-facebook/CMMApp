@@ -6,9 +6,9 @@
 //  Copyright © 2018 Omar Rasheed. All rights reserved.
 //
 
-#import "ConversationCell.h"
+#import "CMMConversationCell.h"
 
-@implementation ConversationCell
+@implementation CMMConversationCell
     
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
         self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -28,12 +28,7 @@
     
 - (void)setupUsernameLabel {
     self.usernameLabel = [UILabel new];
-    if ([self checkIfUserOne]) {
-        self.usernameLabel.text = self.conversation.user2.username;
-    } else {
-        self.usernameLabel.text = self.conversation.user1.username;
-    }
-    self.usernameLabel.textColor = [UIColor colorWithRed:54.0/255.0 green:173.0/255.0 blue:157.0/255.0 alpha:1.0];
+    [self setUsernameText];
     [self adjustTextForReadIndicator:self.usernameLabel];
     [self.usernameLabel sizeToFit];
     
@@ -42,11 +37,7 @@
     
 - (void)setupProfileImage {
     self.profileImage = [PFImageView new];
-    if ([self checkIfUserOne]) {
-        self.profileImage.file = self.conversation.user2.profileImage;
-    } else {
-        self.profileImage.file = self.conversation.user1.profileImage;
-    }
+    [self chooseProfileImage];
     [self.profileImage loadInBackground];
     self.profileImage.contentMode = UIViewContentModeScaleAspectFill;
     self.profileImage.layer.cornerRadius = 24;
@@ -74,17 +65,71 @@
 
 - (void)setRespectiveOnlineImage {
     if ([self checkIfUserOne]) {
-        if (self.conversation.user2.online) {
-            self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
+        if ([self userStillInConversation:self.conversation.user2]) {
+            if (self.conversation.user2.online) {
+                self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
+            } else {
+                self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
+            }
         } else {
-            self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
+            self.onlineIndicator.image = nil;
+            [self.onlineIndicator sizeToFit];
         }
     } else {
-        if (self.conversation.user1.online) {
-            self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
+        if ([self userStillInConversation:self.conversation.user1]) {
+            if (self.conversation.user1.online) {
+                self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
+            } else {
+                self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
+            }
         } else {
-            self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
+            self.onlineIndicator = nil;
+            [self.onlineIndicator sizeToFit];
         }
+    }
+}
+
+- (void)chooseProfileImage {
+    if ([self checkIfUserOne]) {
+        if ([self userStillInConversation:self.conversation.user2]) {
+            self.profileImage.file = self.conversation.user2.profileImage;
+        } else {
+            self.profileImage.file = self.conversation.userWhoLeft.profileImage;
+        }
+    } else {
+        if ([self userStillInConversation:self.conversation.user1]) {
+            self.profileImage.file = self.conversation.user1.profileImage;
+        } else {
+            self.profileImage.file = self.conversation.userWhoLeft.profileImage;
+        }
+    }
+}
+
+- (void)setUsernameText {
+    if ([self checkIfUserOne]) {
+        if ([self userStillInConversation:self.conversation.user2]) {
+            self.usernameLabel.text = self.conversation.user2.username;
+            self.usernameLabel.textColor = [UIColor colorWithRed:54.0/255.0 green:173.0/255.0 blue:157.0/255.0 alpha:1.0];
+        } else {
+            self.usernameLabel.text = [NSString stringWithFormat:@"%@ has left the conversation", self.conversation.userWhoLeft.username];
+            self.usernameLabel.textColor = [UIColor redColor];
+        }
+    } else {
+        if ([self userStillInConversation:self.conversation.user1]) {
+            self.usernameLabel.text = self.conversation.user1.username;
+            self.usernameLabel.textColor = [UIColor colorWithRed:54.0/255.0 green:173.0/255.0 blue:157.0/255.0 alpha:1.0];
+        } else {
+            self.usernameLabel.text = [NSString stringWithFormat:@"%@ has left the conversation", self.conversation.userWhoLeft.username];
+            self.usernameLabel.textColor = [UIColor redColor];
+        }
+    }
+}
+
+- (BOOL)userStillInConversation: (CMMUser *) user {
+    if (user == nil) {
+        return NO;
+    } else {
+        return YES;
     }
 }
 
@@ -153,6 +198,14 @@
     }];
     
     [super updateConstraints];
+}
+
+- (void)prepareForReuse {
+    [self.usernameLabel removeFromSuperview];
+    [self.topicLabel removeFromSuperview];
+    [self.onlineIndicator removeFromSuperview];
+
+    [super prepareForReuse];
 }
     
 @end

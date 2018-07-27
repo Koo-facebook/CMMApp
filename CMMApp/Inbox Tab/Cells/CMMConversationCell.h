@@ -12,7 +12,7 @@
 #import <ParseUI/ParseUI.h>
 #import "CMMStyles.h"
 
-@interface ConversationCell : UITableViewCell
+@interface CMMConversationCell : UITableViewCell
 
 @property (nonatomic, strong) PFImageView *profileImage;
 @property (nonatomic, strong) UIImageView *onlineIndicator;

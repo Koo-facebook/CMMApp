@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSString *_Nullable category;
 @property (nonatomic, strong) NSMutableArray *_Nullable tags;
 @property (nonatomic, strong) NSMutableArray *_Nullable userChatTaps;
+@property (nonatomic, strong) NSNumber *_Nullable postLatitude;
+@property (nonatomic, strong) NSNumber *_Nullable postLongitude;
 @property (nonatomic, assign) float trendingIndex;
     
 + (void)createPost:(NSString *_Nullable)topic description:(NSString *_Nullable)description category:(NSString *_Nullable)category tags:(NSMutableArray *_Nullable)tags withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMPost * _Nullable post))completion;
