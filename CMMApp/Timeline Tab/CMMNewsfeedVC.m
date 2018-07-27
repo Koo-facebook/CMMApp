@@ -160,6 +160,8 @@
     
     UITableViewRowAction *block = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Block User" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         NSLog(@"tried to block user");
+        CMMPost *post = self.filteredPosts[indexPath.row];
+        [[CMMParseQueryManager shared] addBlockedUser:post.owner Sender:self];
     }];
     block.backgroundColor = [UIColor lightGrayColor];
     

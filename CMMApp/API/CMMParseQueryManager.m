@@ -8,7 +8,7 @@
 
 #import "CMMParseQueryManager.h"
 #import <DateTools.h>
-
+#import "UIImageView+AFNetworking.h"
 @implementation CMMParseQueryManager
 
 + (instancetype)shared {
@@ -18,6 +18,26 @@
         sharedManager = [[self alloc] init];
     });
     return sharedManager;
+}
+
+- (void)addBlockedUser:(CMMUser *)user Sender:(id)sender {
+    if ([user.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Don't block yourself!" message:@"That would be weird." preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [alert addAction:okAction];
+        [sender presentViewController:alert animated:YES completion:^{
+        }];
+    }
+    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"blockedUsers"]];
+    for (NSString *userID in blockedUsers) {
+        if ([userID isEqualToString:user.objectId]) {
+            return;
+        }
+    }
+    [blockedUsers addObject:user.objectId];
+    NSLog(@"Blocked users: %@", blockedUsers);
+    [[NSUserDefaults standardUserDefaults] setObject:blockedUsers forKey:@"blockedUsers"];
 }
 
 - (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
