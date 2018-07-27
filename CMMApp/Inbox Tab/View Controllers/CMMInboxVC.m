@@ -27,13 +27,14 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     self.navigationItem.hidesSearchBarWhenScrolling = YES;
+    [self pullConversations];
 }
     
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self pullConversations];
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(pullConversations) userInfo:nil repeats:true];
     
     self.title = @"Inbox";
     
@@ -107,19 +108,19 @@
 #pragma mark - TableView Delegate & Datasource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ConversationCell *cell = [self.messagesTableView dequeueReusableCellWithIdentifier:@"conversationCell"];
+    CMMConversationCell *cell = [self.messagesTableView dequeueReusableCellWithIdentifier:@"conversationCell"];
     
     if (cell == nil) {
-        cell = [[ConversationCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationCell"];
-        cell.conversation = self.conversations[indexPath.row];
-        [cell setupCell];
+        cell = [[CMMConversationCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationCell"];
     }
+    
+    cell.conversation = self.conversations[indexPath.row];
+    [cell setupCell];
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
     return self.conversations.count;
 }
 

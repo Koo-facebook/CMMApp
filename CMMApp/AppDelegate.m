@@ -44,7 +44,7 @@
     if (CMMUser.currentUser) {
         CMMUser.currentUser.online = YES;
         [CMMUser.currentUser saveInBackground];
-        self.window.rootViewController = [[CMMLoginVC alloc] init];
+        self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
     } else {
         self.window.rootViewController = [[CMMLoginVC alloc] init];
     }
@@ -57,7 +57,7 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    [CMMUser.currentUser fetch];
+    [CMMUser.currentUser fetchInBackground];
     if (CMMUser.currentUser) {
         CMMUser.currentUser.online = NO;
         [CMMUser.currentUser saveInBackground];
@@ -78,7 +78,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [CMMUser.currentUser fetch];
+    [CMMUser.currentUser fetchInBackground];
     if (CMMUser.currentUser) {
         if (CMMUser.currentUser.online == YES) {
 //            [CMMUser logOutInBackground];
@@ -94,7 +94,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
-    [CMMUser.currentUser fetch];
+    [CMMUser.currentUser fetchInBackground];
     if (CMMUser.currentUser) {
         CMMUser.currentUser.online = NO;
         [CMMUser.currentUser saveInBackground];

@@ -6,15 +6,15 @@
 //  Copyright © 2018 Omar Rasheed. All rights reserved.
 //
 
-#import "ChatCell.h"
+#import "CMMChatCell.h"
 
-@interface ChatCell ()
+@interface CMMChatCell ()
 
 @property (nonatomic, assign) BOOL isOutgoing;
 
 @end
 
-@implementation ChatCell
+@implementation CMMChatCell
 
 - (void)showMessage {
 
@@ -41,7 +41,7 @@
     // Area of bubble around the text
     CGSize bubbleSize = CGSizeMake(self.chatMessageContent.frame.size.width + 28, self.chatMessageContent.frame.size.height + 28);
     
-    self.chatBox = [BubbleView new];
+    self.chatBox = [CMMBubbleView new];
     if (!self.isOutgoing) {
         self.chatBox.incoming = YES;
         self.chatMessageContent.textColor = [UIColor blackColor];

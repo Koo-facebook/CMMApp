@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CMMConversation.h"
 #import "CMMMessage.h"
-#import "ChatCell.h"
+#import "CMMChatCell.h"
 #import "CMMParseQueryManager.h"
 #import <ParseUI/ParseUI.h>
 #import "CMMProfileVC.h"

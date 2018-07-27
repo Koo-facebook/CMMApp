@@ -16,6 +16,8 @@
 @dynamic category;
 @dynamic tags;
 @dynamic userChatTaps;
+@dynamic postLatitude;
+@dynamic postLongitude;
 @dynamic trendingIndex;
 
 + (nonnull NSString *)parseClassName {

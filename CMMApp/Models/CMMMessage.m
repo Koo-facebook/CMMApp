@@ -33,6 +33,14 @@
         completion(succeeded, error, newMessage);
     }];
     
+    if ([newMessage.messageSender.objectId isEqualToString:conversation.user1.objectId]) {
+        conversation.userOneRead = YES;
+        conversation.userTwoRead = NO;
+    } else {
+        conversation.userTwoRead = YES;
+        conversation.userOneRead = NO;
+    }
+    
     newMessage.conversation.lastMessageSent = newMessage.createdAt;
     [newMessage.conversation saveInBackground];
 }

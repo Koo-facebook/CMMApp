@@ -83,7 +83,7 @@
     self.chatTableView.estimatedRowHeight = 150;
     self.chatTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     self.chatTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.chatTableView registerClass:[ChatCell class] forCellReuseIdentifier:@"chatCell"];
+    [self.chatTableView registerClass:[CMMChatCell class] forCellReuseIdentifier:@"chatCell"];
     self.chatTableView.translatesAutoresizingMaskIntoConstraints = false;
     self.chatTableView.allowsSelection = NO;
     
@@ -92,7 +92,7 @@
 
 - (void)setupUsernameTitleLabel {
     self.titleLabel = [UILabel new];
-    if (self.isUserOne) {
+    if ([self checkIfUserOne]) {
         self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", self.conversation.user2.username];
     } else {
         self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", self.conversation.user1.username];
@@ -136,7 +136,7 @@
 
 - (void)setupUserProfileImage {
     self.usersProfileImage = [PFImageView new];
-    if (self.isUserOne) {
+    if ([self checkIfUserOne]) {
         self.usersProfileImage.file = self.conversation.user2.profileImage;
     } else {
         self.usersProfileImage.file = self.conversation.user1.profileImage;
@@ -153,22 +153,6 @@
     self.onlineIndicator = [UIImageView new];
     [self setRespectiveOnlineImage];
     [self.view addSubview:self.onlineIndicator];
-}
-
-- (void)setRespectiveOnlineImage {
-    if (self.isUserOne) {
-        if (self.conversation.user2.online) {
-            self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
-        } else {
-            self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
-        }
-    } else {
-        if (self.conversation.user1.online) {
-            self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
-        } else {
-            self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
-        }
-    }
 }
 
 - (void)createBarButtonItem {
@@ -228,7 +212,7 @@
 
 - (void)viewProfile:(id)sender{
     CMMProfileVC *profileVC = [CMMProfileVC new];
-    if (self.isUserOne) {
+    if ([self checkIfUserOne]) {
         profileVC.user = self.conversation.user2;
     } else {
         profileVC.user = self.conversation.user1;
@@ -261,6 +245,41 @@
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:^{
     }];
+}
+
+#pragma mark - Helpers
+
+- (void)setRespectiveOnlineImage {
+    if ([self checkIfUserOne]) {
+        if (self.conversation.user2.online) {
+            self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
+        } else {
+            self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
+        }
+    } else {
+        if (self.conversation.user1.online) {
+            self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
+        } else {
+            self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
+        }
+    }
+}
+
+- (void)markMessageAsRead: (CMMMessage *)message {
+    if ([self.conversation.user1.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        self.conversation.userOneRead = YES;
+    } else {
+        self.conversation.userTwoRead = YES;
+    }
+    [self.conversation saveInBackground];
+}
+
+- (BOOL)checkIfUserOne {
+    if ([CMMUser.currentUser.objectId isEqualToString:self.conversation.user1.objectId]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 #pragma mark - Keyboard
@@ -369,10 +388,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    ChatCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:@"chatCell"];
+    CMMChatCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:@"chatCell"];
     
     if (cell == nil) {
-        cell = [[ChatCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatCell"];
+        cell = [[CMMChatCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatCell"];
     }
     
     cell.message = self.messages[indexPath.row];
@@ -393,6 +412,11 @@
 #pragma mark - API interaction
 
 - (void)pullMessages {
+    if ([self checkIfUserOne]) {
+        [self.conversation.user2 fetchInBackground];
+    } else {
+        [self.conversation.user1 fetchInBackground];
+    }
     [[CMMParseQueryManager shared] fetchConversationMessagesWithCompletion:self.conversation skipCount:0 withCompletion:^(NSArray *messages, NSError *error) {
         if ((messages) && (messages.count > 0)) {
             if (self.messages != nil) {
@@ -420,6 +444,7 @@
             NSLog(@"Error: %@", error.localizedDescription);
             [self createAlert:@"Error" message:@"Unable load messages. Please Check Connection"];
         }
+        [self setRespectiveOnlineImage];
     }];
 }
 

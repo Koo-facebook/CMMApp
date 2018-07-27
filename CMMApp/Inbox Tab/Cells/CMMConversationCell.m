@@ -6,9 +6,9 @@
 //  Copyright © 2018 Omar Rasheed. All rights reserved.
 //
 
-#import "ConversationCell.h"
+#import "CMMConversationCell.h"
 
-@implementation ConversationCell
+@implementation CMMConversationCell
     
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
         self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -153,6 +153,14 @@
     }];
     
     [super updateConstraints];
+}
+
+- (void)prepareForReuse {
+    [self.usernameLabel removeFromSuperview];
+    [self.topicLabel removeFromSuperview];
+    [self.onlineIndicator removeFromSuperview];
+
+    [super prepareForReuse];
 }
     
 @end
