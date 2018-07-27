@@ -89,6 +89,10 @@
     self.authorImage.layer.cornerRadius = size/2;
     self.authorImage.clipsToBounds = YES;
     [self.view addSubview:self.authorImage];
+    
+    self.authorImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(segueToProfile)];
+    [self.authorImage addGestureRecognizer:profileTap];
 }
 
 - (void)layOutLabelsWithImageSize:(int)imageSize padding:(int)topPadding {
@@ -149,6 +153,12 @@
         make.left.equalTo(self.view.mas_left).with.offset(resourcePadding.left);
         make.right.equalTo(self.view.mas_right).with.offset(-resourcePadding.right);
     }];
+}
+
+- (void)segueToProfile {
+    CMMProfileVC *profileVC = [[CMMProfileVC alloc] init];
+    profileVC.user = self.post.owner;
+    [[self navigationController] pushViewController:profileVC animated:YES];
 }
 
 - (void)topLeftRightConstraints:(UIView *)view withPadding:(UIEdgeInsets)padding {
