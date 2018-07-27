@@ -84,7 +84,7 @@
   [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
       make.top.equalTo(self.profileBioLabel.mas_bottom).offset(20);
       make.bottom.equalTo(self.view.mas_bottom);
-      make.width.equalTo(@(self.view.frame.size.width - 35));
+      make.width.equalTo(@(self.view.frame.size.width));
         
     }];
 
