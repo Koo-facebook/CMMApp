@@ -150,6 +150,22 @@
     }
 }
 
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)table editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *report = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Report Post" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"tried to report post");
+        CMMPost *post = self.filteredPosts[indexPath.row];
+        post.reportedNumber ++;
+        [post saveInBackground];
+    }];
+    
+    UITableViewRowAction *block = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Block User" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"tried to block user");
+    }];
+    block.backgroundColor = [UIColor lightGrayColor];
+    
+    return [[NSArray alloc] initWithObjects:report, block, nil];
+}
+
 - (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending {
     self.categories = categories;
     self.sortByTrending = trending;

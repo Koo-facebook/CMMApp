@@ -17,6 +17,7 @@
 @dynamic tags;
 @dynamic userChatTaps;
 @dynamic trendingIndex;
+@dynamic reportedNumber;
 
 + (nonnull NSString *)parseClassName {
     return @"CMMPost";
@@ -32,6 +33,7 @@
     newPost.tags = tags;
     newPost.userChatTaps = [NSMutableArray new];
     newPost.trendingIndex = 0;
+    newPost.reportedNumber = 0;
     
     [newPost saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         completion(succeeded, error, newPost);
