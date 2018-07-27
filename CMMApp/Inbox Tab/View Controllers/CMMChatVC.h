@@ -18,6 +18,5 @@
 
 @property BOOL isUserOne;
 @property (nonatomic, strong) CMMConversation *conversation;
-@property (nonatomic, strong) NSMutableArray *messages;
 
 @end

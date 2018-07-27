@@ -44,7 +44,7 @@
     if (CMMUser.currentUser) {
         CMMUser.currentUser.online = YES;
         [CMMUser.currentUser saveInBackground];
-        self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
+        self.window.rootViewController = [[CMMLoginVC alloc] init];
     } else {
         self.window.rootViewController = [[CMMLoginVC alloc] init];
     }

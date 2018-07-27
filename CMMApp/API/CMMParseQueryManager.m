@@ -100,9 +100,10 @@
 - (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error)) completion {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(user1 = %@) OR (user2 = %@)", CMMUser.currentUser, CMMUser.currentUser];
     PFQuery *query = [PFQuery queryWithClassName:@"CMMConversation" predicate:predicate];
-    [query orderByDescending:@"createdAt"];
+    [query orderByDescending:@"lastMessageSent"];
     [query includeKey:@"user1"];
     [query includeKey:@"user2"];
+    [query includeKey:@"userWhoLeft"];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable conversations, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
@@ -127,7 +128,29 @@
             completion(messages, nil);
         }
     }];
-    
+}
+
+- (void)deleteMessageForConversation: (CMMConversation *)conversation withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error)) completion; {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"conversation = %@", conversation];
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessage" predicate:predicate];
+    [query orderByDescending:@"createdAt"];
+    [query includeKey:@"messageSender"];
+    [query includeKey:@"conversation"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable messages, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+        int counter = 1;
+            for (CMMMessage *message in messages) {
+                if (counter == messages.count) {
+                    [message deleteInBackgroundWithBlock:completion];
+                } else {
+                    [message deleteInBackground];
+                }
+                counter++;
+            };
+        }
+    }];
 }
 
 
