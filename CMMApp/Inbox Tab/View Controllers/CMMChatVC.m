@@ -16,6 +16,8 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UITableView *chatTableView;
 @property (nonatomic, strong) UITextView *writeMessageTextView;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSMutableArray *messages;
 @property (nonatomic, assign) CGSize keyboardSize;
 @property (nonatomic, assign) BOOL isMoreDataLoading;
 
@@ -23,18 +25,24 @@
 
 @implementation CMMChatVC
 
+#pragma mark - VC Life Cycle
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [self pullMessages];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.isMoreDataLoading = YES;
-    [self pullMessages];
-    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Chat";
@@ -54,23 +62,27 @@
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 #pragma mark - View Setup
 
 - (void)setupMessagingTextView {
-
-    self.writeMessageTextView = [UITextView new];
-    self.writeMessageTextView.delegate = self;
-    self.writeMessageTextView.font = [UIFont systemFontOfSize:18];
-    self.writeMessageTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    self.writeMessageTextView.layer.borderWidth = 0.5;
-    self.writeMessageTextView.layer.cornerRadius = 18;
-    self.writeMessageTextView.clipsToBounds = YES;
-    [self.writeMessageTextView setReturnKeyType:UIReturnKeySend];
-    self.writeMessageTextView.textContainerInset = UIEdgeInsetsMake(8, 8, 8, 8);
-    
-    [self.view addSubview:self.writeMessageTextView];
+    if (![self otherUserLeft]) {
+        self.writeMessageTextView = [UITextView new];
+        self.writeMessageTextView.delegate = self;
+        self.writeMessageTextView.font = [UIFont systemFontOfSize:18];
+        self.writeMessageTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        self.writeMessageTextView.layer.borderWidth = 0.5;
+        self.writeMessageTextView.layer.cornerRadius = 18;
+        self.writeMessageTextView.clipsToBounds = YES;
+        [self.writeMessageTextView setReturnKeyType:UIReturnKeySend];
+        self.writeMessageTextView.textContainerInset = UIEdgeInsetsMake(8, 8, 8, 8);
+        
+        [self.view addSubview:self.writeMessageTextView];
+    }
 }
 
 - (void)setupChatTableView {
@@ -83,7 +95,7 @@
     self.chatTableView.estimatedRowHeight = 150;
     self.chatTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     self.chatTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.chatTableView registerClass:[ChatCell class] forCellReuseIdentifier:@"chatCell"];
+    [self.chatTableView registerClass:[CMMChatCell class] forCellReuseIdentifier:@"chatCell"];
     self.chatTableView.translatesAutoresizingMaskIntoConstraints = false;
     self.chatTableView.allowsSelection = NO;
     
@@ -92,11 +104,7 @@
 
 - (void)setupUsernameTitleLabel {
     self.titleLabel = [UILabel new];
-    if (self.isUserOne) {
-        self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", self.conversation.user2.username];
-    } else {
-        self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", self.conversation.user1.username];
-    }
+    [self setUsernameLabelText];
     [self.titleLabel sizeToFit];
     
     [self.view addSubview:self.titleLabel];
@@ -106,29 +114,7 @@
     self.topicLabel = [UILabel new];
     
     NSString *text = [@"Topic: " stringByAppendingString:self.conversation.topic];
-
-    if ([self.topicLabel respondsToSelector:@selector(setAttributedText:)]) {
-        // Create the attributes
-        const CGFloat fontSize = 18;
-        NSDictionary *attrs = @{
-                                NSFontAttributeName:[UIFont systemFontOfSize:fontSize],
-                                NSForegroundColorAttributeName:[UIColor blackColor]
-                                };
-        NSDictionary *subAttrs = @{
-                                   NSFontAttributeName:[UIFont boldSystemFontOfSize:fontSize]
-                                   };
-        
-        const NSRange range = NSMakeRange(0,6);
-        
-        // Create the attributed string (text + attributes)
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text
-                                               attributes:attrs];
-        [attributedText setAttributes:subAttrs range:range];
-        
-        // Set it in our UILabel and we are done!
-        [self.topicLabel setAttributedText:attributedText];
-    }
+    [self boldFirstSixLetters: text];
     [self.topicLabel sizeToFit];
     
     [self.view addSubview:self.topicLabel];
@@ -136,11 +122,7 @@
 
 - (void)setupUserProfileImage {
     self.usersProfileImage = [PFImageView new];
-    if (self.isUserOne) {
-        self.usersProfileImage.file = self.conversation.user2.profileImage;
-    } else {
-        self.usersProfileImage.file = self.conversation.user1.profileImage;
-    }
+    [self setOtherUsersProfileImage];
     [self.usersProfileImage loadInBackground];
     self.usersProfileImage.layer.cornerRadius = 24;
     self.usersProfileImage.clipsToBounds = YES;
@@ -153,22 +135,6 @@
     self.onlineIndicator = [UIImageView new];
     [self setRespectiveOnlineImage];
     [self.view addSubview:self.onlineIndicator];
-}
-
-- (void)setRespectiveOnlineImage {
-    if (self.isUserOne) {
-        if (self.conversation.user2.online) {
-            self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
-        } else {
-            self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
-        }
-    } else {
-        if (self.conversation.user1.online) {
-            self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
-        } else {
-            self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
-        }
-    }
 }
 
 - (void)createBarButtonItem {
@@ -204,16 +170,22 @@
     [self.chatTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topicLabel.mas_bottom).offset(10);
         make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.writeMessageTextView.mas_top).offset(-10);
+        if ([self otherUserLeft]) {
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+        } else {
+            make.bottom.equalTo(self.writeMessageTextView.mas_top).offset(-10);
+        }
     }];
     
     // Send Message Text Field
-    [self.writeMessageTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-8);
-        make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
-        make.left.equalTo(self.view).offset(8);
-        make.height.equalTo(@41.67);
-    }];
+    if (![self otherUserLeft]) {
+        [self.writeMessageTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-8);
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
+            make.left.equalTo(self.view).offset(8);
+            make.height.equalTo(@41.67);
+        }];
+    }
     
     // Online Indicator
     [self.onlineIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -228,7 +200,7 @@
 
 - (void)viewProfile:(id)sender{
     CMMProfileVC *profileVC = [CMMProfileVC new];
-    if (self.isUserOne) {
+    if ([self checkIfUserOne]) {
         profileVC.user = self.conversation.user2;
     } else {
         profileVC.user = self.conversation.user1;
@@ -255,12 +227,158 @@
     }
 }
 
+#pragma mark - Helpers
+
 - (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:^{
     }];
+}
+
+- (void)setRespectiveOnlineImage {
+    if ([self checkIfUserOne]) {
+        if ([self userStillInConversation:self.conversation.user2]) {
+            if (self.conversation.user2.online) {
+                self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
+            } else {
+                self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
+            }
+        } else {
+            self.onlineIndicator.image = nil;
+            [self.onlineIndicator sizeToFit];
+        }
+    } else {
+        if ([self userStillInConversation:self.conversation.user1]) {
+            if (self.conversation.user1.online) {
+                self.onlineIndicator.image = [UIImage imageNamed:@"onlineIndicator"];
+            } else {
+                self.onlineIndicator.image = [UIImage imageNamed:@"offlineIndicator"];
+            }
+        } else {
+            self.onlineIndicator = nil;
+            [self.onlineIndicator sizeToFit];
+        }
+    }
+}
+
+- (void)markConversationAsRead {
+    if ([self.conversation.user1.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        self.conversation.userOneRead = YES;
+    } else {
+        self.conversation.userTwoRead = YES;
+    }
+    [self.conversation saveInBackground];
+}
+
+- (BOOL)checkIfUserOne {
+    if ([CMMUser.currentUser.objectId isEqualToString:self.conversation.user1.objectId]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)otherUserLeft {
+    if ([self checkIfUserOne]) {
+        if (self.conversation.user2 == nil) {
+            return YES;
+        } else {
+            return NO;
+        }
+    } else {
+        if (self.conversation.user1 == nil) {
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+}
+
+- (BOOL)userStillInConversation: (CMMUser *) user {
+    if (user == nil) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (BOOL)gotNewMessages: (NSArray *)messages {
+    if (messages.count == 0) {
+        return NO;
+    } else if (self.messages == nil) {
+        return YES;
+    } else {
+        CMMMessage *messageFromQuery = messages.firstObject;
+        CMMMessage *messageFromSelf = self.messages.lastObject;
+        NSLog(@"%@", messageFromQuery.content);
+        NSLog(@"%@", messageFromSelf.content);
+        if ([messageFromSelf.objectId isEqualToString:messageFromQuery.objectId]) {
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+}
+    
+- (void)boldFirstSixLetters: (NSString *)text {
+    if ([self.topicLabel respondsToSelector:@selector(setAttributedText:)]) {
+        // Create the attributes
+        const CGFloat fontSize = 18;
+        NSDictionary *attrs = @{
+                                NSFontAttributeName:[UIFont systemFontOfSize:fontSize],
+                                NSForegroundColorAttributeName:[UIColor blackColor]
+                                };
+        NSDictionary *subAttrs = @{
+                                   NSFontAttributeName:[UIFont boldSystemFontOfSize:fontSize]
+                                   };
+        
+        const NSRange range = NSMakeRange(0,6);
+        
+        // Create the attributed string (text + attributes)
+        NSMutableAttributedString *attributedText =
+        [[NSMutableAttributedString alloc] initWithString:text
+                                               attributes:attrs];
+        [attributedText setAttributes:subAttrs range:range];
+        
+        // Set it in our UILabel and we are done!
+        [self.topicLabel setAttributedText:attributedText];
+    }
+}
+
+- (void)setUsernameLabelText {
+    if ([self checkIfUserOne]) {
+        if ([self userStillInConversation:self.conversation.user2]) {
+            self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", self.conversation.user2.username];
+        } else {
+            self.titleLabel.text = [NSString stringWithFormat: @"%@ has left the conversation", self.conversation.userWhoLeft.username];
+            self.titleLabel.textColor = [UIColor redColor];
+        }
+    } else {
+        if ([self userStillInConversation:self.conversation.user1]) {
+            self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", self.conversation.user1.username];
+        } else {
+            self.titleLabel.text = [NSString stringWithFormat:@"%@ has left the conversation", self.conversation.userWhoLeft.username];
+            self.titleLabel.textColor = [UIColor redColor];
+        }
+    }
+}
+
+- (void)setOtherUsersProfileImage {
+    if ([self checkIfUserOne]) {
+        if ([self userStillInConversation:self.conversation.user2]) {
+            self.usersProfileImage.file = self.conversation.user2.profileImage;
+        } else {
+            self.usersProfileImage.file = self.conversation.userWhoLeft.profileImage;
+        }
+    } else {
+        if ([self userStillInConversation:self.conversation.user1]) {
+            self.usersProfileImage.file = self.conversation.user1.profileImage;
+        } else {
+            self.usersProfileImage.file = self.conversation.userWhoLeft.profileImage;
+        }
+    }
 }
 
 #pragma mark - Keyboard
@@ -285,7 +403,10 @@
             make.height.equalTo(@(newSize.height));
         }];
     }
-    
+}
+
+-(void)keyboardDidShow: (NSNotification *) notification {
+    [self scrollToBottom:YES];
 }
 
 -(void)keyboardWillHide: (NSNotification *) notification {
@@ -336,7 +457,7 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     if (self.messages.count > 0) {
-        [self scrollToBottom:YES];
+        //[self scrollToBottom:YES];
     }
 }
 
@@ -356,8 +477,10 @@
 }
 
 - (void)scrollToBottom: (BOOL)animation {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.messages.count - 1 inSection:0];
-    [self.chatTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    if (self.messages != nil) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.messages.count - 1 inSection:0];
+        [self.chatTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
 }
 
 - (void)scrollToSelectedRow: (NSUInteger)row {
@@ -369,10 +492,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    ChatCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:@"chatCell"];
+    CMMChatCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:@"chatCell"];
     
     if (cell == nil) {
-        cell = [[ChatCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatCell"];
+        cell = [[CMMChatCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"chatCell"];
     }
     
     cell.message = self.messages[indexPath.row];
@@ -392,30 +515,37 @@
 
 #pragma mark - API interaction
 
+- (void)updateOtherUserStatus {
+    if ([self checkIfUserOne]) {
+        [self.conversation.user2 fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            if (!error) {
+                [self setRespectiveOnlineImage];
+            }
+        }];
+    } else {
+        [self.conversation.user1 fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            if (!error) {
+                [self setRespectiveOnlineImage];
+            }
+        }];
+    }
+}
+
 - (void)pullMessages {
+    [self updateOtherUserStatus];
+    [self.conversation fetchInBackground];
     [[CMMParseQueryManager shared] fetchConversationMessagesWithCompletion:self.conversation skipCount:0 withCompletion:^(NSArray *messages, NSError *error) {
-        if ((messages) && (messages.count > 0)) {
-            if (self.messages != nil) {
-                CMMMessage *firstMessage = messages[0];
-                CMMMessage *mostRecentMessageShown = self.messages[self.messages.count - 1];
-                if (![firstMessage.objectId isEqualToString: mostRecentMessageShown.objectId]) {
-                    self.messages = [NSMutableArray new];
-                    for (CMMMessage *message in messages) {
-                        [self.messages insertObject:message atIndex:0];
-                    }
-                    [self.chatTableView reloadData];
-                    [self scrollToBottom: NO];
-                    self.isMoreDataLoading = NO;
-                }
-            } else {
+        if (messages) {
+            if ([self gotNewMessages:messages]) {
                 self.messages = [NSMutableArray new];
-                    for (CMMMessage *message in messages) {
-                        [self.messages insertObject:message atIndex:0];
-                    }
-                    [self.chatTableView reloadData];
-                    [self scrollToBottom: NO];
-                    self.isMoreDataLoading = NO;
+                for (CMMMessage *message in messages) {
+                    [self.messages insertObject:message atIndex:0];
                 }
+                [self.chatTableView reloadData];
+                [self scrollToBottom: NO];
+                self.isMoreDataLoading = NO;
+                [self markConversationAsRead];
+            }
         } else if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
             [self createAlert:@"Error" message:@"Unable load messages. Please Check Connection"];
@@ -429,7 +559,7 @@
             for (CMMMessage *message in messages) {
                 [self.messages insertObject:message atIndex:0];
             }
-            self.isMoreDataLoading = false;
+            self.isMoreDataLoading = NO;
             [self.chatTableView reloadData];
             [self scrollToSelectedRow:messages.count];
         } else if (messages.count == 0) {

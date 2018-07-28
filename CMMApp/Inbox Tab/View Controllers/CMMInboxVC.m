@@ -14,12 +14,13 @@
 @property (strong, nonatomic) UITableView *messagesTableView;
 @property (strong, nonatomic) NSMutableArray *conversations;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSTimer *timer;
     
 @end
 
 @implementation CMMInboxVC
 
-#pragma mark - View Setup
+#pragma mark - VC Life Cycle
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationItem.hidesSearchBarWhenScrolling = NO;
@@ -27,13 +28,13 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     self.navigationItem.hidesSearchBarWhenScrolling = YES;
+    [self pullConversations];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(pullConversations) userInfo:nil repeats:true];
 }
     
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [self pullConversations];
     
     self.title = @"Inbox";
     
@@ -46,7 +47,14 @@
     
     [self updateConstraints];
 }
-    
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
+#pragma mark - View Setup
+
 - (void)createMessagesTableView {
     self.messagesTableView = [[UITableView alloc] init];
     self.messagesTableView.delegate = self;
@@ -107,19 +115,19 @@
 #pragma mark - TableView Delegate & Datasource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ConversationCell *cell = [self.messagesTableView dequeueReusableCellWithIdentifier:@"conversationCell"];
+    CMMConversationCell *cell = [self.messagesTableView dequeueReusableCellWithIdentifier:@"conversationCell"];
     
     if (cell == nil) {
-        cell = [[ConversationCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationCell"];
-        cell.conversation = self.conversations[indexPath.row];
-        [cell setupCell];
+        cell = [[CMMConversationCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationCell"];
     }
+    
+    cell.conversation = self.conversations[indexPath.row];
+    [cell setupCell];
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
     return self.conversations.count;
 }
 
@@ -132,7 +140,7 @@
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        NSLog(@"tried to delete");
+        [self deleteConversation:indexPath];
     }];
 
     UITableViewRowAction *share = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Share" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
@@ -146,24 +154,70 @@
 
 #pragma mark - Helpers
 
+- (BOOL)isUserOneInConversation: (CMMConversation *)conversation {
+    if ([CMMUser.currentUser.objectId isEqualToString:conversation.user1.objectId]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alert addAction:okAction];
-    [self presentViewController:alert animated:YES completion:^{
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)deleteConversation:(NSIndexPath *)indexPath {
+    UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:@"Warning" message:@"Are you sure you want to delete conversation? You will not be able to retrieve it later" preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        CMMConversationCell *cellToDelete = [self.messagesTableView cellForRowAtIndexPath:indexPath];
+        CMMConversation *conversationToBeChanged = cellToDelete.conversation;
+        if ([self isUserOneInConversation: conversationToBeChanged]) {
+            conversationToBeChanged.user1 = nil;
+        } else {
+            conversationToBeChanged.user2 = nil;
+        }
+        if ((conversationToBeChanged.user1 == nil) && (conversationToBeChanged.user2 == nil)) {
+            [self deleteMessageForConversation:conversationToBeChanged];
+        } else {
+            conversationToBeChanged.userWhoLeft = CMMUser.currentUser;
+            [conversationToBeChanged saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"%@", error.localizedDescription);
+                } else {
+                    [self pullConversations];
+                }
+            }];
+        }
     }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [deleteAlert addAction:yesAction];
+    [deleteAlert addAction:cancelAction];
+    [self presentViewController:deleteAlert animated:YES completion:nil];
 }
 
 #pragma mark - API functions
+
+- (void)deleteMessageForConversation: (CMMConversation *)conversation {
+    [[CMMParseQueryManager shared] deleteMessageForConversation:conversation withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            [conversation deleteInBackground];
+        }
+    }];
+}
 
 - (void)pullConversations {
     [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
         if (conversations) {
             self.conversations = [NSMutableArray arrayWithArray:conversations];
+            CMMConversation *convo = conversations[0];
+            NSLog(@"%@", convo.createdAt);
+            NSLog(@"%@", convo.lastMessageSent);
             [self.messagesTableView reloadData];
             [self.refreshControl endRefreshing];
         } else {
-            NSLog(@"%@", error.localizedDescription);
             [self createAlert:@"Error" message:@"Unable to retrieve conversations. Check Connection"];
         }
     }];

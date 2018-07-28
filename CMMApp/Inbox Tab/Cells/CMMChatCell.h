@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "CMMMessage.h"
 #import "Masonry.h"
-#import "BubbleView.h"
+#import "CMMBubbleView.h"
 
-@interface ChatCell : UITableViewCell
+@interface CMMChatCell : UITableViewCell
 
 @property (nonatomic, strong) CMMMessage *message;
 @property (nonatomic, strong) UILabel *chatMessageContent;
-@property (nonatomic, strong) BubbleView *chatBox;
+@property (nonatomic, strong) CMMBubbleView *chatBox;
 
 - (void)showMessage;
 

@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSString *_Nullable category;
 @property (nonatomic, strong) NSMutableArray *_Nullable tags;
 @property (nonatomic, strong) NSMutableArray *_Nullable userChatTaps;
+@property (nonatomic, strong) NSNumber *_Nullable postLatitude;
+@property (nonatomic, strong) NSNumber *_Nullable postLongitude;
 @property (nonatomic, assign) float trendingIndex;
 @property (nonatomic, assign) int reportedNumber;
     

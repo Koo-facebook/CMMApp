@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BubbleView : UIView
+@interface CMMBubbleView : UIView
 
 @property (nonatomic, assign) BOOL incoming;
 

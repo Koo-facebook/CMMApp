@@ -16,6 +16,7 @@
 @dynamic lastMessageSent;
 @dynamic userOneRead;
 @dynamic userTwoRead;
+@dynamic userWhoLeft;
     
 + (nonnull NSString *)parseClassName {
     return @"CMMConversation";
