@@ -45,6 +45,7 @@
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
     self.sortByTrending = NO;
+    self.isMoreDataLoading = NO;
     
     // create and populate table view
     CGRect tableViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -143,11 +144,29 @@
         
         // When the user has scrolled past the threshold, start requesting
         if(scrollView.contentOffset.y > scrollOffsetThreshold && self.table.isDragging) {
-            self.isMoreDataLoading = true;
+            self.isMoreDataLoading = YES;
             self.queryNumber += 10;
             [self fetchPosts];
         }
     }
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)table editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *report = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Report Post" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"tried to report post");
+        CMMPost *post = self.filteredPosts[indexPath.row];
+        post.reportedNumber ++;
+        [post saveInBackground];
+    }];
+    
+    UITableViewRowAction *block = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Block User" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"tried to block user");
+        CMMPost *post = self.filteredPosts[indexPath.row];
+        [[CMMParseQueryManager shared] addBlockedUser:post.owner Sender:self];
+    }];
+    block.backgroundColor = [UIColor lightGrayColor];
+    
+    return [[NSArray alloc] initWithObjects:report, block, nil];
 }
 
 - (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending {
