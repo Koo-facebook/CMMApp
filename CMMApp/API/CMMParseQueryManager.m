@@ -28,8 +28,10 @@
         [alert addAction:okAction];
         [sender presentViewController:alert animated:YES completion:^{
         }];
+        return;
     }
-    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"blockedUsers"]];
+    NSString *blockingKey = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
+    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
     for (NSString *userID in blockedUsers) {
         if ([userID isEqualToString:user.objectId]) {
             return;
@@ -37,7 +39,7 @@
     }
     [blockedUsers addObject:user.objectId];
     NSLog(@"Blocked users: %@", blockedUsers);
-    [[NSUserDefaults standardUserDefaults] setObject:blockedUsers forKey:@"blockedUsers"];
+    [[NSUserDefaults standardUserDefaults] setObject:blockedUsers forKey:blockingKey];
 }
 
 - (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
@@ -54,6 +56,12 @@
         query = [PFQuery queryWithClassName:@"CMMPost"];
     }
     [query includeKey:@"owner"];
+    [query includeKey:@"owner.objectId"];
+    /*NSString *blockingKey = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
+    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
+    for (NSString *blockID in blockedUsers) {
+        [query whereKey:@"owner.objectId" notEqualTo:blockID];
+    }*/
     if (trending) {
         [self updateTrendingLimit:number WithCompletion:^(NSError *error) {
             if (error) {

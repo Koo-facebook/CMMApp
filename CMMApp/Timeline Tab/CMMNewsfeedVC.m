@@ -77,8 +77,26 @@
 - (void)fetchPosts {
     [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-            self.posts = posts;
-            self.filteredPosts = posts;
+            
+            // remove posts from blocked users
+            NSMutableArray *tempPosts = [NSMutableArray arrayWithArray:posts];
+            NSMutableArray *postsToRemove = [[NSMutableArray alloc] init];
+            NSString *blockingKey = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
+            NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
+            for (CMMPost *post in tempPosts) {
+                for (NSString *blockID in blockedUsers) {
+                    if ([post.owner.objectId isEqualToString:blockID]) {
+                        [postsToRemove addObject:post];
+                        break;
+                    }
+                }
+            }
+            for (CMMPost *post in postsToRemove) {
+                [tempPosts removeObject:post];
+            }
+            
+            self.posts = tempPosts;
+            self.filteredPosts = self.posts;
             [self.table reloadData];
             [self.refreshControl endRefreshing];
             if (self.filteredPosts.count == self.queryNumber) {
