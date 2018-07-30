@@ -126,19 +126,38 @@
 - (void)createButtons {
     UIColor *tealColor = [CMMStyles getTealColor];
     
+    BOOL showChatButton = YES;
+    int resourceLeftPadding;
+    NSString *blockingKey = [self.post.owner.objectId stringByAppendingString:@"-blockedUsers"];
+    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
+    for (NSString *userID in blockedUsers) {
+        if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
+            showChatButton = NO;
+            break;
+        }
+    }
+    if ([self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        showChatButton = NO;
+    }
+    
     // chat button
-    self.chatButton = [[UIButton alloc] init];
-    [self.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
-    [self.chatButton setTitle:@"Let's Chat!" forState:UIControlStateNormal];
-    [self.chatButton setBackgroundColor:tealColor];
-    [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:self.chatButton];
-    UIEdgeInsets chatPadding = UIEdgeInsetsMake(30, 12, 12, self.view.frame.size.width/2 + 6);
-    [self.chatButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.detailLabel.mas_bottom).with.offset(chatPadding.top);
-        make.left.equalTo(self.view.mas_left).with.offset(chatPadding.left);
-        make.right.equalTo(self.view.mas_right).with.offset(-chatPadding.right);
-    }];
+    if (showChatButton) {
+        self.chatButton = [[UIButton alloc] init];
+        [self.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
+        [self.chatButton setTitle:@"Let's Chat!" forState:UIControlStateNormal];
+        [self.chatButton setBackgroundColor:tealColor];
+        [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.view addSubview:self.chatButton];
+        UIEdgeInsets chatPadding = UIEdgeInsetsMake(30, 12, 12, self.view.frame.size.width/2 + 6);
+        [self.chatButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.detailLabel.mas_bottom).with.offset(chatPadding.top);
+            make.left.equalTo(self.view.mas_left).with.offset(chatPadding.left);
+            make.right.equalTo(self.view.mas_right).with.offset(-chatPadding.right);
+        }];
+        resourceLeftPadding = self.view.frame.size.width/2 + 6;
+    } else {
+        resourceLeftPadding = 12;
+    }
     
     // resources button
     self.resourceButton = [[UIButton alloc] init];
@@ -147,7 +166,7 @@
     [self.resourceButton setBackgroundColor:[UIColor grayColor]];
     [self.resourceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:self.resourceButton];
-    UIEdgeInsets resourcePadding = UIEdgeInsetsMake(30, self.view.frame.size.width/2 + 6, 12, 12);
+    UIEdgeInsets resourcePadding = UIEdgeInsetsMake(30, resourceLeftPadding, 12, 12);
     [self.resourceButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.detailLabel.mas_bottom).with.offset(resourcePadding.top);
         make.left.equalTo(self.view.mas_left).with.offset(resourcePadding.left);
@@ -179,43 +198,17 @@
 }
 
 - (void)didPressChat {
-    BOOL blockedUser = NO;
-    BOOL blockedByUser = NO;
-    NSString *blockingKey1 = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
-    NSMutableArray *blockedUsers1 = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey1]];
-    for (NSString *userID in blockedUsers1) {
-        if ([userID isEqualToString:self.post.owner.objectId]) {
-            blockedUser = YES;
-            break;
+    [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
+        if (succeeded) {
+            CMMChatVC *chatVC = [[CMMChatVC alloc] init];
+            chatVC.conversation = conversation;
+            [[self navigationController] pushViewController:chatVC animated:YES];
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription);
         }
-    }
-    NSString *blockingKey2 = [self.post.owner.objectId stringByAppendingString:@"-blockedUsers"];
-    NSMutableArray *blockedUsers2 = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey2]];
-    for (NSString *userID in blockedUsers2) {
-        if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
-            blockedByUser = YES;
-            break;
-        }
-    }
-    if ([self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
-        [self showAlert:@"You can't chat with yourself!" Message:@"Find a new friend to chat with on the feed." Sender:self];
-    } else if (blockedUser) {
-        [self showAlert:@"Blocked user" Message:@"You can't chat with users you have blocked." Sender:self];
-    } else if (blockedByUser) {
-        [self showAlert:@"Blocked" Message:@"This user has blocked you." Sender:self];
-    } else {
-        [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
-            if (succeeded) {
-                CMMChatVC *chatVC = [[CMMChatVC alloc] init];
-                chatVC.conversation = conversation;
-                [[self navigationController] pushViewController:chatVC animated:YES];
-            } else {
-                NSLog(@"Error: %@", error.localizedDescription);
-            }
-        }];
-        [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
-        [self.post saveInBackground];
-    }
+    }];
+    [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
+    [self.post saveInBackground];
 }
 
 - (void)didPressResources {
