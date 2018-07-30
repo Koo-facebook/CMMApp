@@ -169,8 +169,41 @@
     }];
 }
 
+- (void)showAlert:(NSString *)title Message:(NSString *)message Sender:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:okAction];
+    [sender presentViewController:alert animated:YES completion:^{
+    }];
+}
+
 - (void)didPressChat {
-    if (![self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+    BOOL blockedUser = NO;
+    BOOL blockedByUser = NO;
+    NSString *blockingKey1 = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
+    NSMutableArray *blockedUsers1 = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey1]];
+    for (NSString *userID in blockedUsers1) {
+        if ([userID isEqualToString:self.post.owner.objectId]) {
+            blockedUser = YES;
+            break;
+        }
+    }
+    NSString *blockingKey2 = [self.post.owner.objectId stringByAppendingString:@"-blockedUsers"];
+    NSMutableArray *blockedUsers2 = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey2]];
+    for (NSString *userID in blockedUsers2) {
+        if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
+            blockedByUser = YES;
+            break;
+        }
+    }
+    if ([self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        [self showAlert:@"You can't chat with yourself!" Message:@"Find a new friend to chat with on the feed." Sender:self];
+    } else if (blockedUser) {
+        [self showAlert:@"Blocked user" Message:@"You can't chat with users you have blocked." Sender:self];
+    } else if (blockedByUser) {
+        [self showAlert:@"Blocked" Message:@"This user has blocked you." Sender:self];
+    } else {
         [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
             if (succeeded) {
                 CMMChatVC *chatVC = [[CMMChatVC alloc] init];
@@ -182,8 +215,6 @@
         }];
         [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
         [self.post saveInBackground];
-    } else {
-        
     }
 }
 
