@@ -13,6 +13,7 @@
 
 @interface CMMEventDetailsVC : UIViewController <UIScrollViewDelegate>
 
+@property (strong, nonatomic) UIView *eventDetailsView;
 @property (strong, nonatomic) UILabel *eventName;
 @property (strong, nonatomic) UILabel *date;
 @property (strong, nonatomic) UILabel *time;

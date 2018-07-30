@@ -34,7 +34,7 @@
     sideMenuController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Newsfeed" image:nil tag:0];
     [viewControllers addObject:sideMenuController];
     
-    CMMEventsVC *eventsVC = [[CMMEventsVC alloc] init];
+    CMMResourcesVC *eventsVC = [[CMMResourcesVC alloc] init];
     UINavigationController *eventsNavigation = [[UINavigationController alloc]initWithRootViewController:eventsVC];
     eventsNavigation.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Events" image:nil tag:1];
     [viewControllers addObject:eventsNavigation];
