@@ -56,12 +56,12 @@
         query = [PFQuery queryWithClassName:@"CMMPost"];
     }
     [query includeKey:@"owner"];
-    [query includeKey:@"owner.objectId"];
+    /*[query includeKey:@"owner.objectId"];
     NSString *blockingKey = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
     NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
     for (NSString *blockID in blockedUsers) {
         [query whereKey:@"owner.objectId" notEqualTo:blockID];
-    }
+    }*/
     if (trending) {
         [self updateTrendingLimit:number WithCompletion:^(NSError *error) {
             if (error) {

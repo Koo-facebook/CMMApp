@@ -188,15 +188,6 @@
     }];
 }
 
-- (void)showAlert:(NSString *)title Message:(NSString *)message Sender:(id)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    }];
-    [alert addAction:okAction];
-    [sender presentViewController:alert animated:YES completion:^{
-    }];
-}
-
 - (void)didPressChat {
     [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
         if (succeeded) {

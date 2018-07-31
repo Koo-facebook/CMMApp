@@ -15,6 +15,7 @@
 @dynamic online;
 @dynamic profileBio;
 @dynamic displayName;
+@dynamic strikes;
     
 + (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMUser * _Nullable post))completion{
     CMMUser *newUser = [CMMUser new];
@@ -23,6 +24,7 @@
     newUser.preferences = [NSMutableArray new];
     newUser.profileImage = [CMMUser getPFFileFromImage:[UIImage imageNamed:@"placeholderProfileImage"]];
     newUser.online = @NO;
+    newUser.strikes = 0;
     
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         completion(succeeded, error, newUser);
