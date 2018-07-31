@@ -18,7 +18,6 @@
 @property (nonatomic, strong) UITextView *writeMessageTextView;
 @property (nonatomic, assign) CGSize keyboardSize;
 @property (nonatomic, assign) BOOL isMoreDataLoading;
-
 @end
 
 @implementation CMMChatVC
@@ -46,7 +45,7 @@
     [self setupChatTableView];
     [self setupOnlineIndicator];
     [self setupMessagingTextView];
-    
+    [self checkPermissions];
     [self updateConstraints];
 }
 
@@ -225,6 +224,24 @@
 }
 
 #pragma mark - Actions
+
+- (void)checkPermissions {
+    CMMUser *otherUser;
+    if (self.isUserOne) {
+        otherUser = self.conversation.user2;
+    } else {
+        otherUser = self.conversation.user1;
+    }
+    NSString *blockingKey = [otherUser.objectId stringByAppendingString:@"-blockedUsers"];
+    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
+    for (NSString *userID in blockedUsers) {
+        if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
+            [self createAlert:@"This user has blocked you" message:@"You can no longer send messages in this chat."];
+            self.writeMessageTextView.editable = NO;
+            break;
+        }
+    }
+}
 
 - (void)viewProfile:(id)sender{
     CMMProfileVC *profileVC = [CMMProfileVC new];

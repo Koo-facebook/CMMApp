@@ -193,6 +193,7 @@
         if (succeeded) {
             CMMChatVC *chatVC = [[CMMChatVC alloc] init];
             chatVC.conversation = conversation;
+            chatVC.isUserOne = YES;
             [[self navigationController] pushViewController:chatVC animated:YES];
         } else {
             NSLog(@"Error: %@", error.localizedDescription);
