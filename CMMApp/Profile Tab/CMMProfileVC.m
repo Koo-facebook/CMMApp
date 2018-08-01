@@ -89,7 +89,6 @@
       make.width.equalTo(@(self.view.frame.size.width));
         
     }];
-
 }
 
 -(void) createName{
@@ -125,7 +124,6 @@
     
     [self.view addSubview:self.profileBioLabel];
 }
-
 
 // Create Edit Profile Button
 - (void)createEditProfileButton {

@@ -250,7 +250,7 @@
     } else {
         profileVC.user = self.conversation.user1;
     }
-    [self presentViewController:profileVC animated:YES completion:nil];
+    [self.navigationController pushViewController:profileVC animated:YES];
 }
 
 - (void)sendButtonPressed {

@@ -21,6 +21,7 @@
 @property (strong, nonatomic) UILabel *dateLabel;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
+@property (strong, nonatomic) UILabel *reportLabel;
 @property (strong, nonatomic) UIImageView *authorImage;
 @property (strong, nonatomic) UIButton *chatButton;
 @property (strong, nonatomic) UIButton *resourceButton;
@@ -79,6 +80,9 @@
     self.authorLabel = [[UILabel alloc] init];
     self.authorLabel.textColor = [CMMStyles getTealColor];
     [self configureLabel:self.authorLabel text:self.post.owner.username fontSize:14];
+    
+    self.reportLabel = [[UILabel alloc] init];
+    [self configureLabel:self.reportLabel text:@"..." fontSize:20];
 }
 
 - (void)displayProfileImageWithSize:(int)size padding:(int)padding {
@@ -120,6 +124,12 @@
         make.top.equalTo(self.view.mas_top).with.offset(authorPadding.top);
         make.left.equalTo(self.authorImage.mas_right).with.offset(authorPadding.left);
         make.right.equalTo(self.view.mas_right).with.offset(-authorPadding.right);
+    }];
+    UIEdgeInsets reportPadding = UIEdgeInsetsMake(topPadding + imageSize/2, 12, 12, 12);
+    [self.reportLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset(reportPadding.top);
+        //make.left.equalTo(self.authorImage.mas_right).with.offset(authorPadding.left);
+        make.right.equalTo(self.view.mas_right).with.offset(-reportPadding.right);
     }];
 }
 
@@ -172,6 +182,15 @@
         make.left.equalTo(self.view.mas_left).with.offset(resourcePadding.left);
         make.right.equalTo(self.view.mas_right).with.offset(-resourcePadding.right);
     }];
+    
+    self.reportLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *reportTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReport)];
+    [self.reportLabel addGestureRecognizer:reportTap];
+}
+
+- (void)didTapReport {
+    self.post.reportedNumber ++;
+    [self.post saveInBackground];
 }
 
 - (void)segueToProfile {
