@@ -1,0 +1,459 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		136E30B0210A4C66009B4180 /* CMMKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E30AE210A4C66009B4180 /* CMMKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		136E30BC210A4CDE009B4180 /* CMMPopUp.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E30BA210A4CDE009B4180 /* CMMPopUp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		136E30BD210A4CDE009B4180 /* CMMPopUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E30BB210A4CDE009B4180 /* CMMPopUp.m */; };
+		136E3117210A762E009B4180 /* CMMPopUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 136E30BE210A4CF5009B4180 /* CMMPopUpView.xib */; };
+		136E3135210BD40A009B4180 /* CMMIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E3133210BD40A009B4180 /* CMMIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		136E3136210BD40A009B4180 /* CMMIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E3134210BD40A009B4180 /* CMMIconView.m */; };
+		136E3139210BD435009B4180 /* CMMItemAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E3137210BD435009B4180 /* CMMItemAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		136E313A210BD435009B4180 /* CMMItemAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E3138210BD435009B4180 /* CMMItemAnimation.m */; };
+		136E313D210BD4AD009B4180 /* CMMTabBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E313B210BD4AD009B4180 /* CMMTabBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		136E313E210BD4AD009B4180 /* CMMTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E313C210BD4AD009B4180 /* CMMTabBar.m */; };
+		136E3141210BD4F5009B4180 /* CMMAnimatedBarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E313F210BD4F5009B4180 /* CMMAnimatedBarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		136E3142210BD4F5009B4180 /* CMMAnimatedBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E3140210BD4F5009B4180 /* CMMAnimatedBarItem.m */; };
+		136E3146210F6DB8009B4180 /* CMMBounceAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E3144210F6DB8009B4180 /* CMMBounceAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		136E3147210F6DB8009B4180 /* CMMBounceAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E3145210F6DB8009B4180 /* CMMBounceAnimation.m */; };
+		136E314A210F6DD0009B4180 /* RotationAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E3148210F6DD0009B4180 /* RotationAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		136E314B210F6DD0009B4180 /* RotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E3149210F6DD0009B4180 /* RotationAnimation.m */; };
+		13FA46FC2110BE5500846515 /* FullScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 13FA46FA2110BE5500846515 /* FullScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		13FA46FD2110BE5500846515 /* FullScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13FA46FB2110BE5500846515 /* FullScrollView.m */; };
+		13FEA31321123FD800E8D70D /* EventDetailsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 13FEA31121123FD800E8D70D /* EventDetailsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		13FEA31421123FD800E8D70D /* EventDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13FEA31221123FD800E8D70D /* EventDetailsView.m */; };
+		13FEA31621123FFC00E8D70D /* EventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13FEA31521123FFC00E8D70D /* EventDetailsView.xib */; };
+		13FEA31921125D5400E8D70D /* PostDetailsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 13FEA31721125D5400E8D70D /* PostDetailsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		13FEA31A21125D5400E8D70D /* PostDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13FEA31821125D5400E8D70D /* PostDetailsView.m */; };
+		13FEA31C21125D6A00E8D70D /* PostDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13FEA31B21125D6A00E8D70D /* PostDetailsView.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		136E30AB210A4C66009B4180 /* CMMKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CMMKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		136E30AE210A4C66009B4180 /* CMMKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMKit.h; sourceTree = "<group>"; };
+		136E30AF210A4C66009B4180 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		136E30BA210A4CDE009B4180 /* CMMPopUp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMPopUp.h; sourceTree = "<group>"; };
+		136E30BB210A4CDE009B4180 /* CMMPopUp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMPopUp.m; sourceTree = "<group>"; };
+		136E30BE210A4CF5009B4180 /* CMMPopUpView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CMMPopUpView.xib; sourceTree = "<group>"; };
+		136E3133210BD40A009B4180 /* CMMIconView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMIconView.h; sourceTree = "<group>"; };
+		136E3134210BD40A009B4180 /* CMMIconView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMIconView.m; sourceTree = "<group>"; };
+		136E3137210BD435009B4180 /* CMMItemAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMItemAnimation.h; sourceTree = "<group>"; };
+		136E3138210BD435009B4180 /* CMMItemAnimation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMItemAnimation.m; sourceTree = "<group>"; };
+		136E313B210BD4AD009B4180 /* CMMTabBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMTabBar.h; sourceTree = "<group>"; };
+		136E313C210BD4AD009B4180 /* CMMTabBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMTabBar.m; sourceTree = "<group>"; };
+		136E313F210BD4F5009B4180 /* CMMAnimatedBarItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMAnimatedBarItem.h; sourceTree = "<group>"; };
+		136E3140210BD4F5009B4180 /* CMMAnimatedBarItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMAnimatedBarItem.m; sourceTree = "<group>"; };
+		136E3144210F6DB8009B4180 /* CMMBounceAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMBounceAnimation.h; sourceTree = "<group>"; };
+		136E3145210F6DB8009B4180 /* CMMBounceAnimation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMBounceAnimation.m; sourceTree = "<group>"; };
+		136E3148210F6DD0009B4180 /* RotationAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RotationAnimation.h; sourceTree = "<group>"; };
+		136E3149210F6DD0009B4180 /* RotationAnimation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RotationAnimation.m; sourceTree = "<group>"; };
+		13FA46FA2110BE5500846515 /* FullScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FullScrollView.h; sourceTree = "<group>"; };
+		13FA46FB2110BE5500846515 /* FullScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FullScrollView.m; sourceTree = "<group>"; };
+		13FEA31121123FD800E8D70D /* EventDetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventDetailsView.h; sourceTree = "<group>"; };
+		13FEA31221123FD800E8D70D /* EventDetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDetailsView.m; sourceTree = "<group>"; };
+		13FEA31521123FFC00E8D70D /* EventDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsView.xib; sourceTree = "<group>"; };
+		13FEA31721125D5400E8D70D /* PostDetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailsView.h; sourceTree = "<group>"; };
+		13FEA31821125D5400E8D70D /* PostDetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDetailsView.m; sourceTree = "<group>"; };
+		13FEA31B21125D6A00E8D70D /* PostDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailsView.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		136E30A7210A4C66009B4180 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		136E30A1210A4C66009B4180 = {
+			isa = PBXGroup;
+			children = (
+				136E30AD210A4C66009B4180 /* CMMKit */,
+				136E30AC210A4C66009B4180 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		136E30AC210A4C66009B4180 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				136E30AB210A4C66009B4180 /* CMMKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		136E30AD210A4C66009B4180 /* CMMKit */ = {
+			isa = PBXGroup;
+			children = (
+				136E30AE210A4C66009B4180 /* CMMKit.h */,
+				13FEA30621123B3E00E8D70D /* InformationViews */,
+				136E3119210B8852009B4180 /* PopUp */,
+				13FA46F92110BE1800846515 /* ScrollingPages */,
+				136E3132210BD3BC009B4180 /* TabBar */,
+				136E30AF210A4C66009B4180 /* Info.plist */,
+			);
+			path = CMMKit;
+			sourceTree = "<group>";
+		};
+		136E3119210B8852009B4180 /* PopUp */ = {
+			isa = PBXGroup;
+			children = (
+				136E30BA210A4CDE009B4180 /* CMMPopUp.h */,
+				136E30BB210A4CDE009B4180 /* CMMPopUp.m */,
+				136E30BE210A4CF5009B4180 /* CMMPopUpView.xib */,
+			);
+			path = PopUp;
+			sourceTree = "<group>";
+		};
+		136E3132210BD3BC009B4180 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				136E3143210BD505009B4180 /* Animation */,
+				136E3133210BD40A009B4180 /* CMMIconView.h */,
+				136E3134210BD40A009B4180 /* CMMIconView.m */,
+				136E313B210BD4AD009B4180 /* CMMTabBar.h */,
+				136E313C210BD4AD009B4180 /* CMMTabBar.m */,
+				136E313F210BD4F5009B4180 /* CMMAnimatedBarItem.h */,
+				136E3140210BD4F5009B4180 /* CMMAnimatedBarItem.m */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		136E3143210BD505009B4180 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				136E3137210BD435009B4180 /* CMMItemAnimation.h */,
+				136E3138210BD435009B4180 /* CMMItemAnimation.m */,
+				136E3144210F6DB8009B4180 /* CMMBounceAnimation.h */,
+				136E3145210F6DB8009B4180 /* CMMBounceAnimation.m */,
+				136E3148210F6DD0009B4180 /* RotationAnimation.h */,
+				136E3149210F6DD0009B4180 /* RotationAnimation.m */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		13FA46F92110BE1800846515 /* ScrollingPages */ = {
+			isa = PBXGroup;
+			children = (
+				13FA46FA2110BE5500846515 /* FullScrollView.h */,
+				13FA46FB2110BE5500846515 /* FullScrollView.m */,
+			);
+			path = ScrollingPages;
+			sourceTree = "<group>";
+		};
+		13FEA30621123B3E00E8D70D /* InformationViews */ = {
+			isa = PBXGroup;
+			children = (
+				13FEA31121123FD800E8D70D /* EventDetailsView.h */,
+				13FEA31221123FD800E8D70D /* EventDetailsView.m */,
+				13FEA31521123FFC00E8D70D /* EventDetailsView.xib */,
+				13FEA31721125D5400E8D70D /* PostDetailsView.h */,
+				13FEA31821125D5400E8D70D /* PostDetailsView.m */,
+				13FEA31B21125D6A00E8D70D /* PostDetailsView.xib */,
+			);
+			path = InformationViews;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		136E30A8210A4C66009B4180 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				136E30B0210A4C66009B4180 /* CMMKit.h in Headers */,
+				136E313D210BD4AD009B4180 /* CMMTabBar.h in Headers */,
+				136E30BC210A4CDE009B4180 /* CMMPopUp.h in Headers */,
+				136E3139210BD435009B4180 /* CMMItemAnimation.h in Headers */,
+				136E314A210F6DD0009B4180 /* RotationAnimation.h in Headers */,
+				136E3146210F6DB8009B4180 /* CMMBounceAnimation.h in Headers */,
+				136E3141210BD4F5009B4180 /* CMMAnimatedBarItem.h in Headers */,
+				13FA46FC2110BE5500846515 /* FullScrollView.h in Headers */,
+				13FEA31921125D5400E8D70D /* PostDetailsView.h in Headers */,
+				13FEA31321123FD800E8D70D /* EventDetailsView.h in Headers */,
+				136E3135210BD40A009B4180 /* CMMIconView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		136E30AA210A4C66009B4180 /* CMMKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 136E30B3210A4C66009B4180 /* Build configuration list for PBXNativeTarget "CMMKit" */;
+			buildPhases = (
+				136E30A6210A4C66009B4180 /* Sources */,
+				136E30A7210A4C66009B4180 /* Frameworks */,
+				136E30A8210A4C66009B4180 /* Headers */,
+				136E30A9210A4C66009B4180 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CMMKit;
+			productName = CMMKit;
+			productReference = 136E30AB210A4C66009B4180 /* CMMKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		136E30A2210A4C66009B4180 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Keylonnie Miller";
+				TargetAttributes = {
+					136E30AA210A4C66009B4180 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 136E30A5210A4C66009B4180 /* Build configuration list for PBXProject "CMMKit" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 136E30A1210A4C66009B4180;
+			productRefGroup = 136E30AC210A4C66009B4180 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				136E30AA210A4C66009B4180 /* CMMKit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		136E30A9210A4C66009B4180 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13FEA31C21125D6A00E8D70D /* PostDetailsView.xib in Resources */,
+				13FEA31621123FFC00E8D70D /* EventDetailsView.xib in Resources */,
+				136E3117210A762E009B4180 /* CMMPopUpView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		136E30A6210A4C66009B4180 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13FA46FD2110BE5500846515 /* FullScrollView.m in Sources */,
+				136E30BD210A4CDE009B4180 /* CMMPopUp.m in Sources */,
+				13FEA31A21125D5400E8D70D /* PostDetailsView.m in Sources */,
+				136E3142210BD4F5009B4180 /* CMMAnimatedBarItem.m in Sources */,
+				136E3147210F6DB8009B4180 /* CMMBounceAnimation.m in Sources */,
+				136E3136210BD40A009B4180 /* CMMIconView.m in Sources */,
+				136E313A210BD435009B4180 /* CMMItemAnimation.m in Sources */,
+				136E313E210BD4AD009B4180 /* CMMTabBar.m in Sources */,
+				13FEA31421123FD800E8D70D /* EventDetailsView.m in Sources */,
+				136E314B210F6DD0009B4180 /* RotationAnimation.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		136E30B1210A4C66009B4180 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		136E30B2210A4C66009B4180 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		136E30B4210A4C66009B4180 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 96W3N7G5K2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CMMKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		136E30B5210A4C66009B4180 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 96W3N7G5K2;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CMMKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		136E30A5210A4C66009B4180 /* Build configuration list for PBXProject "CMMKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				136E30B1210A4C66009B4180 /* Debug */,
+				136E30B2210A4C66009B4180 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		136E30B3210A4C66009B4180 /* Build configuration list for PBXNativeTarget "CMMKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				136E30B4210A4C66009B4180 /* Debug */,
+				136E30B5210A4C66009B4180 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 136E30A2210A4C66009B4180 /* Project object */;
+}
