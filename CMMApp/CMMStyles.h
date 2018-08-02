@@ -10,7 +10,10 @@
 #import <UIKit/UIKit.h>
 
 @interface CMMStyles : NSObject
+
 + (UIColor *)getTealColor;
-+ (UIFont *)getFontWithSize:(CGFloat)size Weight:(UIFontWeight)weight;
++ (UIFont *)getTitleFontWithSize: (CGFloat)size;
++ (UIFont *)getTextFontWithSize:(CGFloat)size;
 + (NSArray *)getCategories;
+
 @end

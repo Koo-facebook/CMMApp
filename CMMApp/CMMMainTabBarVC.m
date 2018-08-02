@@ -18,56 +18,104 @@
 
 @implementation CMMMainTabBarVC
 
-- (void)viewDidLoad {
+-(void)viewDidLoad {
+    //First View Controller
+    CMMBounceAnimation *bounceAnimation = [[CMMBounceAnimation alloc] init];
+    bounceAnimation.textSelectedColor = [UIColor blueColor];
+    bounceAnimation.iconSelectedColor = [UIColor blueColor];
+    
+    CMMAnimatedBarItem *firstTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"icon_home"] selectedImage:nil];
+    firstTabBarItem.animation = bounceAnimation;
+    firstTabBarItem.textColor = [UIColor blackColor];
+    UIImageView *firstIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_home"]];
+    UILabel *firstLabel = [[UILabel alloc] init];
+    firstLabel.text = @"Bounce Animation";
+    firstTabBarItem.iconView = [[CMMIconView alloc]initWithIcon:firstIconView title:firstLabel];
+    CMMNewsfeedVC *firstViewController = [[CMMNewsfeedVC alloc] init];
+    self.view.tintColor = [UIColor blueColor];
+    UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
+    firstNav.tabBarItem = firstTabBarItem;
+    
+    // Second ViewController
+    CMMBounceAnimation *bounceAnimation_two = [[CMMBounceAnimation alloc] init];
+    bounceAnimation_two.textSelectedColor = [UIColor blueColor];
+    bounceAnimation_two.iconSelectedColor = [UIColor blueColor];
+    
+    CMMAnimatedBarItem *secondTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Event" image:[UIImage imageNamed:@"icon_pinmap"] selectedImage:nil];
+    secondTabBarItem.animation = bounceAnimation_two;
+    secondTabBarItem.textColor = [UIColor blackColor];
+    UIImageView *secondIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_pinmap"]];
+    UILabel *secondLabel = [[UILabel alloc] init];
+    secondLabel.text = @"Rotation Animation";
+    secondTabBarItem.iconView = [[CMMIconView alloc]initWithIcon:secondIconView title:secondLabel];
+    
+    CMMEventsVC *secondViewController = [[CMMEventsVC alloc] init];
+    UINavigationController *secondNav = [[UINavigationController alloc] initWithRootViewController:secondViewController];
+    secondNav.tabBarItem = secondTabBarItem;
+    
+    //Third View Controller
+    CMMBounceAnimation *bounceAnimation_three = [[CMMBounceAnimation alloc] init];
+    bounceAnimation_three.textSelectedColor = [UIColor blueColor];
+    bounceAnimation_three.iconSelectedColor = [UIColor blueColor];
+    
+    CMMAnimatedBarItem *thirdTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Post" image:[UIImage imageNamed:@"icon_post"] selectedImage:nil];
+    thirdTabBarItem.animation = bounceAnimation_three;
+    thirdTabBarItem.textColor = [UIColor blackColor];
+    UIImageView *thirdIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_post"]];
+    UILabel *thirdLabel = [[UILabel alloc] init];
+    thirdLabel.text = @"Bounce Animation";
+    thirdTabBarItem.iconView = [[CMMIconView alloc]initWithIcon:thirdIconView title:thirdLabel];
+    CMMComposerVC *thirdViewController = [[CMMComposerVC alloc] init];
+    UINavigationController *thirdNav = [[UINavigationController alloc] initWithRootViewController:thirdViewController];
+    thirdNav.tabBarItem = thirdTabBarItem;
+    
+    
+    // Fourth ViewController
+    RotationAnimation *rotationAnimation = [[RotationAnimation alloc] init];
+    rotationAnimation.textSelectedColor = [UIColor blueColor];
+    rotationAnimation.iconSelectedColor = [UIColor blueColor];
+    
+    CMMAnimatedBarItem *fourthTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Inbox" image:[UIImage imageNamed:@"icon_user"] selectedImage:nil];
+    fourthTabBarItem.animation = rotationAnimation;
+    fourthTabBarItem.textColor = [UIColor blackColor];
+    UIImageView *fourthIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_user"]];
+    UILabel *fourthLabel = [[UILabel alloc] init];
+    fourthLabel.text = @"Rotation Animation";
+    fourthTabBarItem.iconView = [[CMMIconView alloc]initWithIcon:fourthIconView title:fourthLabel];
+    
+    CMMInboxVC *fourthViewController = [[CMMInboxVC alloc] init];
+    UINavigationController *fourthNav = [[UINavigationController alloc] initWithRootViewController:fourthViewController];
+    fourthNav.tabBarItem = fourthTabBarItem;
+    
+    //Fifth View Controller
+    CMMBounceAnimation *bounceAnimation_four = [[CMMBounceAnimation alloc] init];
+    bounceAnimation_four.textSelectedColor = [UIColor blueColor];
+    bounceAnimation_four.iconSelectedColor = [UIColor blueColor];
+    
+    CMMAnimatedBarItem *fifthTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Resources" image:[UIImage imageNamed:@"icon_book"] selectedImage:nil];
+    fifthTabBarItem.animation = bounceAnimation_four;
+    fifthTabBarItem.textColor = [UIColor blackColor];
+    UIImageView *fifthIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_book"]];
+    UILabel *fifthLabel = [[UILabel alloc] init];
+    fifthLabel.text = @"Bounce Animation";
+    fifthTabBarItem.iconView = [[CMMIconView alloc]initWithIcon:fifthIconView title:fifthLabel];
+    CMMProfileVC *fifthViewController = [[CMMProfileVC alloc] init];
+    UINavigationController *fifthNav = [[UINavigationController alloc] initWithRootViewController:fifthViewController];
+    fifthNav.tabBarItem = fifthTabBarItem;
+    
+    
+    self.viewControllers = @[firstNav, secondNav, thirdNav, fourthNav, fifthNav];
+    
     [super viewDidLoad];
-    
-    NSMutableArray *viewControllers = [[NSMutableArray alloc] init];
-    
-    CMMNewsfeedVC *newsfeedVC = [[CMMNewsfeedVC alloc] init];
-    UINavigationController *feedNavVC = [[UINavigationController alloc] initWithRootViewController:newsfeedVC];
-    NewsfeedSideMenuVC *sideMenuVC = [[NewsfeedSideMenuVC alloc] init];
-    LGSideMenuController *sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:feedNavVC leftViewController:nil rightViewController:sideMenuVC];
-    sideMenuController.leftViewBackgroundBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
-    sideMenuController.rightViewWidth = 2*newsfeedVC.view.frame.size.width/3;
-    sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleScaleFromLittle;
-    sideMenuController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Newsfeed" image:nil tag:0];
-    [viewControllers addObject:sideMenuController];
-    [sideMenuController.tabBarItem setImage:[self resizeImageToIcon:[UIImage imageNamed:@"feedTab"]]];
-    
-    CMMResourcesVC *eventsVC = [[CMMResourcesVC alloc] init];
-    UINavigationController *eventsNavigation = [[UINavigationController alloc]initWithRootViewController:eventsVC];
-    eventsNavigation.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Events" image:nil tag:1];
-    [viewControllers addObject:eventsNavigation];
-    [eventsNavigation.tabBarItem setImage:[self resizeImageToIcon:[UIImage imageNamed:@"eventsTab"]]];
-    
-    CMMComposerVC *composeVC = [[CMMComposerVC alloc] init];
-    UINavigationController *composeNavVC = [[UINavigationController alloc] initWithRootViewController:composeVC];
-    composeNavVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Compose" image:nil tag:4];
-    [viewControllers addObject:composeNavVC];
-    [composeNavVC.tabBarItem setImage:[self resizeImageToIcon:[UIImage imageNamed:@"composeTab"]]];
-    
-    CMMInboxVC *inboxVC = [[CMMInboxVC alloc] init];
-    UINavigationController *inboxNavVC = [[UINavigationController alloc] initWithRootViewController:inboxVC];
-    inboxNavVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Inbox" image:nil tag:2];
-    [viewControllers addObject:inboxNavVC];
-    [inboxNavVC.tabBarItem setImage:[self resizeImageToIcon:[UIImage imageNamed:@"inboxTab"]]];
-    
-    CMMProfileVC *profileVC = [[CMMProfileVC alloc] init];
-    UINavigationController *profileNavVC = [[UINavigationController alloc] initWithRootViewController:profileVC];
-    profileNavVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:nil tag:3];
-    [viewControllers addObject:profileNavVC];
-    [profileNavVC.tabBarItem setImage:[self resizeImageToIcon:[UIImage imageNamed:@"profileTab"]]];
-    
-    self.viewControllers = [viewControllers copy];
 }
 
-- (UIImage *)resizeImageToIcon:(UIImage *)image {
-    CGSize size = CGSizeMake(25, 25);
-    UIGraphicsBeginImageContext(size);
-    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
+//- (UIImage *)resizeImageToIcon:(UIImage *)image {
+//    CGSize size = CGSizeMake(25, 25);
+//    UIGraphicsBeginImageContext(size);
+//    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+//    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return newImage;
+//}
 
 @end

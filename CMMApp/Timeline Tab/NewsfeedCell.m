@@ -30,19 +30,19 @@
     titleLabel.numberOfLines = 0;
     titleLabel.text = post.topic;
     [self.contentView addSubview:titleLabel];
-    [titleLabel setFont:[CMMStyles getFontWithSize:14 Weight:UIFontWeightLight]];
+    [titleLabel setFont:[CMMStyles getTextFontWithSize:14]];
     
     UILabel *dateLabel = [[UILabel alloc] init];
-    dateLabel.text = [post.createdAt timeAgoSinceNow];
+    dateLabel.text = [NSDate shortTimeAgoSinceDate:post.createdAt];
     dateLabel.textColor = [CMMStyles getTealColor];
     [self.contentView addSubview:dateLabel];
-    [dateLabel setFont:[CMMStyles getFontWithSize:10 Weight:UIFontWeightLight]];
+    [dateLabel setFont:[CMMStyles getTitleFontWithSize:18 ]];
     
     UILabel *categoryLabel = [[UILabel alloc] init];
     categoryLabel.text = post.category;
     categoryLabel.textColor = [CMMStyles getTealColor];
     [self.contentView addSubview:categoryLabel];
-    [categoryLabel setFont:[CMMStyles getFontWithSize:10 Weight:UIFontWeightBold]];
+    [categoryLabel setFont:[CMMStyles getTitleFontWithSize:18]];
     
     // Autolayout for the labels
     UIEdgeInsets titlePadding = UIEdgeInsetsMake(28, 12, 12, 12);

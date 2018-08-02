@@ -7,6 +7,7 @@
 //
 
 #import "CMMEventDetailsVC.h"
+#import <CMMKit/CMMPopUp.h>
 #import "Masonry.h"
 
 
@@ -200,10 +201,19 @@ self.time.font = [UIFont fontWithName:@"Arial" size:16];
         NSError *err = nil;
         [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
     }];
-    [self createAlert:@"Event Added" message:@"Event has been successfully added to calendar"];
+    [self presentModalStatusView];
     NSLog(@"Add to Calendar Button Pressed");
 }
 
+-(void)presentModalStatusView {
+    CGRect frame = CGRectMake((self.view.frame.size.width/4),(self.view.frame.size.height/2),220 ,150);
+    CMMPopUp *modalView = [[CMMPopUp alloc]initWithFrame:frame];
+    UIImage *eventImage = [UIImage imageNamed:@"eventsTab"];
+    [modalView setImage:eventImage];
+    [modalView setHeadline:@"Added to Calendar"];
+    [modalView setSubheading:@"The event has been added to your calendar successfully."];
+    [self.view addSubview:modalView];
+}
 // Create alert with given message and title
 - (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];

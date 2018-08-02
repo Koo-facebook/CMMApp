@@ -137,7 +137,7 @@
     if (![self returnIfCurrentUserRead]) {
         label.font = [UIFont boldSystemFontOfSize:15];
     } else {
-        label.font = [CMMStyles getFontWithSize:15 Weight:UIFontWeightThin];
+        label.font = [CMMStyles getTextFontWithSize:15 ];
     }
 }
 

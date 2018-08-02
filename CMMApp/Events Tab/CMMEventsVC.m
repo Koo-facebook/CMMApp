@@ -41,7 +41,7 @@
     self.eventList = [[NSArray alloc]init];
     //Navigation Bar Set-up
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"Events";
+    self.navigationItem.title = @"Events";
     
     [self.tableView registerClass:[EventsCell class] forCellReuseIdentifier:@"eventsCell"];
     

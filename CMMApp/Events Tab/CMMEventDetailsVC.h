@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <EventKit/EventKit.h>
+#import <CMMKit/CMMKit.h>
 #import "CMMEvent.h"
 #import "CMMVenue.h"
 

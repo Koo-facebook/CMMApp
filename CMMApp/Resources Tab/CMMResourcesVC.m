@@ -25,7 +25,7 @@
     
     self.topicList = [[NSArray alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"Resources";
+    self.navigationItem.title = @"Resources";
     
     // Create properties
     [self createSearchBar];
