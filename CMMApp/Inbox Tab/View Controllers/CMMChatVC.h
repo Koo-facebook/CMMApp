@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "CMMConversation.h"
 #import "CMMMessage.h"
-#import "ChatCell.h"
+#import "CMMChatCell.h"
+#import "CMMParseQueryManager.h"
+#import <ParseUI/ParseUI.h>
+#import "CMMProfileVC.h"
 
-@interface CMMChatVC : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
+@interface CMMChatVC : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIScrollViewDelegate, UITextViewDelegate>
 
 @property BOOL isUserOne;
 @property (nonatomic, strong) CMMConversation *conversation;

@@ -14,15 +14,19 @@
 #import <LGSideMenuController/LGSideMenuController.h>
 #import <LGSideMenuController/UIViewController+LGSideMenuController.h>
 #import "NewsfeedSideMenuVC.h"
+#import "CMMStyles.h"
 
-@interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
-@property (strong, nonatomic) UITableView *table;
+@interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SideMenuDelegate>
 @property (strong, nonatomic) NSArray *posts;
 @property (strong, nonatomic) NSArray *filteredPosts;
+@property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) UITableView *table;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
 @property (assign, nonatomic) int queryNumber;
+@property (assign, nonatomic) BOOL sortByTrending;
 @end
 
 @implementation CMMNewsfeedVC
@@ -38,20 +42,26 @@
 }
 
 - (void)configureView {
-    self.view.backgroundColor = [UIColor purpleColor];
     self.title = @"Newsfeed";
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
+    self.sortByTrending = NO;
+    self.isMoreDataLoading = NO;
     
     // create and populate table view
-    int topBuffer = 0;
-    CGRect tableViewFrame = CGRectMake(0, topBuffer, self.view.frame.size.width, self.view.frame.size.height - topBuffer);
+    CGRect tableViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     self.table.rowHeight = UITableViewAutomaticDimension;
     self.table.estimatedRowHeight = 55;
     self.table.delegate = self;
     self.table.dataSource = self;
     self.queryNumber = 20;
+    self.categories = [CMMStyles getCategories];
+    
+    // create side menu
+    NewsfeedSideMenuVC *sideMenuVC = self.sideMenuController.rightViewController;
+    sideMenuVC.delegate = self;
+    sideMenuVC.sortByTrending = self.sortByTrending;
     [self fetchPosts];
     
     // add search bar to table view
@@ -68,7 +78,7 @@
 }
 
 - (void)fetchPosts {
-    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber WithCompletion:^(NSArray *posts, NSError *error) {
+    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             self.posts = posts;
             self.filteredPosts = posts;
@@ -84,7 +94,6 @@
 }
 
 - (void)didPressFilter:(id)sender {
-    NSLog(@"filtering");
     [self.sideMenuController showRightViewAnimated];
 }
 
@@ -127,6 +136,7 @@
     CMMPost *post = self.filteredPosts[indexPath.row];
     [detailVC configureDetails:post];
     [[self navigationController] pushViewController:detailVC animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -137,10 +147,61 @@
         
         // When the user has scrolled past the threshold, start requesting
         if(scrollView.contentOffset.y > scrollOffsetThreshold && self.table.isDragging) {
-            self.isMoreDataLoading = true;
+            self.isMoreDataLoading = YES;
             self.queryNumber += 10;
             [self fetchPosts];
         }
+    }
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)table editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *report = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Report Post" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"tried to report post");
+        CMMPost *post = self.filteredPosts[indexPath.row];
+        post.reportedNumber ++;
+        [post saveInBackground];
+    }];
+    
+    UITableViewRowAction *block = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Block User" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSLog(@"tried to block user");
+        CMMPost *post = self.filteredPosts[indexPath.row];
+        [[CMMParseQueryManager shared] addBlockedUser:post.owner Sender:self];
+    }];
+    block.backgroundColor = [UIColor lightGrayColor];
+    
+    return [[NSArray alloc] initWithObjects:report, block, nil];
+}
+
+- (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending {
+    self.categories = categories;
+    self.sortByTrending = trending;
+    [self fetchPosts];
+    [self.table reloadData];
+}
+
+- (void)fetchNearbyPosts {
+    [[CMMParseQueryManager shared] fetchNearbyPosts:0 latitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude withCompletion:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (posts) {
+            self.filteredPosts = posts;
+            [self.table reloadData];
+        }
+    }];
+}
+
+- (void) getCurrentLocation {
+    self.locationManager = [[CLLocationManager alloc]init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    // Request Authorization
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
+    // Start Updating Location only when user authorized us
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)
+    {
+        [self.locationManager startUpdatingLocation];
     }
 }
 

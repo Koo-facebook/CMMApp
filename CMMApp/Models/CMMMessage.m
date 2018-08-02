@@ -20,7 +20,7 @@
     return @"CMMMessage";
 }
     
-+ (void)createMessage:(CMMConversation *_Nonnull)conversation content:(NSString *_Nonnull)content attachment:(PFFile *_Nullable)attachment withCompletion:(PFBooleanResultBlock _Nullable)completion {
++ (void)createMessage:(CMMConversation *_Nonnull)conversation content:(NSString *_Nonnull)content attachment:(PFFile *_Nullable)attachment withCompletion:(void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMMessage * _Nullable message))completion {
         
     CMMMessage *newMessage = [CMMMessage new];
         
@@ -29,7 +29,23 @@
     newMessage.attachment = attachment;
     newMessage.messageSender = CMMUser.currentUser;
 
-    [newMessage saveInBackgroundWithBlock:completion];
+    [newMessage saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        completion(succeeded, error, newMessage);
+        if ([newMessage.messageSender.objectId isEqualToString:conversation.user1.objectId]) {
+            conversation.userOneRead = YES;
+            conversation.userTwoRead = NO;
+        } else {
+            conversation.userTwoRead = YES;
+            conversation.userOneRead = NO;
+        }
+        
+        conversation.lastMessageSent = newMessage.createdAt;
+        NSLog(@"%@", conversation.lastMessageSent);
+        [conversation saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            NSLog(@"%d", succeeded);
+        }];
+    }];
+    
     
 }
     

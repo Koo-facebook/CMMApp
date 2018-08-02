@@ -10,14 +10,14 @@
 
 @interface CMMLoginVC ()
     
-    @property (nonatomic, strong) UIButton *signUpButton;
-    @property (nonatomic, strong) UIButton *loginButton;
-    @property (nonatomic, strong) UITextField *usernameTextField;
-    @property (nonatomic, strong) UITextField *passwordTextField;
-    @property (nonatomic, strong) UILabel *titleLabel;
-    @property (nonatomic, strong) UIImageView *logoImage;
+@property (nonatomic, strong) UIButton *signUpButton;
+@property (nonatomic, strong) UIButton *loginButton;
+@property (nonatomic, strong) UITextField *usernameTextField;
+@property (nonatomic, strong) UITextField *passwordTextField;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *logoImage;
     
-    @end
+@end
 
 @implementation CMMLoginVC
     
@@ -197,16 +197,24 @@
     }
     else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
+        [CMMUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (error != nil) {
                 NSLog(@"User log in failed: %@", error.localizedDescription);
-                [self createAlert:@"Login Error" message:@"There was a problem logging in. Please try again."];
+                [self createAlert:@"Login Error" message:error.localizedDescription];
             } else {
                 NSLog(@"User logged in successfully");
-                CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
-                [self presentViewController:tabBarVC animated:YES completion:^{}];
+                if (CMMUser.currentUser.online == YES) {
+                    //[self createAlert:@"Error" message:@"User already logged in"];
+                    CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
+                    [self presentViewController:tabBarVC animated:YES completion:^{}];
+                } else {
+                    CMMUser.currentUser.online = YES;
+                    CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
+                    [self presentViewController:tabBarVC animated:YES completion:^{}];
+                }
             }
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
         }];
     }
 }
@@ -219,7 +227,7 @@
     }
     else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [CMMUser createUser:self.usernameTextField.text password:self.passwordTextField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        [CMMUser createUser:self.usernameTextField.text password:self.passwordTextField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMUser *newUser) {
             if (error != nil) {
                 NSLog(@"Error: %@", error.localizedDescription);
                 [self createAlert:@"Sign Up Error" message:@"There was a problem signing up. Please try again"];

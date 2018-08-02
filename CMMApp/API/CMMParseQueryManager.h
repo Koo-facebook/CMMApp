@@ -15,9 +15,12 @@
 @interface CMMParseQueryManager : NSObject
 
 + (instancetype)shared;
-- (void)fetchConversationMessagesWithCompletion:(NSString *)conversationIdString withCompletion: (void(^)(NSArray *messages, NSError *error))completion;
+- (void)fetchConversationMessagesWithCompletion:(CMMConversation *)conversation skipCount:(NSInteger)skipCount withCompletion: (void(^)(NSArray *messages, NSError *error)) completion;
 - (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error))completion;
-- (void)fetchPosts:(int)number WithCompletion:(void(^)(NSArray *posts, NSError *error))completion;
+- (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending WithCompletion:(void(^)(NSArray *posts, NSError *error))completion;
+- (void)fetchPosts:(int)number ByAuthor:(CMMUser *)user WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 - (void)fetchUsersPostsWithCompletion:(CMMUser *)user withCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
-
+- (void)addBlockedUser:(CMMUser *)user Sender:sender;
+- (void)deleteMessageForConversation: (CMMConversation *)conversation withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error)) completion;
+- (void)fetchNearbyPosts:(int)skip latitude:(float)latitude longitude:(float)longitude withCompletion: (void(^_Nullable)(NSArray * _Nullable posts, NSError * _Nullable error)) completion;
 @end

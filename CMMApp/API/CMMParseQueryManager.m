@@ -7,7 +7,8 @@
 //
 
 #import "CMMParseQueryManager.h"
-
+#import <DateTools.h>
+#import "UIImageView+AFNetworking.h"
 @implementation CMMParseQueryManager
 
 + (instancetype)shared {
@@ -19,16 +20,100 @@
     return sharedManager;
 }
 
-- (void)fetchPosts:(int)number WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
+- (void)addBlockedUser:(CMMUser *)user Sender:(id)sender {
+    if ([user.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Don't block yourself!" message:@"That would be weird." preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [alert addAction:okAction];
+        [sender presentViewController:alert animated:YES completion:^{
+        }];
+    }
+    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"blockedUsers"]];
+    for (NSString *userID in blockedUsers) {
+        if ([userID isEqualToString:user.objectId]) {
+            return;
+        }
+    }
+    [blockedUsers addObject:user.objectId];
+    NSLog(@"Blocked users: %@", blockedUsers);
+    [[NSUserDefaults standardUserDefaults] setObject:blockedUsers forKey:@"blockedUsers"];
+}
+
+- (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
+    PFQuery *query;
+    if (categories.count > 0) {
+        NSMutableArray *queries = [[NSMutableArray alloc] init];
+        for (NSString *category in categories) {
+            PFQuery *categoryQuery = [PFQuery queryWithClassName:@"CMMPost"];
+            [categoryQuery whereKey:@"category" equalTo:category];
+            [queries addObject:categoryQuery];
+        }
+        query = [PFQuery orQueryWithSubqueries:queries];
+    } else {
+        query = [PFQuery queryWithClassName:@"CMMPost"];
+    }
     [query includeKey:@"owner"];
+    if (trending) {
+        [self updateTrendingLimit:number WithCompletion:^(NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@", error.localizedDescription);
+            } else {
+                [query orderByDescending:@"trendingIndex"];
+                [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+                    if (error) {
+                        NSLog(@"Error: %@", error.localizedDescription);
+                    } else {
+                        completion(posts, nil);
+                    }
+                }];
+            }
+        }];
+    } else {
+        query.limit = number;
+        [query orderByDescending:@"createdAt"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error: %@", error.localizedDescription);
+            } else {
+                completion(posts, nil);
+            }
+        }];
+    }
+}
+
+- (void)fetchPosts:(int)number ByAuthor:(CMMUser *)user WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
+    PFQuery *query;
+    query = [PFQuery queryWithClassName:@"CMMPost"];
     [query orderByDescending:@"createdAt"];
+    [query whereKey:@"owner" equalTo:user];
+    [query includeKey:@"owner"];
     query.limit = number;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         } else {
             completion(posts, nil);
+        }
+    }];
+}
+
+- (void)updateTrendingLimit:(int)limit WithCompletion:(void(^)(NSError *error))completion {
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMPost"];
+    query.limit = limit;
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+            for (CMMPost *post in posts) {
+                float trendingIndex = 0;
+                for (NSDate *time in post.userChatTaps) {
+                    trendingIndex += (1 / [[NSDate date] minutesFrom:time]);
+                }
+                post.trendingIndex = trendingIndex;
+                [post saveInBackground];
+            }
+            completion(nil);
         }
     }];
 }
@@ -51,9 +136,10 @@
 - (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error)) completion {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(user1 = %@) OR (user2 = %@)", CMMUser.currentUser, CMMUser.currentUser];
     PFQuery *query = [PFQuery queryWithClassName:@"CMMConversation" predicate:predicate];
-    [query orderByDescending:@"createdAt"];
+    [query orderByDescending:@"lastMessageSent"];
     [query includeKey:@"user1"];
     [query includeKey:@"user2"];
+    [query includeKey:@"userWhoLeft"];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable conversations, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
@@ -63,12 +149,14 @@
     }];
 }
 
-- (void)fetchConversationMessagesWithCompletion:(CMMConversation *)conversation withCompletion: (void(^)(NSArray *messages, NSError *error)) completion {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"conversation = ", conversation];
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessages" predicate:predicate];
+- (void)fetchConversationMessagesWithCompletion:(CMMConversation *)conversation skipCount:(NSInteger)skipCount withCompletion: (void(^)(NSArray *messages, NSError *error)) completion {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"conversation = %@", conversation];
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessage" predicate:predicate];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"messageSender"];
     [query includeKey:@"conversation"];
+    query.limit = 20;
+    query.skip = skipCount;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable messages, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
@@ -76,7 +164,57 @@
             completion(messages, nil);
         }
     }];
-    
+}
+
+- (void)deleteMessageForConversation: (CMMConversation *)conversation withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error)) completion; {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"conversation = %@", conversation];
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMMessage" predicate:predicate];
+    [query orderByDescending:@"createdAt"];
+    [query includeKey:@"messageSender"];
+    [query includeKey:@"conversation"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable messages, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+        int counter = 1;
+            for (CMMMessage *message in messages) {
+                if (counter == messages.count) {
+                    [message deleteInBackgroundWithBlock:completion];
+                } else {
+                    [message deleteInBackground];
+                }
+                counter++;
+            };
+        }
+    }];
+}
+
+- (void)fetchNearbyPosts:(int)skip latitude:(float)latitude longitude:(float)longitude withCompletion: (void(^_Nullable)(NSArray * _Nullable posts, NSError * _Nullable error)) completion {
+    PFQuery *query;
+    query = [PFQuery queryWithClassName:@"CMMPost"];
+    [query orderByDescending:@"createdAt"];
+    [query includeKey:@"owner"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+            completion(nil, error);
+        } else {
+            NSMutableArray *postsArray = [NSMutableArray new];
+            for (CMMPost *post in posts) {
+                float postsDistance = [self calculateDistance:latitude currentLong:longitude postLat:[post.postLatitude floatValue] postLong:[post.postLongitude floatValue]];
+                NSLog(@"%f", postsDistance);
+                if (postsDistance < 10) {
+                    [postsArray addObject:post];
+                }
+            }
+            completion([postsArray subarrayWithRange:NSMakeRange(0 + skip, 20)], nil);
+        }
+    }];
+}
+
+- (float)calculateDistance: (float)currentLatitude currentLong:(float)currentLongitude postLat:(float)postLatitude postLong:(float)postLongitude {
+    float d = 6371 * (2 * asin(sqrt(pow((sin((currentLongitude - postLatitude)/2)),2) + pow(cos(currentLatitude)*cos(postLatitude)*(sin((currentLongitude-postLongitude)/2)), 2))));
+    return d;
 }
 
 

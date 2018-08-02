@@ -12,27 +12,32 @@
     
 @dynamic profileImage;
 @dynamic preferences;
+@dynamic online;
+@dynamic profileBio;
+@dynamic displayName;
     
-+ (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(PFBooleanResultBlock  _Nullable)completion{
++ (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMUser * _Nullable post))completion{
     CMMUser *newUser = [CMMUser new];
     newUser.username = username;
     newUser.password = password;
     newUser.preferences = [NSMutableArray new];
     newUser.profileImage = [CMMUser getPFFileFromImage:[UIImage imageNamed:@"placeholderProfileImage"]];
+    newUser.online = @NO;
     
-    [newUser signUpInBackgroundWithBlock:completion];
+    [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        completion(succeeded, error, newUser);
+    }];
 }
 
 + (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     
-    PFUser *user = [PFUser currentUser];
-    user[@"profileImage"] = [self getPFFileFromImage:image];
+    CMMUser *user = [CMMUser currentUser];
+    user.profileImage = [self getPFFileFromImage:image];
     //user.username = PFUser.currentUser.username;
-    user[@"profileBio"] = bio;
-    user[@"displayedName"] = name;
+    user.profileBio = bio;
+    user.displayName = name;
     
     [user saveInBackgroundWithBlock: completion];
-    
 }
 
 + (PFFile *)getPFFileFromImage: (UIImage * _Nullable)image {

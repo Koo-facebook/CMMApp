@@ -13,6 +13,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "CMMConversation.h"
 #import "CMMChatVC.h"
+#import "CMMStyles.h"
 
 @interface PostDetailVC ()
 @property (strong, nonatomic) UILabel *authorLabel;
@@ -51,25 +52,24 @@
     [self createButtons];
 }
 
-- (void)configureLabel:(UILabel *)label text:(NSString *)text fontSize:(int)fontSize {
+- (void)configureLabel:(UILabel *)label text:(NSString *)text fontSize:(CGFloat)fontSize {
     label.text = text;
     [self.view addSubview:label];
-    [label setFont:[UIFont systemFontOfSize:fontSize]];
+    [label setFont:[CMMStyles getFontWithSize:fontSize Weight:UIFontWeightLight]];
 }
 
 - (void)createLabels {
-    UIColor *tealColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
     
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.numberOfLines = 0;
     [self configureLabel:self.titleLabel text:self.post.topic fontSize:16];
     
     self.dateLabel = [[UILabel alloc] init];
-    self.dateLabel.textColor = tealColor;
+    self.dateLabel.textColor = [CMMStyles getTealColor];
     [self configureLabel:self.dateLabel text:[self.post.createdAt timeAgoSinceNow] fontSize:14];
     
     self.categoryLabel = [[UILabel alloc] init];
-    self.categoryLabel.textColor = tealColor;
+    self.categoryLabel.textColor = [CMMStyles getTealColor];
     [self configureLabel:self.categoryLabel text:self.post.category fontSize:14];
     
     self.detailLabel = [[UILabel alloc] init];
@@ -77,7 +77,7 @@
     [self configureLabel:self.detailLabel text:self.post.detailedDescription fontSize:16];
     
     self.authorLabel = [[UILabel alloc] init];
-    self.authorLabel.textColor = tealColor;
+    self.authorLabel.textColor = [CMMStyles getTealColor];
     [self configureLabel:self.authorLabel text:self.post.owner.username fontSize:14];
 }
 
@@ -89,6 +89,10 @@
     self.authorImage.layer.cornerRadius = size/2;
     self.authorImage.clipsToBounds = YES;
     [self.view addSubview:self.authorImage];
+    
+    self.authorImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(segueToProfile)];
+    [self.authorImage addGestureRecognizer:profileTap];
 }
 
 - (void)layOutLabelsWithImageSize:(int)imageSize padding:(int)topPadding {
@@ -120,7 +124,7 @@
 }
 
 - (void)createButtons {
-    UIColor *tealColor = [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
+    UIColor *tealColor = [CMMStyles getTealColor];
     
     // chat button
     self.chatButton = [[UIButton alloc] init];
@@ -151,6 +155,12 @@
     }];
 }
 
+- (void)segueToProfile {
+    CMMProfileVC *profileVC = [[CMMProfileVC alloc] init];
+    profileVC.user = self.post.owner;
+    [[self navigationController] pushViewController:profileVC animated:YES];
+}
+
 - (void)topLeftRightConstraints:(UIView *)view withPadding:(UIEdgeInsets)padding {
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(padding.top);
@@ -160,15 +170,21 @@
 }
 
 - (void)didPressChat {
-    [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
-            CMMChatVC *chatVC = [[CMMChatVC alloc] init];
-            //chatVC.conversation = CMMUser.currentUser.conversations[CMMUser.currentUser.conversations.count - 1];
-            [[self navigationController] pushViewController:chatVC animated:YES];
-        } else {
-            NSLog(@"Error: %@", error.localizedDescription);
-        }
-    }];
+    if (![self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
+            if (succeeded) {
+                CMMChatVC *chatVC = [[CMMChatVC alloc] init];
+                chatVC.conversation = conversation;
+                [[self navigationController] pushViewController:chatVC animated:YES];
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+            }
+        }];
+        [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
+        [self.post saveInBackground];
+    } else {
+        
+    }
 }
 
 - (void)didPressResources {

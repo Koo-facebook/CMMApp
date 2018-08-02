@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "CMMLoginVC.h"
-#import "Parse.h"
+#define SYSTEM_VERSION_GRATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 @interface AppDelegate ()
 
@@ -16,10 +15,11 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    //[self registerForRemoteNotifications];
+
     // Navigation Customization
     /*[[UINavigationBar appearance] setBarTintColor:[UIColor grayColor]];
     NSShadow *shadow = [[NSShadow alloc] init];
@@ -42,7 +42,9 @@
     
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     if (CMMUser.currentUser) {
-        self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
+        CMMUser.currentUser.online = YES;
+        [CMMUser.currentUser saveInBackground];
+        self.window.rootViewController = [[CMMLoginVC alloc] init];
     } else {
         self.window.rootViewController = [[CMMLoginVC alloc] init];
     }
@@ -55,6 +57,11 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    [CMMUser.currentUser fetchInBackground];
+    if (CMMUser.currentUser) {
+        CMMUser.currentUser.online = NO;
+        [CMMUser.currentUser saveInBackground];
+    }
 }
 
 
@@ -71,12 +78,27 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [CMMUser.currentUser fetchInBackground];
+    if (CMMUser.currentUser) {
+        if (CMMUser.currentUser.online == YES) {
+//            [CMMUser logOutInBackground];
+//            self.window.rootViewController = [[CMMLoginVC alloc] init];
+        } else {
+            CMMUser.currentUser.online = YES;
+            [CMMUser.currentUser saveInBackground];
+        }
+    }
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
+    [CMMUser.currentUser fetchInBackground];
+    if (CMMUser.currentUser) {
+        CMMUser.currentUser.online = NO;
+        [CMMUser.currentUser saveInBackground];
+    }
     [self saveContext];
 }
 

@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Masonry.h"
-#import "ConversationCell.h"
+#import "CMMConversationCell.h"
 #import "CMMChatVC.h"
 #import "CMMParseQueryManager.h"
 
-@interface CMMInboxVC : UIViewController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface CMMInboxVC : UIViewController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate>
 
 @end

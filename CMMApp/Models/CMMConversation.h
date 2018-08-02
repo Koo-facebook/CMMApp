@@ -12,12 +12,14 @@
 
 @interface CMMConversation : PFObject <PFSubclassing>
 
-@property (nonatomic, weak) CMMUser *_Nullable user1;
-@property (nonatomic, weak) CMMUser *_Nullable user2;
+@property (nonatomic, strong) CMMUser *_Nullable user1;
+@property (nonatomic, strong) CMMUser *_Nullable user2;
 @property (nonatomic, strong) NSString *_Nonnull topic;
+@property (nonatomic, strong) CMMUser *_Nullable userWhoLeft;
+@property (nonatomic, strong) NSDate *_Nonnull lastMessageSent;
 @property BOOL userOneRead;
 @property BOOL userTwoRead;
     
-+(void)createConversation:(CMMUser *_Nonnull)user2 topic:(NSString *_Nullable)topic withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (void)createConversation:(CMMUser *_Nonnull)user2 topic:(NSString *_Nullable)topic withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMConversation * _Nullable conversation))completion;
     
 @end

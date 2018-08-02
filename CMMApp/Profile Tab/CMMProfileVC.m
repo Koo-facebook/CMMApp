@@ -12,6 +12,8 @@
 #import "CMMUser.h"
 #import "NewsfeedCell.h"
 #import "Masonry.h"
+#import "PostDetailVC.h"
+#import "CMMParseQueryManager.h"
 
 @interface CMMProfileVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -32,10 +34,16 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Profile";
     
+    if (!self.user) {
+        self.user = PFUser.currentUser;
+    }
+    
     [self createName];
     [self createBio];
     [self createTableView];
-    [self createEditProfileButton];
+    if ([self.user.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        [self createEditProfileButton];
+    }
     [self createProfileImage];
     
     //Layout
@@ -56,7 +64,7 @@
     
     // Profile Image
     [self.profileImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.editProfileButton.mas_bottom).offset(15);
+        make.top.equalTo(self.view.mas_top).offset(100);
         make.centerX.equalTo(self.profileImage.superview.mas_centerX);
         make.width.equalTo(@(150));
         make.height.equalTo(@(150));
@@ -76,27 +84,18 @@
   [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
       make.top.equalTo(self.profileBioLabel.mas_bottom).offset(20);
       make.bottom.equalTo(self.view.mas_bottom);
-      make.width.equalTo(@(self.view.frame.size.width - 35));
+      make.width.equalTo(@(self.view.frame.size.width));
         
     }];
-    
-    //Edit Profile Button
-   [self.editProfileButton mas_makeConstraints:^(MASConstraintMaker *make) {
-       make.top.equalTo(self.editProfileButton.superview.mas_top).offset(100);
-       make.right.equalTo(self.editProfileButton.superview.mas_rightMargin).offset(10);
-       // make.centerX.equalTo(self.profileBioLabel.superview.mas_centerX);
-        make.width.equalTo(@(self.editProfileButton.intrinsicContentSize.width));
-        make.height.equalTo(@(self.editProfileButton.intrinsicContentSize.height));
-    }];
+
 }
 
 -(void) createName{
-    PFUser * user = PFUser.currentUser;
     self.usernameLabel = [[UILabel alloc] init];
     self.usernameLabel.textColor = [UIColor blackColor];
     self.usernameLabel.font = [UIFont fontWithName:@"Arial" size:26];
     self.usernameLabel.numberOfLines = 1;
-    self.usernameLabel.text = user[@"displayedName"];
+    self.usernameLabel.text = self.user[@"displayedName"];
     [self.view addSubview:self.usernameLabel];
 }
 
@@ -104,8 +103,7 @@
     self.profileImage = [[PFImageView alloc] init];
     self.profileImage.backgroundColor = [UIColor blackColor];
     
-    PFUser * user = PFUser.currentUser;
-    self.profileImage.file = user[@"profileImage"];
+    self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
     
     self.profileImage.frame = CGRectMake(self.profileImage.frame.origin.x, self.profileImage.frame.origin.y, 150, 150);
@@ -115,14 +113,13 @@
 }
 
 -(void) createBio {
-    PFUser * user = PFUser.currentUser;
     self.profileBioLabel = [[UILabel alloc] init];
     self.profileBioLabel.textColor = [UIColor blackColor];
     self.profileBioLabel.font = [UIFont fontWithName:@"Arial" size:16];
     //self.profileBioLabel.text = user[@"profileBio"];
     self.profileBioLabel.numberOfLines = 0;
     //self.profileBioLabel.backgroundColor = [UIColor purpleColor];
-    self.profileBioLabel.text = user[@"profileBio"];
+    self.profileBioLabel.text = self.user[@"profileBio"];
     
     [self.view addSubview:self.profileBioLabel];
 }
@@ -136,6 +133,15 @@
     self.editProfileButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.editProfileButton addTarget:self action:@selector(editButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.editProfileButton];
+    
+    // Layout
+    [self.editProfileButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.editProfileButton.superview.mas_top).offset(100);
+        make.right.equalTo(self.editProfileButton.superview.mas_rightMargin).offset(10);
+        // make.centerX.equalTo(self.profileBioLabel.superview.mas_centerX);
+        make.width.equalTo(@(self.editProfileButton.intrinsicContentSize.width));
+        make.height.equalTo(@(self.editProfileButton.intrinsicContentSize.height));
+    }];
 }
 
 - (void)editButtonTapped {
@@ -145,21 +151,13 @@
 }
 
 - (void) fetchPosts {
- // construct PFQuery
- PFQuery *postQuery = [CMMPost query];
- [postQuery orderByDescending:@"createdAt"];
- [postQuery whereKey:@"owner" equalTo:[PFUser currentUser]];
- postQuery.limit = 20;
- 
- // fetch data asynchronously
- [postQuery findObjectsInBackgroundWithBlock:^(NSArray<CMMPost *> * _Nullable posts, NSError * _Nullable error) {
-     if (posts) {
-     self.profileFeed = posts;
-     [self.tableView reloadData];
-    }
-    else {
-        // handle error
-        NSLog(@"%@", error.localizedDescription);
+    [[CMMParseQueryManager shared] fetchPosts:20 ByAuthor:self.user WithCompletion:^(NSArray *posts, NSError *error) {
+        if (posts) {
+            self.profileFeed = posts;
+            [self.tableView reloadData];
+        }
+        else {
+            NSLog(@"%@", error.localizedDescription);
         }
     }];
 }
@@ -187,10 +185,12 @@
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.profileFeed.count;
 }
-/*
+
  - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
- CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
- eventDetailsVC.event = self.eventList[indexPath.row];
- [self presentViewController:eventDetailsVC animated:YES completion:^{}];
- }*/
+     PostDetailVC *detailVC = [[PostDetailVC alloc] init];
+     CMMPost *post = self.profileFeed[indexPath.row];
+     [detailVC configureDetails:post];
+     [[self navigationController] pushViewController:detailVC animated:YES];
+     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 @end
