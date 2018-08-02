@@ -19,8 +19,8 @@
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSMutableArray *messages;
 @property (nonatomic, assign) CGSize keyboardSize;
+@property (nonatomic, strong) UILabel *reportLabel;
 @property (nonatomic, assign) BOOL isMoreDataLoading;
-
 @end
 
 @implementation CMMChatVC
@@ -51,10 +51,11 @@
     [self setupUsernameTitleLabel];
     [self setupUserProfileImage];
     [self setupTopicLabel];
+    [self setupReportLabel];
     [self setupChatTableView];
     [self setupOnlineIndicator];
     [self setupMessagingTextView];
-    
+    [self checkPermissions];
     [self updateConstraints];
 }
 
@@ -118,6 +119,32 @@
     [self.topicLabel sizeToFit];
     
     [self.view addSubview:self.topicLabel];
+}
+
+- (void)setupReportLabel {
+    self.reportLabel = [[UILabel alloc] init];
+    self.reportLabel.text = @"...";
+    
+    self.reportLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *reportTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReport)];
+    [self.reportLabel addGestureRecognizer:reportTap];
+    [self.view addSubview:self.reportLabel];
+}
+
+- (void)didTapReport {
+    CMMUser *otherUser;
+    if (self.isUserOne) {
+        otherUser = self.conversation.user2;
+    } else {
+        otherUser = self.conversation.user1;
+    }
+    for (CMMUser *user in self.conversation.reportedUsers) {
+        if ([user.objectId isEqualToString:otherUser.objectId]) {
+            return;
+        }
+    }
+    [self.conversation addObject:otherUser forKey:@"reportedUsers"];
+    [self.conversation saveInBackground];
 }
 
 - (void)setupUserProfileImage {
@@ -194,9 +221,33 @@
         make.width.height.equalTo(@12);
     }];
     
+    // Report Label
+    [self.reportLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.usersProfileImage.mas_centerY);
+        make.right.equalTo(self.view.mas_right).offset(-12);
+    }];
+    
 }
 
 #pragma mark - Actions
+
+- (void)checkPermissions {
+    CMMUser *otherUser;
+    if (self.isUserOne) {
+        otherUser = self.conversation.user2;
+    } else {
+        otherUser = self.conversation.user1;
+    }
+    NSString *blockingKey = [otherUser.objectId stringByAppendingString:@"-blockedUsers"];
+    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
+    for (NSString *userID in blockedUsers) {
+        if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
+            [self createAlert:@"This user has blocked you" message:@"You can no longer send messages in this chat."];
+            self.writeMessageTextView.editable = NO;
+            break;
+        }
+    }
+}
 
 - (void)viewProfile:(id)sender{
     CMMProfileVC *profileVC = [CMMProfileVC new];
@@ -205,7 +256,7 @@
     } else {
         profileVC.user = self.conversation.user1;
     }
-    [self presentViewController:profileVC animated:YES completion:nil];
+    [self.navigationController pushViewController:profileVC animated:YES];
 }
 
 - (void)sendButtonPressed {

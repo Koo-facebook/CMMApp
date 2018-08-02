@@ -89,7 +89,6 @@
     [self.view endEditing:YES];
 }
 
-// This is here for now but should go in the styles framework
 - (void)showAlert:(NSString *)title Message:(NSString *)message Sender:(id)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

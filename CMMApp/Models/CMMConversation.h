@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSDate *_Nonnull lastMessageSent;
 @property BOOL userOneRead;
 @property BOOL userTwoRead;
+@property (nonatomic, strong) NSMutableArray *_Nullable reportedUsers;
     
 + (void)createConversation:(CMMUser *_Nonnull)user2 topic:(NSString *_Nullable)topic withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMConversation * _Nullable conversation))completion;
     

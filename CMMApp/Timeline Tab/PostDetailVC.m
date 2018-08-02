@@ -21,6 +21,7 @@
 @property (strong, nonatomic) UILabel *dateLabel;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
+@property (strong, nonatomic) UILabel *reportLabel;
 @property (strong, nonatomic) UIImageView *authorImage;
 @property (strong, nonatomic) UIButton *chatButton;
 @property (strong, nonatomic) UIButton *resourceButton;
@@ -79,6 +80,9 @@
     self.authorLabel = [[UILabel alloc] init];
     self.authorLabel.textColor = [CMMStyles getTealColor];
     [self configureLabel:self.authorLabel text:self.post.owner.username fontSize:14];
+    
+    self.reportLabel = [[UILabel alloc] init];
+    [self configureLabel:self.reportLabel text:@"..." fontSize:20];
 }
 
 - (void)displayProfileImageWithSize:(int)size padding:(int)padding {
@@ -121,24 +125,49 @@
         make.left.equalTo(self.authorImage.mas_right).with.offset(authorPadding.left);
         make.right.equalTo(self.view.mas_right).with.offset(-authorPadding.right);
     }];
+    UIEdgeInsets reportPadding = UIEdgeInsetsMake(topPadding + imageSize/2, 12, 12, 12);
+    [self.reportLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset(reportPadding.top);
+        //make.left.equalTo(self.authorImage.mas_right).with.offset(authorPadding.left);
+        make.right.equalTo(self.view.mas_right).with.offset(-reportPadding.right);
+    }];
 }
 
 - (void)createButtons {
     UIColor *tealColor = [CMMStyles getTealColor];
     
+    BOOL showChatButton = YES;
+    int resourceLeftPadding;
+    NSString *blockingKey = [self.post.owner.objectId stringByAppendingString:@"-blockedUsers"];
+    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
+    for (NSString *userID in blockedUsers) {
+        if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
+            showChatButton = NO;
+            break;
+        }
+    }
+    if ([self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        showChatButton = NO;
+    }
+    
     // chat button
-    self.chatButton = [[UIButton alloc] init];
-    [self.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
-    [self.chatButton setTitle:@"Let's Chat!" forState:UIControlStateNormal];
-    [self.chatButton setBackgroundColor:tealColor];
-    [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:self.chatButton];
-    UIEdgeInsets chatPadding = UIEdgeInsetsMake(30, 12, 12, self.view.frame.size.width/2 + 6);
-    [self.chatButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.detailLabel.mas_bottom).with.offset(chatPadding.top);
-        make.left.equalTo(self.view.mas_left).with.offset(chatPadding.left);
-        make.right.equalTo(self.view.mas_right).with.offset(-chatPadding.right);
-    }];
+    if (showChatButton) {
+        self.chatButton = [[UIButton alloc] init];
+        [self.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
+        [self.chatButton setTitle:@"Let's Chat!" forState:UIControlStateNormal];
+        [self.chatButton setBackgroundColor:tealColor];
+        [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.view addSubview:self.chatButton];
+        UIEdgeInsets chatPadding = UIEdgeInsetsMake(30, 12, 12, self.view.frame.size.width/2 + 6);
+        [self.chatButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.detailLabel.mas_bottom).with.offset(chatPadding.top);
+            make.left.equalTo(self.view.mas_left).with.offset(chatPadding.left);
+            make.right.equalTo(self.view.mas_right).with.offset(-chatPadding.right);
+        }];
+        resourceLeftPadding = self.view.frame.size.width/2 + 6;
+    } else {
+        resourceLeftPadding = 12;
+    }
     
     // resources button
     self.resourceButton = [[UIButton alloc] init];
@@ -147,12 +176,21 @@
     [self.resourceButton setBackgroundColor:[UIColor grayColor]];
     [self.resourceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:self.resourceButton];
-    UIEdgeInsets resourcePadding = UIEdgeInsetsMake(30, self.view.frame.size.width/2 + 6, 12, 12);
+    UIEdgeInsets resourcePadding = UIEdgeInsetsMake(30, resourceLeftPadding, 12, 12);
     [self.resourceButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.detailLabel.mas_bottom).with.offset(resourcePadding.top);
         make.left.equalTo(self.view.mas_left).with.offset(resourcePadding.left);
         make.right.equalTo(self.view.mas_right).with.offset(-resourcePadding.right);
     }];
+    
+    self.reportLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *reportTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReport)];
+    [self.reportLabel addGestureRecognizer:reportTap];
+}
+
+- (void)didTapReport {
+    self.post.reportedNumber ++;
+    [self.post saveInBackground];
 }
 
 - (void)segueToProfile {
@@ -170,21 +208,18 @@
 }
 
 - (void)didPressChat {
-    if (![self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
-        [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
-            if (succeeded) {
-                CMMChatVC *chatVC = [[CMMChatVC alloc] init];
-                chatVC.conversation = conversation;
-                [[self navigationController] pushViewController:chatVC animated:YES];
-            } else {
-                NSLog(@"Error: %@", error.localizedDescription);
-            }
-        }];
-        [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
-        [self.post saveInBackground];
-    } else {
-        
-    }
+    [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
+        if (succeeded) {
+            CMMChatVC *chatVC = [[CMMChatVC alloc] init];
+            chatVC.conversation = conversation;
+            chatVC.isUserOne = YES;
+            [[self navigationController] pushViewController:chatVC animated:YES];
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
+    [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
+    [self.post saveInBackground];
 }
 
 - (void)didPressResources {

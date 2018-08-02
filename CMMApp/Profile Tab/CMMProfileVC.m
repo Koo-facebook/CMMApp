@@ -47,6 +47,8 @@
     if ([self.user.objectId isEqualToString:CMMUser.currentUser.objectId]) {
         [self createEditProfileButton];
         [self createLogoutButton];
+    } else {
+        [self createBlockButton];
     }
     [self createProfileImage];
     
@@ -91,7 +93,6 @@
       make.width.equalTo(@(self.view.frame.size.width));
         
     }];
-
 }
 
 -(void) createName{
@@ -128,7 +129,6 @@
     [self.view addSubview:self.profileBioLabel];
 }
 
-
 // Create Edit Profile Button
 - (void)createEditProfileButton {
     self.editProfileButton = [[UIButton alloc] init];
@@ -147,6 +147,7 @@
         make.height.equalTo(@(self.editProfileButton.intrinsicContentSize.height));
     }];
 }
+
 
 // Create Logout Button
 - (void)createLogoutButton {
@@ -176,6 +177,38 @@
     }];
 }
 
+
+- (void)createBlockButton {
+    self.editProfileButton = [[UIButton alloc] init];
+    [self.editProfileButton setTitle:@"Block User" forState:UIControlStateNormal];
+    [self.editProfileButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    self.editProfileButton.titleLabel.font = [UIFont systemFontOfSize:18];
+    [self.editProfileButton addTarget:self action:@selector(blockButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.editProfileButton];
+    
+    // Layout
+    [self.editProfileButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.editProfileButton.superview.mas_top).offset(100);
+        make.right.equalTo(self.editProfileButton.superview.mas_rightMargin).offset(10);
+        // make.centerX.equalTo(self.profileBioLabel.superview.mas_centerX);
+        make.width.equalTo(@(self.editProfileButton.intrinsicContentSize.width));
+        make.height.equalTo(@(self.editProfileButton.intrinsicContentSize.height));
+    }];
+}
+
+- (void)blockButtonTapped {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to block this user?" message:@"" preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[CMMParseQueryManager shared] addBlockedUser:self.user Sender:self];
+    }];
+    [alert addAction:yesAction];
+    UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:noAction];
+    [self presentViewController:alert animated:YES completion:^{
+    }];
+    return;
+}
 
 - (void)editButtonTapped {
     CMMEditProfileVC *editProfileVC = [[CMMEditProfileVC alloc]init];
