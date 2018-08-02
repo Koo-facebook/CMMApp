@@ -21,14 +21,12 @@
     //[self registerForRemoteNotifications];
 
     // Navigation Customization
+    UIFont *font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:24.0];
     /*[[UINavigationBar appearance] setBarTintColor:[UIColor grayColor]];
     NSShadow *shadow = [[NSShadow alloc] init];
     shadow.shadowColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
-    shadow.shadowOffset = CGSizeMake(0, 1);
-    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0], NSForegroundColorAttributeName,
-                                                           shadow, NSShadowAttributeName,
-                                                           [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:21.0], NSFontAttributeName, nil]]; */
+    shadow.shadowOffset = CGSizeMake(0, 1);*/
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blueColor], NSForegroundColorAttributeName,font, NSFontAttributeName, nil]];
     
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
@@ -44,7 +42,7 @@
     if (CMMUser.currentUser) {
         CMMUser.currentUser.online = YES;
         [CMMUser.currentUser saveInBackground];
-        self.window.rootViewController = [[CMMLoginVC alloc] init];
+        self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
     } else {
         self.window.rootViewController = [[CMMLoginVC alloc] init];
     }

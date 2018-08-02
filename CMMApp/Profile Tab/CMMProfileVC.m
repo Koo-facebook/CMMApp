@@ -32,7 +32,7 @@
 
     self.profileFeed = [[NSArray alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"Profile";
+    self.navigationItem.title = @"Profile";
     
     if (!self.user) {
         self.user = PFUser.currentUser;

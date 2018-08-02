@@ -7,6 +7,8 @@
 //
 
 #import "CMMLoginVC.h"
+#import <CMMKit/FullScrollView.h>
+
 
 @interface CMMLoginVC ()
     
@@ -15,6 +17,7 @@
 @property (nonatomic, strong) UITextField *usernameTextField;
 @property (nonatomic, strong) UITextField *passwordTextField;
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *subheading;
 @property (nonatomic, strong) UIImageView *logoImage;
     
 @end
@@ -26,15 +29,16 @@
     [self createLoginGradient];
     
     // Create objects
-    [self createSignUpButton];
-    [self createLoginButton];
-    [self createUsernameTextField];
-    [self createPasswordTextField];
-    [self createTitleLabel];
-    [self createLogoImageView];
-    
-    // Update Constraints
-    [self updateConstraints];
+    [self createScrollView];
+//    [self createSignUpButton];
+//    [self createLoginButton];
+//    [self createUsernameTextField];
+//    [self createPasswordTextField];
+//    [self createTitleLabel];
+//    [self createLogoImageView];
+//
+//    // Update Constraints
+//    [self updateConstraints];
     [self createTapGestureRecognizer:@selector(wholeViewTapped)];
 }
     
@@ -42,15 +46,23 @@
     
     // Title Label
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.logoImage.mas_bottom).offset(40);
+        make.top.equalTo(self.logoImage.mas_bottom).offset(25);
         make.centerX.equalTo(self.titleLabel.superview.mas_centerX);
         make.height.equalTo(@(self.titleLabel.intrinsicContentSize.height));
         make.width.equalTo(@(self.titleLabel.intrinsicContentSize.width));
     }];
     
+    //Subheading Label
+    [self.subheading mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(20);
+        make.centerX.equalTo(self.subheading.superview.mas_centerX);
+        make.width.equalTo(@(self.subheading.intrinsicContentSize.width));
+        make.height.equalTo(@(self.subheading.intrinsicContentSize.height));
+    }];
+    
     // Username TextField
     [self.usernameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(60);
+        make.top.equalTo(self.subheading.mas_bottom).offset(60);
         make.centerX.equalTo(self.usernameTextField.superview.mas_centerX);
         make.width.equalTo(@275);
         make.height.equalTo(@(self.usernameTextField.intrinsicContentSize.height));
@@ -111,7 +123,18 @@
     self.titleLabel.font = [UIFont fontWithName:@"Futura-Medium" size:38];
     [self.view addSubview:self.titleLabel];
 }
-    
+
+    // Initialize Subheading Label
+-(void)createSubheadingLabel: (NSString *)subheading {
+    self.subheading = [[UILabel alloc]init];
+    self.subheading.frame = CGRectMake((self.view.frame.size.width/5.35),( self.view.frame.size.height/10), 250, 100);
+    self.subheading.textAlignment = NSTextAlignmentCenter;
+    self.subheading.textColor = [UIColor whiteColor];
+    self.subheading.font = [UIFont fontWithName:@"Arial" size:16];
+    self.subheading.numberOfLines = 0;
+    self.subheading.text = subheading;
+    [self.view addSubview:self.subheading];
+}
     // Initalize Password TextField
 - (void)createPasswordTextField {
     self.passwordTextField = [[UITextField alloc] init];
@@ -170,6 +193,33 @@
     
     //Add gradient to view
     [self.view.layer insertSublayer:theViewGradient atIndex:0];
+}
+
+-(void)createScrollView {
+    NSArray *titles = @[@"Welcome to Change My Mind", @"Register to Vote", @"Have educational dialogue", @"Learn more about the hot topic political issues", @"Become more involved politically"];
+    
+    FullScrollView *scrollView = [[FullScrollView alloc]initWithFrame:self.view.frame andNumberOfPages:5];
+    [self.view addSubview:scrollView];
+    
+    [scrollView configureViewAtIndexWithCompletion:^(UIView *view, NSInteger index, BOOL success) {
+        
+        self.view.backgroundColor = [UIColor blueColor];
+        
+        [self createSignUpButton];
+        [self createLoginButton];
+        [self createUsernameTextField];
+        [self createPasswordTextField];
+        [self createTitleLabel];
+        [self createLogoImageView];
+        NSString *subhead = titles[index];
+        NSLog(@"%@", subhead);
+        [self createSubheadingLabel:titles[index]];
+
+        
+        // Update Constraints
+        [self updateConstraints];
+        
+    }];
 }
     
     // Creates Generic TapGestureRecognizer

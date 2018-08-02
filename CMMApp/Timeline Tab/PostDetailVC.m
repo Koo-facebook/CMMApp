@@ -56,7 +56,7 @@
 - (void)configureLabel:(UILabel *)label text:(NSString *)text fontSize:(CGFloat)fontSize {
     label.text = text;
     [self.view addSubview:label];
-    [label setFont:[CMMStyles getFontWithSize:fontSize Weight:UIFontWeightLight]];
+    [label setFont:[CMMStyles getTextFontWithSize:fontSize]];
 }
 
 - (void)createLabels {

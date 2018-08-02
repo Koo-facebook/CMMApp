@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CMMKit/CMMKit.h>
 #import <Parse/Parse.h>
 #import "Masonry.h"
 #import "CMMUser.h"

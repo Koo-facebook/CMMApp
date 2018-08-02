@@ -44,7 +44,7 @@
     UILabel *categoryHeader = [[UILabel alloc] initWithFrame:categoryHeaderFrame];
     categoryHeader.text = @"Pick your categories";
     categoryHeader.textColor = [UIColor whiteColor];
-    categoryHeader.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightBold];
+    categoryHeader.font = [CMMStyles getTextFontWithSize:14];
     [self.view addSubview:categoryHeader];
     
     CGRect tableViewFrame = CGRectMake(0, self.topBuffer + self.labelHeight, 2*self.view.frame.size.width/3, self.labelHeight * self.categoryArray.count);
@@ -61,7 +61,7 @@
     UILabel *sortHeader = [[UILabel alloc] initWithFrame:sortHeaderFrame];
     sortHeader.text = @"Sort by...";
     sortHeader.textColor = [UIColor whiteColor];
-    sortHeader.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightBold];
+    sortHeader.font = [CMMStyles getTitleFontWithSize:14 ];
     [self.view addSubview:sortHeader];
 }
 
@@ -82,7 +82,7 @@
     self.recentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.recentButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.recentButton setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
-    self.recentButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
+    self.recentButton.titleLabel.font = [CMMStyles getTitleFontWithSize:14];
     self.recentButton.selected = !self.sortByTrending;
     [self.recentButton addTarget:self action:@selector(didPressRecent) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.recentButton];
@@ -92,7 +92,7 @@
     [self.trendingButton setTitle:@"Trending" forState:UIControlStateNormal];
     self.trendingButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.trendingButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.trendingButton.titleLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
+    self.trendingButton.titleLabel.font = [CMMStyles getTitleFontWithSize:14 ];
     self.trendingButton.selected = self.sortByTrending;
     [self.trendingButton setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
     [self.trendingButton addTarget:self action:@selector(didPressTrending) forControlEvents:UIControlEventTouchUpInside];
@@ -125,7 +125,7 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"menuCell"];
     cell.textLabel.text = self.categoryArray[indexPath.row];
     cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.font = [CMMStyles getFontWithSize:14 Weight:UIFontWeightLight];
+    cell.textLabel.font = [CMMStyles getTextFontWithSize:14];
     cell.backgroundColor = [CMMStyles getTealColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

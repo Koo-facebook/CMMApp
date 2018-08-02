@@ -33,8 +33,9 @@
 }
 
 - (void)configureViews {
-    
-    self.title = @"Compose";
+    //Navigation Bar
+    self.navigationItem.title = @"Compose";
+   
     [self createBackgroundGradient];
     self.categoryOptions = [CMMStyles getCategories];
     
@@ -53,6 +54,7 @@
     CGRect descriptionFrame = CGRectMake(minimumSideBuffer, 70, self.view.frame.size.width - 2 * minimumSideBuffer, 100);
     self.questionTextField = [[UITextField alloc] initWithFrame:questionFrame];
     self.descriptionTextField = [[UITextField alloc] initWithFrame:descriptionFrame];
+    self.questionTextField.font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:14.0];
     self.questionTextField.layer.cornerRadius = textCornerRadius;
     self.descriptionTextField.layer.cornerRadius = textCornerRadius;
     self.questionTextField.backgroundColor = [UIColor whiteColor];

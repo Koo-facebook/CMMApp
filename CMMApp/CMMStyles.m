@@ -14,10 +14,13 @@
     return [UIColor colorWithRed:54/255.f green:173/255.f blue:157/255.f alpha:1];
 }
 
-+ (UIFont *)getFontWithSize:(CGFloat)size Weight:(UIFontWeight)weight {
-    return [UIFont systemFontOfSize:size weight:weight];
++ (UIFont *)getTitleFontWithSize:(CGFloat)size {
+    return [UIFont fontWithName:@"Prata-Regular.ftt" size:size];
 }
 
++ (UIFont *)getTextFontWithSize:(CGFloat)size {
+    return [UIFont fontWithName:@"Montserrat-Regular.ftt" size:size];
+}
 + (NSArray *)getCategories {
     NSArray *array = @[@"Criminal Issues", @"Economics", @"Education", @"Elections", @"Environment", @"Foreign Policy", @"Healthcare", @"Immigration", @"Local Politics", @"National Security", @"Social Issues"];
     return array;

@@ -35,8 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.title = @"Inbox";
+    self.navigationItem.title = @"Inbox";
     
     self.view.backgroundColor = [UIColor whiteColor];
     
