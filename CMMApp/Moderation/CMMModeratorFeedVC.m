@@ -11,8 +11,6 @@
 #import "CMMStyles.h"
 
 @interface CMMModeratorFeedVC ()
-//@property (nonatomic, assign) int queryNumber;
-//@property (nonatomic, strong) NSArray *categories;
 @end
 
 @implementation CMMModeratorFeedVC
@@ -20,8 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Reported Posts";
-    //self.queryNumber = 20;
-    //self.categories = [CMMStyles getCategories];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -32,7 +28,6 @@
 - (void)fetchPosts {
     [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:NO Reported:YES WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-            
             self.posts = posts;
             self.filteredPosts = self.posts;
             [self.table reloadData];
@@ -46,6 +41,13 @@
     }];
 }
 
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)table editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CMMPost *post = self.posts[indexPath.row];
+    NSString *title = [NSString stringWithFormat:@"Reports: %@", post.reportedNumber];
+    UITableViewRowAction *reports = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:title handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    }];
+    return [[NSArray alloc] initWithObjects:reports, nil];
+}
 /*
 #pragma mark - Navigation
 
