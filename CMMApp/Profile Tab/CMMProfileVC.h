@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ParseUI.h"
+#import "CMMUser.h"
 
 @interface CMMProfileVC : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
@@ -16,6 +17,6 @@
 @property (strong, nonatomic) UIButton *editProfileButton;
 @property (strong, nonatomic) UILabel *profileBioLabel;
 @property (strong, nonatomic) UITableView *tableView;
-@property (nonatomic, weak) PFUser *user;
+@property (nonatomic, weak) CMMUser *user;
 
 @end

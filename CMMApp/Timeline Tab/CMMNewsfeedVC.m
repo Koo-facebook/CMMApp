@@ -80,8 +80,26 @@
 - (void)fetchPosts {
     [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-            self.posts = posts;
-            self.filteredPosts = posts;
+            
+            // remove posts from blocked users
+            NSMutableArray *tempPosts = [NSMutableArray arrayWithArray:posts];
+            NSMutableArray *postsToRemove = [[NSMutableArray alloc] init];
+            NSString *blockingKey = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
+            NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
+            for (CMMPost *post in tempPosts) {
+                for (NSString *blockID in blockedUsers) {
+                    if ([post.owner.objectId isEqualToString:blockID]) {
+                        [postsToRemove addObject:post];
+                        break;
+                    }
+                }
+            }
+            for (CMMPost *post in postsToRemove) {
+                [tempPosts removeObject:post];
+            }
+            
+            self.posts = tempPosts;
+            self.filteredPosts = self.posts;
             [self.table reloadData];
             [self.refreshControl endRefreshing];
             if (self.filteredPosts.count == self.queryNumber) {
@@ -156,20 +174,20 @@
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)table editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewRowAction *report = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Report Post" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        NSLog(@"tried to report post");
-        CMMPost *post = self.filteredPosts[indexPath.row];
-        post.reportedNumber ++;
-        [post saveInBackground];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to report this post?" message:@"" preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+        [alert addAction:cancelAction];
+        UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Report" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            CMMPost *post = self.filteredPosts[indexPath.row];
+            post.reportedNumber ++;
+            [post saveInBackground];
+            [[CMMParseQueryManager shared] addStrikeToUser:post.owner];
+        }];
+        [alert addAction:yesAction];
+        [self presentViewController:alert animated:YES completion:^{
+        }];
     }];
-    
-    UITableViewRowAction *block = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Block User" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        NSLog(@"tried to block user");
-        CMMPost *post = self.filteredPosts[indexPath.row];
-        [[CMMParseQueryManager shared] addBlockedUser:post.owner Sender:self];
-    }];
-    block.backgroundColor = [UIColor lightGrayColor];
-    
-    return [[NSArray alloc] initWithObjects:report, block, nil];
+    return [[NSArray alloc] initWithObjects:report, nil];
 }
 
 - (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending {

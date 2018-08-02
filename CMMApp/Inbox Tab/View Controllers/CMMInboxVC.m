@@ -139,17 +139,33 @@
 }
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *report = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Report Chat" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to report this chat?" message:@"Moderators will review the chat once it is reported" preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+        [alert addAction:cancelAction];
+        UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Report" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            CMMConversation *chat = self.conversations[indexPath.row];
+            CMMUser *reportedUser;
+            if ([chat.user1.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+                reportedUser = chat.user2;
+            } else {
+                reportedUser = chat.user1;
+            }
+            [chat addObject:reportedUser forKey:@"reportedUsers"];
+            [chat saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (succeeded) {
+                    NSLog(@"Updated chat");
+                }
+            }];
+        }];
+        [alert addAction:yesAction];
+        [self presentViewController:alert animated:YES completion:^{
+        }];
     UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         [self deleteConversation:indexPath];
     }];
 
-    UITableViewRowAction *share = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Share" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        NSLog(@"tried to share");
-    }];
-
-    share.backgroundColor = [UIColor lightGrayColor];
-
-    return [[NSArray alloc] initWithObjects:delete, share, nil];
+    return [[NSArray alloc] initWithObjects:report, nil];
 }
 
 #pragma mark - Helpers
