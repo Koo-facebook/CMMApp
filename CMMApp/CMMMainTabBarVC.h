@@ -26,6 +26,11 @@
 #import "CMMEventsVC.h"
 #import "CMMEventDetailsVC.h"
 #import "CMMResourcesVC.h"
+#import "CMMComposerVC.h"
+
+#import <LGSideMenuController/LGSideMenuController.h>
+#import <LGSideMenuController/UIViewController+LGSideMenuController.h>
+#import "NewsfeedSideMenuVC.h"
 
 @interface CMMMainTabBarVC : CMMTabBar
 
