@@ -160,10 +160,10 @@
         [alert addAction:yesAction];
         [self presentViewController:alert animated:YES completion:^{
         }];
+    }];
     UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Delete" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         [self deleteConversation:indexPath];
     }];
-
     return [[NSArray alloc] initWithObjects:report, nil];
 }
 
@@ -238,4 +238,4 @@
     }];
 }
 
-@end
+ @end

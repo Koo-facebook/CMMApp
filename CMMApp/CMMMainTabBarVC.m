@@ -20,6 +20,8 @@
 
 -(void)viewDidLoad {
     //First View Controller
+    NSMutableArray *viewControllers = [[NSMutableArray alloc] init];
+    
     CMMBounceAnimation *bounceAnimation = [[CMMBounceAnimation alloc] init];
     bounceAnimation.textSelectedColor = [UIColor blueColor];
     bounceAnimation.iconSelectedColor = [UIColor blueColor];
@@ -35,6 +37,10 @@
     //self.view.tintColor = [UIColor blueColor];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
     firstNav.tabBarItem = firstTabBarItem;
+    
+ 
+    //Side Bar
+    //Side Bar Code will go here
     
     // Second ViewController
     CMMBounceAnimation *bounceAnimation_two = [[CMMBounceAnimation alloc] init];
@@ -109,13 +115,13 @@
     [super viewDidLoad];
 }
 
-//- (UIImage *)resizeImageToIcon:(UIImage *)image {
-//    CGSize size = CGSizeMake(25, 25);
-//    UIGraphicsBeginImageContext(size);
-//    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-//    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    return newImage;
-//}
+- (UIImage *)resizeImageToIcon:(UIImage *)image {
+    CGSize size = CGSizeMake(25, 25);
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
 
 @end

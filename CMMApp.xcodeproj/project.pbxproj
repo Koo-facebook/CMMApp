@@ -11,8 +11,6 @@
 		03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D621024F11007629AD /* PostDetailVC.m */; };
 		03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */; };
 		03CDE9E32106A17F007629AD /* CMMStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9E22106A17F007629AD /* CMMStyles.m */; };
-		130A10AA2112BBC100AA1311 /* CMMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130A10A92112BBB800AA1311 /* CMMKit.framework */; };
-		130A10AB2112BBC100AA1311 /* CMMKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 130A10A92112BBB800AA1311 /* CMMKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		130A10CA21136EF200AA1311 /* PostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 130A10C921136EF200AA1311 /* PostTableViewCell.xib */; };
 		136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305820FFC11A009B4180 /* CMMComposerVC.m */; };
 		136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305B20FFFDD3009B4180 /* EventsCell.m */; };
@@ -54,18 +52,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		130A10A82112BBB800AA1311 /* PBXContainerItemProxy */ = {
+		130A10E5211381E400AA1311 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 130A10A42112BBB800AA1311 /* CMMKit.xcodeproj */;
+			containerPortal = 130A10D6211374F300AA1311 /* CMMKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 136E30AB210A4C66009B4180;
-			remoteInfo = CMMKit;
-		};
-		130A10AC2112BBC100AA1311 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 130A10A42112BBB800AA1311 /* CMMKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 136E30AA210A4C66009B4180;
 			remoteInfo = CMMKit;
 		};
 /* End PBXContainerItemProxy section */
@@ -77,7 +68,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				130A10AB2112BBC100AA1311 /* CMMKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,13 +83,13 @@
 		03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedSideMenuVC.m; sourceTree = "<group>"; };
 		03CDE9E12106A17F007629AD /* CMMStyles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMStyles.h; sourceTree = "<group>"; };
 		03CDE9E22106A17F007629AD /* CMMStyles.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMStyles.m; sourceTree = "<group>"; };
-		130A10A42112BBB800AA1311 /* CMMKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CMMKit.xcodeproj; path = ../CMMKit/CMMKit.xcodeproj; sourceTree = "<group>"; };
 		130A10B52112D75E00AA1311 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Regular.ttf"; path = "../../../../Downloads/fonts (2)/Montserrat/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		130A10B62112D76500AA1311 /* Prata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Prata-Regular.ttf"; path = "../../../../Downloads/fonts (2)/Prata/Prata-Regular.ttf"; sourceTree = "<group>"; };
 		130A10B72112D76D00AA1311 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Light.ttf"; path = "../../../../Downloads/fonts (2)/Montserrat/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		130A10B82112D77400AA1311 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Medium.ttf"; path = "../../../../Downloads/fonts (2)/Montserrat/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
 		130A10B92112D78100AA1311 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-SemiBold.ttf"; path = "../../../../Downloads/fonts (2)/Montserrat/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		130A10C921136EF200AA1311 /* PostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PostTableViewCell.xib; path = ../../../CMMKit/CMMKit/Cells/PostTableViewCell.xib; sourceTree = "<group>"; };
+		130A10D6211374F300AA1311 /* CMMKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CMMKit.xcodeproj; path = CMMKit/CMMKit.xcodeproj; sourceTree = "<group>"; };
 		136E305720FFC11A009B4180 /* CMMComposerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMComposerVC.h; sourceTree = "<group>"; };
 		136E305820FFC11A009B4180 /* CMMComposerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMComposerVC.m; sourceTree = "<group>"; };
 		136E305A20FFFDD3009B4180 /* EventsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsCell.h; sourceTree = "<group>"; };
@@ -177,7 +167,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				130A10AA2112BBC100AA1311 /* CMMKit.framework in Frameworks */,
 				136E30712106A0A5009B4180 /* EventKit.framework in Frameworks */,
 				136E306921027E2C009B4180 /* CoreLocation.framework in Frameworks */,
 				136E306721027E23009B4180 /* MapKit.framework in Frameworks */,
@@ -188,14 +177,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		130A10A52112BBB800AA1311 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				130A10A92112BBB800AA1311 /* CMMKit.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		130A10B42112D75300AA1311 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,6 +187,14 @@
 				130A10B62112D76500AA1311 /* Prata-Regular.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		130A10E2211381E400AA1311 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				130A10E6211381E400AA1311 /* CMMKit.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		136E305620FFC0F4009B4180 /* Composer Tab */ = {
@@ -255,7 +244,7 @@
 		22F9EBDD20FEAEA9002ADD9D = {
 			isa = PBXGroup;
 			children = (
-				130A10A42112BBB800AA1311 /* CMMKit.xcodeproj */,
+				130A10D6211374F300AA1311 /* CMMKit.xcodeproj */,
 				22F9EBE820FEAEA9002ADD9D /* CMMApp */,
 				22F9EBE720FEAEA9002ADD9D /* Products */,
 				926C423A5BB856652F42EAF7 /* Pods */,
@@ -433,7 +422,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				130A10AD2112BBC100AA1311 /* PBXTargetDependency */,
 			);
 			name = CMMApp;
 			productName = CMMApp;
@@ -472,8 +460,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 130A10A52112BBB800AA1311 /* Products */;
-					ProjectRef = 130A10A42112BBB800AA1311 /* CMMKit.xcodeproj */;
+					ProductGroup = 130A10E2211381E400AA1311 /* Products */;
+					ProjectRef = 130A10D6211374F300AA1311 /* CMMKit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -484,11 +472,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		130A10A92112BBB800AA1311 /* CMMKit.framework */ = {
+		130A10E6211381E400AA1311 /* CMMKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CMMKit.framework;
-			remoteRef = 130A10A82112BBB800AA1311 /* PBXContainerItemProxy */;
+			remoteRef = 130A10E5211381E400AA1311 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -599,14 +587,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		130A10AD2112BBC100AA1311 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CMMKit;
-			targetProxy = 130A10AC2112BBC100AA1311 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		22F9EBF720FEAEAA002ADD9D /* LaunchScreen.storyboard */ = {
