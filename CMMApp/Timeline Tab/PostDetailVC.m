@@ -189,7 +189,7 @@
 }
 
 - (void)didTapReport {
-    self.post.reportedNumber ++;
+    [[CMMParseQueryManager shared] reportPost:self.post];
     [self.post saveInBackground];
 }
 

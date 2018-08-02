@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03888A042113BDA00028E75A /* CMMModeratorFeedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */; };
 		03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D221014A02007629AD /* NewsfeedCell.m */; };
 		03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D621024F11007629AD /* PostDetailVC.m */; };
 		03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */; };
@@ -84,6 +85,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03888A022113BDA00028E75A /* CMMModeratorFeedVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModeratorFeedVC.h; sourceTree = "<group>"; };
+		03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorFeedVC.m; sourceTree = "<group>"; };
 		03CDE9D121014A02007629AD /* NewsfeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsfeedCell.h; sourceTree = "<group>"; };
 		03CDE9D221014A02007629AD /* NewsfeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedCell.m; sourceTree = "<group>"; };
 		03CDE9D521024F11007629AD /* PostDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailVC.h; sourceTree = "<group>"; };
@@ -187,6 +190,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03888A052113BDB10028E75A /* Moderation */ = {
+			isa = PBXGroup;
+			children = (
+				03888A022113BDA00028E75A /* CMMModeratorFeedVC.h */,
+				03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */,
+			);
+			path = Moderation;
+			sourceTree = "<group>";
+		};
 		130A10B42112D75300AA1311 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +298,7 @@
 				130A10B42112D75300AA1311 /* Fonts */,
 				22F9EC0320FEAEE3002ADD9D /* Login Screen */,
 				22F9EC0B20FEAF26002ADD9D /* Inbox Tab */,
+				03888A052113BDB10028E75A /* Moderation */,
 				22F9EC0920FEAF15002ADD9D /* Newsfeed Tab */,
 				22F9EC0820FEAF0D002ADD9D /* Profile Tab */,
 				136E30722108EA8F009B4180 /* Resources Tab */,
@@ -600,6 +613,7 @@
 				03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */,
 				22F9EC4A21004F33002ADD9D /* CMMChatCell.m in Sources */,
 				22F9EC2620FEB30E002ADD9D /* CMMVote.m in Sources */,
+				03888A042113BDA00028E75A /* CMMModeratorFeedVC.m in Sources */,
 				136E307E21092D73009B4180 /* CMMResourcesVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
