@@ -21,4 +21,5 @@
 - (void)fetchPosts:(int)number ByAuthor:(CMMUser *)user WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 - (void)fetchUsersPostsWithCompletion:(CMMUser *)user withCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 - (void)addBlockedUser:(CMMUser *)user Sender:sender;
+- (void)addStrikeToUser:(CMMUser *)user;
 @end

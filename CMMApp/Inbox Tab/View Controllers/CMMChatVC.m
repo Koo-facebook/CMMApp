@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UITableView *chatTableView;
 @property (nonatomic, strong) UITextView *writeMessageTextView;
 @property (nonatomic, assign) CGSize keyboardSize;
+@property (nonatomic, strong) UILabel *reportLabel;
 @property (nonatomic, assign) BOOL isMoreDataLoading;
 @end
 
@@ -42,6 +43,7 @@
     [self setupUsernameTitleLabel];
     [self setupUserProfileImage];
     [self setupTopicLabel];
+    [self setupReportLabel];
     [self setupChatTableView];
     [self setupOnlineIndicator];
     [self setupMessagingTextView];
@@ -133,6 +135,32 @@
     [self.view addSubview:self.topicLabel];
 }
 
+- (void)setupReportLabel {
+    self.reportLabel = [[UILabel alloc] init];
+    self.reportLabel.text = @"...";
+    
+    self.reportLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *reportTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReport)];
+    [self.reportLabel addGestureRecognizer:reportTap];
+    [self.view addSubview:self.reportLabel];
+}
+
+- (void)didTapReport {
+    CMMUser *otherUser;
+    if (self.isUserOne) {
+        otherUser = self.conversation.user2;
+    } else {
+        otherUser = self.conversation.user1;
+    }
+    for (CMMUser *user in self.conversation.reportedUsers) {
+        if ([user.objectId isEqualToString:otherUser.objectId]) {
+            return;
+        }
+    }
+    [self.conversation addObject:otherUser forKey:@"reportedUsers"];
+    [self.conversation saveInBackground];
+}
+
 - (void)setupUserProfileImage {
     self.usersProfileImage = [PFImageView new];
     if (self.isUserOne) {
@@ -219,6 +247,12 @@
         make.right.equalTo(self.usersProfileImage.mas_right);
         make.bottom.equalTo(self.usersProfileImage.mas_bottom);
         make.width.height.equalTo(@12);
+    }];
+    
+    // Report Label
+    [self.reportLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.usersProfileImage.mas_centerY);
+        make.right.equalTo(self.view.mas_right).offset(-12);
     }];
     
 }

@@ -42,6 +42,27 @@
     [[NSUserDefaults standardUserDefaults] setObject:blockedUsers forKey:blockingKey];
 }
 
+- (void)deleteObjectFromParse:(PFObject *)object {
+    [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"succeeded");
+        }
+    }];
+}
+
+- (void)addStrikeToUser:(CMMUser *)user {
+    int newStrikes;
+    if (user.strikes) {
+        newStrikes = user.strikes.intValue + 1;
+    } else {
+        newStrikes = 1;
+    }
+    NSNumber *newStrikesNumber = [NSNumber numberWithInt:newStrikes];
+    [user setObject:newStrikesNumber forKey:@"strikes"];
+    //user.strikes = newStrikesNumber;
+    [user saveInBackground];
+}
+
 - (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
     PFQuery *query;
     if (categories.count > 0) {
@@ -62,6 +83,8 @@
     for (NSString *blockID in blockedUsers) {
         [query whereKey:@"owner.objectId" notEqualTo:blockID];
     }*/
+    NSNumber *three = [NSNumber numberWithInteger:3];
+    [query whereKey:@"owner.strikes" notEqualTo:three];
     if (trending) {
         [self updateTrendingLimit:number WithCompletion:^(NSError *error) {
             if (error) {

@@ -175,12 +175,13 @@
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
         [alert addAction:cancelAction];
         UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Report" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        }];
-        [alert addAction:yesAction];
-        [self presentViewController:alert animated:YES completion:^{
             CMMPost *post = self.filteredPosts[indexPath.row];
             post.reportedNumber ++;
             [post saveInBackground];
+            [[CMMParseQueryManager shared] addStrikeToUser:post.owner];
+        }];
+        [alert addAction:yesAction];
+        [self presentViewController:alert animated:YES completion:^{
         }];
     }];
     return [[NSArray alloc] initWithObjects:report, nil];

@@ -17,17 +17,22 @@
 @dynamic displayName;
 @dynamic strikes;
     
-+ (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(void(^_Nullable)(BOOL succeeded, NSError * _Nullable error, CMMUser * _Nullable post))completion{
++ (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(void(^_Nullable)(BOOL succeeded, NSError * _Nullable error))completion{
     CMMUser *newUser = [CMMUser new];
     newUser.username = username;
     newUser.password = password;
     newUser.preferences = [NSMutableArray new];
     newUser.profileImage = [CMMUser getPFFileFromImage:[UIImage imageNamed:@"placeholderProfileImage"]];
     newUser.online = @NO;
-    newUser.strikes = 0;
+    newUser.strikes = @(0);
     
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        completion(succeeded, error, newUser);
+        completion(succeeded, error);
+//        PFACL *userACL = [PFACL ACLWithUser:CMMUser.currentUser];
+//        [userACL setPublicReadAccess:YES];
+//        [userACL setPublicWriteAccess:YES];
+//        CMMUser.currentUser.ACL = userACL;
+//        [CMMUser.currentUser saveInBackground];
     }];
 }
 
@@ -52,5 +57,6 @@
     }
     return [PFFile fileWithName:@"image.png" data:imageData];
 }
+
     
 @end
