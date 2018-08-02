@@ -15,7 +15,6 @@ target 'CMMApp' do
   pod 'DateTools'
   pod 'CCDropDownMenus'
   pod 'LGSideMenuController'
-  pod 'Hero', '~> 1.2'
   
 end
 post_install do |lib|
