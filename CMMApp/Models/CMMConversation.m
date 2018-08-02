@@ -17,6 +17,7 @@
 @dynamic userOneRead;
 @dynamic userTwoRead;
 @dynamic reportedUsers;
+@dynamic userWhoLeft;
     
 + (nonnull NSString *)parseClassName {
     return @"CMMConversation";

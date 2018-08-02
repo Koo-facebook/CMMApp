@@ -15,6 +15,7 @@
 @property (nonatomic, strong) CMMUser *_Nullable user1;
 @property (nonatomic, strong) CMMUser *_Nullable user2;
 @property (nonatomic, strong) NSString *_Nonnull topic;
+@property (nonatomic, strong) CMMUser *_Nullable userWhoLeft;
 @property (nonatomic, strong) NSDate *_Nonnull lastMessageSent;
 @property BOOL userOneRead;
 @property BOOL userTwoRead;

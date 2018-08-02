@@ -23,6 +23,7 @@
 @property (strong, nonatomic) UITableView *table;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
 @property (assign, nonatomic) int queryNumber;
 @property (assign, nonatomic) BOOL sortByTrending;
@@ -56,6 +57,8 @@
     self.table.dataSource = self;
     self.queryNumber = 20;
     self.categories = [CMMStyles getCategories];
+    
+    // create side menu
     NewsfeedSideMenuVC *sideMenuVC = self.sideMenuController.rightViewController;
     sideMenuVC.delegate = self;
     sideMenuVC.sortByTrending = self.sortByTrending;
@@ -192,6 +195,32 @@
     self.sortByTrending = trending;
     [self fetchPosts];
     [self.table reloadData];
+}
+
+- (void)fetchNearbyPosts {
+    [[CMMParseQueryManager shared] fetchNearbyPosts:0 latitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude withCompletion:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (posts) {
+            self.filteredPosts = posts;
+            [self.table reloadData];
+        }
+    }];
+}
+
+- (void) getCurrentLocation {
+    self.locationManager = [[CLLocationManager alloc]init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    // Request Authorization
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
+    // Start Updating Location only when user authorized us
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)
+    {
+        [self.locationManager startUpdatingLocation];
+    }
 }
 
 @end

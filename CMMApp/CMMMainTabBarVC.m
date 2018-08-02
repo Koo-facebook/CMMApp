@@ -34,7 +34,7 @@
     [viewControllers addObject:sideMenuController];
     [sideMenuController.tabBarItem setImage:[self resizeImageToIcon:[UIImage imageNamed:@"feedTab"]]];
     
-    CMMEventsVC *eventsVC = [[CMMEventsVC alloc] init];
+    CMMResourcesVC *eventsVC = [[CMMResourcesVC alloc] init];
     UINavigationController *eventsNavigation = [[UINavigationController alloc]initWithRootViewController:eventsVC];
     eventsNavigation.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Events" image:nil tag:1];
     [viewControllers addObject:eventsNavigation];

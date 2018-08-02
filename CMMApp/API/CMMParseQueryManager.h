@@ -22,4 +22,6 @@
 - (void)fetchUsersPostsWithCompletion:(CMMUser *)user withCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 - (void)addBlockedUser:(CMMUser *)user Sender:sender;
 - (void)addStrikeToUser:(CMMUser *)user;
+- (void)deleteMessageForConversation: (CMMConversation *)conversation withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error)) completion;
+- (void)fetchNearbyPosts:(int)skip latitude:(float)latitude longitude:(float)longitude withCompletion: (void(^_Nullable)(NSArray * _Nullable posts, NSError * _Nullable error)) completion;
 @end

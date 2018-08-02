@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "CMMUser.h"
 
-@interface CMMPost : PFObject<PFSubclassing>
+@interface CMMPost : PFObject<PFSubclassing, CLLocationManagerDelegate>
 
 @property (nonatomic, weak) CMMUser *_Nullable owner;
 @property (nonatomic, strong) NSString *_Nonnull topic;
@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSString *_Nullable category;
 @property (nonatomic, strong) NSMutableArray *_Nullable tags;
 @property (nonatomic, strong) NSMutableArray *_Nullable userChatTaps;
+@property (nonatomic, strong) NSNumber *_Nullable postLatitude;
+@property (nonatomic, strong) NSNumber *_Nullable postLongitude;
 @property (nonatomic, assign) float trendingIndex;
 @property (nonatomic, assign) int reportedNumber;
     

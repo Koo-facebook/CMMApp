@@ -6,16 +6,16 @@
 //  Copyright © 2018 Omar Rasheed. All rights reserved.
 //
 
-#import "BubbleView.h"
+#import "CMMBubbleView.h"
 
-@interface BubbleView()
+@interface CMMBubbleView()
 
 @property (nonatomic, strong) UIColor *incomingColor;
 @property (nonatomic, strong) UIColor *outgoingColor;
 
 @end
 
-@implementation BubbleView
+@implementation CMMBubbleView
 
 - (instancetype)init
 {

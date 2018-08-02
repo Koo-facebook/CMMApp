@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ResourcesVC : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, UISearchBarDelegate>
+@interface CMMResourcesVC : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, UISearchBarDelegate>
 
 @property (strong, nonatomic) UICollectionView *topicsCollectionView;
 @property (strong, nonatomic) UIScrollView *scroll;

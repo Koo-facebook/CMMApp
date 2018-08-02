@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "CMMParseQueryManager.h"
 #import "CMMConversation.h"
 
-@interface CMMNewsfeedVC : UIViewController
+@interface CMMNewsfeedVC : UIViewController <CLLocationManagerDelegate>
 
 @end
