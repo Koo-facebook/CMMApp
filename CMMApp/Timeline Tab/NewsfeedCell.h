@@ -10,5 +10,7 @@
 #import "CMMPost.h"
 
 @interface NewsfeedCell : UITableViewCell
+
 - (void)configureCell:(CMMPost *)post;
+
 @end

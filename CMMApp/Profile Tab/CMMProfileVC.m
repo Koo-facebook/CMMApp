@@ -9,11 +9,14 @@
 #import "CMMProfileVC.h"
 #import "CMMEditProfileVC.h"
 #import "CMMPost.h"
+#import "AppDelegate.h"
+#import "CMMLoginVC.h"
 #import "CMMUser.h"
 #import "NewsfeedCell.h"
 #import "Masonry.h"
 #import "PostDetailVC.h"
 #import "CMMParseQueryManager.h"
+#import "Parse.h"
 
 @interface CMMProfileVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -43,6 +46,7 @@
     [self createTableView];
     if ([self.user.objectId isEqualToString:CMMUser.currentUser.objectId]) {
         [self createEditProfileButton];
+        [self createLogoutButton];
     }
     [self createProfileImage];
     
@@ -143,6 +147,35 @@
         make.height.equalTo(@(self.editProfileButton.intrinsicContentSize.height));
     }];
 }
+
+// Create Logout Button
+- (void)createLogoutButton {
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logoutButtonTapped)];
+    self.navigationItem.rightBarButtonItem = logoutButton;
+    //[self.logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
+    //[self.logoutButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+   // self.logoutButton.titleLabel.font = [UIFont systemFontOfSize:18];
+   // [self.logoutButton addTarget:self action:@selector(logoutButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+   // [self.navigationItem 
+    
+    // Layout
+//    [self.logoutButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.logoutButton.superview.mas_top).offset(100);
+//        make.left.equalTo(self.logoutButton.superview.mas_leftMargin).offset(10);
+//        make.width.equalTo(@(self.logoutButton.intrinsicContentSize.width));
+//        make.height.equalTo(@(self.logoutButton.intrinsicContentSize.height));
+//    }];
+}
+
+-(void)logoutButtonTapped {
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        // PFUser.current() will now be nil
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        CMMLoginVC *loginViewController = [[CMMLoginVC alloc]init];
+        appDelegate.window.rootViewController = loginViewController;
+    }];
+}
+
 
 - (void)editButtonTapped {
     CMMEditProfileVC *editProfileVC = [[CMMEditProfileVC alloc]init];

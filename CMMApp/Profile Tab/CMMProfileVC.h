@@ -14,6 +14,7 @@
 @property (strong, nonatomic) PFImageView *profileImage;
 @property (strong, nonatomic) UILabel *usernameLabel;
 @property (strong, nonatomic) UIButton *editProfileButton;
+@property (strong, nonatomic) UIButton *logoutButton;
 @property (strong, nonatomic) UILabel *profileBioLabel;
 @property (strong, nonatomic) UITableView *tableView;
 @property (nonatomic, weak) PFUser *user;
