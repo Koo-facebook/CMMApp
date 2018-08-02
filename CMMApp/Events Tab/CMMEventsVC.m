@@ -232,7 +232,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
     //UINavigationController *eventDetailsNavigation = [[UINavigationController alloc]initWithRootViewController:eventDetailsVC];
+
     eventDetailsVC.event = self.eventList[indexPath.row];
+    
     [self.navigationController pushViewController:eventDetailsVC animated:YES];
     //[self presentViewController:eventDetailsNavigation animated:YES completion:^{}];
 }

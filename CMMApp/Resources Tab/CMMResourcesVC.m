@@ -12,12 +12,12 @@
 #import "Masonry.h"
 #import "Parse.h"
 #import "ParseUI.h"
-@interface ResourcesVC ()
+@interface CMMResourcesVC ()
 
 @property (strong, nonatomic) NSArray *topicList;
 @end
 
-@implementation ResourcesVC
+@implementation CMMResourcesVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -124,11 +124,11 @@
     self.topicsCollectionView.delegate = self;
     self.topicsCollectionView.dataSource = self;
     [self.topicsCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"topicCell"];
-    self.topicsCollectionView.backgroundColor = [UIColor blueColor];
+    self.topicsCollectionView.backgroundColor = [UIColor whiteColor];
     
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    layout.minimumLineSpacing = 1;
-    layout.minimumInteritemSpacing = 3;
+    layout.minimumLineSpacing = 12;
+    layout.minimumInteritemSpacing = 12;
     
     CGFloat itemWidth = 168;
     CGFloat itemHeight = itemWidth * 1.35;
