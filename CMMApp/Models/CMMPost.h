@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "CMMUser.h"
 
-@interface CMMPost : PFObject<PFSubclassing>
+@interface CMMPost : PFObject<PFSubclassing, CLLocationManagerDelegate>
 
 @property (nonatomic, weak) CMMUser *_Nullable owner;
 @property (nonatomic, strong) NSString *_Nonnull topic;
