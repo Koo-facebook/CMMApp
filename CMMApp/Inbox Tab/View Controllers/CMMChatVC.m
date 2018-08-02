@@ -36,7 +36,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [self pullMessages];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
 }
 
 - (void)viewDidLoad {

@@ -189,6 +189,34 @@
     }];
 }
 
+- (void)fetchNearbyPosts:(int)skip latitude:(float)latitude longitude:(float)longitude withCompletion: (void(^_Nullable)(NSArray * _Nullable posts, NSError * _Nullable error)) completion {
+    PFQuery *query;
+    query = [PFQuery queryWithClassName:@"CMMPost"];
+    [query orderByDescending:@"createdAt"];
+    [query includeKey:@"owner"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+            completion(nil, error);
+        } else {
+            NSMutableArray *postsArray = [NSMutableArray new];
+            for (CMMPost *post in posts) {
+                float postsDistance = [self calculateDistance:latitude currentLong:longitude postLat:[post.postLatitude floatValue] postLong:[post.postLongitude floatValue]];
+                NSLog(@"%f", postsDistance);
+                if (postsDistance < 10) {
+                    [postsArray addObject:post];
+                }
+            }
+            completion([postsArray subarrayWithRange:NSMakeRange(0 + skip, 20)], nil);
+        }
+    }];
+}
+
+- (float)calculateDistance: (float)currentLatitude currentLong:(float)currentLongitude postLat:(float)postLatitude postLong:(float)postLongitude {
+    float d = 6371 * (2 * asin(sqrt(pow((sin((currentLongitude - postLatitude)/2)),2) + pow(cos(currentLatitude)*cos(postLatitude)*(sin((currentLongitude-postLongitude)/2)), 2))));
+    return d;
+}
+
 
 
 @end
