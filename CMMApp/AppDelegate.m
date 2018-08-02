@@ -21,12 +21,12 @@
     //[self registerForRemoteNotifications];
 
     // Navigation Customization
-    UIFont *font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:24.0];
+    //UIFont *font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:24.0];
     /*[[UINavigationBar appearance] setBarTintColor:[UIColor grayColor]];
     NSShadow *shadow = [[NSShadow alloc] init];
     shadow.shadowColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
     shadow.shadowOffset = CGSizeMake(0, 1);*/
-    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blueColor], NSForegroundColorAttributeName,font, NSFontAttributeName, nil]];
+    //[[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blueColor], NSForegroundColorAttributeName,font, NSFontAttributeName, nil]];
     
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         

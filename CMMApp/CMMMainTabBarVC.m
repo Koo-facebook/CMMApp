@@ -32,7 +32,7 @@
     firstLabel.text = @"Bounce Animation";
     firstTabBarItem.iconView = [[CMMIconView alloc]initWithIcon:firstIconView title:firstLabel];
     CMMNewsfeedVC *firstViewController = [[CMMNewsfeedVC alloc] init];
-    self.view.tintColor = [UIColor blueColor];
+    //self.view.tintColor = [UIColor blueColor];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
     firstNav.tabBarItem = firstTabBarItem;
     
