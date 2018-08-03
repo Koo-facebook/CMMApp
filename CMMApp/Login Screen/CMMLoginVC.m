@@ -8,6 +8,7 @@
 
 #import "CMMLoginVC.h"
 #import <CMMKit/FullScrollView.h>
+#import <Lottie/Lottie.h>
 
 
 @interface CMMLoginVC ()
@@ -19,6 +20,13 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subheading;
 @property (nonatomic, strong) UIImageView *logoImage;
+
+//@property (nonatomic, strong) NSArray *titles;
+@property (nonatomic, strong) NSArray *animate;
+
+@property (nonatomic, strong) UIView *animationContainer;
+@property (nonatomic, strong) LOTAnimationView *lottieAnimation;
+
     
 @end
 
@@ -27,63 +35,65 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createLoginGradient];
-    
+    //self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(20.0/255.0) green:(CGFloat)(14.0/255.0) blue:(CGFloat)(33.0/255.0) alpha:1];
     // Create objects
     [self createScrollView];
-//    [self createSignUpButton];
-//    [self createLoginButton];
-//    [self createUsernameTextField];
-//    [self createPasswordTextField];
-//    [self createTitleLabel];
-//    [self createLogoImageView];
-//
-//    // Update Constraints
-//    [self updateConstraints];
+
     [self createTapGestureRecognizer:@selector(wholeViewTapped)];
+
+    
 }
     
 - (void)updateConstraints {
-    
+
     // Title Label
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.logoImage.mas_bottom).offset(25);
+        make.top.equalTo(self.titleLabel.superview.mas_top).offset(95);
         make.centerX.equalTo(self.titleLabel.superview.mas_centerX);
         make.height.equalTo(@(self.titleLabel.intrinsicContentSize.height));
         make.width.equalTo(@(self.titleLabel.intrinsicContentSize.width));
     }];
-    
+
     //Subheading Label
     [self.subheading mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(20);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(30);
         make.centerX.equalTo(self.subheading.superview.mas_centerX);
         make.width.equalTo(@(self.subheading.intrinsicContentSize.width));
         make.height.equalTo(@(self.subheading.intrinsicContentSize.height));
     }];
-    
+
+    // Animation Container
+    [self.animationContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.subheading.mas_bottom).offset(35);
+        make.centerX.equalTo(self.animationContainer.superview.mas_centerX);
+        make.width.equalTo(@230);
+        make.height.equalTo(@(230));
+    }];
+
     // Username TextField
     [self.usernameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.subheading.mas_bottom).offset(60);
+        make.top.equalTo(self.animationContainer.mas_bottom).offset(85);
         make.centerX.equalTo(self.usernameTextField.superview.mas_centerX);
         make.width.equalTo(@275);
         make.height.equalTo(@(self.usernameTextField.intrinsicContentSize.height));
     }];
-    
+
     // Password TextField
     [self.passwordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.usernameTextField.mas_bottom).offset(40);
+        make.top.equalTo(self.usernameTextField.mas_bottom).offset(25);
         make.centerX.equalTo(self.passwordTextField.superview.mas_centerX);
         make.width.equalTo(@275);
         make.height.equalTo(@(self.passwordTextField.intrinsicContentSize.height));
     }];
-    
+
     // Signup Button
     [self.signUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.passwordTextField.mas_bottom).offset(60);
+        make.top.equalTo(self.passwordTextField.mas_bottom).offset(40);
         make.left.equalTo(self.passwordTextField.mas_left);
         make.width.equalTo(@(self.signUpButton.intrinsicContentSize.width));
         make.height.equalTo(@(self.signUpButton.intrinsicContentSize.height));
     }];
-    
+
     // Login Button
     [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.signUpButton.mas_top);
@@ -91,15 +101,15 @@
         make.height.equalTo(@(self.loginButton.intrinsicContentSize.height));
         make.width.equalTo(@(self.loginButton.intrinsicContentSize.width));
     }];
-    
-    // Logo Image
-    [self.logoImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(100);
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.width.height.equalTo(@64);
-    }];
+
+//    // Logo Image
+//    [self.logoImage mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view.mas_top).offset(100);
+//        make.centerX.equalTo(self.view.mas_centerX);
+//        make.width.height.equalTo(@64);
+//    }];
 }
-    
+
     // Register user action
 - (void)signUpButtonTapped {
     [self registerUser];
@@ -116,16 +126,16 @@
 }
     
     // Initialize Title Label
-- (void)createTitleLabel {
+- (void)createTitleLabelInView: (UIView *)view {
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.text = @"Change My Mind";
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.font = [UIFont fontWithName:@"Futura-Medium" size:38];
-    [self.view addSubview:self.titleLabel];
+    [view addSubview:self.titleLabel];
 }
 
     // Initialize Subheading Label
--(void)createSubheadingLabel: (NSString *)subheading {
+-(void)createSubheadingLabelInView: (UIView *)view withSubheading:(NSString *)subheading {
     self.subheading = [[UILabel alloc]init];
     self.subheading.frame = CGRectMake((self.view.frame.size.width/5.35),( self.view.frame.size.height/10), 250, 100);
     self.subheading.textAlignment = NSTextAlignmentCenter;
@@ -133,10 +143,36 @@
     self.subheading.font = [UIFont fontWithName:@"Arial" size:16];
     self.subheading.numberOfLines = 0;
     self.subheading.text = subheading;
-    [self.view addSubview:self.subheading];
+    [view addSubview:self.subheading];
 }
+
+    //Initialize Animation Container
+-(void)createAnimationContainerInView: (UIView *)view withIndex: (NSInteger)index {
+    self.animate = @[@"circleFlag",@"search",@"newsfeed_refresh5",@"phoneVote",@"resources"];
+    self.animationContainer = [[UIView alloc]init];
+    
+    NSString *file = self.animate[index];
+    self.lottieAnimation = [LOTAnimationView animationNamed:file];
+    
+    self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    self.lottieAnimation.loopAnimation = YES;
+    
+    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFill;
+    CGRect lottieRect = CGRectMake(0, 0, (self.animationContainer.bounds.size.width), (self.animationContainer.bounds.size.height));
+    self.lottieAnimation.frame = lottieRect;
+    
+    [self.animationContainer addSubview:self.lottieAnimation];
+    [self.lottieAnimation play];
+    [view addSubview:self.animationContainer];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+   // [self.lottieAnimation play];
+}
+    
     // Initalize Password TextField
-- (void)createPasswordTextField {
+- (void)createPasswordTextFieldInView: (UIView *)view {
     self.passwordTextField = [[UITextField alloc] init];
     self.passwordTextField.placeholder = @"Password...";
     self.passwordTextField.borderStyle = UITextBorderStyleRoundedRect;
@@ -196,10 +232,14 @@
 }
 
 -(void)createScrollView {
+    
     NSArray *titles = @[@"Welcome to Change My Mind", @"Register to Vote", @"Have educational dialogue", @"Learn more about the hot topic political issues", @"Become more involved politically"];
     
-    FullScrollView *scrollView = [[FullScrollView alloc]initWithFrame:self.view.frame andNumberOfPages:5];
+    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/1.45);
+    FullScrollView *scrollView = [[FullScrollView alloc]initWithFrame:frame andNumberOfPages:5];
     [self.view addSubview:scrollView];
+    
+    scrollView.pagingEnabled = YES;
     
     [scrollView configureViewAtIndexWithCompletion:^(UIView *view, NSInteger index, BOOL success) {
         
@@ -208,20 +248,22 @@
         [self createSignUpButton];
         [self createLoginButton];
         [self createUsernameTextField];
-        [self createPasswordTextField];
-        [self createTitleLabel];
-        [self createLogoImageView];
-        NSString *subhead = titles[index];
-        NSLog(@"%@", subhead);
-        [self createSubheadingLabel:titles[index]];
+        [self createPasswordTextFieldInView:view];
+        [self createTitleLabelInView:view];
+        [self createAnimationContainerInView:view withIndex:index];
+       // [self createLogoImageView];
 
         
+        NSString *subhead = titles[index];
+        NSLog(@"%@", subhead);
+        [self createSubheadingLabelInView:view withSubheading:titles[index]];
+
         // Update Constraints
         [self updateConstraints];
         
     }];
 }
-    
+
     // Creates Generic TapGestureRecognizer
 - (void)createTapGestureRecognizer:(SEL)selector {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];

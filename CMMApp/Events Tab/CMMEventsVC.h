@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CMMKit/CMMKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 

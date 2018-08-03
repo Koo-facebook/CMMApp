@@ -17,7 +17,6 @@
 @property (strong, nonatomic) UIButton *editProfileButton;
 @property (strong, nonatomic) UIButton *logoutButton;
 @property (strong, nonatomic) UILabel *profileBioLabel;
-@property (strong, nonatomic) UITableView *tableView;
 @property (nonatomic, weak) CMMUser *user;
 
 @end

@@ -15,6 +15,8 @@
 #import "CMMEvent.h"
 #import "CMMEventDetailsVC.h"
 #import "CMMVenue.h"
+#import <Lottie/Lottie.h>
+#import <CMMKit/EventDetailsView.h>
 
 @interface CMMEventsVC () 
 
@@ -28,6 +30,11 @@
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) NSArray *eventList;
 @property (strong, nonatomic) NSMutableArray *venueList;
+
+//Pull to Refresh Animation Stuff
+@property (nonatomic, strong) LOTAnimationView *lottieAnimation;
+@property (nonatomic, strong) UIView *refreshLoadingView;
+@property (nonatomic, strong) UIView *refreshColorView;
 
 
 @end
@@ -230,28 +237,76 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
+    //CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
     //UINavigationController *eventDetailsNavigation = [[UINavigationController alloc]initWithRootViewController:eventDetailsVC];
 
-    eventDetailsVC.event = self.eventList[indexPath.row];
-    
-    [self.navigationController pushViewController:eventDetailsVC animated:YES];
+    //eventDetailsVC.event = self.eventList[indexPath.row];
+    [self presentModalStatusViewForEvent:self.eventList[indexPath.row]];
+    //[self.navigationController pushViewController:eventDetailsVC animated:YES];
     //[self presentViewController:eventDetailsNavigation animated:YES completion:^{}];
 }
 
 -(void)createPullToRefresh {
     //Initialize pull down to refresh control
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc]init];
+    //Customize Refresh Control
+    refreshControl.backgroundColor = [UIColor clearColor];
+    refreshControl.tintColor = [UIColor clearColor];
+    
+    self.refreshLoadingView = [[UIView alloc]initWithFrame:refreshControl.bounds];
+    self.refreshLoadingView.backgroundColor = [UIColor clearColor];
+    //LOTTIE
+//    self.lottieAnimation = [LOTAnimationView animationNamed:@"newsfeed_refresh"];
+//    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
+//    self.lottieAnimation.loopAnimation = YES;
+//    self.lottieAnimation.bounds = refreshControl.bounds;
+//    [self.refreshLoadingView addSubview:self.lottieAnimation];
+//    self.refreshLoadingView.clipsToBounds = YES;
+//
     //Linking pull down action to refresh control
     [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
     //Adding refresh information to the tableview
     [self.tableView insertSubview:refreshControl atIndex:0];
 }
 
+- (void)_playLottieAnimation {
+    self.lottieAnimation.animationProgress = 0;
+    [self.lottieAnimation play];
+}
+
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
     [self fetchEvents];
+    //[self _playLottieAnimation];
     // Tell the refreshControl to stop spinning
     [refreshControl endRefreshing];
 }
 
+-(void)presentModalStatusViewForEvent: (CMMEvent *)event {
+    CGRect frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
+    EventDetailsView *modalView = [[EventDetailsView alloc]initWithFrame:frame];
+    
+    //Format date to appear as "July 21, 2018" and set
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+    NSDate *date = [formatter dateFromString:event.startTime];
+    
+    [formatter setDateFormat:@"MMMM dd, yyyy"];
+    NSString *dateString = [formatter stringFromDate:date];
+    
+    //Formate time to appear as "4:30 PM - 6:00 PM" and set
+    NSDateFormatter *timeformatter = [[NSDateFormatter alloc] init];
+    [timeformatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+    NSDate *stime = [timeformatter dateFromString:event.startTime];
+    NSDate *etime = [timeformatter dateFromString:event.endTime];
+    
+    [timeformatter setDateFormat:@"h:mm a"];
+    NSString *startTime = [timeformatter stringFromDate:stime];
+    NSString *endTime = [timeformatter stringFromDate:etime];
+    
+    NSString *dashAdded = [startTime stringByAppendingString:@"-"];
+    NSString *interval = [dashAdded stringByAppendingString:endTime];
+    
+    [modalView setEventWithTitle:event.title location:event.venue[@"location"] date:dateString time:interval description:event.details];
+    [self.view addSubview:modalView];
+}
 @end

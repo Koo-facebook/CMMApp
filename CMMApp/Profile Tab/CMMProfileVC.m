@@ -17,8 +17,17 @@
 #import "PostDetailVC.h"
 #import "CMMParseQueryManager.h"
 #import "Parse.h"
+#import "CMTabbarView.h"
+#import "ProfileCell.h"
 
-@interface CMMProfileVC () <UITableViewDelegate, UITableViewDataSource>
+static NSUInteger const kCMDefaultSelected = 0;
+
+@interface CMMProfileVC () <CMTabbarViewDelegate,CMTabbarViewDatasouce,UICollectionViewDataSource,UICollectionViewDelegate>
+
+@property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) CMTabbarView *tabbarView;
+@property (strong, nonatomic) NSArray *datas;
+@property (strong, nonatomic) UIView *container;
 
 @property (strong, nonatomic) NSArray *profileFeed;
 
@@ -31,7 +40,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self.tableView registerClass:[NewsfeedCell class] forCellReuseIdentifier:@"feedCell"];
+   // [self.tableView registerClass:[NewsfeedCell class] forCellReuseIdentifier:@"feedCell"];
 
     self.profileFeed = [[NSArray alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -43,7 +52,7 @@
     
     [self createName];
     [self createBio];
-    [self createTableView];
+   //[self createTableView];
     if ([self.user.objectId isEqualToString:CMMUser.currentUser.objectId]) {
         [self createEditProfileButton];
         [self createLogoutButton];
@@ -52,14 +61,98 @@
     }
     [self createProfileImage];
     
+    //self.datas = @[@"About Me",@"My Posts"];
+    self.container = [[UIView alloc]init];
+    [self.container insertSubview:self.collectionView belowSubview:self.tabbarView];
+    [self.container addSubview:self.tabbarView];
+    [self.view addSubview:self.container];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.datas = @[@"About Me",@"My Posts"];
+        [self.collectionView reloadData];
+        [self.tabbarView reloadData];
+        self.collectionView.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
+    });
+    
     //Layout
     [self updateConstraints];
-    
-    [self fetchPosts];
+    //[self fetchPosts];
+}
+
+- (CMTabbarView *)tabbarView
+{
+    if (!_tabbarView) {
+        _tabbarView = [[CMTabbarView alloc] initWithFrame:CGRectMake(0, 0, (self.view.bounds.size.width-95), 40)];
+        _tabbarView.delegate = self;
+        _tabbarView.dataSource = self;
+        _tabbarView.backgroundColor = [UIColor blueColor];
+        _tabbarView.defaultSelectedIndex = kCMDefaultSelected;
+        _tabbarView.indicatorScrollType = CMTabbarIndicatorScrollTypeSpring;
+        //_tabbarView.tabPadding = 5.0f;
+        //        _tabbarView.selectionType = CMTabbarSelectionBox;
+        _tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[UIColor greenColor]};
+        //_tabbarView.normalAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+        //_tabbarView.selectedAttributes = @{NSForegroundColorAttributeName:[UIColor orangeColor]};
+        //_tabbarView.needTextGradient = false;
+    }
+   return _tabbarView;
+}
+
+- (UICollectionView *)collectionView {
+    if (!_collectionView) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        layout.itemSize = CGSizeMake((self.view.bounds.size.width-95), (250));
+        layout.sectionInset = UIEdgeInsetsZero;
+        layout.minimumLineSpacing = 0;
+        layout.minimumInteritemSpacing = 0;
+        CGRect frameCollect = CGRectMake(0, 0, (self.view.bounds.size.width-95), 250);
+        _collectionView = [[UICollectionView alloc] initWithFrame:frameCollect collectionViewLayout:layout];
+        [_collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:NSStringFromClass([ProfileCell class])];
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        _collectionView.showsHorizontalScrollIndicator = true;
+        _collectionView.pagingEnabled = true;
+        _collectionView.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
+        _collectionView.backgroundColor = [UIColor lightGrayColor];
+    }
+    return _collectionView;
+}
+
+- (NSArray<NSString *> *)tabbarTitlesForTabbarView:(CMTabbarView *)tabbarView
+{
+    return self.datas;
+}
+
+- (void)tabbarView:(CMTabbarView *)tabbarView1 didSelectedAtIndex:(NSInteger)index
+{
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:false];
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.datas.count;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ProfileCell class]) forIndexPath:indexPath];
+    if (indexPath.row == 0){
+        cell.title = PFUser.currentUser[@"profileBio"];
+    }
+    else{
+            cell.title = [NSString stringWithFormat:@"%ld",indexPath.row];
+        }
+    return cell;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [_tabbarView setTabbarOffsetX:(scrollView.contentOffset.x)/self.view.bounds.size.width];
 }
 
 - (void)updateConstraints {
-    
+
     // Username Label
     [self.usernameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.profileImage.mas_bottom).offset(15);
@@ -67,7 +160,7 @@
         make.height.equalTo(@(self.usernameLabel.intrinsicContentSize.height));
         make.width.equalTo(@(self.usernameLabel.intrinsicContentSize.width));
     }];
-    
+
     // Profile Image
     [self.profileImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).offset(100);
@@ -75,9 +168,9 @@
         make.width.equalTo(@(150));
         make.height.equalTo(@(150));
         //Crop profile image to a circle
-        
+
     }];
-    
+
     // Profile Bio Label
     [self.profileBioLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.usernameLabel.mas_bottom).offset(20);
@@ -85,14 +178,22 @@
         make.width.equalTo(@(325));
         //make.height.equalTo(@(self.profileBioLabel.intrinsicContentSize.height));
     }];
-    
-    // TableView
-  [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    // TabBarView
+  [self.container mas_makeConstraints:^(MASConstraintMaker *make) {
       make.top.equalTo(self.profileBioLabel.mas_bottom).offset(20);
-      make.bottom.equalTo(self.view.mas_bottom);
-      make.width.equalTo(@(self.view.frame.size.width));
-        
+      make.centerX.equalTo(self.container.superview.mas_centerX);
+      make.height.equalTo(@(40));
+      make.width.equalTo(@(self.view.bounds.size.width-95));
     }];
+    
+    // CollectionView
+//    [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(_tabbarView.mas_bottom).offset(20);
+//        make.centerX.equalTo(_collectionView.superview.mas_centerX);
+//        make.height.equalTo(@(250));
+//        make.width.equalTo(@(self.view.bounds.size.width-95));
+//    }];
 }
 
 -(void) createName{
@@ -153,19 +254,6 @@
 - (void)createLogoutButton {
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logoutButtonTapped)];
     self.navigationItem.rightBarButtonItem = logoutButton;
-    //[self.logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
-    //[self.logoutButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-   // self.logoutButton.titleLabel.font = [UIFont systemFontOfSize:18];
-   // [self.logoutButton addTarget:self action:@selector(logoutButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-   // [self.navigationItem 
-    
-    // Layout
-//    [self.logoutButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.logoutButton.superview.mas_top).offset(100);
-//        make.left.equalTo(self.logoutButton.superview.mas_leftMargin).offset(10);
-//        make.width.equalTo(@(self.logoutButton.intrinsicContentSize.width));
-//        make.height.equalTo(@(self.logoutButton.intrinsicContentSize.height));
-//    }];
 }
 
 -(void)logoutButtonTapped {
@@ -216,47 +304,5 @@
     [self presentViewController:editProfileNavigation animated:YES completion:^{}];
 }
 
-- (void) fetchPosts {
-    [[CMMParseQueryManager shared] fetchPosts:20 ByAuthor:self.user WithCompletion:^(NSArray *posts, NSError *error) {
-        if (posts) {
-            self.profileFeed = posts;
-            [self.tableView reloadData];
-        }
-        else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
-}
 
-//Create tableView
-- (void) createTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.backgroundColor = [UIColor whiteColor];
-    
-    [self.view addSubview:self.tableView];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-    NewsfeedCell *cell = [[NewsfeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"feedCell"];
-    CMMPost *post = self.profileFeed[indexPath.row];
-    //NSLog(@"😎😎😎%@", post);
-    [cell configureCell:post];
-    
-    return cell;
-}
-
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.profileFeed.count;
-}
-
- - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-     PostDetailVC *detailVC = [[PostDetailVC alloc] init];
-     CMMPost *post = self.profileFeed[indexPath.row];
-     [detailVC configureDetails:post];
-     [[self navigationController] pushViewController:detailVC animated:YES];
-     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
 @end

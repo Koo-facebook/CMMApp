@@ -11,7 +11,6 @@
 		03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D621024F11007629AD /* PostDetailVC.m */; };
 		03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */; };
 		03CDE9E32106A17F007629AD /* CMMStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9E22106A17F007629AD /* CMMStyles.m */; };
-		130A10CA21136EF200AA1311 /* PostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 130A10C921136EF200AA1311 /* PostTableViewCell.xib */; };
 		136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305820FFC11A009B4180 /* CMMComposerVC.m */; };
 		136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305B20FFFDD3009B4180 /* EventsCell.m */; };
 		136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E3064210249CB009B4180 /* CMMEventDetailsVC.m */; };
@@ -22,6 +21,21 @@
 		136E30712106A0A5009B4180 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 136E30702106A0A5009B4180 /* EventKit.framework */; };
 		136E307B2108EEF2009B4180 /* TopicsCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E307A2108EEF2009B4180 /* TopicsCollectionCell.m */; };
 		136E307E21092D73009B4180 /* CMMResourcesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E307D21092D73009B4180 /* CMMResourcesVC.m */; };
+		13A8D3A32113BB3A00C0C183 /* CMMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130D43C22113B9F5005E0C5B /* CMMKit.framework */; };
+		13A8D3A42113BB3A00C0C183 /* CMMKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 130D43C22113B9F5005E0C5B /* CMMKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		13A8D3AB2113E69000C0C183 /* newsfeed_refresh5.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3AA2113E69000C0C183 /* newsfeed_refresh5.json */; };
+		13A8D3AD2113E69500C0C183 /* newsfeed_refresh.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3AC2113E69500C0C183 /* newsfeed_refresh.json */; };
+		13A8D3AF2113E69B00C0C183 /* events_refresh.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3AE2113E69A00C0C183 /* events_refresh.json */; };
+		13A8D3B32114029500C0C183 /* InterestsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A8D3B22114029500C0C183 /* InterestsViewCell.m */; };
+		13A8D3B6211402AB00C0C183 /* AboutViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A8D3B5211402AB00C0C183 /* AboutViewCell.m */; };
+		13A8D3BC21143BE300C0C183 /* phoneVote.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3BB21143BE300C0C183 /* phoneVote.json */; };
+		13A8D3BE21143BEF00C0C183 /* resources.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3BD21143BEF00C0C183 /* resources.json */; };
+		13A8D3C121143BFD00C0C183 /* search.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3BF21143BFD00C0C183 /* search.json */; };
+		13A8D3C221143BFD00C0C183 /* circleFlag.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3C021143BFD00C0C183 /* circleFlag.json */; };
+		13A8D3C821143C1400C0C183 /* bodymovin.js in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3C421143C1400C0C183 /* bodymovin.js */; };
+		13A8D3C921143C1400C0C183 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3C521143C1400C0C183 /* data.json */; };
+		13A8D3CA21143C1400C0C183 /* data.xml in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3C621143C1400C0C183 /* data.xml */; };
+		13A8D3CB21143C1400C0C183 /* demo.html in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3C721143C1400C0C183 /* demo.html */; };
 		2233AD3D2106AADE00F72593 /* CMMBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2233AD3C2106AADE00F72593 /* CMMBubbleView.m */; };
 		2256C0D2210996C500FE9422 /* CMMRegisterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2256C0D1210996C500FE9422 /* CMMRegisterVC.m */; };
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
@@ -52,11 +66,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		130A11002113916500AA1311 /* PBXContainerItemProxy */ = {
+		130D43C12113B9F5005E0C5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 130A10D6211374F300AA1311 /* CMMKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 136E30AB210A4C66009B4180;
+			remoteInfo = CMMKit;
+		};
+		13A8D3A52113BB3A00C0C183 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 130A10D6211374F300AA1311 /* CMMKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 136E30AA210A4C66009B4180;
 			remoteInfo = CMMKit;
 		};
 /* End PBXContainerItemProxy section */
@@ -68,6 +89,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				13A8D3A42113BB3A00C0C183 /* CMMKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,13 +105,12 @@
 		03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedSideMenuVC.m; sourceTree = "<group>"; };
 		03CDE9E12106A17F007629AD /* CMMStyles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMStyles.h; sourceTree = "<group>"; };
 		03CDE9E22106A17F007629AD /* CMMStyles.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMStyles.m; sourceTree = "<group>"; };
-		130A10B52112D75E00AA1311 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Regular.ttf"; path = "../../../../Downloads/fonts (2)/Montserrat/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
-		130A10B62112D76500AA1311 /* Prata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Prata-Regular.ttf"; path = "../../../../Downloads/fonts (2)/Prata/Prata-Regular.ttf"; sourceTree = "<group>"; };
-		130A10B72112D76D00AA1311 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Light.ttf"; path = "../../../../Downloads/fonts (2)/Montserrat/Montserrat-Light.ttf"; sourceTree = "<group>"; };
-		130A10B82112D77400AA1311 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Medium.ttf"; path = "../../../../Downloads/fonts (2)/Montserrat/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
-		130A10B92112D78100AA1311 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-SemiBold.ttf"; path = "../../../../Downloads/fonts (2)/Montserrat/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
-		130A10C921136EF200AA1311 /* PostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PostTableViewCell.xib; path = ../../../CMMKit/CMMKit/Cells/PostTableViewCell.xib; sourceTree = "<group>"; };
-		130A10D6211374F300AA1311 /* CMMKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CMMKit.xcodeproj; sourceTree = "<group>"; };
+		130A10B52112D75E00AA1311 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		130A10B62112D76500AA1311 /* Prata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Prata-Regular.ttf"; sourceTree = "<group>"; };
+		130A10B72112D76D00AA1311 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		130A10B82112D77400AA1311 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Medium.ttf"; sourceTree = "<group>"; };
+		130A10B92112D78100AA1311 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		130A10D6211374F300AA1311 /* CMMKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CMMKit.xcodeproj; path = CMMKit/CMMKit.xcodeproj; sourceTree = "<group>"; };
 		136E305720FFC11A009B4180 /* CMMComposerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMComposerVC.h; sourceTree = "<group>"; };
 		136E305820FFC11A009B4180 /* CMMComposerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMComposerVC.m; sourceTree = "<group>"; };
 		136E305A20FFFDD3009B4180 /* EventsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsCell.h; sourceTree = "<group>"; };
@@ -107,6 +128,26 @@
 		136E307A2108EEF2009B4180 /* TopicsCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TopicsCollectionCell.m; sourceTree = "<group>"; };
 		136E307C21092D73009B4180 /* CMMResourcesVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMResourcesVC.h; sourceTree = "<group>"; };
 		136E307D21092D73009B4180 /* CMMResourcesVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMResourcesVC.m; sourceTree = "<group>"; };
+		13A8D3AA2113E69000C0C183 /* newsfeed_refresh5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = newsfeed_refresh5.json; sourceTree = "<group>"; };
+		13A8D3AC2113E69500C0C183 /* newsfeed_refresh.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = newsfeed_refresh.json; sourceTree = "<group>"; };
+		13A8D3AE2113E69A00C0C183 /* events_refresh.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = events_refresh.json; sourceTree = "<group>"; };
+		13A8D3B12114029500C0C183 /* InterestsViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterestsViewCell.h; sourceTree = "<group>"; };
+		13A8D3B22114029500C0C183 /* InterestsViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterestsViewCell.m; sourceTree = "<group>"; };
+		13A8D3B4211402AB00C0C183 /* AboutViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutViewCell.h; sourceTree = "<group>"; };
+		13A8D3B5211402AB00C0C183 /* AboutViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutViewCell.m; sourceTree = "<group>"; };
+		13A8D3BB21143BE300C0C183 /* phoneVote.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = phoneVote.json; path = ../../../../Downloads/phoneVote.json; sourceTree = "<group>"; };
+		13A8D3BD21143BEF00C0C183 /* resources.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = resources.json; path = ../../../../Downloads/resources.json; sourceTree = "<group>"; };
+		13A8D3BF21143BFD00C0C183 /* search.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = search.json; path = ../../../../Downloads/search.json; sourceTree = "<group>"; };
+		13A8D3C021143BFD00C0C183 /* circleFlag.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = circleFlag.json; path = ../../../../Downloads/circleFlag.json; sourceTree = "<group>"; };
+		13A8D3C421143C1400C0C183 /* bodymovin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = bodymovin.js; sourceTree = "<group>"; };
+		13A8D3C521143C1400C0C183 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
+		13A8D3C621143C1400C0C183 /* data.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = data.xml; sourceTree = "<group>"; };
+		13A8D3C721143C1400C0C183 /* demo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = demo.html; sourceTree = "<group>"; };
+		13A8D3D921143C2100C0C183 /* lottie.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = lottie.js; sourceTree = "<group>"; };
+		13A8D3DB21143C2100C0C183 /* img_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_1.png; sourceTree = "<group>"; };
+		13A8D3DC21143C2100C0C183 /* img_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_0.png; sourceTree = "<group>"; };
+		13A8D3DD21143C2100C0C183 /* datamap.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = datamap.json; sourceTree = "<group>"; };
+		13A8D3DE21143C2100C0C183 /* demo.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = demo.html; sourceTree = "<group>"; };
 		2233AD3B2106AADE00F72593 /* CMMBubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMBubbleView.h; sourceTree = "<group>"; };
 		2233AD3C2106AADE00F72593 /* CMMBubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMBubbleView.m; sourceTree = "<group>"; };
 		2256C0D0210996C500FE9422 /* CMMRegisterVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMRegisterVC.h; sourceTree = "<group>"; };
@@ -167,6 +208,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13A8D3A32113BB3A00C0C183 /* CMMKit.framework in Frameworks */,
 				136E30712106A0A5009B4180 /* EventKit.framework in Frameworks */,
 				136E306921027E2C009B4180 /* CoreLocation.framework in Frameworks */,
 				136E306721027E23009B4180 /* MapKit.framework in Frameworks */,
@@ -189,10 +231,10 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		130A10FD2113916500AA1311 /* Products */ = {
+		130D43BE2113B9F5005E0C5B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				130A11012113916500AA1311 /* CMMKit.framework */,
+				130D43C22113B9F5005E0C5B /* CMMKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -215,6 +257,67 @@
 				136E307D21092D73009B4180 /* CMMResourcesVC.m */,
 			);
 			path = "Resources Tab";
+			sourceTree = "<group>";
+		};
+		13A8D3A92113CC8C00C0C183 /* LottieFiles */ = {
+			isa = PBXGroup;
+			children = (
+				13A8D3AA2113E69000C0C183 /* newsfeed_refresh5.json */,
+				13A8D3AC2113E69500C0C183 /* newsfeed_refresh.json */,
+				13A8D3AE2113E69A00C0C183 /* events_refresh.json */,
+				13A8D3C021143BFD00C0C183 /* circleFlag.json */,
+				13A8D3BF21143BFD00C0C183 /* search.json */,
+				13A8D3BB21143BE300C0C183 /* phoneVote.json */,
+				13A8D3BD21143BEF00C0C183 /* resources.json */,
+				13A8D3D821143C2100C0C183 /* Map */,
+				13A8D3C321143C1400C0C183 /* Vote */,
+			);
+			path = LottieFiles;
+			sourceTree = "<group>";
+		};
+		13A8D3B7211402B400C0C183 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				13A8D3B12114029500C0C183 /* InterestsViewCell.h */,
+				13A8D3B22114029500C0C183 /* InterestsViewCell.m */,
+				13A8D3B4211402AB00C0C183 /* AboutViewCell.h */,
+				13A8D3B5211402AB00C0C183 /* AboutViewCell.m */,
+				136E306D21064ECA009B4180 /* ProfileCell.h */,
+				136E306E21064ECA009B4180 /* ProfileCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		13A8D3C321143C1400C0C183 /* Vote */ = {
+			isa = PBXGroup;
+			children = (
+				13A8D3C421143C1400C0C183 /* bodymovin.js */,
+				13A8D3C521143C1400C0C183 /* data.json */,
+				13A8D3C621143C1400C0C183 /* data.xml */,
+				13A8D3C721143C1400C0C183 /* demo.html */,
+			);
+			name = Vote;
+			path = ../../../../Downloads/Vote;
+			sourceTree = "<group>";
+		};
+		13A8D3D821143C2100C0C183 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				13A8D3D921143C2100C0C183 /* lottie.js */,
+				13A8D3DA21143C2100C0C183 /* images */,
+				13A8D3DD21143C2100C0C183 /* datamap.json */,
+				13A8D3DE21143C2100C0C183 /* demo.html */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		13A8D3DA21143C2100C0C183 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				13A8D3DB21143C2100C0C183 /* img_1.png */,
+				13A8D3DC21143C2100C0C183 /* img_0.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 		228588CB2100FD670087E455 /* View Controllers */ = {
@@ -263,6 +366,7 @@
 		22F9EBE820FEAEA9002ADD9D /* CMMApp */ = {
 			isa = PBXGroup;
 			children = (
+				13A8D3A92113CC8C00C0C183 /* LottieFiles */,
 				130A10B42112D75300AA1311 /* Fonts */,
 				22F9EC0320FEAEE3002ADD9D /* Login Screen */,
 				22F9EC0B20FEAF26002ADD9D /* Inbox Tab */,
@@ -349,12 +453,11 @@
 		22F9EC0820FEAF0D002ADD9D /* Profile Tab */ = {
 			isa = PBXGroup;
 			children = (
+				13A8D3B7211402B400C0C183 /* Cells */,
 				22F9EC2D20FEB623002ADD9D /* CMMProfileVC.h */,
 				22F9EC2E20FEB623002ADD9D /* CMMProfileVC.m */,
 				136E306A21064916009B4180 /* CMMEditProfileVC.h */,
 				136E306B21064916009B4180 /* CMMEditProfileVC.m */,
-				136E306D21064ECA009B4180 /* ProfileCell.h */,
-				136E306E21064ECA009B4180 /* ProfileCell.m */,
 			);
 			path = "Profile Tab";
 			sourceTree = "<group>";
@@ -366,7 +469,6 @@
 				22F9EC2B20FEB618002ADD9D /* CMMNewsfeedVC.m */,
 				03CDE9D121014A02007629AD /* NewsfeedCell.h */,
 				03CDE9D221014A02007629AD /* NewsfeedCell.m */,
-				130A10C921136EF200AA1311 /* PostTableViewCell.xib */,
 				03CDE9D521024F11007629AD /* PostDetailVC.h */,
 				03CDE9D621024F11007629AD /* PostDetailVC.m */,
 				03CDE9DE21068B26007629AD /* NewsfeedSideMenuVC.h */,
@@ -422,6 +524,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				13A8D3A62113BB3A00C0C183 /* PBXTargetDependency */,
 			);
 			name = CMMApp;
 			productName = CMMApp;
@@ -460,7 +563,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 130A10FD2113916500AA1311 /* Products */;
+					ProductGroup = 130D43BE2113B9F5005E0C5B /* Products */;
 					ProjectRef = 130A10D6211374F300AA1311 /* CMMKit.xcodeproj */;
 				},
 			);
@@ -472,11 +575,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		130A11012113916500AA1311 /* CMMKit.framework */ = {
+		130D43C22113B9F5005E0C5B /* CMMKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CMMKit.framework;
-			remoteRef = 130A11002113916500AA1311 /* PBXContainerItemProxy */;
+			remoteRef = 130D43C12113B9F5005E0C5B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -486,8 +589,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				130A10CA21136EF200AA1311 /* PostTableViewCell.xib in Resources */,
+				13A8D3CB21143C1400C0C183 /* demo.html in Resources */,
+				13A8D3C921143C1400C0C183 /* data.json in Resources */,
+				13A8D3BE21143BEF00C0C183 /* resources.json in Resources */,
+				13A8D3C121143BFD00C0C183 /* search.json in Resources */,
+				13A8D3C221143BFD00C0C183 /* circleFlag.json in Resources */,
+				13A8D3AD2113E69500C0C183 /* newsfeed_refresh.json in Resources */,
 				22F9EBF920FEAEAA002ADD9D /* LaunchScreen.storyboard in Resources */,
+				13A8D3AB2113E69000C0C183 /* newsfeed_refresh5.json in Resources */,
+				13A8D3AF2113E69B00C0C183 /* events_refresh.json in Resources */,
+				13A8D3BC21143BE300C0C183 /* phoneVote.json in Resources */,
+				13A8D3CA21143C1400C0C183 /* data.xml in Resources */,
+				13A8D3C821143C1400C0C183 /* bodymovin.js in Resources */,
 				22F9EBF620FEAEAA002ADD9D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -567,6 +680,7 @@
 				136E307B2108EEF2009B4180 /* TopicsCollectionCell.m in Sources */,
 				03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */,
 				22F9EC2C20FEB618002ADD9D /* CMMNewsfeedVC.m in Sources */,
+				13A8D3B6211402AB00C0C183 /* AboutViewCell.m in Sources */,
 				2256C0D2210996C500FE9422 /* CMMRegisterVC.m in Sources */,
 				22F9EC3520FEC2AF002ADD9D /* CMMVoteAPIManager.m in Sources */,
 				136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */,
@@ -578,6 +692,7 @@
 				136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */,
 				22F9EC1420FEB1EE002ADD9D /* CMMConversation.m in Sources */,
 				03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */,
+				13A8D3B32114029500C0C183 /* InterestsViewCell.m in Sources */,
 				22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */,
 				03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */,
 				22F9EC4A21004F33002ADD9D /* CMMChatCell.m in Sources */,
@@ -587,6 +702,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		13A8D3A62113BB3A00C0C183 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CMMKit;
+			targetProxy = 13A8D3A52113BB3A00C0C183 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		22F9EBF720FEAEAA002ADD9D /* LaunchScreen.storyboard */ = {
