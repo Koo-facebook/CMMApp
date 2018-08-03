@@ -181,7 +181,7 @@
         UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Report" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             CMMPost *post = self.filteredPosts[indexPath.row];
             [[CMMParseQueryManager shared] reportPost:post];
-            [[CMMParseQueryManager shared] addStrikeToUser:post.owner];
+            //[[CMMParseQueryManager shared] addStrikeToUser:post.owner];
         }];
         [alert addAction:yesAction];
         [self presentViewController:alert animated:YES completion:^{

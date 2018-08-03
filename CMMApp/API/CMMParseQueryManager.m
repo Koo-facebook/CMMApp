@@ -42,8 +42,8 @@
     [[NSUserDefaults standardUserDefaults] setObject:blockedUsers forKey:blockingKey];
 }
 
-- (void)deleteObjectFromParse:(PFObject *)object {
-    [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+- (void)deletePostFromParse:(CMMPost *)post {
+    [post deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"succeeded");
         }

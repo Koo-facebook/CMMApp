@@ -9,6 +9,7 @@
 #import "CMMModeratorFeedVC.h"
 #import "CMMParseQueryManager.h"
 #import "CMMStyles.h"
+#import "CMMModeratorPostVC.h"
 
 @interface CMMModeratorFeedVC ()
 @end
@@ -48,14 +49,13 @@
     }];
     return [[NSArray alloc] initWithObjects:reports, nil];
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CMMModeratorPostVC *detailVC = [[CMMModeratorPostVC alloc] init];
+    CMMPost *post = self.filteredPosts[indexPath.row];
+    [detailVC configureDetails:post];
+    [[self navigationController] pushViewController:detailVC animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-*/
 
 @end
