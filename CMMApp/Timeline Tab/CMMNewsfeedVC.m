@@ -54,6 +54,8 @@
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     self.table.rowHeight = UITableViewAutomaticDimension;
     self.table.estimatedRowHeight = 55;
+    [self.table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    self.table.backgroundColor = [UIColor whiteColor];
     self.table.delegate = self;
     self.table.dataSource = self;
     self.queryNumber = 20;
@@ -136,6 +138,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     self.searchBar.showsCancelButton = NO;
     self.searchBar.text = @"";
+    self.searchBar.backgroundColor = [UIColor whiteColor];
     [self.searchBar resignFirstResponder];
 }
 
@@ -143,6 +146,7 @@
     NewsfeedCell *cell = [[NewsfeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"feedCell"];
     CMMPost *post = self.filteredPosts[indexPath.row];
     [cell configureCell:post];
+    
     return cell;
 }
 
@@ -158,9 +162,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 125;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return 150;
+//}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if(!self.isMoreDataLoading){

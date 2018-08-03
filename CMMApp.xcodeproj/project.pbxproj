@@ -36,6 +36,8 @@
 		13A8D3C921143C1400C0C183 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3C521143C1400C0C183 /* data.json */; };
 		13A8D3CA21143C1400C0C183 /* data.xml in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3C621143C1400C0C183 /* data.xml */; };
 		13A8D3CB21143C1400C0C183 /* demo.html in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3C721143C1400C0C183 /* demo.html */; };
+		13A8D4432114CAD600C0C183 /* CMMModeratorPostVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A8D4402114CAD600C0C183 /* CMMModeratorPostVC.m */; };
+		13A8D4442114CAD600C0C183 /* CMMModeratorFeedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A8D4412114CAD600C0C183 /* CMMModeratorFeedVC.m */; };
 		2233AD3D2106AADE00F72593 /* CMMBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2233AD3C2106AADE00F72593 /* CMMBubbleView.m */; };
 		2256C0D2210996C500FE9422 /* CMMRegisterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2256C0D1210996C500FE9422 /* CMMRegisterVC.m */; };
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
@@ -97,8 +99,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		03CDE9D121014A02007629AD /* NewsfeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsfeedCell.h; sourceTree = "<group>"; };
-		03CDE9D221014A02007629AD /* NewsfeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedCell.m; sourceTree = "<group>"; };
+		03CDE9D121014A02007629AD /* NewsfeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NewsfeedCell.h; path = "../Newsfeed Tab/NewsfeedCell.h"; sourceTree = "<group>"; };
+		03CDE9D221014A02007629AD /* NewsfeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NewsfeedCell.m; path = "../Newsfeed Tab/NewsfeedCell.m"; sourceTree = "<group>"; };
 		03CDE9D521024F11007629AD /* PostDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailVC.h; sourceTree = "<group>"; };
 		03CDE9D621024F11007629AD /* PostDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDetailVC.m; sourceTree = "<group>"; };
 		03CDE9DE21068B26007629AD /* NewsfeedSideMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsfeedSideMenuVC.h; sourceTree = "<group>"; };
@@ -148,6 +150,10 @@
 		13A8D3DC21143C2100C0C183 /* img_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_0.png; sourceTree = "<group>"; };
 		13A8D3DD21143C2100C0C183 /* datamap.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = datamap.json; sourceTree = "<group>"; };
 		13A8D3DE21143C2100C0C183 /* demo.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = demo.html; sourceTree = "<group>"; };
+		13A8D43F2114CAD000C0C183 /* CMMModeratorFeedVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CMMModeratorFeedVC.h; path = CMMApp/Moderation/CMMModeratorFeedVC.h; sourceTree = SOURCE_ROOT; };
+		13A8D4402114CAD600C0C183 /* CMMModeratorPostVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMMModeratorPostVC.m; path = CMMApp/Moderation/CMMModeratorPostVC.m; sourceTree = SOURCE_ROOT; };
+		13A8D4412114CAD600C0C183 /* CMMModeratorFeedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMMModeratorFeedVC.m; path = CMMApp/Moderation/CMMModeratorFeedVC.m; sourceTree = SOURCE_ROOT; };
+		13A8D4422114CAD600C0C183 /* CMMModeratorPostVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CMMModeratorPostVC.h; path = CMMApp/Moderation/CMMModeratorPostVC.h; sourceTree = SOURCE_ROOT; };
 		2233AD3B2106AADE00F72593 /* CMMBubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMBubbleView.h; sourceTree = "<group>"; };
 		2233AD3C2106AADE00F72593 /* CMMBubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMBubbleView.m; sourceTree = "<group>"; };
 		2256C0D0210996C500FE9422 /* CMMRegisterVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMRegisterVC.h; sourceTree = "<group>"; };
@@ -320,6 +326,18 @@
 			path = images;
 			sourceTree = "<group>";
 		};
+		13A8D43E2114CABF00C0C183 /* Moderation */ = {
+			isa = PBXGroup;
+			children = (
+				13A8D43F2114CAD000C0C183 /* CMMModeratorFeedVC.h */,
+				13A8D4412114CAD600C0C183 /* CMMModeratorFeedVC.m */,
+				13A8D4422114CAD600C0C183 /* CMMModeratorPostVC.h */,
+				13A8D4402114CAD600C0C183 /* CMMModeratorPostVC.m */,
+			);
+			name = Moderation;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		228588CB2100FD670087E455 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -366,6 +384,7 @@
 		22F9EBE820FEAEA9002ADD9D /* CMMApp */ = {
 			isa = PBXGroup;
 			children = (
+				13A8D43E2114CABF00C0C183 /* Moderation */,
 				13A8D3A92113CC8C00C0C183 /* LottieFiles */,
 				130A10B42112D75300AA1311 /* Fonts */,
 				22F9EC0320FEAEE3002ADD9D /* Login Screen */,
@@ -663,6 +682,7 @@
 			files = (
 				136E306C21064916009B4180 /* CMMEditProfileVC.m in Sources */,
 				22F9EC2320FEB2E0002ADD9D /* CMMVenue.m in Sources */,
+				13A8D4432114CAD600C0C183 /* CMMModeratorPostVC.m in Sources */,
 				22F9EC2F20FEB623002ADD9D /* CMMProfileVC.m in Sources */,
 				228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */,
 				22F9EC472100168F002ADD9D /* CMMChatVC.m in Sources */,
@@ -691,6 +711,7 @@
 				2233AD3D2106AADE00F72593 /* CMMBubbleView.m in Sources */,
 				136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */,
 				22F9EC1420FEB1EE002ADD9D /* CMMConversation.m in Sources */,
+				13A8D4442114CAD600C0C183 /* CMMModeratorFeedVC.m in Sources */,
 				03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */,
 				13A8D3B32114029500C0C183 /* InterestsViewCell.m in Sources */,
 				22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */,
@@ -845,7 +866,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm77.CMMApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -863,7 +884,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm77.CMMApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

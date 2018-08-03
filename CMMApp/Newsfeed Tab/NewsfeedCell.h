@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CMMPost.h"
+#import "CMMStyles.h"
 
 @interface NewsfeedCell : UITableViewCell
 @property (strong, nonatomic) CMMPost *post;

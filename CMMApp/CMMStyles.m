@@ -15,11 +15,11 @@
 }
 
 + (UIFont *)getTitleFontWithSize:(CGFloat)size {
-    return [UIFont fontWithName:@"Prata-Regular.ftt" size:size];
+    return [UIFont fontWithName:@"Prata" size:size];
 }
 
 + (UIFont *)getTextFontWithSize:(CGFloat)size {
-    return [UIFont fontWithName:@"Montserrat-Regular.ftt" size:size];
+    return [UIFont fontWithName:@"Montserrat" size:size];
 }
 + (NSArray *)getCategories {
     NSArray *array = @[@"Criminal Issues", @"Economics", @"Education", @"Elections", @"Environment", @"Foreign Policy", @"Healthcare", @"Immigration", @"Local Politics", @"National Security", @"Social Issues"];
