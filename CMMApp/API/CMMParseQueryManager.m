@@ -51,9 +51,20 @@
     }];
 }
 
-/*- (void)setUserStrikes:(CMMUser *)user {
-    
-}*/
+- (void)setUserStrikes:(CMMUser *)user {
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMUserStrikes"];
+    [query whereKey:@"userID" equalTo:user.objectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects.count > 0) {
+            CMMUserStrikes *userStrikes = objects[0];
+            [user setObject:userStrikes.strikes forKey:@"strikes"];
+        } else {
+            NSNumber *zero = @(0);
+            [user setObject:zero forKey:@"strikes"];
+        }
+        [user saveInBackground];
+    }];
+}
 
 - (void)addStrikeToUser:(CMMUser *)user {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMUserStrikes"];
@@ -68,17 +79,6 @@
             NSNumber *newStrikes = @(1);
             [CMMUserStrikes createStrikes:newStrikes forUserID:user.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMUserStrikes *userStrikes) {
             }];
-        }
-    }];
-    
-}
-
-- (void)deleteAllPostsByUser:(CMMUser *)user {
-    [self fetchPosts:1000 ByAuthor:user WithCompletion:^(NSArray *posts, NSError *error) {
-        if (!error) {
-            for (CMMPost *post in posts) {
-                [self deletePostFromParse:post];
-            }
         }
     }];
 }
