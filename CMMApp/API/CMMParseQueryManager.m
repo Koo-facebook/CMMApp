@@ -42,8 +42,8 @@
     [[NSUserDefaults standardUserDefaults] setObject:blockedUsers forKey:blockingKey];
 }
 
-- (void)deleteObjectFromParse:(PFObject *)object {
-    [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+- (void)deletePostFromParse:(CMMPost *)post {
+    [post deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"succeeded");
         }
@@ -59,11 +59,22 @@
     }
     NSNumber *newStrikesNumber = [NSNumber numberWithInt:newStrikes];
     [user setObject:newStrikesNumber forKey:@"strikes"];
-    //user.strikes = newStrikesNumber;
     [user saveInBackground];
 }
 
-- (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
+- (void)reportPost:(CMMPost *)post {
+    int newReports;
+    if (post.reportedNumber) {
+        newReports = post.reportedNumber.intValue + 1;
+    } else {
+        newReports = 1;
+    }
+    NSNumber *newReportsNumber = [NSNumber numberWithInt:newReports];
+    [post setObject:newReportsNumber forKey:@"reportedNumber"];
+    [post saveInBackground];
+}
+
+- (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending Reported:(BOOL)reported WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion {
     PFQuery *query;
     if (categories.count > 0) {
         NSMutableArray *queries = [[NSMutableArray alloc] init];
@@ -76,6 +87,9 @@
     } else {
         query = [PFQuery queryWithClassName:@"CMMPost"];
     }
+    if (reported) {
+        [query whereKey:@"reportedNumber" greaterThan:@(0)];
+    }
     [query includeKey:@"owner"];
     /*[query includeKey:@"owner.objectId"];
     NSString *blockingKey = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
@@ -83,8 +97,8 @@
     for (NSString *blockID in blockedUsers) {
         [query whereKey:@"owner.objectId" notEqualTo:blockID];
     }*/
-    NSNumber *three = [NSNumber numberWithInteger:3];
-    [query whereKey:@"owner.strikes" notEqualTo:three];
+    /*NSNumber *three = [NSNumber numberWithInteger:3];
+    [query whereKey:@"owner.strikes" notEqualTo:three];*/
     if (trending) {
         [self updateTrendingLimit:number WithCompletion:^(NSError *error) {
             if (error) {

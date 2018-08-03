@@ -17,7 +17,7 @@
 #import "CMMStyles.h"
 
 @interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SideMenuDelegate>
-@property (strong, nonatomic) NSArray *posts;
+/*@property (strong, nonatomic) NSArray *posts;
 @property (strong, nonatomic) NSArray *filteredPosts;
 @property (strong, nonatomic) NSArray *categories;
 @property (strong, nonatomic) UITableView *table;
@@ -26,7 +26,7 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
 @property (assign, nonatomic) int queryNumber;
-@property (assign, nonatomic) BOOL sortByTrending;
+@property (assign, nonatomic) BOOL sortByTrending;*/
 @end
 
 @implementation CMMNewsfeedVC
@@ -79,7 +79,7 @@
 }
 
 - (void)fetchPosts {
-    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending WithCompletion:^(NSArray *posts, NSError *error) {
+    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending Reported:NO WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             
             // remove posts from blocked users
@@ -180,9 +180,8 @@
         [alert addAction:cancelAction];
         UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Report" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             CMMPost *post = self.filteredPosts[indexPath.row];
-            post.reportedNumber ++;
-            [post saveInBackground];
-            [[CMMParseQueryManager shared] addStrikeToUser:post.owner];
+            [[CMMParseQueryManager shared] reportPost:post];
+            //[[CMMParseQueryManager shared] addStrikeToUser:post.owner];
         }];
         [alert addAction:yesAction];
         [self presentViewController:alert animated:YES completion:^{
