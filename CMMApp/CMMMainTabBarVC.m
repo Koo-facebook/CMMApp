@@ -32,7 +32,12 @@
     CMMNewsfeedVC *firstViewController = [[CMMNewsfeedVC alloc] init];
     //self.view.tintColor = [UIColor blueColor];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
-    firstNav.tabBarItem = firstTabBarItem;
+    NewsfeedSideMenuVC *sideMenuVC = [[NewsfeedSideMenuVC alloc] init];
+    LGSideMenuController *sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:firstNav leftViewController:nil rightViewController:sideMenuVC];
+    sideMenuController.leftViewBackgroundBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+    sideMenuController.rightViewWidth = 2*self.view.frame.size.width/3;
+    sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleScaleFromLittle;
+    sideMenuController.tabBarItem = firstTabBarItem;
     
  
     //Side Bar
@@ -106,7 +111,7 @@
     fifthNav.tabBarItem = fifthTabBarItem;
     
     
-    self.viewControllers = @[firstNav, secondNav, thirdNav, fourthNav, fifthNav];
+    self.viewControllers = @[sideMenuController, secondNav, thirdNav, fourthNav, fifthNav];
     
     [super viewDidLoad];
 }

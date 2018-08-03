@@ -10,6 +10,7 @@
 		03888A042113BDA00028E75A /* CMMModeratorFeedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */; };
 		03888A082113D09A0028E75A /* CMMModeratorPostVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A072113D09A0028E75A /* CMMModeratorPostVC.m */; };
 		03888A0B2114C1520028E75A /* CMMUserStrikes.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A0A2114C1520028E75A /* CMMUserStrikes.m */; };
+		03888A0E2114FCB90028E75A /* CMMModerationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A0D2114FCB90028E75A /* CMMModerationController.m */; };
 		03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D221014A02007629AD /* NewsfeedCell.m */; };
 		03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D621024F11007629AD /* PostDetailVC.m */; };
 		03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */; };
@@ -93,6 +94,8 @@
 		03888A072113D09A0028E75A /* CMMModeratorPostVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorPostVC.m; sourceTree = "<group>"; };
 		03888A092114C1520028E75A /* CMMUserStrikes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CMMUserStrikes.h; path = CMMApp/Models/CMMUserStrikes.h; sourceTree = SOURCE_ROOT; };
 		03888A0A2114C1520028E75A /* CMMUserStrikes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CMMUserStrikes.m; path = CMMApp/Models/CMMUserStrikes.m; sourceTree = SOURCE_ROOT; };
+		03888A0C2114FCB90028E75A /* CMMModerationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModerationController.h; sourceTree = "<group>"; };
+		03888A0D2114FCB90028E75A /* CMMModerationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModerationController.m; sourceTree = "<group>"; };
 		03CDE9D121014A02007629AD /* NewsfeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsfeedCell.h; sourceTree = "<group>"; };
 		03CDE9D221014A02007629AD /* NewsfeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedCell.m; sourceTree = "<group>"; };
 		03CDE9D521024F11007629AD /* PostDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailVC.h; sourceTree = "<group>"; };
@@ -203,6 +206,8 @@
 				03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */,
 				03888A062113D09A0028E75A /* CMMModeratorPostVC.h */,
 				03888A072113D09A0028E75A /* CMMModeratorPostVC.m */,
+				03888A0C2114FCB90028E75A /* CMMModerationController.h */,
+				03888A0D2114FCB90028E75A /* CMMModerationController.m */,
 			);
 			path = Moderation;
 			sourceTree = "<group>";
@@ -602,6 +607,7 @@
 				136E306F21064ECA009B4180 /* ProfileCell.m in Sources */,
 				22F9EC1A20FEB256002ADD9D /* CMMMessage.m in Sources */,
 				22F9EBFC20FEAEAA002ADD9D /* main.m in Sources */,
+				03888A0E2114FCB90028E75A /* CMMModerationController.m in Sources */,
 				22F9EC4421000CA9002ADD9D /* CMMConversationCell.m in Sources */,
 				03888A082113D09A0028E75A /* CMMModeratorPostVC.m in Sources */,
 				22F9EC1720FEB21C002ADD9D /* CMMEvent.m in Sources */,
