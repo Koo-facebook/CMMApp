@@ -9,6 +9,7 @@
 #import "CMMParseQueryManager.h"
 #import <DateTools.h>
 #import "UIImageView+AFNetworking.h"
+#import "CMMUserStrikes.h"
 @implementation CMMParseQueryManager
 
 + (instancetype)shared {
@@ -50,18 +51,36 @@
     }];
 }
 
-- (void)addStrikeToUser:(CMMUser *)user {
-    NSString *strikeKey = [user.objectId stringByAppendingString:@"-strikes"];
-    NSNumber *oldStrikes = [[NSUserDefaults standardUserDefaults] objectForKey:strikeKey];
-    int newStrikes;
-    if (oldStrikes) {
-        newStrikes = oldStrikes.intValue + 1;
-    } else {
-        newStrikes = 1;
-    }
-    NSNumber *newStrikesNumber = [NSNumber numberWithInt:newStrikes];
-    [[NSUserDefaults standardUserDefaults] setObject:newStrikesNumber forKey:strikeKey];
+/*- (void)setUserStrikes:(CMMUser *)user {
     
+}*/
+
+- (void)addStrikeToUser:(CMMUser *)user {
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMUserStrikes"];
+    [query whereKey:@"userID" equalTo:user.objectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects.count > 0) {
+            CMMUserStrikes *userStrikes = objects[0];
+            NSNumber *newStrikes = [NSNumber numberWithInt:(userStrikes.strikes.intValue + 1)];
+            [userStrikes setObject:newStrikes forKey:@"strikes"];
+            [userStrikes saveInBackground];
+        } else {
+            NSNumber *newStrikes = @(1);
+            [CMMUserStrikes createStrikes:newStrikes forUserID:user.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMUserStrikes *userStrikes) {
+            }];
+        }
+    }];
+    
+}
+
+- (void)deleteAllPostsByUser:(CMMUser *)user {
+    [self fetchPosts:1000 ByAuthor:user WithCompletion:^(NSArray *posts, NSError *error) {
+        if (!error) {
+            for (CMMPost *post in posts) {
+                [self deletePostFromParse:post];
+            }
+        }
+    }];
 }
 
 - (void)reportPost:(CMMPost *)post {
