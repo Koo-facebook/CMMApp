@@ -16,15 +16,7 @@
 #import "CMMStyles.h"
 
 @interface PostDetailVC ()
-@property (strong, nonatomic) UILabel *authorLabel;
-@property (strong, nonatomic) UILabel *categoryLabel;
-@property (strong, nonatomic) UILabel *dateLabel;
-@property (strong, nonatomic) UILabel *titleLabel;
-@property (strong, nonatomic) UILabel *detailLabel;
-@property (strong, nonatomic) UILabel *reportLabel;
-@property (strong, nonatomic) UIImageView *authorImage;
-@property (strong, nonatomic) UIButton *chatButton;
-@property (strong, nonatomic) UIButton *resourceButton;
+
 @end
 
 @implementation PostDetailVC
@@ -189,7 +181,7 @@
 }
 
 - (void)didTapReport {
-    self.post.reportedNumber ++;
+    [[CMMParseQueryManager shared] reportPost:self.post];
     [self.post saveInBackground];
 }
 
@@ -226,13 +218,4 @@
     NSLog(@"Resources page does not exist yet");
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 @end

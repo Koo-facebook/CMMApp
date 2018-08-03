@@ -7,6 +7,7 @@
 //
 
 #import "CMMInboxVC.h"
+#import "CMMModeratorFeedVC.h"
 
 @interface CMMInboxVC ()
 
@@ -43,7 +44,7 @@
     [self createMessagesTableView];
     [self createTapGestureRecognizer:@selector(screenTapped:)];
     [self createRefreshControl];
-    
+    [self createBarButtonItem];
     [self updateConstraints];
 }
 
@@ -53,6 +54,11 @@
 }
 
 #pragma mark - View Setup
+
+- (void)createBarButtonItem {
+    UIBarButtonItem *viewProfileButton =[[UIBarButtonItem alloc] initWithTitle:@"Moderator Mode" style:UIBarButtonItemStylePlain target:self action:@selector(moderatorMode)];
+    self.navigationItem.rightBarButtonItem = viewProfileButton;
+}
 
 - (void)createMessagesTableView {
     self.messagesTableView = [[UITableView alloc] init];
@@ -109,6 +115,11 @@
 
 - (void)updateSearchResultsForSearchController:(nonnull UISearchController *)searchController {
     NSLog(@"hit this func");
+}
+
+- (void)moderatorMode {
+    CMMModeratorFeedVC *moderatorVC = [[CMMModeratorFeedVC alloc] init];
+    [self.navigationController pushViewController:moderatorVC animated:YES];
 }
 
 #pragma mark - TableView Delegate & Datasource
