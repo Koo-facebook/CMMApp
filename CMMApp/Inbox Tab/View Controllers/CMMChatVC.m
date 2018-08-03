@@ -242,10 +242,14 @@
     NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
     for (NSString *userID in blockedUsers) {
         if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
-            [self createAlert:@"This user has blocked you" message:@"You can no longer send messages in this chat."];
+            [self createAlert:@"This user has blocked you" message:@"You can no longer send messages in this chat"];
             self.writeMessageTextView.editable = NO;
             break;
         }
+    }
+    if (CMMUser.currentUser.strikes.intValue >= 3) {
+        [self createAlert:@"Your account is temporarily suspended" message:@"You can no longer send messages in this chat"];
+        self.writeMessageTextView.editable = NO;
     }
 }
 

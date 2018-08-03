@@ -71,7 +71,7 @@
 
 - (void)didPressYes {
     [[CMMParseQueryManager shared] deletePostFromParse:self.post];
-    //[[CMMParseQueryManager shared] addStrikeToUser:self.post.owner];
+    [[CMMParseQueryManager shared] addStrikeToUser:self.post.owner];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

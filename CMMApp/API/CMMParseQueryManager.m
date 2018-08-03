@@ -51,15 +51,17 @@
 }
 
 - (void)addStrikeToUser:(CMMUser *)user {
+    NSString *strikeKey = [user.objectId stringByAppendingString:@"-strikes"];
+    NSNumber *oldStrikes = [[NSUserDefaults standardUserDefaults] objectForKey:strikeKey];
     int newStrikes;
-    if (user.strikes) {
-        newStrikes = user.strikes.intValue + 1;
+    if (oldStrikes) {
+        newStrikes = oldStrikes.intValue + 1;
     } else {
         newStrikes = 1;
     }
     NSNumber *newStrikesNumber = [NSNumber numberWithInt:newStrikes];
-    [user setObject:newStrikesNumber forKey:@"strikes"];
-    [user saveInBackground];
+    [[NSUserDefaults standardUserDefaults] setObject:newStrikesNumber forKey:strikeKey];
+    
 }
 
 - (void)reportPost:(CMMPost *)post {

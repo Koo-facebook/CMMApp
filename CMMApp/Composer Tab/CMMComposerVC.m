@@ -16,6 +16,7 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UITextField *questionTextField;
 @property (strong, nonatomic) UITextField *descriptionTextField;
+@property (strong, nonatomic) ManaDropDownMenu *menu;
 @property (strong, nonatomic) NSString *categoryString;
 @property (strong, nonatomic) NSArray *categoryOptions;
 @end
@@ -28,8 +29,12 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStylePlain target:self action:@selector(didPressPost:)];
-    self.navigationItem.rightBarButtonItem = postButton;
+    if (CMMUser.currentUser.strikes.intValue >= 3) {
+        [self showAlert:@"Your account is temporarily suspended from posting on the feed" Message:@"" Sender:self];
+    } else {
+        UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStylePlain target:self action:@selector(didPressPost:)];
+        self.navigationItem.rightBarButtonItem = postButton;
+    }
 }
 
 - (void)configureViews {
@@ -72,12 +77,12 @@
 
     // create dropdown menu for category
     CGRect menuFrame = CGRectMake(minimumSideBuffer, 200, 150, 50);
-    ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
-    menu.heightOfRows = 50;
-    menu.delegate = self;
-    menu.numberOfRows = self.categoryOptions.count;
-    menu.textOfRows = self.categoryOptions;
-    [self.scrollView addSubview:menu];
+    self.menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
+    self.menu.heightOfRows = 50;
+    self.menu.delegate = self;
+    self.menu.numberOfRows = self.categoryOptions.count;
+    self.menu.textOfRows = self.categoryOptions;
+    [self.scrollView addSubview:self.menu];
 }
 
 - (void)didReceiveMemoryWarning {

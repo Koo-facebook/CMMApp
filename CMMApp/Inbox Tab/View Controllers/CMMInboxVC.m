@@ -236,7 +236,7 @@
 
 - (void)pullConversations {
     [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
-        if (conversations) {
+        if (conversations.count > 0) {
             self.conversations = [NSMutableArray arrayWithArray:conversations];
             CMMConversation *convo = conversations[0];
             NSLog(@"%@", convo.createdAt);

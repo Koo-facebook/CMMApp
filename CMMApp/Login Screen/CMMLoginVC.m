@@ -258,6 +258,15 @@
                 [userACL setPublicReadAccess:YES];
                 [userACL setPublicWriteAccess:YES];
                 CMMUser.currentUser.ACL = userACL;
+                NSString *strikeKey = [user.objectId stringByAppendingString:@"-strikes"];
+                NSNumber *oldStrikes = [[NSUserDefaults standardUserDefaults] objectForKey:strikeKey];
+                if (oldStrikes) {
+                    CMMUser.currentUser.strikes = oldStrikes;
+                    NSLog(@"User strikes = %@", oldStrikes);
+                } else {
+                    CMMUser.currentUser.strikes = @(0);
+                    NSLog(@"User strikes = 0");
+                }
                 [CMMUser.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                     NSLog(@"finished");
                 }];
