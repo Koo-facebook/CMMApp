@@ -89,7 +89,8 @@
         make.right.equalTo(self.cellInfoView.mas_right).with.offset(-datePadding.right);
     }];
     
-    self.cellInfoView.backgroundColor = [UIColor colorWithRed:(CGFloat)(77.0/255.0) green:(CGFloat)(179.0/255.0) blue:(CGFloat)(179.0/255.0) alpha:1];
+    self.cellInfoView.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
+    //self.cellInfoView.backgroundColor = [UIColor colorWithRed:(CGFloat)(77.0/255.0) green:(CGFloat)(179.0/255.0) blue:(CGFloat)(179.0/255.0) alpha:1];
     self.cellInfoView.layer.cornerRadius = 10;
     self.cellInfoView.clipsToBounds = YES;
     

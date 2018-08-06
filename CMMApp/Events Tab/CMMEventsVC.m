@@ -48,7 +48,8 @@
     self.eventList = [[NSArray alloc]init];
     //Navigation Bar Set-up
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"Events";
+    
+    //self.navigationItem.title = @"Events";
     
     [self.tableView registerClass:[EventsCell class] forCellReuseIdentifier:@"eventsCell"];
     
@@ -93,13 +94,16 @@
 }
 
 //Adding Pins
--(void) addingPins: (CLLocationCoordinate2D)location {
+-(void) addingPins: (CLLocationCoordinate2D)location withSubTitle: (NSString *)title{
     MKPointAnnotation *annotation = [MKPointAnnotation new];
     //CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(37.783333, -122.416667);
     annotation.coordinate = location;
-    annotation.title = @"Event";
+    //annotation.title = @"Event";
+    annotation.subtitle = title;
+    
     [self.mapView addAnnotation:annotation];
 }
+
 
 //Delegate function of mapView that will center map on user location
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
@@ -188,7 +192,7 @@
                     //NSLog(@"Latitude: %@", latitude);
                     //NSLog(@"Longitude: %@", longitude);
                     CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(latitude.floatValue,longitude.floatValue);
-                    [self addingPins:venueLocation];
+                    [self addingPins:venueLocation withSubTitle: event.title];
                 }
             ];
             }
@@ -217,17 +221,17 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    self.tableView.rowHeight = 100;
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+
+    //self.tableView.rowHeight = 250;
     
     [self.view addSubview:self.tableView];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //EventsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"eventsCell"];
     EventsCell *cell = [[EventsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"eventsCell"];
-    
     cell.event = self.eventList[indexPath.row];
-    //NSLog(@"%@", cell.event);
+    [cell configureEventCell:cell.event];
     
     return cell;
 }

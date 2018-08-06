@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UITextField *passwordTextField;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subheading;
-@property (nonatomic, strong) UIImageView *logoImage;
+@property (nonatomic, strong) UIImageView *backgroundImage;
 
 //@property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *animate;
@@ -34,14 +34,13 @@
     
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //[self createBackgroundImage];
     [self createLoginGradient];
     //self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(20.0/255.0) green:(CGFloat)(14.0/255.0) blue:(CGFloat)(33.0/255.0) alpha:1];
     // Create objects
     [self createScrollView];
 
     [self createTapGestureRecognizer:@selector(wholeViewTapped)];
-
-    
 }
     
 - (void)updateConstraints {
@@ -207,13 +206,14 @@
     [self.view addSubview:self.signUpButton];
 }
     
-    // Initalize Logo
--(void)createLogoImageView {
-    self.logoImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"DiscussionLogo"]];
-    self.logoImage.contentMode = UIViewContentModeScaleAspectFill;
-    [self.view addSubview:self.logoImage];
-}
-    
+//    // Initalize Logo
+//-(void)createBackgroundImage {
+//    self.backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
+//    //self.backgroundImage.contentMode = UIViewContentModeScaleAspectFill;
+//    self.backgroundImage.frame = CGRectMake(-5, -5, self.view.frame.size.width+20, self.view.frame.size.height+20);
+//    [self.view addSubview:self.backgroundImage];
+//}
+
     // Initalize Gradient
 - (void)createLoginGradient {
     // Do any additional setup after loading the view, typically from a nib.
@@ -243,7 +243,7 @@
     
     [scrollView configureViewAtIndexWithCompletion:^(UIView *view, NSInteger index, BOOL success) {
         
-        self.view.backgroundColor = [UIColor blueColor];
+        //self.view.backgroundColor = [UIColor colorWithRed:(20.0/255.0) green:(14.0/255.0) blue:(33.0/255.0) alpha:1];
         
         [self createSignUpButton];
         [self createLoginButton];

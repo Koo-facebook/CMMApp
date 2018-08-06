@@ -35,8 +35,8 @@
 - (void)configureViews {
     //Navigation Bar
     self.navigationItem.title = @"Compose";
-   
-    [self createBackgroundGradient];
+    self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
+    //[self createBackgroundGradient];
     self.categoryOptions = [CMMStyles getCategories];
     
     // scroll view
@@ -51,7 +51,7 @@
     int minimumSideBuffer = 15;
     int textCornerRadius = 5;
     CGRect questionFrame = CGRectMake(minimumSideBuffer, 20, self.view.frame.size.width - 2 * minimumSideBuffer, 40);
-    CGRect descriptionFrame = CGRectMake(minimumSideBuffer, 70, self.view.frame.size.width - 2 * minimumSideBuffer, 100);
+    CGRect descriptionFrame = CGRectMake(minimumSideBuffer, 70, self.view.frame.size.width - 2 * minimumSideBuffer, 200);
     self.questionTextField = [[UITextField alloc] initWithFrame:questionFrame];
     self.descriptionTextField = [[UITextField alloc] initWithFrame:descriptionFrame];
     self.questionTextField.font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:14.0];
@@ -59,8 +59,8 @@
     self.descriptionTextField.layer.cornerRadius = textCornerRadius;
     self.questionTextField.backgroundColor = [UIColor whiteColor];
     self.descriptionTextField.backgroundColor = [UIColor whiteColor];
-    self.questionTextField.placeholder = @"What's your stance?";
-    self.descriptionTextField.placeholder = @"Tell us why!";
+    self.questionTextField.placeholder = @"  What's your stance?";
+    self.descriptionTextField.placeholder = @"  Tell us why!";
     [self.scrollView addSubview:self.questionTextField];
     [self.scrollView addSubview:self.descriptionTextField];
     
@@ -71,7 +71,7 @@
     [tapView addGestureRecognizer:tapRecognizer];
 
     // create dropdown menu for category
-    CGRect menuFrame = CGRectMake(minimumSideBuffer, 200, 150, 50);
+    CGRect menuFrame = CGRectMake(minimumSideBuffer, 280, 150, 50);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
     menu.heightOfRows = 50;
     menu.delegate = self;

@@ -334,8 +334,7 @@
 				13A8D4422114CAD600C0C183 /* CMMModeratorPostVC.h */,
 				13A8D4402114CAD600C0C183 /* CMMModeratorPostVC.m */,
 			);
-			name = Moderation;
-			path = "New Group";
+			path = Moderation;
 			sourceTree = "<group>";
 		};
 		228588CB2100FD670087E455 /* View Controllers */ = {

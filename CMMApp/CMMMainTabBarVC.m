@@ -32,6 +32,7 @@
     CMMNewsfeedVC *firstViewController = [[CMMNewsfeedVC alloc] init];
     //self.view.tintColor = [UIColor blueColor];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
+    //firstNav.navigationBar.backgroundColor = [UIColor clearColor];
     firstNav.tabBarItem = firstTabBarItem;
     
  
@@ -52,8 +53,8 @@
     secondTabBarItem.iconView = [[CMMIconView alloc]initWithIcon:secondIconView title:secondLabel];
     
     CMMEventsVC *secondViewController = [[CMMEventsVC alloc] init];
-    UINavigationController *secondNav = [[UINavigationController alloc] initWithRootViewController:secondViewController];
-    secondNav.tabBarItem = secondTabBarItem;
+    //UINavigationController *secondNav = [[UINavigationController alloc] initWithRootViewController:secondViewController];
+    secondViewController.tabBarItem = secondTabBarItem;
     
     //Third View Controller
     CMMBounceAnimation *bounceAnimation_three = [[CMMBounceAnimation alloc] init];
@@ -106,7 +107,7 @@
     fifthNav.tabBarItem = fifthTabBarItem;
     
     
-    self.viewControllers = @[firstNav, secondNav, thirdNav, fourthNav, fifthNav];
+    self.viewControllers = @[firstNav, secondViewController, thirdNav, fourthNav, fifthNav];
     
     [super viewDidLoad];
 }
