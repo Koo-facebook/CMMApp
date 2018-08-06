@@ -8,13 +8,12 @@
 
 #import "CMMInboxVC.h"
 #import "CMMModeratorFeedVC.h"
+#import "AppDelegate.h"
+#import "CMMModerationController.h"
 
 @interface CMMInboxVC ()
 
 @property (strong, nonatomic) UISearchController *messagesSearchController;
-@property (strong, nonatomic) UITableView *messagesTableView;
-@property (strong, nonatomic) NSMutableArray *conversations;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSTimer *timer;
     
 @end
@@ -118,8 +117,9 @@
 }
 
 - (void)moderatorMode {
-    CMMModeratorFeedVC *moderatorVC = [[CMMModeratorFeedVC alloc] init];
-    [self.navigationController pushViewController:moderatorVC animated:YES];
+    CMMModerationController *tabBar = [[CMMModerationController alloc] init];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    delegate.window.rootViewController = tabBar;
 }
 
 #pragma mark - TableView Delegate & Datasource
@@ -235,7 +235,7 @@
 }
 
 - (void)pullConversations {
-    [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
+    [[CMMParseQueryManager shared] fetchConversationsReported:NO WithCompletion:^(NSArray *conversations, NSError *error) {
         if (conversations.count > 0) {
             self.conversations = [NSMutableArray arrayWithArray:conversations];
             CMMConversation *convo = conversations[0];

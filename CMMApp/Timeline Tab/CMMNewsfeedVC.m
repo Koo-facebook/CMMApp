@@ -17,16 +17,6 @@
 #import "CMMStyles.h"
 
 @interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SideMenuDelegate>
-/*@property (strong, nonatomic) NSArray *posts;
-@property (strong, nonatomic) NSArray *filteredPosts;
-@property (strong, nonatomic) NSArray *categories;
-@property (strong, nonatomic) UITableView *table;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) UISearchBar *searchBar;
-@property (strong, nonatomic) CLLocationManager *locationManager;
-@property (assign, nonatomic) BOOL isMoreDataLoading;
-@property (assign, nonatomic) int queryNumber;
-@property (assign, nonatomic) BOOL sortByTrending;*/
 @end
 
 @implementation CMMNewsfeedVC
@@ -41,11 +31,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)createBarButtonItem {
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
+    self.navigationItem.rightBarButtonItem = filterButton;
+}
+
 - (void)configureView {
     self.navigationItem.title = @"Newsfeed";
     
-    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
-    self.navigationItem.rightBarButtonItem = filterButton;
+    [self createBarButtonItem];
     self.sortByTrending = NO;
     self.isMoreDataLoading = NO;
     

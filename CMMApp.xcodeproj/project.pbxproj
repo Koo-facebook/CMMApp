@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0375CD9E2118BAF800622EB7 /* CMMModeratorInboxVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0375CD9D2118BAF800622EB7 /* CMMModeratorInboxVC.m */; };
+		0375CDA42118BEF400622EB7 /* CMMModerationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0375CDA32118BEF400622EB7 /* CMMModerationController.m */; };
+		0375CDA72118C16E00622EB7 /* CMMReportedChatVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0375CDA62118C16E00622EB7 /* CMMReportedChatVC.m */; };
 		03888A042113BDA00028E75A /* CMMModeratorFeedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */; };
 		03888A082113D09A0028E75A /* CMMModeratorPostVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A072113D09A0028E75A /* CMMModeratorPostVC.m */; };
 		03888A0B2114C1520028E75A /* CMMUserStrikes.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A0A2114C1520028E75A /* CMMUserStrikes.m */; };
-		03888A0E2114FCB90028E75A /* CMMModerationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A0D2114FCB90028E75A /* CMMModerationController.m */; };
 		03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D221014A02007629AD /* NewsfeedCell.m */; };
 		03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D621024F11007629AD /* PostDetailVC.m */; };
 		03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */; };
@@ -88,14 +90,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0375CD9C2118BAF800622EB7 /* CMMModeratorInboxVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModeratorInboxVC.h; sourceTree = "<group>"; };
+		0375CD9D2118BAF800622EB7 /* CMMModeratorInboxVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorInboxVC.m; sourceTree = "<group>"; };
+		0375CDA22118BEF400622EB7 /* CMMModerationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModerationController.h; sourceTree = "<group>"; };
+		0375CDA32118BEF400622EB7 /* CMMModerationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModerationController.m; sourceTree = "<group>"; };
+		0375CDA52118C16E00622EB7 /* CMMReportedChatVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMReportedChatVC.h; sourceTree = "<group>"; };
+		0375CDA62118C16E00622EB7 /* CMMReportedChatVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMReportedChatVC.m; sourceTree = "<group>"; };
 		03888A022113BDA00028E75A /* CMMModeratorFeedVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModeratorFeedVC.h; sourceTree = "<group>"; };
 		03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorFeedVC.m; sourceTree = "<group>"; };
 		03888A062113D09A0028E75A /* CMMModeratorPostVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModeratorPostVC.h; sourceTree = "<group>"; };
 		03888A072113D09A0028E75A /* CMMModeratorPostVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorPostVC.m; sourceTree = "<group>"; };
 		03888A092114C1520028E75A /* CMMUserStrikes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CMMUserStrikes.h; path = CMMApp/Models/CMMUserStrikes.h; sourceTree = SOURCE_ROOT; };
 		03888A0A2114C1520028E75A /* CMMUserStrikes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CMMUserStrikes.m; path = CMMApp/Models/CMMUserStrikes.m; sourceTree = SOURCE_ROOT; };
-		03888A0C2114FCB90028E75A /* CMMModerationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModerationController.h; sourceTree = "<group>"; };
-		03888A0D2114FCB90028E75A /* CMMModerationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModerationController.m; sourceTree = "<group>"; };
 		03CDE9D121014A02007629AD /* NewsfeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsfeedCell.h; sourceTree = "<group>"; };
 		03CDE9D221014A02007629AD /* NewsfeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsfeedCell.m; sourceTree = "<group>"; };
 		03CDE9D521024F11007629AD /* PostDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailVC.h; sourceTree = "<group>"; };
@@ -202,12 +208,16 @@
 		03888A052113BDB10028E75A /* Moderation */ = {
 			isa = PBXGroup;
 			children = (
+				0375CDA52118C16E00622EB7 /* CMMReportedChatVC.h */,
+				0375CDA62118C16E00622EB7 /* CMMReportedChatVC.m */,
+				0375CD9C2118BAF800622EB7 /* CMMModeratorInboxVC.h */,
+				0375CD9D2118BAF800622EB7 /* CMMModeratorInboxVC.m */,
 				03888A022113BDA00028E75A /* CMMModeratorFeedVC.h */,
 				03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */,
 				03888A062113D09A0028E75A /* CMMModeratorPostVC.h */,
 				03888A072113D09A0028E75A /* CMMModeratorPostVC.m */,
-				03888A0C2114FCB90028E75A /* CMMModerationController.h */,
-				03888A0D2114FCB90028E75A /* CMMModerationController.m */,
+				0375CDA22118BEF400622EB7 /* CMMModerationController.h */,
+				0375CDA32118BEF400622EB7 /* CMMModerationController.m */,
 			);
 			path = Moderation;
 			sourceTree = "<group>";
@@ -601,13 +611,13 @@
 				22F9EC472100168F002ADD9D /* CMMChatVC.m in Sources */,
 				22F9EC3B20FEDB80002ADD9D /* CMMLoginVC.m in Sources */,
 				22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */,
+				0375CDA42118BEF400622EB7 /* CMMModerationController.m in Sources */,
 				03CDE9E32106A17F007629AD /* CMMStyles.m in Sources */,
 				136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */,
 				22F9EC3220FEB630002ADD9D /* CMMEventsVC.m in Sources */,
 				136E306F21064ECA009B4180 /* ProfileCell.m in Sources */,
 				22F9EC1A20FEB256002ADD9D /* CMMMessage.m in Sources */,
 				22F9EBFC20FEAEAA002ADD9D /* main.m in Sources */,
-				03888A0E2114FCB90028E75A /* CMMModerationController.m in Sources */,
 				22F9EC4421000CA9002ADD9D /* CMMConversationCell.m in Sources */,
 				03888A082113D09A0028E75A /* CMMModeratorPostVC.m in Sources */,
 				22F9EC1720FEB21C002ADD9D /* CMMEvent.m in Sources */,
@@ -625,10 +635,12 @@
 				2233AD3D2106AADE00F72593 /* CMMBubbleView.m in Sources */,
 				136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */,
 				22F9EC1420FEB1EE002ADD9D /* CMMConversation.m in Sources */,
+				0375CDA72118C16E00622EB7 /* CMMReportedChatVC.m in Sources */,
 				03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */,
 				22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */,
 				03888A0B2114C1520028E75A /* CMMUserStrikes.m in Sources */,
 				03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */,
+				0375CD9E2118BAF800622EB7 /* CMMModeratorInboxVC.m in Sources */,
 				22F9EC4A21004F33002ADD9D /* CMMChatCell.m in Sources */,
 				22F9EC2620FEB30E002ADD9D /* CMMVote.m in Sources */,
 				03888A042113BDA00028E75A /* CMMModeratorFeedVC.m in Sources */,

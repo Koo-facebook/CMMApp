@@ -1,13 +1,13 @@
 //
-//  CMMModerationController.h
+//  CMMModeratorInboxVC.h
 //  CMMApp
 //
 //  Created by Olivia Jorasch on 8/6/18.
 //  Copyright © 2018 Omar Rasheed. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CMMInboxVC.h"
 
-@interface CMMModerationController : UITabBarController
+@interface CMMModeratorInboxVC : CMMInboxVC
 
 @end

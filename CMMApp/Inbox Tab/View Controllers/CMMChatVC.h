@@ -15,7 +15,8 @@
 #import "CMMProfileVC.h"
 
 @interface CMMChatVC : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIScrollViewDelegate, UITextViewDelegate>
-
+@property (nonatomic, strong) UITableView *chatTableView;
+@property (nonatomic, strong) UILabel *topicLabel;
 @property BOOL isUserOne;
 @property (nonatomic, strong) CMMConversation *conversation;
 

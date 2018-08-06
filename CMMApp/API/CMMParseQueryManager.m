@@ -199,13 +199,17 @@
     }];
 }
 
-- (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error)) completion {
+- (void)fetchConversationsReported:(BOOL)reported WithCompletion:(void(^)(NSArray *conversations, NSError *error)) completion {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(user1 = %@) OR (user2 = %@)", CMMUser.currentUser, CMMUser.currentUser];
     PFQuery *query = [PFQuery queryWithClassName:@"CMMConversation" predicate:predicate];
     [query orderByDescending:@"lastMessageSent"];
     [query includeKey:@"user1"];
     [query includeKey:@"user2"];
     [query includeKey:@"userWhoLeft"];
+    if (reported) {
+        [query whereKeyExists:@"reportedUsers"];
+        [query whereKey:@"reportedUsers" notContainedIn:@[@[]]];
+    }
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable conversations, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
