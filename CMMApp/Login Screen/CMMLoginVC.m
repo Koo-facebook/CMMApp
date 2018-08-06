@@ -7,6 +7,7 @@
 //
 
 #import "CMMLoginVC.h"
+#import "CMMRegisterVC.h"
 #import <CMMKit/FullScrollView.h>
 #import <Lottie/Lottie.h>
 
@@ -332,11 +333,27 @@
                 [self createAlert:@"Sign Up Error" message:@"There was a problem signing up. Please try again"];
             } else {
                 NSLog(@"User registered successfully");
-                [self loginUser];
-//                CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
-//                [self presentViewController:tabBarVC animated:YES completion:^{}];
+                [CMMUser logInWithUsernameInBackground:self.usernameTextField.text password:self.passwordTextField.text block:^(PFUser * user, NSError *  error) {
+                    //                NSLog(@"User logged in successfully");
+                    PFACL *userACL = [PFACL ACLWithUser:CMMUser.currentUser];
+                    [userACL setPublicReadAccess:YES];
+                    [userACL setPublicWriteAccess:YES];
+                    CMMUser.currentUser.ACL = userACL;
+                    [CMMUser.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                        NSLog(@"finished");
+                    }];
+                    if (CMMUser.currentUser.online == YES) {
+                        //[self createAlert:@"Error" message:@"User already logged in"];
+                        CMMRegisterVC *registerVC = [[CMMRegisterVC alloc] init];
+                        [self presentViewController:registerVC animated:YES completion:^{}];
+                    } else {
+                        CMMUser.currentUser.online = YES;
+                        CMMRegisterVC *registerVC = [[CMMRegisterVC alloc] init];
+                        [self presentViewController:registerVC animated:YES completion:^{}];
+                    }
+                }];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             }
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }
 }

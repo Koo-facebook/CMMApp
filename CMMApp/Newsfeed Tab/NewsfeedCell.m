@@ -10,7 +10,7 @@
 #import <DateTools.h>
 #import "Masonry.h"
 
-@interface NewsfeedCell ()
+@interface 
 
 @property (strong,nonatomic) UIView *cellInfoView;
 
@@ -25,18 +25,18 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
 - (void)configureCell:(CMMPost *)post {
-
+    
     //self.contentView.backgroundColor = [UIColor colorWithRed:(CGFloat)(245.0/255.0) green:(CGFloat)(247.0/255.0) blue:(CGFloat)(248.0/255.0) alpha:1];
     self.contentView.backgroundColor = [UIColor whiteColor];
     
     self.cellInfoView = [[UIView alloc]init];//WithFrame:CGRectMake(10, 10, (self.contentView.frame.size.width), 110)];
     [self.contentView addSubview:self.cellInfoView];
-
+    
     self.post = post;
     
     UILabel *titleLabel = [[UILabel alloc] init];
@@ -98,3 +98,4 @@
     //[self.cellInfoView.layer setBorderWidth:2.0f];
 }
 @end
+

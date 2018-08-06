@@ -24,16 +24,6 @@ static NSUInteger const kCMDefaultSelected = 0;
 @property (strong, nonatomic) CMTabbarView *tabbarView;
 @property (strong, nonatomic) NSArray *datas;
 
-/*@property (strong, nonatomic) NSArray *posts;
- @property (strong, nonatomic) NSArray *filteredPosts;
- @property (strong, nonatomic) NSArray *categories;
- @property (strong, nonatomic) UITableView *table;
- @property (strong, nonatomic) UIRefreshControl *refreshControl;
- @property (strong, nonatomic) UISearchBar *searchBar;
- @property (strong, nonatomic) CLLocationManager *locationManager;
- @property (assign, nonatomic) BOOL isMoreDataLoading;
- @property (assign, nonatomic) int queryNumber;
- @property (assign, nonatomic) BOOL sortByTrending;*/
 @end
 
 @implementation CMMNewsfeedVC
@@ -41,35 +31,32 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureView];
-    [self.view insertSubview:self.table belowSubview:self.tabbarView];
     [self.view addSubview:self.tabbarView];
-    self.datas = @[@"Recent",@"Immigration",@"Education"];
-    //[self.view insertSubview:self.table belowSubview:self.tabbarView];
+    self.categories = [CMMStyles getCategories];
+    [self.view insertSubview:self.table belowSubview:self.tabbarView];
     //[self.view addSubview:self.tabbarView];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.datas = @[@"Recent",@"Immigration",@"Education",@"National Security",@"Local Politics",@"Social Issues",@"Healthcare",@"Criminal Issues"];
-        //[self.collectionView reloadData];
+        self.datas = self.categories;
         [self.tabbarView reloadData];
-        //self.collectionView.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
+        //self.table.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
     });
-    
-    
 }
 
 - (void)configureView {
     self.navigationItem.title = @"Newsfeed";
     
-    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
-    self.navigationItem.rightBarButtonItem = filterButton;
-    NSLog(@"Navigation Bar Height:%f",self.navigationController.navigationBar.frame.size.height);
+//    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
+//    self.navigationItem.rightBarButtonItem = filterButton;
+    
     self.sortByTrending = NO;
     self.isMoreDataLoading = NO;
     
     // create and populate table view
     NSInteger tabbarBottom = self.navigationController.navigationBar.frame.size.height+ UIApplication.sharedApplication.statusBarFrame.size.height;
-    CGRect tableViewFrame = CGRectMake(0,tabbarBottom, self.view.frame.size.width, self.view.frame.size.height-tabbarBottom);
+    CGRect tableViewFrame = CGRectMake(0,self.tabbarView.frame.size.height, self.view.frame.size.width, self.view.frame.size.height-tabbarBottom);
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
-   // [self.table setContentOffset:CGPointMake(0, 45) animated:YES];
+   // [self.table setContentOffset:CGPointMake(0, -45) animated:YES];
+    self.table.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.table.rowHeight = UITableViewAutomaticDimension;
     self.table.estimatedRowHeight = 55;
     [self.table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -79,31 +66,23 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.queryNumber = 20;
     self.categories = [CMMStyles getCategories];
     
-    // create side menu
-    NewsfeedSideMenuVC *sideMenuVC = self.sideMenuController.rightViewController;
-    sideMenuVC.delegate = self;
-    sideMenuVC.sortByTrending = self.sortByTrending;
-    [self fetchPosts];
-    
+
     // add search bar to table view
-    CGRect searchFrame = CGRectMake(self.table.frame.origin.x, self.table.frame.origin.y, self.view.frame.size.width, 45);
+    CGRect searchFrame = CGRectMake(self.table.frame.origin.x, self.table.frame.origin.y+45, self.view.frame.size.width, 45);
     self.searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
+    self.searchBar.hidden = YES;
     self.searchBar.delegate = self;
     //[self.table addSubview:self.searchBar];
     self.table.tableHeaderView = self.searchBar;
     [self.view addSubview:self.table];
-    //    [self.view insertSubview:self.table belowSubview:_tabbarView];
-    //    [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.top.equalTo(self.tabbarView.mas_bottom);
-    //        make.width.equalTo(@(self.view.frame.size.width));
-    //    }];
-    
+
     // add refresh control to table view
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
     [self.table insertSubview:self.refreshControl atIndex:0];
 }
 
+//QUERY CODE
 - (void)fetchPosts {
     [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending Reported:NO WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
@@ -138,10 +117,18 @@ static NSUInteger const kCMDefaultSelected = 0;
     }];
 }
 
+- (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending {
+    self.categories = categories;
+    self.sortByTrending = trending;
+    [self fetchPosts];
+    [self.table reloadData];
+}
+
 - (void)didPressFilter:(id)sender {
     [self.sideMenuController showRightViewAnimated];
 }
 
+//SEARCH BAR CODE
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length != 0) {
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
@@ -166,6 +153,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self.searchBar resignFirstResponder];
 }
 
+//TABLEVIEW CODE
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NewsfeedCell *cell = [[NewsfeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"feedCell"];
@@ -188,11 +176,11 @@ static NSUInteger const kCMDefaultSelected = 0;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return 150;
-//}
+
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    //When scrolling starts, present search bar
+    self.searchBar.hidden = NO;
     if(!self.isMoreDataLoading){
         // Calculate the position of one screen length before the bottom of the results
         int scrollViewContentHeight = self.table.contentSize.height;
@@ -224,28 +212,22 @@ static NSUInteger const kCMDefaultSelected = 0;
     return [[NSArray alloc] initWithObjects:report, nil];
 }
 
-- (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending {
-    self.categories = categories;
-    self.sortByTrending = trending;
-    [self fetchPosts];
-    [self.table reloadData];
-}
+
+
+//TOP TABBAR CODE
 - (CMTabbarView *)tabbarView
 {
     if (!_tabbarView) {
         _tabbarView = [[CMTabbarView alloc] initWithFrame:CGRectMake(0, (self.navigationController.navigationBar.frame.size.height+ UIApplication.sharedApplication.statusBarFrame.size.height), self.view.bounds.size.width, 45)];
-        _tabbarView.backgroundColor = [UIColor blueColor];
+        _tabbarView.backgroundColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
         _tabbarView.delegate = self;
         _tabbarView.dataSource = self;
         _tabbarView.defaultSelectedIndex = kCMDefaultSelected;
         _tabbarView.indicatorScrollType = CMTabbarIndicatorScrollTypeSpring;
-        //        _tabbarView.tabPadding = 5.0f;
-        //        _tabbarView.selectionType = CMTabbarSelectionBox;
         //_tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[UIColor orangeColor]};
         //_tabbarView.normalAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
         //_tabbarView.selectedAttributes = @{NSForegroundColorAttributeName:[UIColor orangeColor]};
-        //_tabbarView.needTextGradient = false;
-        //[self.view addSubview:_tabbarView];
+
         
     }
     return _tabbarView;
@@ -276,11 +258,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     }
 }
 
-
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    [_tabbarView setTabbarOffsetX:(scrollView.contentOffset.x)/self.view.bounds.size.width];
-//}
+//LOCATION-BASED CODE
 
 - (void)fetchNearbyPosts {
     [[CMMParseQueryManager shared] fetchNearbyPosts:0 latitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude withCompletion:^(NSArray * _Nullable posts, NSError * _Nullable error) {

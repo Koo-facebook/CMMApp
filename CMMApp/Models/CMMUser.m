@@ -11,17 +11,18 @@
 @implementation CMMUser
     
 @dynamic profileImage;
-@dynamic preferences;
+@dynamic interests;
 @dynamic online;
 @dynamic profileBio;
 @dynamic displayName;
 @dynamic strikes;
+@dynamic voter;
     
 + (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(void(^_Nullable)(BOOL succeeded, NSError * _Nullable error))completion{
     CMMUser *newUser = [CMMUser new];
     newUser.username = username;
     newUser.password = password;
-    newUser.preferences = [NSMutableArray new];
+    newUser.interests = [NSArray new];
     newUser.profileImage = [CMMUser getPFFileFromImage:[UIImage imageNamed:@"placeholderProfileImage"]];
     newUser.online = @NO;
     newUser.strikes = @(0);
@@ -36,13 +37,15 @@
     }];
 }
 
-+ (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withInterests:(NSArray *_Nullable)interests andRegisteredVoter: (BOOL)voter withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     
     CMMUser *user = [CMMUser currentUser];
     user.profileImage = [self getPFFileFromImage:image];
     //user.username = PFUser.currentUser.username;
     user.profileBio = bio;
     user.displayName = name;
+    user.interests = interests;
+    user.voter = voter;
     
     [user saveInBackgroundWithBlock: completion];
 }

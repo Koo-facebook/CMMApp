@@ -15,6 +15,9 @@
 
 @interface CMMEditProfileVC () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
+@property (strong, nonatomic) NSMutableArray *interests;
+@property (strong, nonatomic) NSArray *chosenInterests;
+
 @end
 
 @implementation CMMEditProfileVC
@@ -23,6 +26,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    //Arrays
+    self.interests = [[NSMutableArray alloc]init];
+    self.chosenInterests = [[NSArray alloc]init];
     //[self createLabel];
     [self createCancelButton];
     [self createEditButton];
@@ -147,9 +153,10 @@
             [self dismissViewControllerAnimated:YES completion:^{}];
         }];
     }*/
-    [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-        [self dismissViewControllerAnimated:YES completion:^{}];
+    [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withInterests:self.interests andRegisteredVoter:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        
     }];
+        [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 //IMAGEPICKER CODE

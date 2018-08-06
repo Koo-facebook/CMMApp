@@ -12,14 +12,15 @@
 @interface CMMUser : PFUser
 
 @property (nonatomic, strong) PFFile * _Nullable profileImage; // users profile image
-@property (nonatomic, strong) NSMutableArray *_Nullable preferences; // users set preferences (if any)
+@property (nonatomic, strong) NSArray *_Nullable interests;
 @property (nonatomic, strong) NSString *_Nullable profileBio;
 @property (nonatomic, strong) NSString *_Nullable displayName;
 @property (nonatomic, assign) BOOL online;
-@property (nonatomic, strong) NSNumber *strikes;
+@property (nonatomic, assign) BOOL voter;
+@property (nonatomic, strong) NSNumber *_Nullable strikes;
     
 + (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(void(^_Nullable)(BOOL succeeded, NSError * _Nullable error))completion;
-+ (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withInterests:(NSArray *_Nullable)interests andRegisteredVoter: (BOOL)voter withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 + (PFFile *_Nullable)getPFFileFromImage: (UIImage * _Nullable)image;
     
 @end
