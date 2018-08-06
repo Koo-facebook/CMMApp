@@ -137,10 +137,10 @@
 		13A8D3B22114029500C0C183 /* InterestsViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterestsViewCell.m; sourceTree = "<group>"; };
 		13A8D3B4211402AB00C0C183 /* AboutViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutViewCell.h; sourceTree = "<group>"; };
 		13A8D3B5211402AB00C0C183 /* AboutViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutViewCell.m; sourceTree = "<group>"; };
-		13A8D3BB21143BE300C0C183 /* phoneVote.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = phoneVote.json; path = ../../../../Downloads/phoneVote.json; sourceTree = "<group>"; };
-		13A8D3BD21143BEF00C0C183 /* resources.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = resources.json; path = ../../../../Downloads/resources.json; sourceTree = "<group>"; };
-		13A8D3BF21143BFD00C0C183 /* search.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = search.json; path = ../../../../Downloads/search.json; sourceTree = "<group>"; };
-		13A8D3C021143BFD00C0C183 /* circleFlag.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = circleFlag.json; path = ../../../../Downloads/circleFlag.json; sourceTree = "<group>"; };
+		13A8D3BB21143BE300C0C183 /* phoneVote.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = phoneVote.json; sourceTree = "<group>"; };
+		13A8D3BD21143BEF00C0C183 /* resources.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resources.json; sourceTree = "<group>"; };
+		13A8D3BF21143BFD00C0C183 /* search.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = search.json; sourceTree = "<group>"; };
+		13A8D3C021143BFD00C0C183 /* circleFlag.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = circleFlag.json; sourceTree = "<group>"; };
 		13A8D3C421143C1400C0C183 /* bodymovin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = bodymovin.js; sourceTree = "<group>"; };
 		13A8D3C521143C1400C0C183 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		13A8D3C621143C1400C0C183 /* data.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = data.xml; sourceTree = "<group>"; };
@@ -302,8 +302,7 @@
 				13A8D3C621143C1400C0C183 /* data.xml */,
 				13A8D3C721143C1400C0C183 /* demo.html */,
 			);
-			name = Vote;
-			path = ../../../../Downloads/Vote;
+			path = Vote;
 			sourceTree = "<group>";
 		};
 		13A8D3D821143C2100C0C183 /* Map */ = {
