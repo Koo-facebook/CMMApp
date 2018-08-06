@@ -79,7 +79,6 @@
     [self.navigationController popViewControllerAnimated:YES];
     [self.post setObject:@(0) forKey:@"reportedNumber"];
     [self.post saveInBackground];
-    NSLog(@"FHDISKFH");
 }
 
 @end
