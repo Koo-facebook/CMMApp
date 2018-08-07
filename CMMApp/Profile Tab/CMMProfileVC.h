@@ -18,5 +18,6 @@
 @property (strong, nonatomic) UIButton *logoutButton;
 @property (strong, nonatomic) UILabel *profileBioLabel;
 @property (nonatomic, weak) CMMUser *user;
+@property (nonatomic, weak) NSArray *interests;
 
 @end
