@@ -27,11 +27,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.tableView registerClass:[InterestsCell class] forCellReuseIdentifier:@"interestsCell"];
+    [self.tableViewOne registerClass:[InterestsCell class] forCellReuseIdentifier:@"interestsCell"];
     
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.numbers = [[NSArray alloc]initWithObjects:@"Social Issues",@"Education", @"Criminal Issues", @"Economics", @"Elections", @"Environment", @"Foreign Policy", @"Healthcare", @"Immigration", @"Local Politics", @"National Security", nil];
+    self.numbers = [[NSArray alloc]initWithObjects:@"Social Issues",@"Education", @"Criminal Issues", @"Economics", @"Global",@"Elections", @"Environment", @"Foreign Policy", @"Healthcare", @"Immigration", @"Local Politics", @"National Security", nil];
     self.interests = [[NSMutableArray alloc]init];
     self.chosenInterests = [[NSArray alloc]init];
     
@@ -42,10 +42,10 @@
     [self createNameTextField];
     [self createTapPhotoLabel];
     [self createProfileImageContainer];
-    [self createTableView];
+    [self createTableViewOne];
     [self updateConstraints];
     
-    [self.tableView reloadData];
+    [self.tableViewOne reloadData];
     [self createTapGestureRecognizer:@selector(photoTapped) with:self.profileImage];
     [self createTapGestureRecognizer:@selector(wholeViewTapped) with:self.view];
 }
@@ -95,13 +95,16 @@
         make.width.equalTo(@(self.tapPhotoLabel.intrinsicContentSize.width));
     }];
     
-    //TableView
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    //TableViewOne (left)
+    [self.tableViewOne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.profileBio.mas_bottom).offset(25);
         make.bottom.equalTo(self.view.mas_bottom);
         make.centerX.equalTo(self.view.mas_centerX);
+        //make.left.equalTo(self.view.mas_left);//.offset(25);
         make.width.equalTo(@(325));
     }];
+    
+
 }
 
 //CREATING ELEMENTS
@@ -159,6 +162,14 @@
     self.tapPhotoLabel.text = @"Tap to Add Profile Photo";
     [self.view addSubview:self.tapPhotoLabel];
 }
+//
+//-(void)createVoterQuestion {
+//    self.s
+//}
+//
+//-(void)createVoterSwitch {
+//
+//}
 
 //ACTIONS
 -(void)createTapGestureRecognizer:(SEL)selector with:(id)object {
@@ -237,15 +248,15 @@
 }
 
 //TABLEVIEW CODE
-- (void) createTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.rowHeight = 50;
+- (void) createTableViewOne {
+    self.tableViewOne = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableViewOne.delegate = self;
+    self.tableViewOne.dataSource = self;
+    self.tableViewOne.rowHeight = 50;
     //[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setEditing:YES animated:YES];
+    [self.tableViewOne setEditing:YES animated:YES];
     //self.tableView.backgroundColor = [UIColor purpleColor];
-    [self.view addSubview:self.tableView];
+    [self.view addSubview:self.tableViewOne];
 }
 
 
@@ -253,9 +264,9 @@
    InterestsCell *cell = [[InterestsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"interestsCell"];
     //cell.title.text = self.numbers[indexPath.row];
    // NSLog(@"%@",self.numbers[indexPath.row]);
-    [cell configureInterestsCell:self.numbers[indexPath.row]];
-    cell.tintColor = [UIColor redColor];
-    return cell;
+            [cell configureInterestsCell:self.numbers[indexPath.row]];
+            cell.tintColor = [UIColor redColor];
+            return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

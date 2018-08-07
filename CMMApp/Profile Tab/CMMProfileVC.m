@@ -19,6 +19,7 @@
 #import "Parse.h"
 #import "CMTabbarView.h"
 #import "ProfileCell.h"
+#import "InterestsViewCell.h"
 
 static NSUInteger const kCMDefaultSelected = 0;
 
@@ -39,9 +40,14 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+//    [[CMMParseQueryManager shared] updateUserInfo:PFUser.currentUser WithCompletion:^(PFObject *object, NSError *error) {
+//        PFUser *user = object;
+//        self.user = user;
+//    }];
    // [self.tableView registerClass:[NewsfeedCell class] forCellReuseIdentifier:@"feedCell"];
-
+    [self.collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:@"Cell1"];
+    [self.collectionView registerClass:[InterestsViewCell class] forCellWithReuseIdentifier:@"Cell2"];
+    
     self.profileFeed = [[NSArray alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"Profile";
@@ -50,10 +56,11 @@ static NSUInteger const kCMDefaultSelected = 0;
         self.user = PFUser.currentUser;
     }
     
+    
     [self createName];
     [self createBio];
    //[self createTableView];
-    if ([self.user.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+    if (self.user.objectId == CMMUser.currentUser.objectId) {
         [self createEditProfileButton];
         [self createLogoutButton];
     } else {
@@ -68,7 +75,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self.view addSubview:self.container];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.datas = @[@"About Me",@"My Posts"];
+        self.datas = @[@"About Me",@"My Interests",@"My Posts"];
         [self.collectionView reloadData];
         [self.tabbarView reloadData];
         self.collectionView.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
@@ -136,14 +143,26 @@ static NSUInteger const kCMDefaultSelected = 0;
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ProfileCell class]) forIndexPath:indexPath];
     if (indexPath.row == 0){
+        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell1" forIndexPath:indexPath];
         cell.title = PFUser.currentUser[@"profileBio"];
+        return cell;
+    }
+    else if (indexPath.row == 1) {
+        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell1" forIndexPath:indexPath];
+        NSArray *cat = PFUser.currentUser[@"interests"];
+        cell.title = cat[2];
+        cell.backgroundColor = [UIColor purpleColor];
+        //cell.interests = PFUser.currentUser[@"interests"];
+        return cell;
     }
     else{
-            cell.title = [NSString stringWithFormat:@"%ld",indexPath.row];
+        InterestsViewCell *cell2 = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell2" forIndexPath:indexPath];
+        //cell.title = [NSString stringWithFormat:@"%ld",indexPath.row];
+        cell2.backgroundColor = [UIColor lightGrayColor];
+        return cell2;
         }
-    return cell;
+    return 0;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -201,7 +220,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.usernameLabel.textColor = [UIColor blackColor];
     self.usernameLabel.font = [UIFont fontWithName:@"Arial" size:26];
     self.usernameLabel.numberOfLines = 1;
-    self.usernameLabel.text = self.user[@"displayedName"];
+    self.usernameLabel.text = PFUser.currentUser[@"displayName"];
     [self.view addSubview:self.usernameLabel];
 }
 

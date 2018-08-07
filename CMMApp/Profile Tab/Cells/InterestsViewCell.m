@@ -32,8 +32,9 @@
     }
     return self;
 }
+
 - (void) fetchPosts {
-    [[CMMParseQueryManager shared] fetchPosts:20 ByAuthor:self.user WithCompletion:^(NSArray *posts, NSError *error) {
+    [[CMMParseQueryManager shared] fetchPosts:20 ByAuthor:PFUser.currentUser WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts) {
             self.profileFeed = posts;
             [self.tableView reloadData];

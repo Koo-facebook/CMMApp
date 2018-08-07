@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "ParseUI.h"
 
 @interface CMMRegisterVC : UIViewController
@@ -19,6 +20,10 @@
 @property (strong,nonatomic) PFImageView *imageFile;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (strong, nonatomic) UIButton *submitButton;
-@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) UITableView *tableViewOne;
+@property (strong, nonatomic) UITableView *tableViewTwo;
 @property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) UILabel * voterQuestion;
+@property (strong, nonatomic) UISwitch * voterSwitch;
+
 @end

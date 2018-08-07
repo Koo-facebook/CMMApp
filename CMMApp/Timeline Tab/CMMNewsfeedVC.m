@@ -7,6 +7,7 @@
 //
 
 #import "CMMNewsfeedVC.h"
+#import "CMMProfileVC.h"
 #import "CMMPost.h"
 #import "NewsfeedCell.h"
 #import "Masonry.h"
@@ -33,6 +34,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self configureView];
     [self.view addSubview:self.tabbarView];
     self.categories = [CMMStyles getCategories];
+    [self reloadNewsfeedWithCategories:self.categories Trending:YES];
     [self.view insertSubview:self.table belowSubview:self.tabbarView];
     //[self.view addSubview:self.tabbarView];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -56,7 +58,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     CGRect tableViewFrame = CGRectMake(0,self.tabbarView.frame.size.height, self.view.frame.size.width, self.view.frame.size.height-tabbarBottom);
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
    // [self.table setContentOffset:CGPointMake(0, -45) animated:YES];
-    self.table.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    //self.table.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.table.rowHeight = UITableViewAutomaticDimension;
     self.table.estimatedRowHeight = 55;
     [self.table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -80,6 +82,21 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
     [self.table insertSubview:self.refreshControl atIndex:0];
+    
+    [self createProfileButton];
+}
+
+// Create Profile Button
+- (void)createProfileButton {
+    UIBarButtonItem *profileButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(profileButtonTapped)];
+    self.navigationItem.leftBarButtonItem = profileButton;
+}
+
+-(void)profileButtonTapped {
+        // PFUser.current() will now be nil
+        CMMProfileVC *profileVC = [[CMMProfileVC alloc]init];
+        profileVC.user = PFUser.currentUser;
+        [[self navigationController] pushViewController:profileVC animated:YES];
 }
 
 //QUERY CODE
