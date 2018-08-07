@@ -101,7 +101,7 @@
     [self.chatTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topicLabel.mas_bottom).offset(10);
         make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).offset(300);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-height - 50);
     }];
     
     self.submitButton.frame = CGRectMake(self.view.frame.size.width - 70, self.view.frame.size.height-height, 60, 40);

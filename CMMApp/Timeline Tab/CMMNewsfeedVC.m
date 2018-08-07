@@ -73,6 +73,8 @@
 }
 
 - (void)fetchPosts {
+    
+    [[CMMParseQueryManager shared] setUserStrikes:CMMUser.currentUser sender:self];
     [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending Reported:NO WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             

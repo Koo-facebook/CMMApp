@@ -71,14 +71,13 @@
             }
             [userStrikes deleteInBackground];
             [user saveInBackground];
-            NSString *detailMessage = [[@"You now have " stringByAppendingString:user.strikes] stringByAppendingString:@" strikes"];
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertMessage message:@"That would be weird." preferredStyle:(UIAlertControllerStyleAlert)];
+            NSString *detailMessage = [[@"You now have " stringByAppendingFormat:@"%@", user.strikes] stringByAppendingString:@" strikes"];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertMessage message:detailMessage preferredStyle:(UIAlertControllerStyleAlert)];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             }];
             [alert addAction:okAction];
             [sender presentViewController:alert animated:YES completion:^{
             }];
-            return;
             
         }
     }];

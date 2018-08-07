@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSString *reportReason;
 @property (strong, nonatomic) UIButton *submitButton;
 @property (strong, nonatomic) UIView *moderatorView;
+@property (strong, nonatomic) UIView *upperView;
 @end
 
 @implementation CMMModeratorPostVC
@@ -111,11 +112,13 @@
     self.menu.delegate = self;
     self.menu.numberOfRows = self.reportOptions.count;
     self.menu.textOfRows = self.reportOptions;
-    self.menu.title = @"No";
+    self.menu.title = @"Yes/No";
     [self.view addSubview:self.menu];
     
+    self.upperView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 310)];
+    [self.view addSubview:self.upperView];
     UITapGestureRecognizer *viewTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAwayFromMenu)];
-    [self.view addGestureRecognizer:viewTapRecognizer];
+    [self.upperView addGestureRecognizer:viewTapRecognizer];
     
     self.reportReasons = @[@"Hate Speech", @"Threats of Violence", @"Sexual Content", @"Spam"];
     self.menu2 = [[ManaDropDownMenu alloc] init];
