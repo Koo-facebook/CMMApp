@@ -18,6 +18,7 @@
 @dynamic userTwoRead;
 @dynamic reportedUsers;
 @dynamic userWhoLeft;
+@dynamic reportedReason;
     
 + (nonnull NSString *)parseClassName {
     return @"CMMConversation";
@@ -31,7 +32,6 @@
     newConversation.topic = topic;
     newConversation.userTwoRead = NO;
     newConversation.userOneRead = YES;
-    newConversation.reportedUsers = [[NSMutableArray alloc] init];
     
     [newConversation saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         completion(succeeded, error, newConversation);

@@ -141,7 +141,12 @@
             return;
         }
     }
-    [self.conversation addObject:otherUser forKey:@"reportedUsers"];
+    if (self.conversation.reportedUsers) {
+        [self.conversation addObject:otherUser forKey:@"reportedUsers"];
+    } else {
+        NSArray *reportedUsers = [[NSMutableArray alloc] init];
+        [self.conversation setObject:reportedUsers forKey:@"reportedUsers"];
+    }
     [self.conversation saveInBackground];
 }
 

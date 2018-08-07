@@ -12,6 +12,7 @@
 
 @dynamic userID;
 @dynamic strikes;
+@dynamic reportedReasons;
 
 + (nonnull NSString *)parseClassName {
     return @"CMMUserStrikes";

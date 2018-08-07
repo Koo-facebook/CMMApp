@@ -51,22 +51,40 @@
     }];
 }
 
-- (void)setUserStrikes:(CMMUser *)user {
+- (void)setUserStrikes:(CMMUser *)user sender:(id)sender {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMUserStrikes"];
     [query whereKey:@"userID" equalTo:user.objectId];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (objects.count > 0) {
             CMMUserStrikes *userStrikes = objects[0];
-            [user setObject:userStrikes.strikes forKey:@"strikes"];
-        } else {
-            NSNumber *zero = @(0);
-            [user setObject:zero forKey:@"strikes"];
+            [user setObject:@(user.strikes.intValue + userStrikes.strikes.intValue) forKey:@"strikes"];
+            NSMutableString *alertMessage = [[NSMutableString alloc] initWithString:@"Your content has been reported"];
+            BOOL firstReason = YES;
+            for (NSString *reason in userStrikes.reportedReasons) {
+                if (!firstReason) {
+                    [alertMessage stringByAppendingString:@" and "];
+                } else {
+                    [alertMessage stringByAppendingString:@" for "];
+                }
+                [alertMessage stringByAppendingString:reason];
+                firstReason = NO;
+            }
+            [userStrikes deleteInBackground];
+            [user saveInBackground];
+            NSString *detailMessage = [[@"You now have " stringByAppendingString:user.strikes] stringByAppendingString:@" strikes"];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertMessage message:@"That would be weird." preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            }];
+            [alert addAction:okAction];
+            [sender presentViewController:alert animated:YES completion:^{
+            }];
+            return;
+            
         }
-        [user saveInBackground];
     }];
 }
 
-- (void)addStrikeToUser:(CMMUser *)user {
+- (void)addStrikeToUser:(CMMUser *)user forReason:(NSString *)reason {
     PFQuery *query = [PFQuery queryWithClassName:@"CMMUserStrikes"];
     [query whereKey:@"userID" equalTo:user.objectId];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -74,6 +92,7 @@
             CMMUserStrikes *userStrikes = objects[0];
             NSNumber *newStrikes = [NSNumber numberWithInt:(userStrikes.strikes.intValue + 1)];
             [userStrikes setObject:newStrikes forKey:@"strikes"];
+            [userStrikes addObject:reason forKey:@"reportedReasons"];
             [userStrikes saveInBackground];
         } else {
             NSNumber *newStrikes = @(1);
@@ -200,8 +219,13 @@
 }
 
 - (void)fetchConversationsReported:(BOOL)reported WithCompletion:(void(^)(NSArray *conversations, NSError *error)) completion {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(user1 = %@) OR (user2 = %@)", CMMUser.currentUser, CMMUser.currentUser];
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMConversation" predicate:predicate];
+    PFQuery *query;
+    if (!reported) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(user1 = %@) OR (user2 = %@)", CMMUser.currentUser, CMMUser.currentUser];
+        query = [PFQuery queryWithClassName:@"CMMConversation" predicate:predicate];
+    } else {
+        query = [PFQuery queryWithClassName:@"CMMConversation"];
+    }
     [query orderByDescending:@"lastMessageSent"];
     [query includeKey:@"user1"];
     [query includeKey:@"user2"];

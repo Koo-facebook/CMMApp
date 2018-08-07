@@ -161,7 +161,13 @@
             } else {
                 reportedUser = chat.user1;
             }
-            [chat addObject:reportedUser forKey:@"reportedUsers"];
+            if (chat.reportedUsers) {
+                [chat addObject:reportedUser forKey:@"reportedUsers"];
+            } else {
+                NSArray *reportedUsers = [[NSMutableArray alloc] init];
+                [chat setObject:reportedUsers forKey:@"reportedUsers"];
+            }
+            
             [chat saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 if (succeeded) {
                     NSLog(@"Updated chat");

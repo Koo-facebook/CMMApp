@@ -21,8 +21,8 @@
 - (void)fetchPosts:(int)number ByAuthor:(CMMUser *)user WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 - (void)fetchUsersPostsWithCompletion:(CMMUser *)user withCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 - (void)addBlockedUser:(CMMUser *)user Sender:sender;
-- (void)addStrikeToUser:(CMMUser *)user;
-- (void)setUserStrikes:(CMMUser *)user;
+- (void)addStrikeToUser:(CMMUser *)user forReason:(NSString *)reason;
+- (void)setUserStrikes:(CMMUser *)user sender:(id)sender;
 - (void)reportPost:(CMMPost *)post;
 - (void)deletePostFromParse:(CMMPost *)post;
 - (void)deleteMessageForConversation: (CMMConversation *)conversation withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error)) completion;

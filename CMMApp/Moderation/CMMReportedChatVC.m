@@ -126,9 +126,15 @@
 }
 
 - (void)submitReport {
-    for (CMMUser *user in self.strikeUsers) {
-        [[CMMParseQueryManager shared] addStrikeToUser:user];
+    if (self.strikeUsers.count > 0) {
+        for (CMMUser *user in self.strikeUsers) {
+            [[CMMParseQueryManager shared] addStrikeToUser:user forReason:self.reportReason];
+        }
+        [self.conversation setObject:self.reportReason forKey:@"reportedReason"];
+    } else {
+        [self.conversation removeObjectForKey:@"reportedUsers"];
     }
+    [self.conversation saveInBackground];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -141,9 +147,6 @@
 }
 
 - (void)setupSendMessageTextField {
-}
-
-- (void)viewWillAppear:(BOOL)animated {
 }
 
 - (void)setupMessagingTextView {
@@ -163,15 +166,5 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

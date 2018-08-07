@@ -258,7 +258,7 @@
                 [userACL setPublicReadAccess:YES];
                 [userACL setPublicWriteAccess:YES];
                 CMMUser.currentUser.ACL = userACL;
-                [[CMMParseQueryManager shared] setUserStrikes:CMMUser.currentUser];
+                [[CMMParseQueryManager shared] setUserStrikes:CMMUser.currentUser sender:self];
                 [CMMUser.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                     NSLog(@"finished");
                 }];
