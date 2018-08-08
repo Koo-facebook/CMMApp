@@ -7,6 +7,7 @@
 //
 
 #import "CMMNewsfeedVC.h"
+#import "CMMProfileVC.h"
 #import "CMMPost.h"
 #import "NewsfeedCell.h"
 #import "Masonry.h"
@@ -15,8 +16,17 @@
 #import <LGSideMenuController/UIViewController+LGSideMenuController.h>
 #import "NewsfeedSideMenuVC.h"
 #import "CMMStyles.h"
+#import "CMTabbarView.h"
+
+static NSUInteger const kCMDefaultSelected = 0;
+
+@interface CMMNewsfeedVC () <CMTabbarViewDelegate,CMTabbarViewDatasouce,UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SideMenuDelegate>
+
+@property (strong, nonatomic) CMTabbarView *tabbarView;
+@property (strong, nonatomic) NSArray *datas;
 
 @interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SideMenuDelegate>
+
 @end
 
 @implementation CMMNewsfeedVC
@@ -24,11 +34,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureView];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self.view addSubview:self.tabbarView];
+    self.categories = [CMMStyles getCategories];
+    [self reloadNewsfeedWithCategories:self.categories Trending:YES];
+    [self.view insertSubview:self.table belowSubview:self.tabbarView];
+    //[self.view addSubview:self.tabbarView];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.datas = self.categories;
+        [self.tabbarView reloadData];
+        //self.table.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
+    });
 }
 
 - (void)createBarButtonItem {
@@ -40,38 +55,57 @@
     self.navigationItem.title = @"Newsfeed";
     
     [self createBarButtonItem];
+
     self.sortByTrending = NO;
     self.isMoreDataLoading = NO;
     
     // create and populate table view
-    CGRect tableViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    NSInteger tabbarBottom = self.navigationController.navigationBar.frame.size.height+ UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGRect tableViewFrame = CGRectMake(0,self.tabbarView.frame.size.height, self.view.frame.size.width, self.view.frame.size.height-tabbarBottom);
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
+   // [self.table setContentOffset:CGPointMake(0, -45) animated:YES];
+    //self.table.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.table.rowHeight = UITableViewAutomaticDimension;
     self.table.estimatedRowHeight = 55;
+    [self.table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    self.table.backgroundColor = [UIColor whiteColor];
     self.table.delegate = self;
     self.table.dataSource = self;
     self.queryNumber = 20;
     self.categories = [CMMStyles getCategories];
     
-    // create side menu
-    NewsfeedSideMenuVC *sideMenuVC = self.sideMenuController.rightViewController;
-    sideMenuVC.delegate = self;
-    sideMenuVC.sortByTrending = self.sortByTrending;
-    [self fetchPosts];
-    
+
     // add search bar to table view
-    CGRect searchFrame = CGRectMake(0, 0, self.view.frame.size.width, 50);
+    CGRect searchFrame = CGRectMake(self.table.frame.origin.x, self.table.frame.origin.y+45, self.view.frame.size.width, 45);
     self.searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
+    self.searchBar.hidden = YES;
     self.searchBar.delegate = self;
+    //[self.table addSubview:self.searchBar];
     self.table.tableHeaderView = self.searchBar;
     [self.view addSubview:self.table];
-    
+
     // add refresh control to table view
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
     [self.table insertSubview:self.refreshControl atIndex:0];
+    
+    [self createProfileButton];
 }
 
+// Create Profile Button
+- (void)createProfileButton {
+    UIBarButtonItem *profileButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(profileButtonTapped)];
+    self.navigationItem.leftBarButtonItem = profileButton;
+}
+
+-(void)profileButtonTapped {
+        // PFUser.current() will now be nil
+        CMMProfileVC *profileVC = [[CMMProfileVC alloc]init];
+        profileVC.user = PFUser.currentUser;
+        [[self navigationController] pushViewController:profileVC animated:YES];
+}
+
+//QUERY CODE
 - (void)fetchPosts {
     
     [[CMMParseQueryManager shared] setUserStrikes:CMMUser.currentUser sender:self];
@@ -108,10 +142,18 @@
     }];
 }
 
+- (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending {
+    self.categories = categories;
+    self.sortByTrending = trending;
+    [self fetchPosts];
+    [self.table reloadData];
+}
+
 - (void)didPressFilter:(id)sender {
     [self.sideMenuController showRightViewAnimated];
 }
 
+//SEARCH BAR CODE
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length != 0) {
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
@@ -132,14 +174,19 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     self.searchBar.showsCancelButton = NO;
     self.searchBar.text = @"";
+    self.searchBar.backgroundColor = [UIColor whiteColor];
     [self.searchBar resignFirstResponder];
 }
 
+//TABLEVIEW CODE
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     NewsfeedCell *cell = [[NewsfeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"feedCell"];
+    //NSInteger index = indexPath.row - 1;
     CMMPost *post = self.filteredPosts[indexPath.row];
     [cell configureCell:post];
     return cell;
+    
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -154,7 +201,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    //When scrolling starts, present search bar
+    self.searchBar.hidden = NO;
     if(!self.isMoreDataLoading){
         // Calculate the position of one screen length before the bottom of the results
         int scrollViewContentHeight = self.table.contentSize.height;
@@ -186,12 +237,53 @@
     return [[NSArray alloc] initWithObjects:report, nil];
 }
 
-- (void)reloadNewsfeedWithCategories:(NSArray *)categories Trending:(BOOL)trending {
-    self.categories = categories;
-    self.sortByTrending = trending;
-    [self fetchPosts];
-    [self.table reloadData];
+
+
+//TOP TABBAR CODE
+- (CMTabbarView *)tabbarView
+{
+    if (!_tabbarView) {
+        _tabbarView = [[CMTabbarView alloc] initWithFrame:CGRectMake(0, (self.navigationController.navigationBar.frame.size.height+ UIApplication.sharedApplication.statusBarFrame.size.height), self.view.bounds.size.width, 45)];
+        _tabbarView.backgroundColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
+        _tabbarView.delegate = self;
+        _tabbarView.dataSource = self;
+        _tabbarView.defaultSelectedIndex = kCMDefaultSelected;
+        _tabbarView.indicatorScrollType = CMTabbarIndicatorScrollTypeSpring;
+        //_tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[UIColor orangeColor]};
+        //_tabbarView.normalAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
+        //_tabbarView.selectedAttributes = @{NSForegroundColorAttributeName:[UIColor orangeColor]};
+
+        
+    }
+    return _tabbarView;
 }
+
+
+- (NSArray<NSString *> *)tabbarTitlesForTabbarView:(CMTabbarView *)tabbarView
+{
+    return self.datas;
+}
+
+- (void)tabbarView:(CMTabbarView *)tabbarView1 didSelectedAtIndex:(NSInteger)index
+{
+    if([self.datas[index] isEqual:@"Trending"]){
+        self.categories = [CMMStyles getCategories];
+        NSLog(@"Category picked:%@", self.categories);
+        [self reloadNewsfeedWithCategories:self.categories Trending:YES];
+    }
+    else if ([self.datas[index] isEqual:@"Recent"]){
+        self.categories = [CMMStyles getCategories];
+        NSLog(@"Category picked:%@", self.categories);
+        [self reloadNewsfeedWithCategories:self.categories Trending:NO];
+    }
+    else {
+        NSArray *categoryPicked = [[NSArray alloc]initWithObjects:self.datas[index], nil];
+        NSLog(@"Category picked:%@", categoryPicked);
+        [self reloadNewsfeedWithCategories:categoryPicked Trending:NO];
+    }
+}
+
+//LOCATION-BASED CODE
 
 - (void)fetchNearbyPosts {
     [[CMMParseQueryManager shared] fetchNearbyPosts:0 latitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude withCompletion:^(NSArray * _Nullable posts, NSError * _Nullable error) {

@@ -1,14 +1,14 @@
 //
-//  ProfileCell.m
-//  CMMApp
+//  TableViewCell.m
+//  CMMKit
 //
-//  Created by Keylonnie Miller on 7/23/18.
-//  Copyright © 2018 Omar Rasheed. All rights reserved.
+//  Created by Keylonnie Miller on 8/2/18.
+//  Copyright © 2018 Keylonnie Miller. All rights reserved.
 //
 
-#import "ProfileCell.h"
+#import "TableViewCell.h"
 
-@implementation ProfileCell
+@implementation TableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];

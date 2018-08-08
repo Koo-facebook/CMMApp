@@ -17,4 +17,6 @@
 @property (strong, nonatomic) UILabel *time;
 @property (strong, nonatomic) CMMEvent *event;
 
+- (void)configureEventCell:(CMMEvent*)event;
+
 @end

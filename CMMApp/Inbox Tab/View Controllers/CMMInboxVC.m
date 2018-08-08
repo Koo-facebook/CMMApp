@@ -244,9 +244,6 @@
     [[CMMParseQueryManager shared] fetchConversationsReported:NO WithCompletion:^(NSArray *conversations, NSError *error) {
         if (conversations.count > 0) {
             self.conversations = [NSMutableArray arrayWithArray:conversations];
-            CMMConversation *convo = conversations[0];
-            NSLog(@"%@", convo.createdAt);
-            NSLog(@"%@", convo.lastMessageSent);
             [self.messagesTableView reloadData];
             [self.refreshControl endRefreshing];
         } else {

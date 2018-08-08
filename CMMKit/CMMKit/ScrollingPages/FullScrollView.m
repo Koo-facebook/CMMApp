@@ -18,7 +18,7 @@
         self.contentSize = CGSizeMake(pages * self.frame.size.width, self.frame.size.height);
         self.totalPages = pages;
         self.pagingEnabled = YES;
-        self.showsHorizontalScrollIndicator = YES;
+        self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
         self.bounces = NO;
         self.alwaysBounceVertical = NO;
@@ -43,6 +43,7 @@
             self.pageControl.frame = CGRectMake((view.frame.size.width/2.68),(view.frame.size.height/1.20),100,100);
             self.pageControl.numberOfPages = self.totalPages;
             self.pageControl.currentPage = i;
+            //NSLog(@"Index: %@", i);
             [view addSubview:self.pageControl];
             
             completion(view, i, YES);

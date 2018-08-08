@@ -57,8 +57,8 @@
     secondTabBarItem.iconView = [[CMMIconView alloc]initWithIcon:secondIconView title:secondLabel];
     
     CMMEventsVC *secondViewController = [[CMMEventsVC alloc] init];
-    UINavigationController *secondNav = [[UINavigationController alloc] initWithRootViewController:secondViewController];
-    secondNav.tabBarItem = secondTabBarItem;
+    //UINavigationController *secondNav = [[UINavigationController alloc] initWithRootViewController:secondViewController];
+    secondViewController.tabBarItem = secondTabBarItem;
     
     //Third View Controller
     CMMBounceAnimation *bounceAnimation_three = [[CMMBounceAnimation alloc] init];
@@ -111,6 +111,7 @@
     fifthNav.tabBarItem = fifthTabBarItem;
     
     
+
     self.viewControllers = @[sideMenuController, secondNav, thirdNav, fourthNav, fifthNav];
     
     [super viewDidLoad];

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+        <array key="Prata-Regular.ttf">
+            <string>Prata-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewsfeedCell">
+            <connections>
+                <outlet property="categoryLabel" destination="yCp-rH-lpB" id="iMy-E5-X4W"/>
+                <outlet property="contentView" destination="H2p-sc-9uM" id="2sk-OG-Fk7"/>
+                <outlet property="profileImage" destination="FeY-UK-bJp" id="oTC-MP-vtJ"/>
+                <outlet property="timeLabel" destination="06r-Ue-zTG" id="pxd-Vy-FTK"/>
+                <outlet property="titleLabel" destination="qUG-4m-FKs" id="gmv-85-Rtz"/>
+                <outlet property="usernameLabel" destination="zA1-x5-OKS" id="I60-ic-Exq"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="143" id="KGk-i7-Jjw" customClass="NewsfeedCell">
+            <rect key="frame" x="0.0" y="0.0" width="426" height="143"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="426" height="142.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Post Title would go here" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUG-4m-FKs">
+                        <rect key="frame" x="10" y="64" width="394" height="41"/>
+                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="19"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Category" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yCp-rH-lpB">
+                        <rect key="frame" x="255" y="19" width="69" height="22"/>
+                        <fontDescription key="fontDescription" name="Prata-Regular" family="Prata" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="06r-Ue-zTG">
+                        <rect key="frame" x="381" y="19" width="40" height="22"/>
+                        <fontDescription key="fontDescription" name="Prata-Regular" family="Prata" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FeY-UK-bJp">
+                        <rect key="frame" x="10" y="4" width="52" height="52"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="52" id="GG1-a9-JUn"/>
+                            <constraint firstAttribute="height" constant="52" id="rqf-ts-Ngd"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zA1-x5-OKS">
+                        <rect key="frame" x="70" y="16" width="177" height="28"/>
+                        <fontDescription key="fontDescription" name="Prata-Regular" family="Prata" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="06r-Ue-zTG" firstAttribute="leading" secondItem="yCp-rH-lpB" secondAttribute="trailing" constant="57" id="DMN-Cj-ncm"/>
+                    <constraint firstItem="yCp-rH-lpB" firstAttribute="leading" secondItem="zA1-x5-OKS" secondAttribute="trailing" constant="8" id="Hbj-mM-0iV"/>
+                    <constraint firstItem="qUG-4m-FKs" firstAttribute="top" secondItem="06r-Ue-zTG" secondAttribute="bottom" constant="23" id="J8u-o9-7x3"/>
+                    <constraint firstItem="FeY-UK-bJp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="OTb-pZ-Qeb"/>
+                    <constraint firstAttribute="trailing" secondItem="06r-Ue-zTG" secondAttribute="trailing" constant="5" id="OvR-KN-GqC"/>
+                    <constraint firstItem="zA1-x5-OKS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="5" id="ZCJ-pN-Mfp"/>
+                    <constraint firstItem="FeY-UK-bJp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="aPD-gn-sOz"/>
+                    <constraint firstItem="zA1-x5-OKS" firstAttribute="leading" secondItem="FeY-UK-bJp" secondAttribute="trailing" constant="8" id="aZa-LS-Beg"/>
+                    <constraint firstItem="qUG-4m-FKs" firstAttribute="leading" secondItem="FeY-UK-bJp" secondAttribute="leading" id="e9F-IK-n0u"/>
+                    <constraint firstItem="qUG-4m-FKs" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="eCA-Td-7N4"/>
+                    <constraint firstItem="06r-Ue-zTG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="19" id="hnG-Q3-ZQs"/>
+                    <constraint firstItem="qUG-4m-FKs" firstAttribute="top" secondItem="FeY-UK-bJp" secondAttribute="bottom" constant="8" id="kPN-bT-Pz1"/>
+                    <constraint firstItem="yCp-rH-lpB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="8" id="ncC-D6-SlH"/>
+                    <constraint firstItem="qUG-4m-FKs" firstAttribute="top" secondItem="zA1-x5-OKS" secondAttribute="bottom" constant="20" id="rFA-4c-ebI"/>
+                    <constraint firstItem="qUG-4m-FKs" firstAttribute="top" secondItem="yCp-rH-lpB" secondAttribute="bottom" constant="23" id="uqw-SM-m3j"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <point key="canvasLocation" x="84" y="46.5"/>
+        </tableViewCell>
+    </objects>
+</document>
