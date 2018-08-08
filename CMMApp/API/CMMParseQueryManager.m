@@ -22,7 +22,7 @@
 }
 
 - (void)addBlockedUser:(CMMUser *)user Sender:(id)sender {
-    if ([user.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+    if ([user.objectId isEqualToString:PFUser.currentUser.objectId]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Don't block yourself!" message:@"That would be weird." preferredStyle:(UIAlertControllerStyleAlert)];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         }];
@@ -31,7 +31,7 @@
         }];
         return;
     }
-    NSString *blockingKey = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
+    NSString *blockingKey = [user.objectId stringByAppendingString:@"-blockedUsers"];
     NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
     for (NSString *userID in blockedUsers) {
         if ([userID isEqualToString:user.objectId]) {

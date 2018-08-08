@@ -215,6 +215,7 @@
     }];
 }
 
+#pragma mark - UITableViewMethods
 //Create tableView
 - (void) createTableView {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];

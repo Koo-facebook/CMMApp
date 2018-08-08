@@ -106,7 +106,7 @@
     UILabel *fifthLabel = [[UILabel alloc] init];
     fifthLabel.text = @"Bounce Animation";
     fifthTabBarItem.iconView = [[CMMIconView alloc]initWithIcon:fifthIconView title:fifthLabel];
-    CMMProfileVC *fifthViewController = [[CMMProfileVC alloc] init];
+    CMMTopHeadlinesVC *fifthViewController = [[CMMTopHeadlinesVC alloc] init];
     UINavigationController *fifthNav = [[UINavigationController alloc] initWithRootViewController:fifthViewController];
     fifthNav.tabBarItem = fifthTabBarItem;
     

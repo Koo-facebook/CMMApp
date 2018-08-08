@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "CMMParseQueryManager.h"
 #import "CMMConversation.h"
+#import "CMMUser.h"
 
 @interface CMMNewsfeedVC : UIViewController <CLLocationManagerDelegate>
 @property (strong, nonatomic) NSArray *posts;
@@ -22,4 +23,5 @@
 @property (assign, nonatomic) BOOL isMoreDataLoading;
 @property (assign, nonatomic) int queryNumber;
 @property (assign, nonatomic) BOOL sortByTrending;
+@property (strong, nonatomic) CMMUser *user;
 @end

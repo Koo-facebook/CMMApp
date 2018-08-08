@@ -35,7 +35,12 @@ static NSUInteger const kCMDefaultSelected = 0;
     [super viewDidLoad];
     [self configureView];
     [self.view addSubview:self.tabbarView];
-    self.categories = [CMMStyles getCategories];
+    
+    NSMutableArray *tempCategoryHolder = [[NSMutableArray alloc]initWithObjects:@"Trending",@"Recent", nil];
+    NSArray *temp = [CMMStyles getCategories];
+    [tempCategoryHolder addObjectsFromArray:temp];
+    self.categories = tempCategoryHolder;
+    
     [self reloadNewsfeedWithCategories:self.categories Trending:YES];
     [self.view insertSubview:self.table belowSubview:self.tabbarView];
     //[self.view addSubview:self.tabbarView];
@@ -44,6 +49,7 @@ static NSUInteger const kCMDefaultSelected = 0;
         [self.tabbarView reloadData];
         //self.table.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
     });
+    self.user = PFUser.currentUser;
 }
 
 - (void)createBarButtonItem {
@@ -115,12 +121,15 @@ static NSUInteger const kCMDefaultSelected = 0;
             // remove posts from blocked users
             NSMutableArray *tempPosts = [NSMutableArray arrayWithArray:posts];
             NSMutableArray *postsToRemove = [[NSMutableArray alloc] init];
-            NSString *blockingKey = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
+            NSLog(@"OBJECTID: %@", self.user.objectId);
+            NSLog(@"PFOBJECTID: %@", PFUser.currentUser.objectId);
+            NSString *blockingKey = [self.user.objectId stringByAppendingString:@"-blockedUsers"];
             NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
             for (CMMPost *post in tempPosts) {
                 for (NSString *blockID in blockedUsers) {
                     if ([post.owner.objectId isEqualToString:blockID]) {
                         [postsToRemove addObject:post];
+                        NSLog(@"POSTS TO REMOVE: %@", postsToRemove);
                         break;
                     }
                 }

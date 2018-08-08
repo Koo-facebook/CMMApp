@@ -21,7 +21,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subheading;
 @property (nonatomic, strong) UIImageView *backgroundImage;
-
+@property (nonatomic, strong) FullScrollView *scrollView;
 //@property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *animate;
 
@@ -40,7 +40,7 @@
     //self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(20.0/255.0) green:(CGFloat)(14.0/255.0) blue:(CGFloat)(33.0/255.0) alpha:1];
     // Create objects
     [self createScrollView];
-
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self createTapGestureRecognizer:@selector(wholeViewTapped)];
 }
     
@@ -64,15 +64,15 @@
 
     // Animation Container
     [self.animationContainer mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.subheading.mas_bottom).offset(35);
+        make.top.equalTo(self.subheading.mas_bottom).offset(20);
         make.centerX.equalTo(self.animationContainer.superview.mas_centerX);
-        make.width.equalTo(@230);
-        make.height.equalTo(@(230));
+        make.width.equalTo(@(self.animationContainer.superview.frame.size.width/1.85));
+        make.height.equalTo(self.animationContainer.mas_width);
     }];
 
     // Username TextField
     [self.usernameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.animationContainer.mas_bottom).offset(85);
+        make.top.equalTo(self.scrollView.mas_bottom).offset(25);
         make.centerX.equalTo(self.usernameTextField.superview.mas_centerX);
         make.width.equalTo(@275);
         make.height.equalTo(@(self.usernameTextField.intrinsicContentSize.height));
@@ -88,7 +88,7 @@
 
     // Signup Button
     [self.signUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.passwordTextField.mas_bottom).offset(40);
+        make.top.equalTo(self.passwordTextField.mas_bottom).offset(30);
         make.left.equalTo(self.passwordTextField.mas_left);
         make.width.equalTo(@(self.signUpButton.intrinsicContentSize.width));
         make.height.equalTo(@(self.signUpButton.intrinsicContentSize.height));
@@ -157,7 +157,7 @@
     self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.lottieAnimation.loopAnimation = YES;
     
-    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFill;
+    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
     CGRect lottieRect = CGRectMake(0, 0, (self.animationContainer.bounds.size.width), (self.animationContainer.bounds.size.height));
     self.lottieAnimation.frame = lottieRect;
     
@@ -237,12 +237,12 @@
     NSArray *titles = @[@"Welcome to Change My Mind", @"Register to Vote", @"Have educational dialogue", @"Learn more about the hot topic political issues", @"Become more involved politically"];
     
     CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/1.45);
-    FullScrollView *scrollView = [[FullScrollView alloc]initWithFrame:frame andNumberOfPages:5];
-    [self.view addSubview:scrollView];
+    self.scrollView = [[FullScrollView alloc]initWithFrame:frame andNumberOfPages:5];
+    [self.view addSubview:self.scrollView];
     
-    scrollView.pagingEnabled = YES;
+    self.scrollView.pagingEnabled = YES;
     
-    [scrollView configureViewAtIndexWithCompletion:^(UIView *view, NSInteger index, BOOL success) {
+    [self.scrollView configureViewAtIndexWithCompletion:^(UIView *view, NSInteger index, BOOL success) {
         
         //self.view.backgroundColor = [UIColor colorWithRed:(20.0/255.0) green:(14.0/255.0) blue:(33.0/255.0) alpha:1];
         
@@ -320,7 +320,7 @@
     }
 }
     
-    // Register new user in parse server
+    // Register by seguing to RegisterVC
 - (void)registerUser {
     
     if ([self.usernameTextField.text isEqualToString: @""] || [self.passwordTextField.text isEqualToString: @""]) {

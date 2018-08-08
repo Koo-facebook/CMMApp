@@ -12,6 +12,8 @@
 
 @interface CMMRegisterVC : UIViewController
 
+@property (strong, nonatomic) NSString *username;
+@property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) UITextField *displayedName;
 @property (strong, nonatomic) UITextView *profileBio;
 @property (strong, nonatomic) UIImageView *profileImage;
