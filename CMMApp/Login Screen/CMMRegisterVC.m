@@ -16,12 +16,15 @@
 #import "ParseUI.h"
 #import "CMMMainTabBarVC.h"
 #import "MBProgressHUD.h"
+#import <Lottie/Lottie.h>
 
 @interface CMMRegisterVC () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSArray *numbers;
 @property (strong, nonatomic) NSMutableArray *interests;
 @property (strong, nonatomic) NSArray *chosenInterests;
+@property (strong, nonatomic) LOTAnimationView *lottieAnimation;
+@property (strong, nonatomic) UIView *animationContainer;
 
 @end
 
@@ -248,8 +251,7 @@
     //[self completeUserRegistration];
     [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withInterests:self.interests andRegisteredVoter:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
     }];
-    CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
-    [self presentViewController:tabBarVC animated:YES completion:^{}];
+    [self presentModalStatusView];
 }
 
 //IMAGEPICKER CODE
@@ -346,6 +348,69 @@
     NSLog(@"%@", self.interests);
 
 }
+
+-(void)presentModalStatusView {
+    self.animationContainer = [[UIView alloc]init];
+    [self.view addSubview:self.animationContainer];
+    [self.animationContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.animationContainer.superview.mas_centerX);
+        make.centerY.equalTo(self.animationContainer.superview.mas_centerY);
+        make.width.equalTo(@(200));
+        make.height.equalTo(@(200));
+    }];
+    
+    self.lottieAnimation = [LOTAnimationView animationNamed:@"accountCreation"];
+    
+        self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+        self.lottieAnimation.loopAnimation = NO;
+    
+        self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
+        CGRect lottieRect = CGRectMake(0, 0, (self.animationContainer.bounds.size.width), (self.animationContainer.bounds.size.height));
+        self.lottieAnimation.frame = lottieRect;
+    
+        [self.animationContainer addSubview:self.lottieAnimation];
+        [self.lottieAnimation playFromProgress:0.0 toProgress:0.8 withCompletion:^(BOOL animationFinished) {
+            if (animationFinished) {
+                [self.animationContainer removeFromSuperview];
+                CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
+                [self presentViewController:tabBarVC animated:YES completion:^{}];
+            }
+        }];
+       // [self.lottieAnimation play];
+    //
+    //[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeSelf:) userInfo:nil repeats:false];
+}
+//-(void) didMoveToSuperview {
+//    //Fade in when added to SuperView
+//    //Then add a timer to remove the view
+//    self.contentView.transform = CGAffineTransformMakeScale(0.5, 0.5);
+//    [UIView animateWithDuration:0.15 animations:^{self.contentView.alpha = 1.0; self.contentView.transform = CGAffineTransformIdentity;}];
+//    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(removeSelf) userInfo:nil repeats:false];
+//}
+//
+-(void) removeSelf: (UIView *)view {
+    // Animate removal of view
+    [view removeFromSuperview];
+}
+//Initialize Animation Container
+//-(void)createAnimationContainerInView: (UIView *)view withIndex: (NSInteger)index {
+//    self.animate = @[@"circleFlag",@"search",@"newsfeed_refresh5",@"phoneVote",@"resources"];
+//    self.animationContainer = [[UIView alloc]init];
+//
+//    NSString *file = self.animate[index];
+//    self.lottieAnimation = [LOTAnimationView animationNamed:file];
+//
+//    self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+//    self.lottieAnimation.loopAnimation = YES;
+//
+//    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
+//    CGRect lottieRect = CGRectMake(0, 0, (self.animationContainer.bounds.size.width), (self.animationContainer.bounds.size.height));
+//    self.lottieAnimation.frame = lottieRect;
+//
+//    [self.animationContainer addSubview:self.lottieAnimation];
+//    [self.lottieAnimation play];
+//    [view addSubview:self.animationContainer];
+//}
 
 // Create alert with given message and title
 - (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {

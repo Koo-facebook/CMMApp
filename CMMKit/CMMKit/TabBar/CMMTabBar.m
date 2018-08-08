@@ -114,8 +114,9 @@
 - (NSDictionary *)createViewContainers
 {
     NSMutableDictionary *containersDict = [NSMutableDictionary dictionary];
-    
+    if (self.tabBar.items.count> 0) {
     for (int index = 0; index < self.tabBar.items.count; index++) {
+        NSLog(@"I'm inside the first container dictionary for loop");
         UIView *viewContainer = [self createViewContainer];
         
         NSString *indexStr = [NSString stringWithFormat:@"container%d", index];
@@ -137,7 +138,7 @@
                                                                                          metrics:nil
                                                                                            views:containersDict];
     [self.view addConstraints:constraints];
-    
+    }
     return containersDict;
 }
 

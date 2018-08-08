@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CMMKit/CMMTabBar.h>
 
-@interface CMMModerationController : UITabBarController
+@interface CMMModerationController : CMMTabBar
 
 @end

@@ -83,7 +83,7 @@
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    self.tableView.rowHeight = 150;
+    self.tableView.rowHeight = 125;
     
     [self.view addSubview:self.tableView];
 }
@@ -129,5 +129,13 @@
     [refreshControl endRefreshing];
 }
 
+- (UIImage *)resizeImageToIcon:(UIImage *)image {
+    CGSize size = CGSizeMake(25, 25);
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
 
 @end

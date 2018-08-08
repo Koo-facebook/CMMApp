@@ -13,4 +13,6 @@
 
 @interface CMMTabBar : UITabBarController
 
+@property (strong, nonatomic) NSArray *viewControllers;
+
 @end
