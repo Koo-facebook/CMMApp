@@ -18,6 +18,7 @@
     //First View Controller
     NSMutableArray *viewControllers = [[NSMutableArray alloc] init];
     
+    //self.tabBar.barTintColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
     CMMBounceAnimation *bounceAnimation = [[CMMBounceAnimation alloc] init];
     bounceAnimation.textSelectedColor = [UIColor blueColor];
     bounceAnimation.iconSelectedColor = [UIColor blueColor];
@@ -32,6 +33,7 @@
     CMMNewsfeedVC *firstViewController = [[CMMNewsfeedVC alloc] init];
     //self.view.tintColor = [UIColor blueColor];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
+    
     NewsfeedSideMenuVC *sideMenuVC = [[NewsfeedSideMenuVC alloc] init];
     LGSideMenuController *sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:firstNav leftViewController:nil rightViewController:sideMenuVC];
     sideMenuController.leftViewBackgroundBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
@@ -112,7 +114,7 @@
     
     
 
-    self.viewControllers = @[sideMenuController, secondNav, thirdNav, fourthNav, fifthNav];
+    self.viewControllers = @[sideMenuController, secondViewController, thirdNav, fourthNav, fifthNav];
     
     [super viewDidLoad];
 }

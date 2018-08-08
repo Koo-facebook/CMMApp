@@ -49,7 +49,7 @@
 -(void) updateConstraints {
     // Search Bar
     [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.searchBar.superview.mas_top).offset(90);
+        make.top.equalTo(@(self.navigationController.navigationBar.frame.size.height + UIApplication.sharedApplication.statusBarFrame.size.height));
         make.centerX.equalTo(self.searchBar.superview.mas_centerX);
         make.width.equalTo(self.searchBar.superview.mas_width);
         make.height.equalTo(@(50));
@@ -161,9 +161,9 @@
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     TopicsCollectionCell *cell = [[TopicsCollectionCell alloc]init];
     cell.title = self.topicList[indexPath.item];
+    cell.backgroundColor = [UIColor grayColor];
     cell = [self.topicsCollectionView dequeueReusableCellWithReuseIdentifier:@"topicCell" forIndexPath:indexPath];
     //NSLog(@"%@", cell.title.text);
-   // cell.backgroundColor = [UIColor grayColor];
     //[cell configureCollectionCell:self.topicList[indexPath.item]];
     return cell;
 }

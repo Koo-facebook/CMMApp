@@ -25,8 +25,6 @@ static NSUInteger const kCMDefaultSelected = 0;
 @property (strong, nonatomic) CMTabbarView *tabbarView;
 @property (strong, nonatomic) NSArray *datas;
 
-@interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SideMenuDelegate>
-
 @end
 
 @implementation CMMNewsfeedVC
@@ -60,17 +58,16 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (void)configureView {
     self.navigationItem.title = @"Newsfeed";
     
-    [self createBarButtonItem];
+    //[self createBarButtonItem];
 
     self.sortByTrending = NO;
     self.isMoreDataLoading = NO;
     
     // create and populate table view
-    NSInteger tabbarBottom = self.navigationController.navigationBar.frame.size.height+ UIApplication.sharedApplication.statusBarFrame.size.height;
-    CGRect tableViewFrame = CGRectMake(0,self.tabbarView.frame.size.height, self.view.frame.size.width, self.view.frame.size.height-tabbarBottom);
+    //NSInteger tabbarBottom = self.navigationController.navigationBar.frame.size.height+ UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGRect tableViewFrame = CGRectMake(0,(self.navigationController.navigationBar.frame.size.height + UIApplication.sharedApplication.statusBarFrame.size.height+self.tabbarView.frame.size.height), self.view.frame.size.width, (self.view.frame.size.height-self.tabbarView.frame.size.height));
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
-   // [self.table setContentOffset:CGPointMake(0, -45) animated:YES];
-    //self.table.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    [self.table setContentOffset:CGPointMake(0, 45) animated:YES];
     self.table.rowHeight = UITableViewAutomaticDimension;
     self.table.estimatedRowHeight = 55;
     [self.table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -184,6 +181,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.searchBar.showsCancelButton = NO;
     self.searchBar.text = @"";
     self.searchBar.backgroundColor = [UIColor whiteColor];
+    [self.table setContentOffset:CGPointMake(0, 45) animated:YES];
     [self.searchBar resignFirstResponder];
 }
 

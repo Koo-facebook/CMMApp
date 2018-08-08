@@ -7,11 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0375CD9E2118BAF800622EB7 /* CMMModeratorInboxVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0375CD9D2118BAF800622EB7 /* CMMModeratorInboxVC.m */; };
-		0375CDA42118BEF400622EB7 /* CMMModerationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0375CDA32118BEF400622EB7 /* CMMModerationController.m */; };
-		0375CDA72118C16E00622EB7 /* CMMReportedChatVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0375CDA62118C16E00622EB7 /* CMMReportedChatVC.m */; };
-		03888A042113BDA00028E75A /* CMMModeratorFeedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */; };
-		03888A082113D09A0028E75A /* CMMModeratorPostVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A072113D09A0028E75A /* CMMModeratorPostVC.m */; };
 		03888A0B2114C1520028E75A /* CMMUserStrikes.m in Sources */ = {isa = PBXBuildFile; fileRef = 03888A0A2114C1520028E75A /* CMMUserStrikes.m */; };
 		03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D221014A02007629AD /* NewsfeedCell.m */; };
 		03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D621024F11007629AD /* PostDetailVC.m */; };
@@ -33,6 +28,9 @@
 		137E0E0C211A711900D74F4E /* CMMTopHeadlinesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 137E0E0B211A711900D74F4E /* CMMTopHeadlinesVC.m */; };
 		137E0E0F211A720500D74F4E /* ArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 137E0E0E211A720500D74F4E /* ArticleCell.m */; };
 		137E0E13211AC4B500D74F4E /* CMMWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 137E0E12211AC4B500D74F4E /* CMMWebVC.m */; };
+		137E0E1A211AEFD100D74F4E /* CMMModerationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 137E0E19211AEFD100D74F4E /* CMMModerationController.m */; };
+		137E0E1D211AEFE800D74F4E /* CMMModeratorInboxVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 137E0E1C211AEFE800D74F4E /* CMMModeratorInboxVC.m */; };
+		137E0E20211AEFF700D74F4E /* CMMReportedChatVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 137E0E1E211AEFF700D74F4E /* CMMReportedChatVC.m */; };
 		13A8D3A32113BB3A00C0C183 /* CMMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130D43C22113B9F5005E0C5B /* CMMKit.framework */; };
 		13A8D3A42113BB3A00C0C183 /* CMMKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 130D43C22113B9F5005E0C5B /* CMMKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		13A8D3AB2113E69000C0C183 /* newsfeed_refresh5.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3AA2113E69000C0C183 /* newsfeed_refresh5.json */; };
@@ -111,16 +109,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0375CD9C2118BAF800622EB7 /* CMMModeratorInboxVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModeratorInboxVC.h; sourceTree = "<group>"; };
-		0375CD9D2118BAF800622EB7 /* CMMModeratorInboxVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorInboxVC.m; sourceTree = "<group>"; };
-		0375CDA22118BEF400622EB7 /* CMMModerationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModerationController.h; sourceTree = "<group>"; };
-		0375CDA32118BEF400622EB7 /* CMMModerationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModerationController.m; sourceTree = "<group>"; };
-		0375CDA52118C16E00622EB7 /* CMMReportedChatVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMReportedChatVC.h; sourceTree = "<group>"; };
-		0375CDA62118C16E00622EB7 /* CMMReportedChatVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMReportedChatVC.m; sourceTree = "<group>"; };
-		03888A022113BDA00028E75A /* CMMModeratorFeedVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModeratorFeedVC.h; sourceTree = "<group>"; };
-		03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorFeedVC.m; sourceTree = "<group>"; };
-		03888A062113D09A0028E75A /* CMMModeratorPostVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModeratorPostVC.h; sourceTree = "<group>"; };
-		03888A072113D09A0028E75A /* CMMModeratorPostVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorPostVC.m; sourceTree = "<group>"; };
 		03888A092114C1520028E75A /* CMMUserStrikes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CMMUserStrikes.h; path = CMMApp/Models/CMMUserStrikes.h; sourceTree = SOURCE_ROOT; };
 		03888A0A2114C1520028E75A /* CMMUserStrikes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CMMUserStrikes.m; path = CMMApp/Models/CMMUserStrikes.m; sourceTree = SOURCE_ROOT; };
 		03CDE9D121014A02007629AD /* NewsfeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NewsfeedCell.h; path = Cells/NewsfeedCell.h; sourceTree = "<group>"; };
@@ -166,6 +154,12 @@
 		137E0E0E211A720500D74F4E /* ArticleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArticleCell.m; sourceTree = "<group>"; };
 		137E0E11211AC4B500D74F4E /* CMMWebVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMWebVC.h; sourceTree = "<group>"; };
 		137E0E12211AC4B500D74F4E /* CMMWebVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMWebVC.m; sourceTree = "<group>"; };
+		137E0E18211AEFD000D74F4E /* CMMModerationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMMModerationController.h; sourceTree = "<group>"; };
+		137E0E19211AEFD100D74F4E /* CMMModerationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMMModerationController.m; sourceTree = "<group>"; };
+		137E0E1B211AEFDF00D74F4E /* CMMModeratorInboxVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMModeratorInboxVC.h; sourceTree = "<group>"; };
+		137E0E1C211AEFE800D74F4E /* CMMModeratorInboxVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorInboxVC.m; sourceTree = "<group>"; };
+		137E0E1E211AEFF700D74F4E /* CMMReportedChatVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMMReportedChatVC.m; sourceTree = "<group>"; };
+		137E0E1F211AEFF700D74F4E /* CMMReportedChatVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMMReportedChatVC.h; sourceTree = "<group>"; };
 		13A8D3AA2113E69000C0C183 /* newsfeed_refresh5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = newsfeed_refresh5.json; sourceTree = "<group>"; };
 		13A8D3AC2113E69500C0C183 /* newsfeed_refresh.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = newsfeed_refresh.json; sourceTree = "<group>"; };
 		13A8D3AE2113E69A00C0C183 /* events_refresh.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = events_refresh.json; sourceTree = "<group>"; };
@@ -261,23 +255,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03888A052113BDB10028E75A /* Moderation */ = {
-			isa = PBXGroup;
-			children = (
-				0375CDA52118C16E00622EB7 /* CMMReportedChatVC.h */,
-				0375CDA62118C16E00622EB7 /* CMMReportedChatVC.m */,
-				0375CD9C2118BAF800622EB7 /* CMMModeratorInboxVC.h */,
-				0375CD9D2118BAF800622EB7 /* CMMModeratorInboxVC.m */,
-				03888A022113BDA00028E75A /* CMMModeratorFeedVC.h */,
-				03888A032113BDA00028E75A /* CMMModeratorFeedVC.m */,
-				03888A062113D09A0028E75A /* CMMModeratorPostVC.h */,
-				03888A072113D09A0028E75A /* CMMModeratorPostVC.m */,
-				0375CDA22118BEF400622EB7 /* CMMModerationController.h */,
-				0375CDA32118BEF400622EB7 /* CMMModerationController.m */,
-			);
-			path = Moderation;
-			sourceTree = "<group>";
-		};
 		130A10B42112D75300AA1311 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -395,6 +372,12 @@
 		13A8D43E2114CABF00C0C183 /* Moderation */ = {
 			isa = PBXGroup;
 			children = (
+				137E0E1F211AEFF700D74F4E /* CMMReportedChatVC.h */,
+				137E0E1E211AEFF700D74F4E /* CMMReportedChatVC.m */,
+				137E0E1B211AEFDF00D74F4E /* CMMModeratorInboxVC.h */,
+				137E0E1C211AEFE800D74F4E /* CMMModeratorInboxVC.m */,
+				137E0E18211AEFD000D74F4E /* CMMModerationController.h */,
+				137E0E19211AEFD100D74F4E /* CMMModerationController.m */,
 				13A8D43F2114CAD000C0C183 /* CMMModeratorFeedVC.h */,
 				13A8D4412114CAD600C0C183 /* CMMModeratorFeedVC.m */,
 				13A8D4422114CAD600C0C183 /* CMMModeratorPostVC.h */,
@@ -758,10 +741,10 @@
 				13A8D4432114CAD600C0C183 /* CMMModeratorPostVC.m in Sources */,
 				22F9EC2F20FEB623002ADD9D /* CMMProfileVC.m in Sources */,
 				228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */,
+				137E0E20211AEFF700D74F4E /* CMMReportedChatVC.m in Sources */,
 				22F9EC472100168F002ADD9D /* CMMChatVC.m in Sources */,
 				22F9EC3B20FEDB80002ADD9D /* CMMLoginVC.m in Sources */,
 				22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */,
-				0375CDA42118BEF400622EB7 /* CMMModerationController.m in Sources */,
 				03CDE9E32106A17F007629AD /* CMMStyles.m in Sources */,
 				137E0E13211AC4B500D74F4E /* CMMWebVC.m in Sources */,
 				136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */,
@@ -790,7 +773,7 @@
 				137E0E0F211A720500D74F4E /* ArticleCell.m in Sources */,
 				136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */,
 				22F9EC1420FEB1EE002ADD9D /* CMMConversation.m in Sources */,
-				0375CDA72118C16E00622EB7 /* CMMReportedChatVC.m in Sources */,
+				137E0E1D211AEFE800D74F4E /* CMMModeratorInboxVC.m in Sources */,
 				13A8D4442114CAD600C0C183 /* CMMModeratorFeedVC.m in Sources */,
 				03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */,
 				13A8D3B32114029500C0C183 /* InterestsViewCell.m in Sources */,
@@ -798,8 +781,8 @@
 				03888A0B2114C1520028E75A /* CMMUserStrikes.m in Sources */,
 				137E0DF52118EA0800D74F4E /* InterestsCell.m in Sources */,
 				03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */,
-				0375CD9E2118BAF800622EB7 /* CMMModeratorInboxVC.m in Sources */,
 				22F9EC4A21004F33002ADD9D /* CMMChatCell.m in Sources */,
+				137E0E1A211AEFD100D74F4E /* CMMModerationController.m in Sources */,
 				22F9EC2620FEB30E002ADD9D /* CMMVote.m in Sources */,
 				136E307E21092D73009B4180 /* CMMResourcesVC.m in Sources */,
 			);
@@ -949,7 +932,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm77.CMMApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -967,7 +950,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm77.CMMApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Keylonnm.CMMApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
