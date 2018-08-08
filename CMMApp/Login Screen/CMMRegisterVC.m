@@ -14,6 +14,8 @@
 #import "Masonry.h"
 #import "Parse.h"
 #import "ParseUI.h"
+#import "CMMMainTabBarVC.h"
+#import "MBProgressHUD.h"
 
 @interface CMMRegisterVC () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -31,7 +33,7 @@
     
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.numbers = [[NSArray alloc]initWithObjects:@"Social Issues",@"Education", @"Criminal Issues", @"Economics", @"Global",@"Elections", @"Environment", @"Foreign Policy", @"Healthcare", @"Immigration", @"Local Politics", @"National Security", nil];
+    self.numbers = [CMMStyles getCategories];
     self.interests = [[NSMutableArray alloc]init];
     self.chosenInterests = [[NSArray alloc]init];
     
@@ -185,14 +187,66 @@
     [self.view endEditing:YES];
 }
 
+//-(void)completeUserRegistration {
+//    [CMMUser createUser:self.username password:self.password withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+//
+//        if (error != nil) {
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//            NSLog(@"Error: %@", error.localizedDescription);
+//            [self createAlert:@"Sign Up Error" message:@"There was a problem signing up. Please try again"];
+//        } else {
+//            NSLog(@"User registered successfully");
+//
+//            [CMMUser logInWithUsernameInBackground:self.username password:self.password block:^(PFUser * user, NSError *  error) {
+//                // NSLog(@"User logged in successfully");
+//                PFACL *userACL = [PFACL ACLWithUser:CMMUser.currentUser];
+//                [userACL setPublicReadAccess:YES];
+//                [userACL setPublicWriteAccess:YES];
+//                CMMUser.currentUser.ACL = userACL;
+//                [CMMUser.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//                    NSLog(@"finished");
+//                }];
+//                if (CMMUser.currentUser.online == YES) {
+//                    //[self createAlert:@"Error" message:@"User already logged in"];
+//                    //                        CMMRegisterVC *registerVC = [[CMMRegisterVC alloc] init];
+//                    //                        [self presentViewController:registerVC animated:YES completion:^{}];
+//                } else {
+//                    CMMUser.currentUser.online = YES;
+//                    //                        CMMRegisterVC *registerVC = [[CMMRegisterVC alloc] init];
+//                    //                        [self presentViewController:registerVC animated:YES completion:^{}];
+//                }
+//            }];
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        }
+//    }];
+//}
+
+-(void)deleteUser {
+    PFQuery *query;
+    query = [PFQuery queryWithClassName:@"CMMUser"];
+    [query whereKey:@"objectId" equalTo: PFUser.currentUser.objectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable users, NSError * _Nullable error) {
+        if (!error) {
+            for (PFUser *user in users){
+                [user deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                }];
+            }
+        }
+        else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
+}
+
 -(void)exitRegisterVC {
+    [self deleteUser];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 -(void)finishedEditing {
-    [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withInterests:self.chosenInterests andRegisteredVoter:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-       
-        //[self dismissViewControllerAnimated:YES completion:^{}];
+    //[self completeUserRegistration];
+    [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withInterests:self.interests andRegisteredVoter:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
     }];
     CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
     [self presentViewController:tabBarVC animated:YES completion:^{}];
@@ -291,6 +345,15 @@
     self.chosenInterests = self.interests;
     NSLog(@"%@", self.interests);
 
+}
+
+// Create alert with given message and title
+- (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:errorMessage preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{
+    }];
 }
 
 @end
