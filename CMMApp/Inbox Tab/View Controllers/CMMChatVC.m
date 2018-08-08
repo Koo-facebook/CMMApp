@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) PFImageView *usersProfileImage;
 @property (nonatomic, strong) UIImageView *onlineIndicator;
-@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSMutableArray *messages;
 @property (nonatomic, strong) UILabel *reportLabel;

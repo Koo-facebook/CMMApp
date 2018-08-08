@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UITableView *chatTableView;
 @property (nonatomic, strong) UILabel *topicLabel;
 @property BOOL isUserOne;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) CMMConversation *conversation;
 
 @end

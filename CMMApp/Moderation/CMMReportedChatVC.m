@@ -99,9 +99,7 @@
     self.menu2.frame = CGRectMake(self.view.frame.size.width/2 - 26, self.view.frame.size.height-height, self.view.frame.size.width/2 - 50, 40);
     
     [self.chatTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.topicLabel.mas_bottom).offset(10);
-        make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-height - 50);
+        make.bottom.equalTo(self.moderatorView.mas_top);
     }];
     
     self.submitButton.frame = CGRectMake(self.view.frame.size.width - 70, self.view.frame.size.height-height, 60, 40);
@@ -146,6 +144,10 @@
     [self resetModBarWithHeight:100];
 }
 
+- (void)setUsernameLabelText {
+    self.titleLabel.text = [NSString stringWithFormat:@"Chat between %@ and %@", self.conversation.user1.username, self.conversation.user2.username];
+}
+
 - (void)setupSendMessageTextField {
 }
 
@@ -165,6 +167,15 @@
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+}
+
+/*- (void)setupUserProfileImage {
+}*/
+
+- (void)setupOnlineIndicator {
+}
+
+- (void)checkPermissions {
 }
 
 @end

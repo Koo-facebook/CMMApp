@@ -165,6 +165,9 @@
 }
 
 - (void)submitReport {
+    if (self.strikeUsers.count > 0) {
+        [[CMMParseQueryManager shared] deletePostFromParse:self.post];
+    }
     for (CMMUser *user in self.strikeUsers) {
         [[CMMParseQueryManager shared] addStrikeToUser:user forReason:self.reportReason];
     }
