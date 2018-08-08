@@ -33,9 +33,7 @@
     newConversation.userTwoRead = NO;
     newConversation.userOneRead = YES;
     
-    [newConversation saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        completion(succeeded, error, newConversation);
-    }];
+    [newConversation saveInBackground];
     
 }
     
