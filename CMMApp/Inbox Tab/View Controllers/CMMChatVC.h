@@ -13,6 +13,7 @@
 #import "CMMParseQueryManager.h"
 #import <ParseUI/ParseUI.h>
 #import "CMMProfileVC.h"
+#import <Foundation/Foundation.h>
 
 @interface CMMChatVC : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIScrollViewDelegate, UITextViewDelegate>
 @property (nonatomic, strong) UITableView *chatTableView;
