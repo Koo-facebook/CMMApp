@@ -12,6 +12,7 @@
 		03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9D621024F11007629AD /* PostDetailVC.m */; };
 		03CDE9E021068B26007629AD /* NewsfeedSideMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9DF21068B26007629AD /* NewsfeedSideMenuVC.m */; };
 		03CDE9E32106A17F007629AD /* CMMStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 03CDE9E22106A17F007629AD /* CMMStyles.m */; };
+		13118E8D211B6947004E271C /* accountCreation.json in Resources */ = {isa = PBXBuildFile; fileRef = 13118E8C211B6947004E271C /* accountCreation.json */; };
 		136E305920FFC11A009B4180 /* CMMComposerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305820FFC11A009B4180 /* CMMComposerVC.m */; };
 		136E305C20FFFDD4009B4180 /* EventsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E305B20FFFDD3009B4180 /* EventsCell.m */; };
 		136E3065210249CB009B4180 /* CMMEventDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E3064210249CB009B4180 /* CMMEventDetailsVC.m */; };
@@ -125,6 +126,7 @@
 		130A10B82112D77400AA1311 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Medium.ttf"; sourceTree = "<group>"; };
 		130A10B92112D78100AA1311 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		130A10D6211374F300AA1311 /* CMMKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CMMKit.xcodeproj; path = CMMKit/CMMKit.xcodeproj; sourceTree = "<group>"; };
+		13118E8C211B6947004E271C /* accountCreation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = accountCreation.json; sourceTree = "<group>"; };
 		136E305720FFC11A009B4180 /* CMMComposerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMComposerVC.h; sourceTree = "<group>"; };
 		136E305820FFC11A009B4180 /* CMMComposerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMComposerVC.m; sourceTree = "<group>"; };
 		136E305A20FFFDD3009B4180 /* EventsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsCell.h; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				13A8D3BF21143BFD00C0C183 /* search.json */,
 				13A8D3BB21143BE300C0C183 /* phoneVote.json */,
 				13A8D3BD21143BEF00C0C183 /* resources.json */,
+				13118E8C211B6947004E271C /* accountCreation.json */,
 				13A8D3D821143C2100C0C183 /* Map */,
 				13A8D3C321143C1400C0C183 /* Vote */,
 			);
@@ -668,6 +671,7 @@
 				13A8D3C921143C1400C0C183 /* data.json in Resources */,
 				13A8D3BE21143BEF00C0C183 /* resources.json in Resources */,
 				13A8D3C121143BFD00C0C183 /* search.json in Resources */,
+				13118E8D211B6947004E271C /* accountCreation.json in Resources */,
 				13A8D3C221143BFD00C0C183 /* circleFlag.json in Resources */,
 				13A8D3AD2113E69500C0C183 /* newsfeed_refresh.json in Resources */,
 				22F9EBF920FEAEAA002ADD9D /* LaunchScreen.storyboard in Resources */,
@@ -928,6 +932,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 96W3N7G5K2;
 				INFOPLIST_FILE = CMMApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -946,6 +951,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 96W3N7G5K2;
 				INFOPLIST_FILE = CMMApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -30,8 +30,16 @@
     [self createDescription];
     [self createAddToCalendarButton];
     
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backbutton)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    
     //Fix layout
     [self updateConstraints];
+}
+
+-(void)backbutton{
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
 }
 
 - (void)updateConstraints {

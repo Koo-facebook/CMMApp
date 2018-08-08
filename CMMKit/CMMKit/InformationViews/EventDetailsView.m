@@ -47,7 +47,7 @@
     
     self.contentView.center = self.center;
     self.contentView.autoresizingMask = UIViewAutoresizingNone;
-    //CGRect frame = CGRectMake(self.frame.size.width/4, self.frame.size.height/4, 230, 230);
+// CGRect frame = CGRectMake(self.frame.size.width/4, self.frame.size.height/4, 230, 230);
     self.contentView.frame = self.bounds;
     self.contentView.layer.masksToBounds = YES;
     self.contentView.clipsToBounds = YES;

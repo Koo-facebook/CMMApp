@@ -118,6 +118,7 @@
 
 - (void)moderatorMode {
     CMMModerationController *tabBar = [[CMMModerationController alloc] init];
+    //[self.navigationController pushViewController:tabBar animated:YES];
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     delegate.window.rootViewController = tabBar;
 }

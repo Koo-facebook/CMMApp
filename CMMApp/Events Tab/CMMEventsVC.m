@@ -59,6 +59,8 @@
     [self createPullToRefresh];
     [self updateConstraints];
     
+
+    
     //Get location of user to filter events
     [self getCurrentLocation];
     
@@ -66,6 +68,8 @@
     //[self fetchEvents];
 
 }
+                                   
+
 
 - (void) updateConstraints {
     // Map View
@@ -242,15 +246,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
-    //UINavigationController *eventDetailsNavigation = [[UINavigationController alloc]initWithRootViewController:eventDetailsVC];
+    CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
+    UINavigationController *eventDetailsNavigation = [[UINavigationController alloc]initWithRootViewController:eventDetailsVC];
 
-    //eventDetailsVC.event = self.eventList[indexPath.row];
-    [self presentModalStatusViewForEvent:self.eventList[indexPath.row]];
-    //[self.navigationController pushViewController:eventDetailsVC animated:YES];
-    //[self presentViewController:eventDetailsNavigation animated:YES completion:^{}];
+    eventDetailsVC.event = self.eventList[indexPath.row];
+    //[self presentModalStatusViewForEvent:self.eventList[indexPath.row]];
+    [self.navigationController pushViewController:eventDetailsVC animated:YES];
+    [self presentViewController:eventDetailsNavigation animated:YES completion:^{}];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
 
 -(void)createPullToRefresh {
     //Initialize pull down to refresh control
