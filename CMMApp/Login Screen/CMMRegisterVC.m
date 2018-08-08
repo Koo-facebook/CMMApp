@@ -319,7 +319,7 @@
     //cell.title.text = self.numbers[indexPath.row];
    // NSLog(@"%@",self.numbers[indexPath.row]);
             [cell configureInterestsCell:self.numbers[indexPath.row]];
-            cell.tintColor = [UIColor redColor];
+            cell.tintColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
             return cell;
 }
 

@@ -106,6 +106,7 @@
     UINavigationController *webNav = [[UINavigationController alloc]initWithRootViewController:webViewController];
     [self presentViewController:webNav animated:YES completion:^{
     }];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(void)createPullToRefresh {

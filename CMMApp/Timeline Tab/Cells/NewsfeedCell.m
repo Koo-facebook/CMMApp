@@ -62,6 +62,12 @@
     categoryIcon.image = [UIImage imageNamed:name];
     [self.cellInfoView addSubview:categoryIcon];
     
+    UILabel *categoryLabel = [[UILabel alloc]init];
+    categoryLabel.text = post.category;
+    categoryLabel.textColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
+    [self.contentView addSubview:categoryLabel];
+    [categoryLabel setFont:[UIFont systemFontOfSize:16]];
+    
     // Autolayout for the labels
     UIEdgeInsets containerPadding = UIEdgeInsetsMake(10, 10, 5, 10);
     [self.cellInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,6 +76,15 @@
         make.bottom.equalTo(self.contentView.mas_bottom).with.offset(-containerPadding.bottom);
         make.right.equalTo(self.contentView.mas_right).with.offset(-containerPadding.right);
     }];
+    
+    UIEdgeInsets categoryTitlePadding = UIEdgeInsetsMake(5, 5, 5, 5);
+    [categoryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(categoryIcon.mas_right).offset(categoryTitlePadding.left);
+        make.height.equalTo(@(categoryLabel.intrinsicContentSize.height));
+        make.width.equalTo(@(categoryLabel.intrinsicContentSize.width));
+        make.centerY.equalTo(categoryIcon.mas_centerY);
+    }];
+    
     UIEdgeInsets titlePadding = UIEdgeInsetsMake(10, 12, 12, 12);
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(categoryIcon.mas_bottom).offset(titlePadding.top);
@@ -77,6 +92,7 @@
         make.bottom.equalTo(self.cellInfoView.mas_bottom).with.offset(-titlePadding.bottom);
         make.right.equalTo(self.cellInfoView.mas_right).with.offset(-titlePadding.right);
     }];
+    
     UIEdgeInsets categoryPadding = UIEdgeInsetsMake(5, 5, 5, 5);
     [categoryIcon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.cellInfoView.mas_top).with.offset(categoryPadding.top);
@@ -84,6 +100,7 @@
         make.width.equalTo(@(35));
         make.height.equalTo(@(35));
     }];
+    
     UIEdgeInsets datePadding = UIEdgeInsetsMake(12, 54, 12, 12);
     [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.cellInfoView.mas_top).with.offset(datePadding.top);

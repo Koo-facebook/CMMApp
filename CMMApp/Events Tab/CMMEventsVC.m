@@ -249,6 +249,7 @@
     [self presentModalStatusViewForEvent:self.eventList[indexPath.row]];
     //[self.navigationController pushViewController:eventDetailsVC animated:YES];
     //[self presentViewController:eventDetailsNavigation animated:YES completion:^{}];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(void)createPullToRefresh {
