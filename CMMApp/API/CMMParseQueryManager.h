@@ -17,13 +17,14 @@
 + (instancetype)shared;
 
 - (void)fetchConversationMessagesWithCompletion:(CMMConversation *)conversation skipCount:(NSInteger)skipCount withCompletion: (void(^)(NSArray *messages, NSError *error)) completion;
-- (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error))completion;
+- (void)fetchConversationsReported:(BOOL)reported WithCompletion:(void(^)(NSArray *conversations, NSError *error)) completion;
 - (void)fetchPosts:(int)number Categories:(NSArray *)categories SortByTrending:(BOOL)trending Reported:(BOOL)reported WithCompletion:(void(^)(NSArray *posts, NSError *error))completion;
 - (void)fetchPosts:(int)number ByAuthor:(CMMUser *)user WithCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 - (void)fetchUsersPostsWithCompletion:(CMMUser *)user withCompletion:(void(^)(NSArray *posts, NSError *error)) completion;
 - (void)updateUserInfo:(PFUser *)user WithCompletion:(void(^)(PFObject *object, NSError *error)) completion;
 - (void)addBlockedUser:(CMMUser *)user Sender:sender;
-- (void)addStrikeToUser:(CMMUser *)user;
+- (void)addStrikeToUser:(CMMUser *)user forReason:(NSString *)reason;
+- (void)setUserStrikes:(CMMUser *)user sender:(id)sender;
 - (void)reportPost:(CMMPost *)post;
 - (void)deletePostFromParse:(CMMPost *)post;
 - (void)deleteMessageForConversation: (CMMConversation *)conversation withCompletion: (void(^_Nullable)(BOOL succeeded, NSError * _Nullable error)) completion;

@@ -13,5 +13,8 @@
 #import "CMMParseQueryManager.h"
 
 @interface CMMInboxVC : UIViewController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate>
-
+- (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage;
+@property (strong, nonatomic) UITableView *messagesTableView;
+@property (strong, nonatomic) NSMutableArray *conversations;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @end
