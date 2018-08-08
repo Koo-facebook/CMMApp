@@ -25,6 +25,8 @@ static NSUInteger const kCMDefaultSelected = 0;
 @property (strong, nonatomic) CMTabbarView *tabbarView;
 @property (strong, nonatomic) NSArray *datas;
 
+@interface CMMNewsfeedVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SideMenuDelegate>
+
 @end
 
 @implementation CMMNewsfeedVC
@@ -50,12 +52,16 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.user = PFUser.currentUser;
 }
 
+- (void)createBarButtonItem {
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
+    self.navigationItem.rightBarButtonItem = filterButton;
+}
+
 - (void)configureView {
     self.navigationItem.title = @"Newsfeed";
     
-//    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
-//    self.navigationItem.rightBarButtonItem = filterButton;
-    
+    [self createBarButtonItem];
+
     self.sortByTrending = NO;
     self.isMoreDataLoading = NO;
     
@@ -107,6 +113,8 @@ static NSUInteger const kCMDefaultSelected = 0;
 
 //QUERY CODE
 - (void)fetchPosts {
+    
+    [[CMMParseQueryManager shared] setUserStrikes:CMMUser.currentUser sender:self];
     [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending Reported:NO WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             

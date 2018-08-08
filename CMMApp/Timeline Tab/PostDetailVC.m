@@ -141,6 +141,9 @@
     if ([self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
         showChatButton = NO;
     }
+    if (CMMUser.currentUser.strikes.intValue >= 3) {
+        showChatButton = NO;
+    }
     
     // chat button
     if (showChatButton) {

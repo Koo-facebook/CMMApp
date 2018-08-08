@@ -1,18 +1,16 @@
 //
-//  CMMModeratorPostVC.m
+//  CMMReportedChatVC.m
 //  CMMApp
 //
-//  Created by Olivia Jorasch on 8/2/18.
+//  Created by Olivia Jorasch on 8/6/18.
 //  Copyright © 2018 Omar Rasheed. All rights reserved.
 //
 
-#import "CMMModeratorPostVC.h"
-#import <Masonry.h>
+#import "CMMReportedChatVC.h"
 #import "CMMStyles.h"
-#import "CMMParseQueryManager.h"
-#import <CCDropDownMenus.h>
+#import <CCDropDownMenus/CCDropDownMenus.h>
 
-@interface CMMModeratorPostVC () <CCDropDownMenuDelegate>
+@interface CMMReportedChatVC () <CCDropDownMenuDelegate>
 @property (strong, nonatomic) ManaDropDownMenu *menu;
 @property (strong, nonatomic) ManaDropDownMenu *menu2;
 @property (strong, nonatomic) NSArray *reportOptions;
@@ -22,15 +20,13 @@
 @property (strong, nonatomic) NSString *reportReason;
 @property (strong, nonatomic) UIButton *submitButton;
 @property (strong, nonatomic) UIView *moderatorView;
-@property (strong, nonatomic) UIView *upperView;
 @end
 
-@implementation CMMModeratorPostVC
+@implementation CMMReportedChatVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[self configureDetails:self.post];
-    //[self createButtons];
+    [self createButtons];
     // Do any additional setup after loading the view.
 }
 
@@ -39,58 +35,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)didTapReport {
-}
-
-/*- (void)createButtons {
-    UILabel *moderatorLabel = [[UILabel alloc] init];
-    moderatorLabel.text = @"Does this chat violate our community guidelines?";
-    moderatorLabel.numberOfLines = 0;
-    [self.view addSubview:moderatorLabel];
-    
-    UIButton *yesButton = [[UIButton alloc] init];
-    [yesButton addTarget:self action:@selector(didPressYes) forControlEvents:UIControlEventTouchUpInside];
-    [yesButton setTitle:@"Yes" forState:UIControlStateNormal];
-    [yesButton setBackgroundColor:[UIColor grayColor]];
-    [yesButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:yesButton];
-    [yesButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(moderatorLabel.mas_bottom).with.offset(20);
-        make.left.equalTo(self.view.mas_left).with.offset(12);
-        make.right.equalTo(self.view.mas_right).with.offset(-(6 + self.view.frame.size.width/2));
-    }];
-    
-    UIButton *noButton = [[UIButton alloc] init];
-    [noButton addTarget:self action:@selector(didPressNo) forControlEvents:UIControlEventTouchUpInside];
-    [noButton setTitle:@"No" forState:UIControlStateNormal];
-    [noButton setBackgroundColor:[CMMStyles getTealColor]];
-    [noButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:noButton];
-    [noButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(moderatorLabel.mas_bottom).with.offset(20);
-        make.left.equalTo(self.view.mas_left).with.offset(6 + self.view.frame.size.width/2);
-        make.right.equalTo(self.view.mas_right).with.offset(-12);
-    }];
-    
-    
-    [moderatorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.detailLabel.mas_bottom).with.offset(12);
-        make.left.equalTo(self.view.mas_left).with.offset(12);
-        make.right.equalTo(self.view.mas_right).with.offset(-12);
+- (void)setupChat {
+    [self.chatTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.topicLabel.mas_bottom).offset(10);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view.mas_bottom).offset(150);
     }];
 }
-
-- (void)didPressYes {
-    [[CMMParseQueryManager shared] deletePostFromParse:self.post];
-    [[CMMParseQueryManager shared] addStrikeToUser:self.post.owner forReason:self.reportReason];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)didPressNo {
-    [self.navigationController popViewControllerAnimated:YES];
-    [self.post setObject:@(0) forKey:@"reportedNumber"];
-    [self.post saveInBackground];
-}*/
 
 - (void)createButtons {
     
@@ -106,19 +57,17 @@
     self.moderatorLabel.numberOfLines = 0;
     [self.view addSubview:self.moderatorLabel];
     
-    self.reportOptions = @[@"Yes", @"No"];
+    self.reportOptions = @[@"No", @"Yes, user1", @"Yes, user2", @"Yes, both users"];
     self.menu = [[ManaDropDownMenu alloc] init];
     self.menu.heightOfRows = 40;
     self.menu.delegate = self;
     self.menu.numberOfRows = self.reportOptions.count;
     self.menu.textOfRows = self.reportOptions;
-    self.menu.title = @"Yes/No";
+    self.menu.title = @"No";
     [self.view addSubview:self.menu];
     
-    self.upperView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 310)];
-    [self.view addSubview:self.upperView];
     UITapGestureRecognizer *viewTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAwayFromMenu)];
-    [self.upperView addGestureRecognizer:viewTapRecognizer];
+    [self.chatTableView addGestureRecognizer:viewTapRecognizer];
     
     self.reportReasons = @[@"Hate Speech", @"Threats of Violence", @"Sexual Content", @"Spam"];
     self.menu2 = [[ManaDropDownMenu alloc] init];
@@ -149,6 +98,10 @@
     
     self.menu2.frame = CGRectMake(self.view.frame.size.width/2 - 26, self.view.frame.size.height-height, self.view.frame.size.width/2 - 50, 40);
     
+    [self.chatTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.moderatorView.mas_top);
+    }];
+    
     self.submitButton.frame = CGRectMake(self.view.frame.size.width - 70, self.view.frame.size.height-height, 60, 40);
 }
 
@@ -157,7 +110,13 @@
         NSString *reportee = self.reportOptions[index];
         self.strikeUsers = [[NSMutableArray alloc] init];
         if ([reportee isEqualToString:self.reportOptions[0]]) {
-            [self.strikeUsers addObject:self.post.owner];
+        } else if ([reportee isEqualToString:self.reportOptions[1]]) {
+            [self.strikeUsers addObject:self.conversation.user1];
+        } else if ([reportee isEqualToString:self.reportOptions[2]]) {
+            [self.strikeUsers addObject:self.conversation.user2];
+        } else if ([reportee isEqualToString:self.reportOptions[3]]) {
+            [self.strikeUsers addObject:self.conversation.user1];
+            [self.strikeUsers addObject:self.conversation.user2];
         }
     } else {
         self.reportReason = self.reportReasons[index];
@@ -166,11 +125,14 @@
 
 - (void)submitReport {
     if (self.strikeUsers.count > 0) {
-        [[CMMParseQueryManager shared] deletePostFromParse:self.post];
+        for (CMMUser *user in self.strikeUsers) {
+            [[CMMParseQueryManager shared] addStrikeToUser:user forReason:self.reportReason];
+        }
+        [self.conversation setObject:self.reportReason forKey:@"reportedReason"];
+    } else {
+        [self.conversation removeObjectForKey:@"reportedUsers"];
     }
-    for (CMMUser *user in self.strikeUsers) {
-        [[CMMParseQueryManager shared] addStrikeToUser:user forReason:self.reportReason];
-    }
+    [self.conversation saveInBackground];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -180,6 +142,40 @@
 
 - (void)didTapAwayFromMenu {
     [self resetModBarWithHeight:100];
+}
+
+- (void)setUsernameLabelText {
+    self.titleLabel.text = [NSString stringWithFormat:@"Chat between %@ and %@", self.conversation.user1.username, self.conversation.user2.username];
+}
+
+- (void)setupSendMessageTextField {
+}
+
+- (void)setupMessagingTextView {
+}
+
+- (void)sendButtonPressed {
+}
+
+-(void)keyboardWillShow: (NSNotification *) notification {
+}
+
+-(void)keyboardWillHide: (NSNotification *) notification {
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+}
+
+/*- (void)setupUserProfileImage {
+}*/
+
+- (void)setupOnlineIndicator {
+}
+
+- (void)checkPermissions {
 }
 
 @end

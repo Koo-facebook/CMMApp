@@ -8,13 +8,12 @@
 
 #import "CMMInboxVC.h"
 #import "CMMModeratorFeedVC.h"
+#import "AppDelegate.h"
+#import "CMMModerationController.h"
 
 @interface CMMInboxVC ()
 
 @property (strong, nonatomic) UISearchController *messagesSearchController;
-@property (strong, nonatomic) UITableView *messagesTableView;
-@property (strong, nonatomic) NSMutableArray *conversations;
-@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSTimer *timer;
     
 @end
@@ -118,8 +117,9 @@
 }
 
 - (void)moderatorMode {
-    CMMModeratorFeedVC *moderatorVC = [[CMMModeratorFeedVC alloc] init];
-    [self.navigationController pushViewController:moderatorVC animated:YES];
+    CMMModerationController *tabBar = [[CMMModerationController alloc] init];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    delegate.window.rootViewController = tabBar;
 }
 
 #pragma mark - TableView Delegate & Datasource
@@ -161,7 +161,13 @@
             } else {
                 reportedUser = chat.user1;
             }
-            [chat addObject:reportedUser forKey:@"reportedUsers"];
+            if (chat.reportedUsers) {
+                [chat addObject:reportedUser forKey:@"reportedUsers"];
+            } else {
+                NSArray *reportedUsers = [[NSMutableArray alloc] init];
+                [chat setObject:reportedUsers forKey:@"reportedUsers"];
+            }
+            
             [chat saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 if (succeeded) {
                     NSLog(@"Updated chat");
@@ -235,8 +241,8 @@
 }
 
 - (void)pullConversations {
-    [[CMMParseQueryManager shared] fetchConversationsWithCompletion:^(NSArray *conversations, NSError *error) {
-        if (conversations) {
+    [[CMMParseQueryManager shared] fetchConversationsReported:NO WithCompletion:^(NSArray *conversations, NSError *error) {
+        if (conversations.count > 0) {
             self.conversations = [NSMutableArray arrayWithArray:conversations];
             [self.messagesTableView reloadData];
             [self.refreshControl endRefreshing];

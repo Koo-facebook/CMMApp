@@ -16,6 +16,7 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UITextField *questionTextField;
 @property (strong, nonatomic) UITextField *descriptionTextField;
+@property (strong, nonatomic) ManaDropDownMenu *menu;
 @property (strong, nonatomic) NSString *categoryString;
 @property (strong, nonatomic) NSArray *categoryOptions;
 @end
@@ -28,8 +29,12 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStylePlain target:self action:@selector(didPressPost:)];
-    self.navigationItem.rightBarButtonItem = postButton;
+    if (CMMUser.currentUser.strikes.intValue >= 3) {
+        [self showAlert:@"Your account is temporarily suspended from posting on the feed" Message:@"" Sender:self];
+    } else {
+        UIBarButtonItem *postButton = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStylePlain target:self action:@selector(didPressPost:)];
+        self.navigationItem.rightBarButtonItem = postButton;
+    }
 }
 
 - (void)configureViews {
@@ -71,6 +76,7 @@
     [tapView addGestureRecognizer:tapRecognizer];
 
     // create dropdown menu for category
+
     CGRect menuFrame = CGRectMake(minimumSideBuffer, 280, 150, 50);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:menuFrame title:@"Category"];
     menu.heightOfRows = 50;

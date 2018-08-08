@@ -9,6 +9,7 @@
 #import "CMMParseQueryManager.h"
 #import <DateTools.h>
 #import "UIImageView+AFNetworking.h"
+#import "CMMUserStrikes.h"
 @implementation CMMParseQueryManager
 
 + (instancetype)shared {
@@ -50,16 +51,54 @@
     }];
 }
 
-- (void)addStrikeToUser:(CMMUser *)user {
-    int newStrikes;
-    if (user.strikes) {
-        newStrikes = user.strikes.intValue + 1;
-    } else {
-        newStrikes = 1;
-    }
-    NSNumber *newStrikesNumber = [NSNumber numberWithInt:newStrikes];
-    [user setObject:newStrikesNumber forKey:@"strikes"];
-    [user saveInBackground];
+- (void)setUserStrikes:(CMMUser *)user sender:(id)sender {
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMUserStrikes"];
+    [query whereKey:@"userID" equalTo:user.objectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects.count > 0) {
+            CMMUserStrikes *userStrikes = objects[0];
+            [user setObject:@(user.strikes.intValue + userStrikes.strikes.intValue) forKey:@"strikes"];
+            NSMutableString *alertMessage = [[NSMutableString alloc] initWithString:@"Your content has been reported"];
+            BOOL firstReason = YES;
+            for (NSString *reason in userStrikes.reportedReasons) {
+                if (!firstReason) {
+                    [alertMessage stringByAppendingString:@" and "];
+                } else {
+                    [alertMessage stringByAppendingString:@" for "];
+                }
+                [alertMessage stringByAppendingString:reason];
+                firstReason = NO;
+            }
+            [userStrikes deleteInBackground];
+            [user saveInBackground];
+            NSString *detailMessage = [[@"You now have " stringByAppendingFormat:@"%@", user.strikes] stringByAppendingString:@" strikes"];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertMessage message:detailMessage preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            }];
+            [alert addAction:okAction];
+            [sender presentViewController:alert animated:YES completion:^{
+            }];
+            
+        }
+    }];
+}
+
+- (void)addStrikeToUser:(CMMUser *)user forReason:(NSString *)reason {
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMUserStrikes"];
+    [query whereKey:@"userID" equalTo:user.objectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects.count > 0) {
+            CMMUserStrikes *userStrikes = objects[0];
+            NSNumber *newStrikes = [NSNumber numberWithInt:(userStrikes.strikes.intValue + 1)];
+            [userStrikes setObject:newStrikes forKey:@"strikes"];
+            [userStrikes addObject:reason forKey:@"reportedReasons"];
+            [userStrikes saveInBackground];
+        } else {
+            NSNumber *newStrikes = @(1);
+            [CMMUserStrikes createStrikes:newStrikes forUserID:user.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMUserStrikes *userStrikes) {
+            }];
+        }
+    }];
 }
 
 - (void)reportPost:(CMMPost *)post {
@@ -193,13 +232,22 @@
     }];
 }
 
-- (void)fetchConversationsWithCompletion:(void(^)(NSArray *conversations, NSError *error)) completion {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(user1 = %@) OR (user2 = %@)", CMMUser.currentUser, CMMUser.currentUser];
-    PFQuery *query = [PFQuery queryWithClassName:@"CMMConversation" predicate:predicate];
+- (void)fetchConversationsReported:(BOOL)reported WithCompletion:(void(^)(NSArray *conversations, NSError *error)) completion {
+    PFQuery *query;
+    if (!reported) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(user1 = %@) OR (user2 = %@)", CMMUser.currentUser, CMMUser.currentUser];
+        query = [PFQuery queryWithClassName:@"CMMConversation" predicate:predicate];
+    } else {
+        query = [PFQuery queryWithClassName:@"CMMConversation"];
+    }
     [query orderByDescending:@"lastMessageSent"];
     [query includeKey:@"user1"];
     [query includeKey:@"user2"];
     [query includeKey:@"userWhoLeft"];
+    if (reported) {
+        [query whereKeyExists:@"reportedUsers"];
+        [query whereKey:@"reportedUsers" notContainedIn:@[@[]]];
+    }
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable conversations, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);

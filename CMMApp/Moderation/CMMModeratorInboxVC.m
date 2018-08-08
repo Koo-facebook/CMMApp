@@ -1,26 +1,27 @@
 //
-//  CMMModeratorFeedVC.m
+//  CMMModeratorInboxVC.m
 //  CMMApp
 //
-//  Created by Olivia Jorasch on 8/2/18.
+//  Created by Olivia Jorasch on 8/6/18.
 //  Copyright © 2018 Omar Rasheed. All rights reserved.
 //
 
-#import "CMMModeratorFeedVC.h"
+#import "CMMModeratorInboxVC.h"
 #import "CMMParseQueryManager.h"
-#import "CMMStyles.h"
-#import "CMMModeratorPostVC.h"
+#import "CMMReportedChatVC.h"
 #import "CMMMainTabBarVC.h"
 #import "AppDelegate.h"
 
-@interface CMMModeratorFeedVC ()
+@interface CMMModeratorInboxVC ()
+
 @end
 
-@implementation CMMModeratorFeedVC
+@implementation CMMModeratorInboxVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"Reported Posts";
+    self.navigationItem.title = @"Reported Chats";
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -28,36 +29,32 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)fetchPosts {
-    [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:NO Reported:YES WithCompletion:^(NSArray *posts, NSError *error) {
-        if (posts != nil) {
-            self.posts = posts;
-            self.filteredPosts = self.posts;
-            [self.table reloadData];
-            [self.refreshControl endRefreshing];
-            if (self.filteredPosts.count == self.queryNumber) {
-                self.isMoreDataLoading = NO;
-            }
-        } else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
-}
-
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)table editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CMMPost *post = self.posts[indexPath.row];
-    NSString *title = [NSString stringWithFormat:@"Reports: %@", post.reportedNumber];
+    CMMConversation *chat = self.conversations[indexPath.row];
+    NSString *title = [NSString stringWithFormat:@"Reports: %lu", chat.reportedUsers.count];
     UITableViewRowAction *reports = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:title handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
     }];
     return [[NSArray alloc] initWithObjects:reports, nil];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CMMModeratorPostVC *detailVC = [[CMMModeratorPostVC alloc] init];
-    CMMPost *post = self.filteredPosts[indexPath.row];
-    [detailVC configureDetails:post];
+    CMMReportedChatVC *detailVC = [[CMMReportedChatVC alloc] init];
+    CMMConversation *chat = self.conversations[indexPath.row];
+    detailVC.conversation = chat;
     [[self navigationController] pushViewController:detailVC animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)pullConversations {
+    [[CMMParseQueryManager shared] fetchConversationsReported:YES WithCompletion:^(NSArray *conversations, NSError *error) {
+        if (conversations.count) {
+            self.conversations = [NSMutableArray arrayWithArray:conversations];
+            [self.messagesTableView reloadData];
+            [self.refreshControl endRefreshing];
+        } else {
+            [self createAlert:@"Error" message:@"Unable to retrieve conversations. Check Connection"];
+        }
+    }];
 }
 
 - (void)createBarButtonItem {
@@ -70,5 +67,6 @@
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     delegate.window.rootViewController = tabBar;
 }
+
 
 @end

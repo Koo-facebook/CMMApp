@@ -12,15 +12,12 @@
 
 @property (nonatomic, strong) PFImageView *usersProfileImage;
 @property (nonatomic, strong) UIImageView *onlineIndicator;
-@property (nonatomic, strong) UILabel *topicLabel;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UITableView *chatTableView;
-@property (nonatomic, strong) UITextView *writeMessageTextView;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSMutableArray *messages;
-@property (nonatomic, assign) CGSize keyboardSize;
 @property (nonatomic, strong) UILabel *reportLabel;
 @property (nonatomic, assign) BOOL isMoreDataLoading;
+@property (nonatomic, assign) CGSize keyboardSize;
+@property (nonatomic, strong) UITextView *writeMessageTextView;
 @end
 
 @implementation CMMChatVC
@@ -143,7 +140,12 @@
             return;
         }
     }
-    [self.conversation addObject:otherUser forKey:@"reportedUsers"];
+    if (self.conversation.reportedUsers) {
+        [self.conversation addObject:otherUser forKey:@"reportedUsers"];
+    } else {
+        NSArray *reportedUsers = [[NSMutableArray alloc] init];
+        [self.conversation setObject:reportedUsers forKey:@"reportedUsers"];
+    }
     [self.conversation saveInBackground];
 }
 
@@ -194,25 +196,10 @@
     }];
     
     // Chats TableView
-    [self.chatTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.topicLabel.mas_bottom).offset(10);
-        make.left.right.equalTo(self.view);
-        if ([self otherUserLeft]) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-        } else {
-            make.bottom.equalTo(self.writeMessageTextView.mas_top).offset(-10);
-        }
-    }];
+    [self setupChat];
     
     // Send Message Text Field
-    if (![self otherUserLeft]) {
-        [self.writeMessageTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-8);
-            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
-            make.left.equalTo(self.view).offset(8);
-            make.height.equalTo(@41.67);
-        }];
-    }
+    [self setupSendMessageTextField];
     
     // Online Indicator
     [self.onlineIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -229,6 +216,29 @@
     
 }
 
+- (void)setupChat {
+    [self.chatTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.topicLabel.mas_bottom).offset(10);
+        make.left.right.equalTo(self.view);
+        if ([self otherUserLeft]) {
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+        } else {
+            make.bottom.equalTo(self.writeMessageTextView.mas_top).offset(-10);
+        }
+    }];
+}
+
+- (void)setupSendMessageTextField {
+    if (![self otherUserLeft]) {
+        [self.writeMessageTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-8);
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
+            make.left.equalTo(self.view).offset(8);
+            make.height.equalTo(@41.67);
+        }];
+    }
+}
+
 #pragma mark - Actions
 
 - (void)checkPermissions {
@@ -242,10 +252,14 @@
     NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
     for (NSString *userID in blockedUsers) {
         if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
-            [self createAlert:@"This user has blocked you" message:@"You can no longer send messages in this chat."];
+            [self createAlert:@"This user has blocked you" message:@"You can no longer send messages in this chat"];
             self.writeMessageTextView.editable = NO;
             break;
         }
+    }
+    if (CMMUser.currentUser.strikes.intValue >= 3) {
+        [self createAlert:@"Your account is temporarily suspended" message:@"You can no longer send messages in this chat"];
+        self.writeMessageTextView.editable = NO;
     }
 }
 
