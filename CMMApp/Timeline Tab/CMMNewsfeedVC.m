@@ -69,7 +69,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     
     // create and populate table view
     //NSInteger tabbarBottom = self.navigationController.navigationBar.frame.size.height+ UIApplication.sharedApplication.statusBarFrame.size.height;
-    CGRect tableViewFrame = CGRectMake(0,(self.navigationController.navigationBar.frame.size.height + UIApplication.sharedApplication.statusBarFrame.size.height+self.tabbarView.frame.size.height), self.view.frame.size.width, (self.view.frame.size.height-self.tabbarView.frame.size.height));
+    CGRect tableViewFrame = CGRectMake(0,(self.navigationController.navigationBar.frame.size.height + UIApplication.sharedApplication.statusBarFrame.size.height+self.tabbarView.frame.size.height), self.view.frame.size.width, (self.view.frame.size.height-self.tabbarView.frame.size.height-UIApplication.sharedApplication.statusBarFrame.size.height-self.navigationController.navigationBar.frame.size.height));
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     [self.table setContentOffset:CGPointMake(0, 45) animated:YES];
     self.table.rowHeight = UITableViewAutomaticDimension;
