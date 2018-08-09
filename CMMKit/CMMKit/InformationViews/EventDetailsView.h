@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <EventKit/EventKit.h>
+
 
 @interface EventDetailsView : UIView
 
--(void)setEventWithTitle:(NSString*)title location:(NSString *)location date:(NSString *)date time:(NSString *)time description:(NSString *)description;
+-(void)setEventWithTitle:(NSString*)title location:(NSString *)location startTime:(NSString *)startTime endTime:(NSString *)endTime description:(NSString *)description;
 
 @end

@@ -246,13 +246,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
-    UINavigationController *eventDetailsNavigation = [[UINavigationController alloc]initWithRootViewController:eventDetailsVC];
-
-    eventDetailsVC.event = self.eventList[indexPath.row];
-    //[self presentModalStatusViewForEvent:self.eventList[indexPath.row]];
-    [self.navigationController pushViewController:eventDetailsVC animated:YES];
-    [self presentViewController:eventDetailsNavigation animated:YES completion:^{}];
+//    CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
+//    UINavigationController *eventDetailsNavigation = [[UINavigationController alloc]initWithRootViewController:eventDetailsVC];
+//
+//    eventDetailsVC.event = self.eventList[indexPath.row];
+    [self presentModalStatusViewForEvent:self.eventList[indexPath.row]];
+//    [self.navigationController pushViewController:eventDetailsVC animated:YES];
+//    [self presentViewController:eventDetailsNavigation animated:YES completion:^{}];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -317,7 +317,7 @@
     NSString *dashAdded = [startTime stringByAppendingString:@"-"];
     NSString *interval = [dashAdded stringByAppendingString:endTime];
     
-    [modalView setEventWithTitle:event.title location:event.venue[@"location"] date:dateString time:interval description:event.details];
+    [modalView setEventWithTitle:event.title location:event.venue[@"localized_address_display"] startTime:event.startTime endTime:event.endTime description:event.details];
     [self.view addSubview:modalView];
 }
 @end
