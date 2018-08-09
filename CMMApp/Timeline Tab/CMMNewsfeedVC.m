@@ -17,6 +17,7 @@
 #import "NewsfeedSideMenuVC.h"
 #import "CMMStyles.h"
 #import "CMTabbarView.h"
+#import <Lottie/Lottie.h>
 
 static NSUInteger const kCMDefaultSelected = 0;
 
@@ -24,6 +25,9 @@ static NSUInteger const kCMDefaultSelected = 0;
 
 @property (strong, nonatomic) CMTabbarView *tabbarView;
 @property (strong, nonatomic) NSArray *datas;
+@property (strong, nonatomic) UIView *refreshContainer;
+@property (strong, nonatomic) LOTAnimationView *lottieAnimation;
+
 
 @end
 
@@ -88,9 +92,18 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self.view addSubview:self.table];
 
     // add refresh control to table view
-    self.refreshControl = [[UIRefreshControl alloc] init];
+    CGFloat customRefreshControlHeight = 50.0f;
+    CGFloat customRefreshControlWidth = 320.0f;
+    CGRect customRefreshControlFrame = CGRectMake(0.0f,
+                                                  -customRefreshControlHeight,
+                                                  customRefreshControlWidth,
+                                                  customRefreshControlHeight);
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];//WithFrame:customRefreshControlFrame];
     [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
     [self.table insertSubview:self.refreshControl atIndex:0];
+    
+    
     
     [self createProfileButton];
 }
@@ -110,7 +123,6 @@ static NSUInteger const kCMDefaultSelected = 0;
 
 //QUERY CODE
 - (void)fetchPosts {
-    
     [[CMMParseQueryManager shared] setUserStrikes:CMMUser.currentUser sender:self];
     [[CMMParseQueryManager shared] fetchPosts:self.queryNumber Categories:self.categories SortByTrending:self.sortByTrending Reported:NO WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
@@ -209,7 +221,6 @@ static NSUInteger const kCMDefaultSelected = 0;
 }
 
 
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     //When scrolling starts, present search bar
     self.searchBar.hidden = NO;
@@ -225,8 +236,22 @@ static NSUInteger const kCMDefaultSelected = 0;
             [self fetchPosts];
         }
     }
+    self.refreshContainer = [[UIView alloc]init];//WithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.refreshControl.frame.size.width, (self.refreshControl.frame.size.height+(self.table.contentSize.height - self.table.bounds.size.height)))];
+        self.refreshContainer.backgroundColor = [UIColor purpleColor];
+    self.refreshControl.tintColor = [UIColor clearColor];
+        [self.refreshControl addSubview:self.refreshContainer];
+    
+    [self.refreshContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.tabbarView.mas_bottom);
+        make.width.equalTo(self.refreshContainer.superview.mas_width);
+        make.bottom.equalTo(self.table.mas_top).offset(-25);
+    }];
+    [self presentModalStatusView];
 }
 
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    
+}
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)table editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewRowAction *report = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Report Post" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to report this post?" message:@"" preferredStyle:(UIAlertControllerStyleAlert)];
@@ -244,7 +269,29 @@ static NSUInteger const kCMDefaultSelected = 0;
     return [[NSArray alloc] initWithObjects:report, nil];
 }
 
-
+-(void)presentModalStatusView {
+    
+    self.lottieAnimation = [LOTAnimationView animationNamed:@"newsfeed_refresh"];
+    
+    self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    self.lottieAnimation.loopAnimation = YES;
+    
+    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
+    CGRect lottieRect = CGRectMake(0, 0, (self.refreshContainer.bounds.size.width), (self.refreshContainer.bounds.size.height));
+    self.lottieAnimation.frame = lottieRect;
+    
+    [self.refreshContainer addSubview:self.lottieAnimation];
+//    [self.lottieAnimation playFromProgress:0.0 toProgress:0.8 withCompletion:^(BOOL animationFinished) {
+//        if (animationFinished) {
+//            [self.animationContainer removeFromSuperview];
+//            CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
+//            [self presentViewController:tabBarVC animated:YES completion:^{}];
+//        }
+//    }];
+    [self.lottieAnimation play];
+    //
+    //[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeSelf:) userInfo:nil repeats:false];
+}
 
 //TOP TABBAR CODE
 - (CMTabbarView *)tabbarView

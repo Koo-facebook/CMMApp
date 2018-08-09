@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UILabel *subheading;
 @property (nonatomic, strong) UIImageView *backgroundImage;
 @property (nonatomic, strong) FullScrollView *scrollView;
+@property (nonatomic, assign) CGSize keyboardSize;
 //@property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *animate;
 
@@ -35,6 +36,9 @@
     
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillShowNotification object:nil];
+
     //[self createBackgroundImage];
     [self createLoginGradient];
     //self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(20.0/255.0) green:(CGFloat)(14.0/255.0) blue:(CGFloat)(33.0/255.0) alpha:1];
@@ -64,7 +68,7 @@
 
     // Animation Container
     [self.animationContainer mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.subheading.mas_bottom).offset(20);
+        make.top.equalTo(self.subheading.mas_bottom).offset(25);
         make.centerX.equalTo(self.animationContainer.superview.mas_centerX);
         make.width.equalTo(@(self.animationContainer.superview.frame.size.width/1.85));
         make.height.equalTo(self.animationContainer.mas_width);
@@ -89,7 +93,7 @@
     // Signup Button
     [self.signUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.passwordTextField.mas_bottom).offset(30);
-        make.left.equalTo(self.passwordTextField.mas_left);
+        make.left.equalTo(self.passwordTextField.mas_left).offset(25);
         make.width.equalTo(@(self.signUpButton.intrinsicContentSize.width));
         make.height.equalTo(@(self.signUpButton.intrinsicContentSize.height));
     }];
@@ -97,7 +101,7 @@
     // Login Button
     [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.signUpButton.mas_top);
-        make.right.equalTo(self.passwordTextField.mas_right);
+        make.right.equalTo(self.passwordTextField.mas_right).offset(-25);
         make.height.equalTo(@(self.loginButton.intrinsicContentSize.height));
         make.width.equalTo(@(self.loginButton.intrinsicContentSize.width));
     }];
@@ -124,7 +128,41 @@
 - (void)wholeViewTapped {
     [self.view endEditing:YES];
 }
-    
+
+-(void)keyboardWillShow: (NSNotification *) notification {
+    self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    //CGFloat fixedWidth = self.passwordTextField.frame.size.width;
+    //CGSize newSize = [self.passwordTextField sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+//    if (newSize.height < 41.67) {
+//        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
+//            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
+//            make.left.equalTo(self.view).offset(8);
+//            make.height.equalTo(@41.67);
+//        }];
+//    } else {
+        [self.passwordTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
+            make.left.equalTo(self.view).offset(8);
+           // make.width.equalTo(@(275));
+            make.height.equalTo(@(self.passwordTextField.intrinsicContentSize.height));
+        }];
+    //}
+}
+
+-(void)keyboardWillHide: (NSNotification *) notification {
+    self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+
+    // Password TextField
+    [self.passwordTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.usernameTextField.mas_bottom).offset(25);
+        make.centerX.equalTo(self.passwordTextField.superview.mas_centerX);
+        make.width.equalTo(@275);
+        make.height.equalTo(@(self.passwordTextField.intrinsicContentSize.height));
+    }];
+}
+
     // Initialize Title Label
 - (void)createTitleLabelInView: (UIView *)view {
     self.titleLabel = [[UILabel alloc] init];
@@ -218,18 +256,19 @@
     // Initalize Gradient
 - (void)createLoginGradient {
     // Do any additional setup after loading the view, typically from a nib.
-    UIColor *color1 = [UIColor colorWithRed:75.0/255.0 green:228.0/255.0 blue:180.0/255.0 alpha:1.0];
-    UIColor *color2 = [UIColor colorWithRed:35.0/255.0 green:110.0/255.0 blue:174.0/255.0 alpha:1.0];
+//    UIColor *color1 = [UIColor colorWithRed:75.0/255.0 green:228.0/255.0 blue:180.0/255.0 alpha:1.0];
+//    UIColor *color2 = [UIColor colorWithRed:35.0/255.0 green:110.0/255.0 blue:174.0/255.0 alpha:1.0];
     
     // Create the gradient
-    CAGradientLayer *theViewGradient = [CAGradientLayer layer];
-    theViewGradient.colors = [NSArray arrayWithObjects: (id)color1.CGColor, (id)color2.CGColor, nil];
-    theViewGradient.frame = self.view.bounds;
-    theViewGradient.startPoint = CGPointMake(0, 0);
-    theViewGradient.endPoint = CGPointMake(1, 1);
+//    CAGradientLayer *theViewGradient = [CAGradientLayer layer];
+//    theViewGradient.colors = [NSArray arrayWithObjects: (id)color1.CGColor, (id)color2.CGColor, nil];
+//    theViewGradient.frame = self.view.bounds;
+//    theViewGradient.startPoint = CGPointMake(0, 0);
+//    theViewGradient.endPoint = CGPointMake(1, 1);
     
+    self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
     //Add gradient to view
-    [self.view.layer insertSublayer:theViewGradient atIndex:0];
+//    [self.view.layer insertSublayer:theViewGradient atIndex:0];
 }
 
 -(void)createScrollView {
