@@ -45,6 +45,8 @@
     [self createRefreshControl];
     [self createBarButtonItem];
     [self updateConstraints];
+    
+    self.tabBarItem.badgeValue = @"2";
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

@@ -11,6 +11,8 @@
 		13118EC6211CA80E004E271C /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 13118EC2211CA80D004E271C /* Contents.json */; };
 		13118EC7211CA80E004E271C /* close-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13118EC3211CA80D004E271C /* close-icon@2x.png */; };
 		13118EC8211CA80E004E271C /* close-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13118EC4211CA80D004E271C /* close-icon@3x.png */; };
+		13118ED1211CBAB9004E271C /* CMMBadge.h in Headers */ = {isa = PBXBuildFile; fileRef = 13118ECF211CBAB9004E271C /* CMMBadge.h */; };
+		13118ED2211CBAB9004E271C /* CMMBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 13118ED0211CBAB9004E271C /* CMMBadge.m */; };
 		136E30B0210A4C66009B4180 /* CMMKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E30AE210A4C66009B4180 /* CMMKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		136E30BC210A4CDE009B4180 /* CMMPopUp.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E30BA210A4CDE009B4180 /* CMMPopUp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		136E30BD210A4CDE009B4180 /* CMMPopUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E30BB210A4CDE009B4180 /* CMMPopUp.m */; };
@@ -43,6 +45,8 @@
 		13118EC2211CA80D004E271C /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
 		13118EC3211CA80D004E271C /* close-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-icon@2x.png"; sourceTree = "<group>"; };
 		13118EC4211CA80D004E271C /* close-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-icon@3x.png"; sourceTree = "<group>"; };
+		13118ECF211CBAB9004E271C /* CMMBadge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMBadge.h; sourceTree = "<group>"; };
+		13118ED0211CBAB9004E271C /* CMMBadge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMBadge.m; sourceTree = "<group>"; };
 		136E30AB210A4C66009B4180 /* CMMKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CMMKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		136E30AE210A4C66009B4180 /* CMMKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMKit.h; sourceTree = "<group>"; };
 		136E30AF210A4C66009B4180 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -98,6 +102,15 @@
 			path = "../../../CMMApp/Assets.xcassets/close-icon.imageset";
 			sourceTree = "<group>";
 		};
+		13118ECA211CB90C004E271C /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				13118ECF211CBAB9004E271C /* CMMBadge.h */,
+				13118ED0211CBAB9004E271C /* CMMBadge.m */,
+			);
+			path = Badge;
+			sourceTree = "<group>";
+		};
 		136E30A1210A4C66009B4180 = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +155,7 @@
 		136E3132210BD3BC009B4180 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
+				13118ECA211CB90C004E271C /* Badge */,
 				136E3143210BD505009B4180 /* Animation */,
 				136E3133210BD40A009B4180 /* CMMIconView.h */,
 				136E3134210BD40A009B4180 /* CMMIconView.m */,
@@ -217,6 +231,7 @@
 				136E313D210BD4AD009B4180 /* CMMTabBar.h in Headers */,
 				136E30BC210A4CDE009B4180 /* CMMPopUp.h in Headers */,
 				136E3139210BD435009B4180 /* CMMItemAnimation.h in Headers */,
+				13118ED1211CBAB9004E271C /* CMMBadge.h in Headers */,
 				136E314A210F6DD0009B4180 /* RotationAnimation.h in Headers */,
 				136E3146210F6DB8009B4180 /* CMMBounceAnimation.h in Headers */,
 				136E3141210BD4F5009B4180 /* CMMAnimatedBarItem.h in Headers */,
@@ -324,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13FA46FD2110BE5500846515 /* FullScrollView.m in Sources */,
+				13118ED2211CBAB9004E271C /* CMMBadge.m in Sources */,
 				136E30BD210A4CDE009B4180 /* CMMPopUp.m in Sources */,
 				13FEA31A21125D5400E8D70D /* PostDetailsView.m in Sources */,
 				136E3142210BD4F5009B4180 /* CMMAnimatedBarItem.m in Sources */,

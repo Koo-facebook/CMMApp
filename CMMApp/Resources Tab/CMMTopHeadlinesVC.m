@@ -29,13 +29,17 @@
     //Navigation Bar Set-up
     self.view.backgroundColor = [UIColor whiteColor];
     
+    [self.tableView registerClass:[ArticleCell class] forCellReuseIdentifier:@"articleCell"];
     //self.navigationItem.title = @"Events";
     if (!self.category){
-        self.category = @"Trump";
+        [[CMMResourcesAPIManager shared]getTrendingArticlesWithCompletion:^(NSArray *articles, NSError *error) {
+            self.articleList = articles;
+            [self.tableView reloadData];
+        }];
     }
-    [self.tableView registerClass:[ArticleCell class] forCellReuseIdentifier:@"articleCell"];
+    else {
     [self fetchResourcesRelatingTo:self.category];
-    
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,17 +59,17 @@
         if (articles) {
             NSLog(@"I am fetching articles");
             self.articleList = articles;
-            for(CMMArticle *article in articles) {
-                NSString *name = article.title;
-                NSLog(@"%@", name);
-                //                [[CMMEventAPIManager shared] pullVenues:event.venue_id withCompletion:^(NSDictionary *venues, NSError *error) {
-                //                    NSNumber *latitude = venues[@"latitude"];
-                //                    NSNumber *longitude = venues [@"longitude"];
-                //                    //NSLog(@"Latitude: %@", latitude);
-                //                    //NSLog(@"Longitude: %@", longitude);
-                //                    CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(latitude.floatValue,longitude.floatValue);
-                //                    [self addingPins:venueLocation withSubTitle: event.title];
-            }
+//            for(CMMArticle *article in articles) {
+//                NSString *name = article.title;
+//                NSLog(@"%@", name);
+//                //                [[CMMEventAPIManager shared] pullVenues:event.venue_id withCompletion:^(NSDictionary *venues, NSError *error) {
+//                //                    NSNumber *latitude = venues[@"latitude"];
+//                //                    NSNumber *longitude = venues [@"longitude"];
+//                //                    //NSLog(@"Latitude: %@", latitude);
+//                //                    //NSLog(@"Longitude: %@", longitude);
+//                //                    CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(latitude.floatValue,longitude.floatValue);
+//                //                    [self addingPins:venueLocation withSubTitle: event.title];
+//            }
             NSLog(@"😎😎😎 Successfully loaded events table");
             [self.tableView reloadData];
         }
@@ -123,7 +127,15 @@
 }
 
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
-    [self fetchResourcesRelatingTo:self.category];
+    if (!self.category){
+        [[CMMResourcesAPIManager shared]getTrendingArticlesWithCompletion:^(NSArray *articles, NSError *error) {
+            self.articleList = articles;
+            [self.tableView reloadData];
+        }];
+    }
+    else {
+        [self fetchResourcesRelatingTo:self.category];
+    }
     //[self _playLottieAnimation];
     // Tell the refreshControl to stop spinning
     [refreshControl endRefreshing];

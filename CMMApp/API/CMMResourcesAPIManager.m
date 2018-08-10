@@ -51,4 +51,30 @@
     }];
     [task resume];
 }
+
+-(void)getTrendingArticlesWithCompletion:(void(^)(NSArray *articles, NSError *error))completion {
+    
+    NSString *fullURL = @"https://newsapi.org/v2/everything?q=politics&sources=the-washington-post&apiKey=90618f0c88ef47eca97a30b24223381c";
+    NSLog(@"%@", fullURL);
+    NSURL *url = [NSURL URLWithString:fullURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            NSLog(@"%@", [error localizedDescription]);
+            completion(nil, error);
+        } else {
+            NSLog(@"😎😎😎 Successfully got all events");
+            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            NSArray *articlesDictionaries = dataDictionary[@"articles"];
+            /*for (NSDictionary *event in eventsDictionaries) {
+             NSString *name = event[@"venue_id"];
+             }*/
+            NSArray *articles = [CMMArticle articlesWithArray:articlesDictionaries];
+            completion(articles, nil);
+        }
+    }];
+    [task resume];
+}
 @end

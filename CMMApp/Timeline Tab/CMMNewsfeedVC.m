@@ -8,6 +8,8 @@
 
 #import "CMMNewsfeedVC.h"
 #import "CMMProfileVC.h"
+#import "CMMChatVC.h"
+#import "CMMTopHeadlinesVC.h"
 #import "CMMPost.h"
 #import "NewsfeedCell.h"
 #import "Masonry.h"
@@ -17,7 +19,9 @@
 #import "NewsfeedSideMenuVC.h"
 #import "CMMStyles.h"
 #import "CMTabbarView.h"
+#import <CMMKit/PostDetailsView.h>
 #import <Lottie/Lottie.h>
+#import "Datetools.h"
 #import "CMMModerationController.h"
 #import "AppDelegate.h"
 
@@ -29,6 +33,9 @@ static NSUInteger const kCMDefaultSelected = 0;
 @property (strong, nonatomic) NSArray *datas;
 @property (strong, nonatomic) UIView *refreshContainer;
 @property (strong, nonatomic) LOTAnimationView *lottieAnimation;
+@property (strong, nonatomic) PostDetailsView *modalView;
+@property (strong, nonatomic) CMMPost *post;
+@property  NSInteger index;
 
 
 @end
@@ -100,19 +107,11 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self.view addSubview:self.table];
 
     // add refresh control to table view
-    CGFloat customRefreshControlHeight = 50.0f;
-    CGFloat customRefreshControlWidth = 320.0f;
-    CGRect customRefreshControlFrame = CGRectMake(0.0f,
-                                                  -customRefreshControlHeight,
-                                                  customRefreshControlWidth,
-                                                  customRefreshControlHeight);
-    
     self.refreshControl = [[UIRefreshControl alloc] init];//WithFrame:customRefreshControlFrame];
     [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
     [self.table insertSubview:self.refreshControl atIndex:0];
     
-    
-    
+
     [self createProfileButton];
 }
 
@@ -221,10 +220,8 @@ static NSUInteger const kCMDefaultSelected = 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PostDetailVC *detailVC = [[PostDetailVC alloc] init];
-    CMMPost *post = self.filteredPosts[indexPath.row];
-    [detailVC configureDetails:post];
-    [[self navigationController] pushViewController:detailVC animated:YES];
+    self.index = indexPath.row;
+    [self presentModalStatusViewForPost:self.filteredPosts[indexPath.row]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -254,12 +251,10 @@ static NSUInteger const kCMDefaultSelected = 0;
         make.width.equalTo(self.refreshContainer.superview.mas_width);
         make.bottom.equalTo(self.table.mas_top).offset(-25);
     }];
-    [self presentModalStatusView];
+    [self presentRefreshView];
 }
 
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
-}
+
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)table editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewRowAction *report = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Report Post" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to report this post?" message:@"" preferredStyle:(UIAlertControllerStyleAlert)];
@@ -277,7 +272,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     return [[NSArray alloc] initWithObjects:report, nil];
 }
 
--(void)presentModalStatusView {
+-(void)presentRefreshView {
     
     self.lottieAnimation = [LOTAnimationView animationNamed:@"newsfeed_refresh"];
     
@@ -301,6 +296,51 @@ static NSUInteger const kCMDefaultSelected = 0;
     //[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeSelf:) userInfo:nil repeats:false];
 }
 
+-(void)presentModalStatusViewForPost: (CMMPost *)post {
+    CGRect frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
+    self.modalView = [[PostDetailsView alloc]initWithFrame:frame];
+    
+    [self.modalView setPostWithTitle:post.topic category:post.category user:post.owner.username time:[post.createdAt timeAgoSinceNow] description:post.detailedDescription];
+    [self.modalView.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
+    [self.modalView.resourcesButton addTarget:self action:@selector(didPressResources) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.modalView];
+}
+
+- (void)didPressChat {
+    [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
+        if (succeeded) {
+            CMMChatVC *chatVC = [[CMMChatVC alloc] init];
+            chatVC.conversation = conversation;
+            chatVC.isUserOne = YES;
+            [[self navigationController] pushViewController:chatVC animated:YES];
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
+    [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
+    [self.post saveInBackground];
+}
+
+- (void)didPressResources {
+    CMMTopHeadlinesVC *resourcesVC = [[CMMTopHeadlinesVC alloc]init];
+    UINavigationController *resourcesNavigation = [[UINavigationController alloc]initWithRootViewController:resourcesVC];
+    //Format post topic for searching
+    CMMPost *currentPost = self.filteredPosts[self.index];
+    NSString *categoryNoSpaces = [currentPost.topic stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSString *finalCategory = [categoryNoSpaces stringByReplacingOccurrencesOfString:@" ' " withString:@"%27"];
+    NSLog(@"CATEGORY FOR SEARCH: %@", finalCategory);
+    //    for (int x = 0;x < self.post.topic.length; ++x ){
+    //        char currentCharacter = [self.post.topic characterAtIndex:x];
+    //        if (currentCharacter == ' '){
+    //
+    //        }
+    //    }
+    
+    resourcesVC.category = finalCategory;
+    [self.navigationController pushViewController:resourcesVC animated:YES];
+    //[self presentViewController:resourcesVC animated:YES completion:^{}];
+    
+}
 //TOP TABBAR CODE
 - (CMTabbarView *)tabbarView
 {

@@ -13,5 +13,6 @@
 + (instancetype)shared;
 
 - (void)getNewsArticlesWithTopic:(NSString *)topic fromDate:(NSString *)date withCompletion:(void(^)(NSArray *articles, NSError *error))completion;
+-(void)getTrendingArticlesWithCompletion:(void(^)(NSArray *articles, NSError *error))completion;
 
 @end

@@ -25,7 +25,6 @@
 #import "CMMProfileVC.h"
 #import "CMMTopHeadlinesVC.h"
 #import "CMMEventsVC.h"
-#import "CMMEventDetailsVC.h"
 #import "CMMResourcesVC.h"
 #import "CMMComposerVC.h"
 

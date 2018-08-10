@@ -34,7 +34,7 @@
     //self.view.tintColor = [UIColor blueColor];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
     
-    // side menu
+
     NewsfeedSideMenuVC *sideMenuVC = [[NewsfeedSideMenuVC alloc] init];
     LGSideMenuController *sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:firstNav leftViewController:nil rightViewController:sideMenuVC];
     sideMenuController.leftViewBackgroundBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
@@ -42,6 +42,7 @@
     sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleScaleFromLittle;
     sideMenuController.tabBarItem = firstTabBarItem;
     
+
     // Second ViewController
     CMMBounceAnimation *bounceAnimation_two = [[CMMBounceAnimation alloc] init];
     bounceAnimation_two.textSelectedColor = [UIColor blueColor];
@@ -75,7 +76,6 @@
     UINavigationController *thirdNav = [[UINavigationController alloc] initWithRootViewController:thirdViewController];
     thirdNav.tabBarItem = thirdTabBarItem;
     
-    
     // Fourth ViewController
     RotationAnimation *rotationAnimation = [[RotationAnimation alloc] init];
     rotationAnimation.textSelectedColor = [UIColor blueColor];
@@ -92,6 +92,7 @@
     CMMInboxVC *fourthViewController = [[CMMInboxVC alloc] init];
     UINavigationController *fourthNav = [[UINavigationController alloc] initWithRootViewController:fourthViewController];
     fourthNav.tabBarItem = fourthTabBarItem;
+    //fourthNav.tabBarItem.badgeValue = @"2";
     
     //Fifth View Controller
     CMMBounceAnimation *bounceAnimation_four = [[CMMBounceAnimation alloc] init];
@@ -108,7 +109,6 @@
     CMMTopHeadlinesVC *fifthViewController = [[CMMTopHeadlinesVC alloc] init];
     UINavigationController *fifthNav = [[UINavigationController alloc] initWithRootViewController:fifthViewController];
     fifthNav.tabBarItem = fifthTabBarItem;
-    
     
 
     self.viewControllers = @[sideMenuController, secondViewController, thirdNav, fourthNav, fifthNav];

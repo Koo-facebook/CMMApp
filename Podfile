@@ -26,7 +26,8 @@ end
 target 'CMMKit' do
     project 'CMMKit/CMMKit.xcodeproj'
     #Pods for CMMKit
-    
+    # pod 'Masonry'
+
 end
 
 post_install do |lib|
