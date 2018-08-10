@@ -34,16 +34,13 @@
     //self.view.tintColor = [UIColor blueColor];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
     
+    // side menu
     NewsfeedSideMenuVC *sideMenuVC = [[NewsfeedSideMenuVC alloc] init];
     LGSideMenuController *sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:firstNav leftViewController:nil rightViewController:sideMenuVC];
     sideMenuController.leftViewBackgroundBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
     sideMenuController.rightViewWidth = 2*self.view.frame.size.width/3;
     sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleScaleFromLittle;
     sideMenuController.tabBarItem = firstTabBarItem;
-    
- 
-    //Side Bar
-    //Side Bar Code will go here
     
     // Second ViewController
     CMMBounceAnimation *bounceAnimation_two = [[CMMBounceAnimation alloc] init];

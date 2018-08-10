@@ -18,6 +18,8 @@
 #import "CMMStyles.h"
 #import "CMTabbarView.h"
 #import <Lottie/Lottie.h>
+#import "CMMModerationController.h"
+#import "AppDelegate.h"
 
 static NSUInteger const kCMDefaultSelected = 0;
 
@@ -51,25 +53,31 @@ static NSUInteger const kCMDefaultSelected = 0;
         [self.tabbarView reloadData];
         //self.table.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
     });
-    self.user = PFUser.currentUser;
+    self.user = CMMUser.currentUser;
 }
 
 - (void)createBarButtonItem {
-    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
-    self.navigationItem.rightBarButtonItem = filterButton;
+    UIBarButtonItem *viewProfileButton =[[UIBarButtonItem alloc] initWithTitle:@"Moderate" style:UIBarButtonItemStylePlain target:self action:@selector(moderatorMode)];
+    self.navigationItem.rightBarButtonItem = viewProfileButton;
+}
+
+- (void)moderatorMode {
+    CMMModerationController *tabBar = [[CMMModerationController alloc] init];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    delegate.window.rootViewController = tabBar;
 }
 
 - (void)configureView {
     self.navigationItem.title = @"Newsfeed";
     
-    //[self createBarButtonItem];
+    [self createBarButtonItem];
 
     self.sortByTrending = NO;
     self.isMoreDataLoading = NO;
     
     // create and populate table view
     //NSInteger tabbarBottom = self.navigationController.navigationBar.frame.size.height+ UIApplication.sharedApplication.statusBarFrame.size.height;
-    CGRect tableViewFrame = CGRectMake(0,(self.navigationController.navigationBar.frame.size.height + UIApplication.sharedApplication.statusBarFrame.size.height+self.tabbarView.frame.size.height), self.view.frame.size.width, (self.view.frame.size.height-self.tabbarView.frame.size.height));
+    CGRect tableViewFrame = CGRectMake(0,(self.navigationController.navigationBar.frame.size.height + UIApplication.sharedApplication.statusBarFrame.size.height+self.tabbarView.frame.size.height), self.view.frame.size.width, (self.view.frame.size.height-self.tabbarView.frame.size.height-UIApplication.sharedApplication.statusBarFrame.size.height-self.navigationController.navigationBar.frame.size.height));
     self.table = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     [self.table setContentOffset:CGPointMake(0, 45) animated:YES];
     self.table.rowHeight = UITableViewAutomaticDimension;

@@ -12,13 +12,14 @@
 #import <CCDropDownMenus/CCDropDownMenus.h>
 #import "CMMStyles.h"
 
-@interface CMMComposerVC () <CCDropDownMenuDelegate>
+@interface CMMComposerVC () <CCDropDownMenuDelegate, UITextViewDelegate>
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UITextField *questionTextField;
-@property (strong, nonatomic) UITextField *descriptionTextField;
+@property (strong, nonatomic) UITextView *descriptionTextView;
 @property (strong, nonatomic) ManaDropDownMenu *menu;
 @property (strong, nonatomic) NSString *categoryString;
 @property (strong, nonatomic) NSArray *categoryOptions;
+@property (strong, nonatomic) UILabel *placeholderLabel;
 @end
 
 @implementation CMMComposerVC
@@ -26,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureViews];
+    self.descriptionTextView.delegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -49,7 +51,7 @@
     self.scrollView = [[UIScrollView alloc] initWithFrame:scrollFrame];
     self.scrollView.scrollEnabled=YES;
     self.scrollView.userInteractionEnabled=YES;
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 50*(self.categoryOptions.count + 2) + 200);
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 50*(self.categoryOptions.count + 3) + 200);
     [self.view addSubview:self.scrollView];
     
     // create typing fields
@@ -58,16 +60,23 @@
     CGRect questionFrame = CGRectMake(minimumSideBuffer, 20, self.view.frame.size.width - 2 * minimumSideBuffer, 40);
     CGRect descriptionFrame = CGRectMake(minimumSideBuffer, 70, self.view.frame.size.width - 2 * minimumSideBuffer, 200);
     self.questionTextField = [[UITextField alloc] initWithFrame:questionFrame];
-    self.descriptionTextField = [[UITextField alloc] initWithFrame:descriptionFrame];
+    self.descriptionTextView = [[UITextView alloc] initWithFrame:descriptionFrame];
     self.questionTextField.font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:14.0];
     self.questionTextField.layer.cornerRadius = textCornerRadius;
-    self.descriptionTextField.layer.cornerRadius = textCornerRadius;
+    self.descriptionTextView.layer.cornerRadius = textCornerRadius;
     self.questionTextField.backgroundColor = [UIColor whiteColor];
-    self.descriptionTextField.backgroundColor = [UIColor whiteColor];
+    self.descriptionTextView.backgroundColor = [UIColor whiteColor];
     self.questionTextField.placeholder = @"  What's your stance?";
-    self.descriptionTextField.placeholder = @"  Tell us why!";
     [self.scrollView addSubview:self.questionTextField];
-    [self.scrollView addSubview:self.descriptionTextField];
+    [self.scrollView addSubview:self.descriptionTextView];
+    
+    // text view placeholder text
+    CGRect placeholderFrame = CGRectMake(minimumSideBuffer, 70, self.view.frame.size.width - 2 * minimumSideBuffer, 40);
+    self.placeholderLabel = [[UILabel alloc] initWithFrame:placeholderFrame];
+    self.placeholderLabel.text = @"  Tell us why!";
+    self.placeholderLabel.textColor = [UIColor lightGrayColor];
+    self.placeholderLabel.font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:14.0];
+    [self.scrollView addSubview:self.placeholderLabel];
     
     // tap gesture recognizer
     UIView *tapView = [[UIView alloc] initWithFrame:CGRectMake(minimumSideBuffer + 150, 170, self.view.frame.size.width - 150 - minimumSideBuffer, self.scrollView.frame.size.height - 170)];
@@ -113,14 +122,14 @@
         [self showAlert:@"Oops!" Message:@"Don't forget to categorize your post" Sender:self];
         return;
     }
-    [CMMPost createPost:self.questionTextField.text description:self.descriptionTextField.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMPost *post) {
+    [CMMPost createPost:self.questionTextField.text description:self.descriptionTextView.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMPost *post) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         } else {
             NSLog(@"successful post");
             [CMMUser.currentUser saveInBackground];
             self.questionTextField.text = @"";
-            self.descriptionTextField.text = @"";
+            self.descriptionTextView.text = @"";
             self.tabBarController.selectedIndex = 0;
         }
     }];
@@ -128,6 +137,14 @@
 
 - (void)dropDownMenu:(CCDropDownMenu *)dropDownMenu didSelectRowAtIndex:(NSInteger)index {
     self.categoryString = self.categoryOptions[index];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    if ([self.descriptionTextView.text isEqualToString:@""]) {
+        [self.placeholderLabel setHidden:NO];
+    } else {
+        [self.placeholderLabel setHidden:YES];
+    }
 }
 
 - (void)createBackgroundGradient {
