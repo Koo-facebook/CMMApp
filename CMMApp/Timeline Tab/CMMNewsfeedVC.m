@@ -17,7 +17,9 @@
 #import "NewsfeedSideMenuVC.h"
 #import "CMMStyles.h"
 #import "CMTabbarView.h"
+#import <CMMKit/PostDetailsView.h>
 #import <Lottie/Lottie.h>
+#import "Datetools.h"
 
 static NSUInteger const kCMDefaultSelected = 0;
 
@@ -27,6 +29,7 @@ static NSUInteger const kCMDefaultSelected = 0;
 @property (strong, nonatomic) NSArray *datas;
 @property (strong, nonatomic) UIView *refreshContainer;
 @property (strong, nonatomic) LOTAnimationView *lottieAnimation;
+@property (strong, nonatomic) PostDetailsView *modalView;
 
 
 @end
@@ -92,19 +95,11 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self.view addSubview:self.table];
 
     // add refresh control to table view
-    CGFloat customRefreshControlHeight = 50.0f;
-    CGFloat customRefreshControlWidth = 320.0f;
-    CGRect customRefreshControlFrame = CGRectMake(0.0f,
-                                                  -customRefreshControlHeight,
-                                                  customRefreshControlWidth,
-                                                  customRefreshControlHeight);
-    
     self.refreshControl = [[UIRefreshControl alloc] init];//WithFrame:customRefreshControlFrame];
     [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
     [self.table insertSubview:self.refreshControl atIndex:0];
     
-    
-    
+
     [self createProfileButton];
 }
 
@@ -213,10 +208,11 @@ static NSUInteger const kCMDefaultSelected = 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PostDetailVC *detailVC = [[PostDetailVC alloc] init];
-    CMMPost *post = self.filteredPosts[indexPath.row];
-    [detailVC configureDetails:post];
-    [[self navigationController] pushViewController:detailVC animated:YES];
+//    PostDetailVC *detailVC = [[PostDetailVC alloc] init];
+//    CMMPost *post = self.filteredPosts[indexPath.row];
+//    [detailVC configureDetails:post];
+//    [[self navigationController] pushViewController:detailVC animated:YES];
+    [self presentModalStatusViewForPost:self.filteredPosts[indexPath.row]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -246,12 +242,10 @@ static NSUInteger const kCMDefaultSelected = 0;
         make.width.equalTo(self.refreshContainer.superview.mas_width);
         make.bottom.equalTo(self.table.mas_top).offset(-25);
     }];
-    [self presentModalStatusView];
+    [self presentRefreshView];
 }
 
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
-}
+
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)table editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewRowAction *report = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Report Post" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to report this post?" message:@"" preferredStyle:(UIAlertControllerStyleAlert)];
@@ -269,7 +263,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     return [[NSArray alloc] initWithObjects:report, nil];
 }
 
--(void)presentModalStatusView {
+-(void)presentRefreshView {
     
     self.lottieAnimation = [LOTAnimationView animationNamed:@"newsfeed_refresh"];
     
@@ -293,6 +287,14 @@ static NSUInteger const kCMDefaultSelected = 0;
     //[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeSelf:) userInfo:nil repeats:false];
 }
 
+-(void)presentModalStatusViewForPost: (CMMPost *)post {
+    CGRect frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
+    self.modalView = [[PostDetailsView alloc]initWithFrame:frame];
+    
+    [self.modalView setPostWithTitle:post.topic category:post.category user:post.owner.username time:[post.createdAt timeAgoSinceNow] description:post.detailedDescription];
+    
+    [self.view addSubview:self.modalView];
+}
 //TOP TABBAR CODE
 - (CMTabbarView *)tabbarView
 {

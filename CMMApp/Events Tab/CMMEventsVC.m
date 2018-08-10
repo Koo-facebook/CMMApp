@@ -30,11 +30,13 @@
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) NSArray *eventList;
 @property (strong, nonatomic) NSMutableArray *venueList;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+
 
 //Pull to Refresh Animation Stuff
 @property (nonatomic, strong) LOTAnimationView *lottieAnimation;
-@property (nonatomic, strong) UIView *refreshLoadingView;
-@property (nonatomic, strong) UIView *refreshColorView;
+@property (strong, nonatomic) UIView *refreshContainer;
+
 
 
 @end
@@ -259,30 +261,28 @@
 
 -(void)createPullToRefresh {
     //Initialize pull down to refresh control
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc]init];
+    self.refreshControl = [[UIRefreshControl alloc]init];
     //Customize Refresh Control
-    refreshControl.backgroundColor = [UIColor clearColor];
-    refreshControl.tintColor = [UIColor clearColor];
-    
-    self.refreshLoadingView = [[UIView alloc]initWithFrame:refreshControl.bounds];
-    self.refreshLoadingView.backgroundColor = [UIColor clearColor];
-    //LOTTIE
-//    self.lottieAnimation = [LOTAnimationView animationNamed:@"newsfeed_refresh"];
-//    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
-//    self.lottieAnimation.loopAnimation = YES;
-//    self.lottieAnimation.bounds = refreshControl.bounds;
-//    [self.refreshLoadingView addSubview:self.lottieAnimation];
-//    self.refreshLoadingView.clipsToBounds = YES;
-//
+    self.refreshControl.backgroundColor = [UIColor clearColor];
+    self.refreshControl.tintColor = [UIColor clearColor];
     //Linking pull down action to refresh control
-    [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
     //Adding refresh information to the tableview
-    [self.tableView insertSubview:refreshControl atIndex:0];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
-- (void)_playLottieAnimation {
-    self.lottieAnimation.animationProgress = 0;
-    [self.lottieAnimation play];
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    self.refreshContainer = [[UIView alloc]init];//WithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.refreshControl.frame.size.width, (self.refreshControl.frame.size.height+(self.table.contentSize.height - self.table.bounds.size.height)))];
+    self.refreshContainer.backgroundColor = [UIColor whiteColor];
+    self.refreshControl.tintColor = [UIColor clearColor];
+    [self.refreshControl addSubview:self.refreshContainer];
+    
+    [self.refreshContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mapView.mas_bottom);
+        make.width.equalTo(self.refreshContainer.superview.mas_width);
+        make.bottom.equalTo(self.tableView.mas_top);
+    }];
+    [self presentRefreshView];
 }
 
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
@@ -290,6 +290,30 @@
     //[self _playLottieAnimation];
     // Tell the refreshControl to stop spinning
     [refreshControl endRefreshing];
+}
+
+-(void)presentRefreshView {
+    
+    self.lottieAnimation = [LOTAnimationView animationNamed:@"newsfeed_refresh5"];
+    
+    self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    self.lottieAnimation.loopAnimation = YES;
+    
+    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
+    CGRect lottieRect = CGRectMake(0, 0, (self.refreshContainer.bounds.size.width), (self.refreshContainer.bounds.size.height));
+    self.lottieAnimation.frame = lottieRect;
+    
+    [self.refreshContainer addSubview:self.lottieAnimation];
+    //    [self.lottieAnimation playFromProgress:0.0 toProgress:0.8 withCompletion:^(BOOL animationFinished) {
+    //        if (animationFinished) {
+    //            [self.animationContainer removeFromSuperview];
+    //            CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
+    //            [self presentViewController:tabBarVC animated:YES completion:^{}];
+    //        }
+    //    }];
+    [self.lottieAnimation play];
+    //
+    //[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeSelf:) userInfo:nil repeats:false];
 }
 
 -(void)presentModalStatusViewForEvent: (CMMEvent *)event {

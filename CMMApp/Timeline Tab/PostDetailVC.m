@@ -14,6 +14,7 @@
 #import "CMMConversation.h"
 #import "CMMChatVC.h"
 #import "CMMStyles.h"
+#import "CMMTopHeadlinesVC.h"
 
 @interface PostDetailVC ()
 
@@ -218,7 +219,22 @@
 }
 
 - (void)didPressResources {
-    NSLog(@"Resources page does not exist yet");
+    CMMTopHeadlinesVC *resourcesVC = [[CMMTopHeadlinesVC alloc]init];
+    
+    //Format post topic for searching
+    NSString *categoryNoSpaces = [self.post.topic stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSString *finalCategory = [categoryNoSpaces stringByReplacingOccurrencesOfString:@" ' " withString:@"%27"];
+    NSLog(@"CATEGORY FOR SEARCH: %@", finalCategory);
+//    for (int x = 0;x < self.post.topic.length; ++x ){
+//        char currentCharacter = [self.post.topic characterAtIndex:x];
+//        if (currentCharacter == ' '){
+//
+//        }
+//    }
+    resourcesVC.category = finalCategory;
+    [self presentViewController:resourcesVC animated:YES completion:^{
+    }];
+    
 }
 
 @end

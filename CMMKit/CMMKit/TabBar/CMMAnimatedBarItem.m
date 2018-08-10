@@ -7,8 +7,45 @@
 //
 
 #import "CMMAnimatedBarItem.h"
+#import "CMMBadge.h"
+
+@interface CMMAnimatedBarItem ()
+@property (strong, nonatomic) CMMBadge *badge;
+@end
 
 @implementation CMMAnimatedBarItem
+
+- (NSString *)badgeValue
+{
+    if (self.badge) {
+        return self.badge.text;
+    }
+    return nil;
+}
+
+- (void)setBadgeValue:(NSString *)badgeValue
+{
+    if (badgeValue == nil) {
+        if (self.badge) {
+            [self.badge removeFromSuperview];
+            self.badge = nil;
+        }
+        return ;
+    }
+    
+    if (self.badge == nil) {
+        self.badge = [CMMBadge badge];
+        
+        UIView *containerView = self.iconView.icon.superview;
+        if (containerView) {
+            [self.badge addBadgeToTabItemView:containerView];
+        }
+    }
+    
+    if (self.badge) {
+        self.badge.text = badgeValue;
+    }
+}
 
 -(void)playAnimationForItem {
     //Make sure there is an animation for the TabBarItem
