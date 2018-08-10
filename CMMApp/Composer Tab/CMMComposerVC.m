@@ -51,7 +51,7 @@
     self.scrollView = [[UIScrollView alloc] initWithFrame:scrollFrame];
     self.scrollView.scrollEnabled=YES;
     self.scrollView.userInteractionEnabled=YES;
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 50*(self.categoryOptions.count + 2) + 200);
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 50*(self.categoryOptions.count + 3) + 200);
     [self.view addSubview:self.scrollView];
     
     // create typing fields

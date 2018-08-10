@@ -18,6 +18,8 @@
 #import "CMMStyles.h"
 #import "CMTabbarView.h"
 #import <Lottie/Lottie.h>
+#import "CMMModerationController.h"
+#import "AppDelegate.h"
 
 static NSUInteger const kCMDefaultSelected = 0;
 
@@ -51,18 +53,24 @@ static NSUInteger const kCMDefaultSelected = 0;
         [self.tabbarView reloadData];
         //self.table.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
     });
-    self.user = PFUser.currentUser;
+    self.user = CMMUser.currentUser;
 }
 
 - (void)createBarButtonItem {
-    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(didPressFilter:)];
-    self.navigationItem.rightBarButtonItem = filterButton;
+    UIBarButtonItem *viewProfileButton =[[UIBarButtonItem alloc] initWithTitle:@"Moderate" style:UIBarButtonItemStylePlain target:self action:@selector(moderatorMode)];
+    self.navigationItem.rightBarButtonItem = viewProfileButton;
+}
+
+- (void)moderatorMode {
+    CMMModerationController *tabBar = [[CMMModerationController alloc] init];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    delegate.window.rootViewController = tabBar;
 }
 
 - (void)configureView {
     self.navigationItem.title = @"Newsfeed";
     
-    //[self createBarButtonItem];
+    [self createBarButtonItem];
 
     self.sortByTrending = NO;
     self.isMoreDataLoading = NO;
