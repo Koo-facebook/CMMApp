@@ -52,6 +52,7 @@
 		2256C0D2210996C500FE9422 /* CMMRegisterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2256C0D1210996C500FE9422 /* CMMRegisterVC.m */; };
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
 		22BF9CE3211E159B00D5D666 /* SentimentPolarity.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 22BF9CE2211E159B00D5D666 /* SentimentPolarity.mlmodel */; };
+		22BF9CE9211E37E000D5D666 /* CMMLanguageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BF9CE8211E37E000D5D666 /* CMMLanguageProcessor.m */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
 		22F9EBF620FEAEAA002ADD9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBF520FEAEAA002ADD9D /* Assets.xcassets */; };
@@ -191,6 +192,8 @@
 		228588D02101183C0087E455 /* CMMParseQueryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMParseQueryManager.h; sourceTree = "<group>"; };
 		228588D12101183C0087E455 /* CMMParseQueryManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMParseQueryManager.m; sourceTree = "<group>"; };
 		22BF9CE2211E159B00D5D666 /* SentimentPolarity.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = SentimentPolarity.mlmodel; path = ../../../../Downloads/SentimentPolarity.mlmodel; sourceTree = "<group>"; };
+		22BF9CE7211E37E000D5D666 /* CMMLanguageProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMLanguageProcessor.h; sourceTree = "<group>"; };
+		22BF9CE8211E37E000D5D666 /* CMMLanguageProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMLanguageProcessor.m; sourceTree = "<group>"; };
 		22F9EBE620FEAEA9002ADD9D /* CMMApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMMApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F9EBE920FEAEA9002ADD9D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -496,6 +499,8 @@
 				22F9EC2520FEB30E002ADD9D /* CMMVote.m */,
 				137E0DFC211A37D300D74F4E /* CMMArticle.h */,
 				137E0DFD211A37D300D74F4E /* CMMArticle.m */,
+				22BF9CE7211E37E000D5D666 /* CMMLanguageProcessor.h */,
+				22BF9CE8211E37E000D5D666 /* CMMLanguageProcessor.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -756,6 +761,7 @@
 				22F9EBFC20FEAEAA002ADD9D /* main.m in Sources */,
 				22F9EC4421000CA9002ADD9D /* CMMConversationCell.m in Sources */,
 				22F9EC1720FEB21C002ADD9D /* CMMEvent.m in Sources */,
+				22BF9CE9211E37E000D5D666 /* CMMLanguageProcessor.m in Sources */,
 				137E0E01211A380900D74F4E /* CMMResourcesAPIManager.m in Sources */,
 				22F9EC1D20FEB289002ADD9D /* CMMPost.m in Sources */,
 				136E307B2108EEF2009B4180 /* TopicsCollectionCell.m in Sources */,

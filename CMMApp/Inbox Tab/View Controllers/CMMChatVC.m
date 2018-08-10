@@ -8,8 +8,6 @@
 
 #import "CMMChatVC.h"
 
-static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespace | NSLinguisticTaggerOmitPunctuation | NSLinguisticTaggerJoinNames;
-
 @interface CMMChatVC ()
 
 @property (nonatomic, strong) PFImageView *usersProfileImage;
@@ -20,7 +18,6 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 @property (nonatomic, assign) BOOL isMoreDataLoading;
 @property (nonatomic, assign) CGSize keyboardSize;
 @property (nonatomic, strong) UITextView *writeMessageTextView;
-@property (nonatomic, strong) NSLinguisticTagger *textTagger;
 @end
 
 @implementation CMMChatVC
@@ -46,8 +43,6 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Chat";
-    
-    [self createNLPTagger];
     
     [self createBarButtonItem];
     [self setupUsernameTitleLabel];
@@ -245,10 +240,6 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 }
 
 #pragma mark - Actions
-
-- (void)createNLPTagger {
-    self.textTagger = [[NSLinguisticTagger alloc] initWithTagSchemes:@[NSLinguisticTagSchemeTokenType, NSLinguisticTagSchemeLanguage, NSLinguisticTagSchemeLexicalClass, NSLinguisticTagSchemeNameType, NSLinguisticTagSchemeLemma] options:0];
-}
 
 - (void)checkPermissions {
     CMMUser *otherUser;
@@ -451,53 +442,6 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
             self.usersProfileImage.file = self.conversation.userWhoLeft.profileImage;
         }
     }
-}
-
-- (NSMutableArray *)tokenizeText:(NSString *)text {
-    NSMutableArray *tokenizedText = [NSMutableArray new];
-    self.textTagger.string = text;
-    NSRange range = NSMakeRange(0, text.length);
-    [self.textTagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeTokenType options:options usingBlock:^(NSLinguisticTag  _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
-        NSString *word = [text substringWithRange:tokenRange];
-        [tokenizedText addObject:word];
-    }];
-    return tokenizedText;
-}
- - (NSMutableArray *)lemmatizeText: (NSString *)text {
-    NSMutableArray *lemmatizedText = [NSMutableArray new];
-    self.textTagger.string = text;
-    NSRange range = NSMakeRange(0, text.length);
-    [self.textTagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeLemma options:options usingBlock:^(NSString* _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
-        if (tag != nil) {
-            NSLog(@"%@", tag);
-        }
-    }];
-    return lemmatizedText;
-}
- - (NSMutableArray *)partsOfSpeech:(NSString *)text {
-    NSMutableArray *parsedText = [NSMutableArray new];
-    self.textTagger.string = text;
-    NSRange range = NSMakeRange(0, text.length);
-    [self.textTagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeLexicalClass options:options usingBlock:^(NSString * _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
-        if (tag != nil) {
-            NSString *partOfSpeech = [text substringWithRange:tokenRange];
-            NSLog(@"%@: %@", partOfSpeech, tag);
-        }
-    }];
-    return parsedText;
-}
- - (NSMutableArray *)namedEntityRecognition:(NSString *)text {
-    NSMutableArray *entities = [NSMutableArray new];
-    self.textTagger.string = text;
-    NSRange range = NSMakeRange(0, text.length);
-    NSArray *tags = @[NSLinguisticTagPersonalName, NSLinguisticTagPlaceName, NSLinguisticTagOrganizationName];
-    [self.textTagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeNameType options:options usingBlock:^(NSLinguisticTag _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
-        if ((tag != nil) && ([tags containsObject:tag])) {
-            NSString *name = [text substringWithRange:tokenRange];
-            NSLog(@"%@: %@", name, tag);
-        }
-    }];
-    return entities;
 }
 
 #pragma mark - Keyboard
