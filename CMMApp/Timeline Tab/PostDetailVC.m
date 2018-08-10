@@ -218,17 +218,14 @@
     CMMTopHeadlinesVC *resourcesVC = [[CMMTopHeadlinesVC alloc]init];
     UINavigationController *resourcesNavigation = [[UINavigationController alloc]initWithRootViewController:resourcesVC];
 
-    //Format post topic for searching
-    NSString *categoryNoSpaces = [self.post.topic stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-    NSString *finalCategory = [categoryNoSpaces stringByReplacingOccurrencesOfString:@" ' " withString:@"%27"];
-    NSLog(@"CATEGORY FOR SEARCH: %@", finalCategory);
+    
 //    for (int x = 0;x < self.post.topic.length; ++x ){
 //        char currentCharacter = [self.post.topic characterAtIndex:x];
 //        if (currentCharacter == ' '){
 //
 //        }
 //    }
-    resourcesVC.category = finalCategory;
+    resourcesVC.category = self.post.topic;
 
     [self.navigationController pushViewController:resourcesVC animated:YES];
     //[self presentViewController:resourcesVC animated:YES completion:^{

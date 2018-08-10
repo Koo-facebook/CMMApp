@@ -37,6 +37,8 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"Inbox";
     
+    [CMMLanguageProcessor namedEntityRecognition:@"Donald Trump Daca Women"];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self createSearchController];

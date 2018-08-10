@@ -10,6 +10,9 @@
 
 @interface CMMLanguageProcessor : NSLinguisticTagger
 
-+ (instancetype)shared;
++ (NSMutableArray *)tokenizeText:(NSString *)text;
++ (NSMutableArray *)lemmatizeText: (NSString *)text;
++ (NSMutableArray *)partsOfSpeech:(NSString *)text;
++ (NSMutableDictionary *)namedEntityRecognition:(NSString *)text;
 
 @end
