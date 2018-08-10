@@ -8,6 +8,8 @@
 
 #import "CMMNewsfeedVC.h"
 #import "CMMProfileVC.h"
+#import "CMMChatVC.h"
+#import "CMMTopHeadlinesVC.h"
 #import "CMMPost.h"
 #import "NewsfeedCell.h"
 #import "Masonry.h"
@@ -30,6 +32,8 @@ static NSUInteger const kCMDefaultSelected = 0;
 @property (strong, nonatomic) UIView *refreshContainer;
 @property (strong, nonatomic) LOTAnimationView *lottieAnimation;
 @property (strong, nonatomic) PostDetailsView *modalView;
+@property (strong, nonatomic) CMMPost *post;
+@property  NSInteger index;
 
 
 @end
@@ -208,10 +212,7 @@ static NSUInteger const kCMDefaultSelected = 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    PostDetailVC *detailVC = [[PostDetailVC alloc] init];
-//    CMMPost *post = self.filteredPosts[indexPath.row];
-//    [detailVC configureDetails:post];
-//    [[self navigationController] pushViewController:detailVC animated:YES];
+    self.index = indexPath.row;
     [self presentModalStatusViewForPost:self.filteredPosts[indexPath.row]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -292,8 +293,45 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.modalView = [[PostDetailsView alloc]initWithFrame:frame];
     
     [self.modalView setPostWithTitle:post.topic category:post.category user:post.owner.username time:[post.createdAt timeAgoSinceNow] description:post.detailedDescription];
-    
+    [self.modalView.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
+    [self.modalView.resourcesButton addTarget:self action:@selector(didPressResources) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.modalView];
+}
+
+- (void)didPressChat {
+    [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
+        if (succeeded) {
+            CMMChatVC *chatVC = [[CMMChatVC alloc] init];
+            chatVC.conversation = conversation;
+            chatVC.isUserOne = YES;
+            [[self navigationController] pushViewController:chatVC animated:YES];
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
+    [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
+    [self.post saveInBackground];
+}
+
+- (void)didPressResources {
+    CMMTopHeadlinesVC *resourcesVC = [[CMMTopHeadlinesVC alloc]init];
+    UINavigationController *resourcesNavigation = [[UINavigationController alloc]initWithRootViewController:resourcesVC];
+    //Format post topic for searching
+    CMMPost *currentPost = self.filteredPosts[self.index];
+    NSString *categoryNoSpaces = [currentPost.topic stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSString *finalCategory = [categoryNoSpaces stringByReplacingOccurrencesOfString:@" ' " withString:@"%27"];
+    NSLog(@"CATEGORY FOR SEARCH: %@", finalCategory);
+    //    for (int x = 0;x < self.post.topic.length; ++x ){
+    //        char currentCharacter = [self.post.topic characterAtIndex:x];
+    //        if (currentCharacter == ' '){
+    //
+    //        }
+    //    }
+    
+    resourcesVC.category = finalCategory;
+    [self.navigationController pushViewController:resourcesVC animated:YES];
+    //[self presentViewController:resourcesVC animated:YES completion:^{}];
+    
 }
 //TOP TABBAR CODE
 - (CMTabbarView *)tabbarView

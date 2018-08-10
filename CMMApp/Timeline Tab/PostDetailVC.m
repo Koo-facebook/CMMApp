@@ -220,7 +220,8 @@
 
 - (void)didPressResources {
     CMMTopHeadlinesVC *resourcesVC = [[CMMTopHeadlinesVC alloc]init];
-    
+    UINavigationController *resourcesNavigation = [[UINavigationController alloc]initWithRootViewController:resourcesVC];
+
     //Format post topic for searching
     NSString *categoryNoSpaces = [self.post.topic stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     NSString *finalCategory = [categoryNoSpaces stringByReplacingOccurrencesOfString:@" ' " withString:@"%27"];
@@ -232,9 +233,10 @@
 //        }
 //    }
     resourcesVC.category = finalCategory;
-    [self presentViewController:resourcesVC animated:YES completion:^{
-    }];
-    
+
+    [self.navigationController pushViewController:resourcesVC animated:YES];
+    //[self presentViewController:resourcesVC animated:YES completion:^{
+    //}];
 }
 
 @end
