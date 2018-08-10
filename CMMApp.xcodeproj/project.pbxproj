@@ -51,8 +51,8 @@
 		2233AD3D2106AADE00F72593 /* CMMBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2233AD3C2106AADE00F72593 /* CMMBubbleView.m */; };
 		2256C0D2210996C500FE9422 /* CMMRegisterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2256C0D1210996C500FE9422 /* CMMRegisterVC.m */; };
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
-		22BF9CE3211E159B00D5D666 /* SentimentPolarity.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 22BF9CE2211E159B00D5D666 /* SentimentPolarity.mlmodel */; };
 		22BF9CE9211E37E000D5D666 /* CMMLanguageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BF9CE8211E37E000D5D666 /* CMMLanguageProcessor.m */; };
+		22BF9CED211E3DCB00D5D666 /* MessageClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 22BF9CEC211E3DCA00D5D666 /* MessageClassifier.mlmodel */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
 		22F9EBF620FEAEAA002ADD9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBF520FEAEAA002ADD9D /* Assets.xcassets */; };
@@ -191,9 +191,10 @@
 		2256C0D1210996C500FE9422 /* CMMRegisterVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMRegisterVC.m; sourceTree = "<group>"; };
 		228588D02101183C0087E455 /* CMMParseQueryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMParseQueryManager.h; sourceTree = "<group>"; };
 		228588D12101183C0087E455 /* CMMParseQueryManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMParseQueryManager.m; sourceTree = "<group>"; };
-		22BF9CE2211E159B00D5D666 /* SentimentPolarity.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = SentimentPolarity.mlmodel; path = ../../../../Downloads/SentimentPolarity.mlmodel; sourceTree = "<group>"; };
 		22BF9CE7211E37E000D5D666 /* CMMLanguageProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMLanguageProcessor.h; sourceTree = "<group>"; };
 		22BF9CE8211E37E000D5D666 /* CMMLanguageProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMLanguageProcessor.m; sourceTree = "<group>"; };
+		22BF9CEB211E3DB500D5D666 /* SentimentPolarity.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SentimentPolarity.mlmodel; sourceTree = "<group>"; };
+		22BF9CEC211E3DCA00D5D666 /* MessageClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MessageClassifier.mlmodel; sourceTree = "<group>"; };
 		22F9EBE620FEAEA9002ADD9D /* CMMApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMMApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F9EBE920FEAEA9002ADD9D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -415,6 +416,15 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		22BF9CEA211E3DAC00D5D666 /* ML */ = {
+			isa = PBXGroup;
+			children = (
+				22BF9CEB211E3DB500D5D666 /* SentimentPolarity.mlmodel */,
+				22BF9CEC211E3DCA00D5D666 /* MessageClassifier.mlmodel */,
+			);
+			path = ML;
+			sourceTree = "<group>";
+		};
 		22F9EBDD20FEAEA9002ADD9D = {
 			isa = PBXGroup;
 			children = (
@@ -480,7 +490,7 @@
 		22F9EC0420FEAEEB002ADD9D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				22BF9CE2211E159B00D5D666 /* SentimentPolarity.mlmodel */,
+				22BF9CEA211E3DAC00D5D666 /* ML */,
 				03888A092114C1520028E75A /* CMMUserStrikes.h */,
 				03888A0A2114C1520028E75A /* CMMUserStrikes.m */,
 				22F9EC1220FEB1EE002ADD9D /* CMMConversation.h */,
@@ -784,7 +794,7 @@
 				13A8D4442114CAD600C0C183 /* CMMModeratorFeedVC.m in Sources */,
 				03CDE9D321014A02007629AD /* NewsfeedCell.m in Sources */,
 				13A8D3B32114029500C0C183 /* InterestsViewCell.m in Sources */,
-				22BF9CE3211E159B00D5D666 /* SentimentPolarity.mlmodel in Sources */,
+				22BF9CED211E3DCB00D5D666 /* MessageClassifier.mlmodel in Sources */,
 				22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */,
 				03888A0B2114C1520028E75A /* CMMUserStrikes.m in Sources */,
 				137E0DF52118EA0800D74F4E /* InterestsCell.m in Sources */,
