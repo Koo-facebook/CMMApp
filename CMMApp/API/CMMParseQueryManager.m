@@ -43,6 +43,29 @@
     [[NSUserDefaults standardUserDefaults] setObject:blockedUsers forKey:blockingKey];
 }
 
+- (void)conversationWithTopic:(NSString *)topic postAuthor:(CMMUser *)author withCompletion:(void(^)(CMMConversation *chat, NSError *error)) completion {
+    PFQuery *query = [PFQuery queryWithClassName:@"CMMConversation"];
+    [query whereKey:@"user1" containedIn:@[CMMUser.currentUser, author]];
+    [query whereKey:@"user2" containedIn:@[CMMUser.currentUser, author]];
+    [query includeKey:@"topic"];
+    [query includeKey:@"user1"];
+    [query includeKey:@"user2"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects.count > 0) {
+            CMMConversation *chat = objects[0];
+            completion(chat, error);
+        } else {
+            [CMMConversation createConversation:author topic:topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
+                if (succeeded) {
+                    completion(conversation, error);
+                } else {
+                    NSLog(@"Error: %@", error.localizedDescription);
+                }
+            }];
+        }
+    }];
+}
+
 - (void)deletePostFromParse:(CMMPost *)post {
     [post deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {

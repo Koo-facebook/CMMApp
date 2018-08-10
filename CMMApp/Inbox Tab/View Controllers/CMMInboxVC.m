@@ -57,7 +57,7 @@
 #pragma mark - View Setup
 
 - (void)createBarButtonItem {
-    UIBarButtonItem *viewProfileButton =[[UIBarButtonItem alloc] initWithTitle:@"Moderator Mode" style:UIBarButtonItemStylePlain target:self action:@selector(moderatorMode)];
+    UIBarButtonItem *viewProfileButton =[[UIBarButtonItem alloc] initWithTitle:@"Moderate" style:UIBarButtonItemStylePlain target:self action:@selector(moderatorMode)];
     self.navigationItem.rightBarButtonItem = viewProfileButton;
 }
 

@@ -204,18 +204,14 @@
 }
 
 - (void)didPressChat {
-    [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
-        if (succeeded) {
-            CMMChatVC *chatVC = [[CMMChatVC alloc] init];
-            chatVC.conversation = conversation;
-            chatVC.isUserOne = YES;
-            [[self navigationController] pushViewController:chatVC animated:YES];
-        } else {
-            NSLog(@"Error: %@", error.localizedDescription);
-        }
+    [[CMMParseQueryManager shared] conversationWithTopic:self.post.topic postAuthor:self.post.owner withCompletion:^(CMMConversation *chat, NSError *error) {
+        CMMChatVC *chatVC = [[CMMChatVC alloc] init];
+        chatVC.conversation = chat;
+        chatVC.isUserOne = YES;
+        [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
+        [self.post saveInBackground];
+        [[self navigationController] pushViewController:chatVC animated:YES];
     }];
-    [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
-    [self.post saveInBackground];
 }
 
 - (void)didPressResources {

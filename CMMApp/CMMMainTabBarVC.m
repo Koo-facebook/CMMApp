@@ -34,7 +34,7 @@
     //self.view.tintColor = [UIColor blueColor];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
     
-    //Side Bar
+
     NewsfeedSideMenuVC *sideMenuVC = [[NewsfeedSideMenuVC alloc] init];
     LGSideMenuController *sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:firstNav leftViewController:nil rightViewController:sideMenuVC];
     sideMenuController.leftViewBackgroundBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
@@ -42,7 +42,7 @@
     sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleScaleFromLittle;
     sideMenuController.tabBarItem = firstTabBarItem;
     
-    
+
     // Second ViewController
     CMMBounceAnimation *bounceAnimation_two = [[CMMBounceAnimation alloc] init];
     bounceAnimation_two.textSelectedColor = [UIColor blueColor];
