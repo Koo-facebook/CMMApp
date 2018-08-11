@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UILabel *usernameLabel;
 @property (nonatomic, strong) UILabel *topicLabel;
 @property (nonatomic, strong) CMMConversation *conversation;
-
+@property (nonatomic, assign) BOOL moderator;
 - (void)setupCell;
     
 @end

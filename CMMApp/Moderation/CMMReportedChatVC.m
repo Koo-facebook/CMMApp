@@ -27,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createButtons];
+    [self updateConstraints];
     // Do any additional setup after loading the view.
 }
 
@@ -57,7 +58,7 @@
     self.moderatorLabel.numberOfLines = 0;
     [self.view addSubview:self.moderatorLabel];
     
-    self.reportOptions = @[@"No", @"Yes, user1", @"Yes, user2", @"Yes, both users"];
+    self.reportOptions = @[@"No", [@"Yes, " stringByAppendingString:self.conversation.user1.username], [@"Yes, " stringByAppendingString:self.conversation.user2.username], @"Yes, both users"];
     self.menu = [[ManaDropDownMenu alloc] init];
     self.menu.heightOfRows = 40;
     self.menu.delegate = self;
@@ -148,11 +149,33 @@
     self.titleLabel.text = [NSString stringWithFormat:@"Chat between %@ and %@", self.conversation.user1.username, self.conversation.user2.username];
 }
 
+- (void)updateConstraints {
+    
+    // Title Label
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).offset(10);
+        make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(15);
+        make.right.equalTo(self.view.mas_right).offset(-10);
+    }];
+    
+    // Topic Label
+    [self.topicLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(5);
+        make.left.equalTo(self.titleLabel.mas_left);
+        make.right.equalTo(self.titleLabel.mas_right);
+        make.height.equalTo(@(self.topicLabel.intrinsicContentSize.height));
+    }];
+    
+    // Chats TableView
+    [self setupChat];
+    
+}
+
 - (void)setupSendMessageTextField {
 }
 
-- (void)setupMessagingTextView {
-}
+//- (void)setupMessagingTextView {
+//}
 
 - (void)sendButtonPressed {
 }
@@ -168,14 +191,46 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
 }
+/*
+- (void)setupUserProfileImage {
+}
 
-/*- (void)setupUserProfileImage {
+- (void)setRespectiveOnlineImage {
+}
+
+- (void)markConversationAsRead {
+}
+
+- (BOOL)checkIfUserOne {
+    return NO;
+}
+
+- (BOOL)otherUserLeft {
+    return NO;
+}
+
+- (BOOL)userStillInConversation: (CMMUser *) user {
+    return NO;
+}
+
+- (BOOL)gotNewMessages: (NSArray *)messages {
+    return NO;
+}
+
+- (void)setOtherUsersProfileImage {
 }*/
+
+- (void)viewDidAppear:(BOOL)animated {
+    [self pullMessages];
+}
 
 - (void)setupOnlineIndicator {
 }
 
 - (void)checkPermissions {
 }
+
+//- (void)viewProfile:(id)sender{
+//}
 
 @end
