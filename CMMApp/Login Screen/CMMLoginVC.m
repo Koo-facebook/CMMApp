@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UILabel *subheading;
 @property (nonatomic, strong) UIImageView *backgroundImage;
 @property (nonatomic, strong) FullScrollView *scrollView;
+@property (nonatomic, strong) UIScrollView *screenScrollView;
 @property (nonatomic, assign) CGSize keyboardSize;
 //@property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *animate;
@@ -33,22 +34,33 @@
 @end
 
 @implementation CMMLoginVC
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+   // [self.lottieAnimation play];
+}
     
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     //[self createBackgroundImage];
-    [self createLoginGradient];
-    //self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(20.0/255.0) green:(CGFloat)(14.0/255.0) blue:(CGFloat)(33.0/255.0) alpha:1];
+    self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
+    
     // Create objects
+    [self createScreenScrollView];
     [self createScrollView];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self createTapGestureRecognizer:@selector(wholeViewTapped)];
 }
     
 - (void)updateConstraints {
+
+    // Whole Screen ScrollView
+    [self.screenScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
 
     // Title Label
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -105,13 +117,6 @@
         make.height.equalTo(@(self.loginButton.intrinsicContentSize.height));
         make.width.equalTo(@(self.loginButton.intrinsicContentSize.width));
     }];
-
-//    // Logo Image
-//    [self.logoImage mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view.mas_top).offset(100);
-//        make.centerX.equalTo(self.view.mas_centerX);
-//        make.width.height.equalTo(@64);
-//    }];
 }
 
     // Register user action
@@ -129,38 +134,32 @@
     [self.view endEditing:YES];
 }
 
--(void)keyboardWillShow: (NSNotification *) notification {
-    self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    //CGFloat fixedWidth = self.passwordTextField.frame.size.width;
-    //CGSize newSize = [self.passwordTextField sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
-//    if (newSize.height < 41.67) {
-//        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
-//            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
-//            make.left.equalTo(self.view).offset(8);
-//            make.height.equalTo(@41.67);
-//        }];
-//    } else {
-        [self.passwordTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
-            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
-            make.left.equalTo(self.view).offset(8);
-           // make.width.equalTo(@(275));
-            make.height.equalTo(@(self.passwordTextField.intrinsicContentSize.height));
-        }];
-    //}
+-(void)keyboardWillAppear: (NSNotification *)notification {
+    NSLog(@"keyboardWillAppear");
+    [self keyboardResize:notification];
 }
 
--(void)keyboardWillHide: (NSNotification *) notification {
-    self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+- (void)keyboardWillHide: (NSNotification *)notification {
+    NSLog(@"keyboard will disappear");
+    [self keyboardResize:notification];
+}
 
-    // Password TextField
-    [self.passwordTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.usernameTextField.mas_bottom).offset(25);
-        make.centerX.equalTo(self.passwordTextField.superview.mas_centerX);
-        make.width.equalTo(@275);
-        make.height.equalTo(@(self.passwordTextField.intrinsicContentSize.height));
-    }];
+-(void)keyboardResize: (NSNotification *)notification {
+    self.screenScrollView.scrollEnabled = YES;
+    NSDictionary *userInfo = notification.userInfo;
+    CGRect keybaordEndFrame = [((NSValue *)[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey]) CGRectValue];
+
+    if (keybaordEndFrame.origin.y == self.view.frame.size.height) {
+        [self.screenScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    } else {
+        [self.screenScrollView setContentOffset:CGPointMake(0, self.view.frame.size.height - keybaordEndFrame.origin.y-80.) animated:YES];
+    }
+}
+
+- (void)createScreenScrollView {
+    self.screenScrollView = [UIScrollView new];
+    self.screenScrollView.scrollEnabled = NO;
+    [self.view addSubview:self.screenScrollView];
 }
 
     // Initialize Title Label
@@ -203,18 +202,13 @@
     [self.lottieAnimation play];
     [view addSubview:self.animationContainer];
 }
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-   // [self.lottieAnimation play];
-}
     
     // Initalize Password TextField
-- (void)createPasswordTextFieldInView: (UIView *)view {
+- (void)createPasswordTextField {
     self.passwordTextField = [[UITextField alloc] init];
     self.passwordTextField.placeholder = @"Password...";
     self.passwordTextField.borderStyle = UITextBorderStyleRoundedRect;
-    [self.view addSubview:self.passwordTextField];
+    [self.screenScrollView addSubview:self.passwordTextField];
 }
     
     // Initalize Username TextField
@@ -222,7 +216,7 @@
     self.usernameTextField = [[UITextField alloc] init];
     self.usernameTextField.placeholder = @"Username...";
     self.usernameTextField.borderStyle = UITextBorderStyleRoundedRect;
-    [self.view addSubview:self.usernameTextField];
+    [self.screenScrollView addSubview:self.usernameTextField];
 }
     
     // Initialize Login Button
@@ -232,7 +226,7 @@
     [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.loginButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.loginButton addTarget:self action:@selector(loginButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.loginButton];
+    [self.screenScrollView addSubview:self.loginButton];
 }
     
     // Initialize Signup Button
@@ -242,33 +236,7 @@
     [self.signUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.signUpButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.signUpButton addTarget:self action:@selector(signUpButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.signUpButton];
-}
-    
-//    // Initalize Logo
-//-(void)createBackgroundImage {
-//    self.backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
-//    //self.backgroundImage.contentMode = UIViewContentModeScaleAspectFill;
-//    self.backgroundImage.frame = CGRectMake(-5, -5, self.view.frame.size.width+20, self.view.frame.size.height+20);
-//    [self.view addSubview:self.backgroundImage];
-//}
-
-    // Initalize Gradient
-- (void)createLoginGradient {
-    // Do any additional setup after loading the view, typically from a nib.
-//    UIColor *color1 = [UIColor colorWithRed:75.0/255.0 green:228.0/255.0 blue:180.0/255.0 alpha:1.0];
-//    UIColor *color2 = [UIColor colorWithRed:35.0/255.0 green:110.0/255.0 blue:174.0/255.0 alpha:1.0];
-    
-    // Create the gradient
-//    CAGradientLayer *theViewGradient = [CAGradientLayer layer];
-//    theViewGradient.colors = [NSArray arrayWithObjects: (id)color1.CGColor, (id)color2.CGColor, nil];
-//    theViewGradient.frame = self.view.bounds;
-//    theViewGradient.startPoint = CGPointMake(0, 0);
-//    theViewGradient.endPoint = CGPointMake(1, 1);
-    
-    self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
-    //Add gradient to view
-//    [self.view.layer insertSublayer:theViewGradient atIndex:0];
+    [self.screenScrollView addSubview:self.signUpButton];
 }
 
 -(void)createScrollView {
@@ -277,22 +245,18 @@
     
     CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/1.45);
     self.scrollView = [[FullScrollView alloc]initWithFrame:frame andNumberOfPages:5];
-    [self.view addSubview:self.scrollView];
+    [self.screenScrollView addSubview:self.scrollView];
     
     self.scrollView.pagingEnabled = YES;
     
     [self.scrollView configureViewAtIndexWithCompletion:^(UIView *view, NSInteger index, BOOL success) {
         
-        //self.view.backgroundColor = [UIColor colorWithRed:(20.0/255.0) green:(14.0/255.0) blue:(33.0/255.0) alpha:1];
-        
         [self createSignUpButton];
         [self createLoginButton];
         [self createUsernameTextField];
-        [self createPasswordTextFieldInView:view];
+        [self createPasswordTextField];
         [self createTitleLabelInView:view];
         [self createAnimationContainerInView:view withIndex:index];
-       // [self createLogoImageView];
-
         
         NSString *subhead = titles[index];
         NSLog(@"%@", subhead);
@@ -368,10 +332,12 @@
     else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [CMMUser createUser:self.usernameTextField.text password:self.passwordTextField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (error != nil) {
                 NSLog(@"Error: %@", error.localizedDescription);
                 [self createAlert:@"Sign Up Error" message:@"There was a problem signing up. Please try again"];
             } else {
+            
                 NSLog(@"User registered successfully");
                 [CMMUser logInWithUsernameInBackground:self.usernameTextField.text password:self.passwordTextField.text block:^(PFUser * user, NSError *  error) {
                     //                NSLog(@"User logged in successfully");
@@ -392,7 +358,6 @@
                         [self presentViewController:registerVC animated:YES completion:^{}];
                     }
                 }];
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
             }
         }];
     }

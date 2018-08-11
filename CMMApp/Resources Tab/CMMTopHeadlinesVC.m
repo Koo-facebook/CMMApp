@@ -38,7 +38,7 @@
         }];
     }
     else {
-    [self fetchResourcesRelatingTo:self.category];
+        [self fetchResourcesRelatingTo:self.category];
     }
 }
 
