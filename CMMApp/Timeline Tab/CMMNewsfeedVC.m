@@ -220,11 +220,15 @@ static NSUInteger const kCMDefaultSelected = 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.searchBar resignFirstResponder];
     self.index = indexPath.row;
     [self presentModalStatusViewForPost:self.filteredPosts[indexPath.row]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.searchBar resignFirstResponder];
+}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     //When scrolling starts, present search bar

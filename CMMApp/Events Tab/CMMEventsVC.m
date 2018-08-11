@@ -319,6 +319,7 @@
 -(void)presentModalStatusViewForEvent: (CMMEvent *)event {
     CGRect frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
     EventDetailsView *modalView = [[EventDetailsView alloc]initWithFrame:frame];
+    modalView.delegate = self;
     
     //Format date to appear as "July 21, 2018" and set
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -343,5 +344,13 @@
     
     [modalView setEventWithTitle:event.title location:event.venue[@"localized_address_display"] startTime:event.startTime endTime:event.endTime description:event.details];
     [self.view addSubview:modalView];
+}
+
+- (void)eventAdded:(NSString *)eventTitle {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Calendar" message:[NSString stringWithFormat:@"%@ has been added to your calendar", eventTitle]  preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{
+    }];
 }
 @end

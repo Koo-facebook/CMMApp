@@ -138,7 +138,9 @@
 
         NSError *err = nil;
         [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
+        [self.delegate eventAdded:self.titleLabel.text];
     }];
+    
     //[self presentModalStatusView];
     NSLog(@"Add to Calendar Button Pressed");
 }
