@@ -53,7 +53,7 @@
     [self.moderatorView addGestureRecognizer:modTapRecognizer];
     
     self.moderatorLabel = [[UILabel alloc] init];
-    self.moderatorLabel.text = @"Does this chat violate our community guidelines?";
+    self.moderatorLabel.text = @"Does this chat violate our guidelines?";
     self.moderatorLabel.textColor = [UIColor whiteColor];
     self.moderatorLabel.numberOfLines = 0;
     [self.view addSubview:self.moderatorLabel];
@@ -155,6 +155,7 @@
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(10);
         make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(15);
+        //make.top.equalTo(self.view.mas_top).offset(15);
         make.right.equalTo(self.view.mas_right).offset(-10);
     }];
     
@@ -191,7 +192,7 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
 }
-/*
+
 - (void)setupUserProfileImage {
 }
 
@@ -214,11 +215,11 @@
 }
 
 - (BOOL)gotNewMessages: (NSArray *)messages {
-    return NO;
+    return YES;
 }
 
 - (void)setOtherUsersProfileImage {
-}*/
+}
 
 - (void)viewDidAppear:(BOOL)animated {
     [self pullMessages];
@@ -230,7 +231,7 @@
 - (void)checkPermissions {
 }
 
-//- (void)viewProfile:(id)sender{
-//}
+- (void)viewProfile:(id)sender{
+}
 
 @end
