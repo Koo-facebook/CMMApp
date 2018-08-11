@@ -68,5 +68,18 @@
     delegate.window.rootViewController = tabBar;
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CMMConversationCell *cell = [self.messagesTableView dequeueReusableCellWithIdentifier:@"conversationCell"];
+    
+    if (cell == nil) {
+        cell = [[CMMConversationCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationCell"];
+    }
+    
+    cell.conversation = self.conversations[indexPath.row];
+    cell.moderator = YES;
+    [cell setupCell];
+    
+    return cell;
+}
 
 @end

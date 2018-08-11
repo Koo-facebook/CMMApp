@@ -21,5 +21,6 @@
 @property BOOL isUserOne;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) CMMConversation *conversation;
+- (void)pullMessages;
 
 @end
