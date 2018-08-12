@@ -36,8 +36,8 @@
     
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     //[self createBackgroundImage];
     [self createLoginGradient];
@@ -75,8 +75,9 @@
     }];
 
     // Username TextField
+    //self.view.frame.size.width, self.view.frame.size.height/1.45
     [self.usernameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scrollView.mas_bottom).offset(25);
+        make.top.equalTo(@(self.view.frame.size.height/1.4));
         make.centerX.equalTo(self.usernameTextField.superview.mas_centerX);
         make.width.equalTo(@275);
         make.height.equalTo(@(self.usernameTextField.intrinsicContentSize.height));
@@ -131,31 +132,41 @@
 
 -(void)keyboardWillShow: (NSNotification *) notification {
     self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    //CGFloat fixedWidth = self.passwordTextField.frame.size.width;
-    //CGSize newSize = [self.passwordTextField sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
-//    if (newSize.height < 41.67) {
-//        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
+    [self.scrollView removeFromSuperview];
+    
+    [self.passwordTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+150));
+        make.centerX.equalTo(self.view.mas_centerX);
 //            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
 //            make.left.equalTo(self.view).offset(8);
-//            make.height.equalTo(@41.67);
-//        }];
-//    } else {
-        [self.passwordTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
-            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
-            make.left.equalTo(self.view).offset(8);
-           // make.width.equalTo(@(275));
+           make.width.equalTo(@(275));
             make.height.equalTo(@(self.passwordTextField.intrinsicContentSize.height));
         }];
-    //}
+    
+    [self.usernameTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.passwordTextField.mas_top).offset(-25);
+        make.centerX.equalTo(self.view.mas_centerX);
+
+//        make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
+//        make.left.equalTo(self.view).offset(8);
+        make.width.equalTo(@(275));
+        make.height.equalTo(@(self.usernameTextField.intrinsicContentSize.height));
+    }];
+
 }
 
 -(void)keyboardWillHide: (NSNotification *) notification {
     self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-
+    [self.view addSubview:self.scrollView];
+    [self.usernameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(@(self.view.frame.size.height/1.4));
+        make.centerX.equalTo(self.usernameTextField.superview.mas_centerX);
+        make.width.equalTo(@275);
+        make.height.equalTo(@(self.usernameTextField.intrinsicContentSize.height));
+    }];
+    
     // Password TextField
-    [self.passwordTextField mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.passwordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.usernameTextField.mas_bottom).offset(25);
         make.centerX.equalTo(self.passwordTextField.superview.mas_centerX);
         make.width.equalTo(@275);
@@ -202,8 +213,8 @@
     [self.animationContainer addSubview:self.lottieAnimation];
     [self.lottieAnimation play];
     [view addSubview:self.animationContainer];
-}
 
+}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
    // [self.lottieAnimation play];
@@ -214,6 +225,8 @@
     self.passwordTextField = [[UITextField alloc] init];
     self.passwordTextField.placeholder = @"Password...";
     self.passwordTextField.borderStyle = UITextBorderStyleRoundedRect;
+    self.passwordTextField.secureTextEntry = TRUE;
+    //self.passwordTextField.textContentType = UITextContentTypePassword;
     [self.view addSubview:self.passwordTextField];
 }
     
@@ -282,8 +295,6 @@
     self.scrollView.pagingEnabled = YES;
     
     [self.scrollView configureViewAtIndexWithCompletion:^(UIView *view, NSInteger index, BOOL success) {
-        
-        //self.view.backgroundColor = [UIColor colorWithRed:(20.0/255.0) green:(14.0/255.0) blue:(33.0/255.0) alpha:1];
         
         [self createSignUpButton];
         [self createLoginButton];

@@ -164,7 +164,7 @@
     [self.view endEditing:YES];
 }
 
--(void)exitRegisterVC {
+-(void)exitEditingVC {
     [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
@@ -257,6 +257,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     NSString *interest = self.numbers[indexPath.row];
     [self.interests addObject:interest];
     self.chosenInterests = self.interests;
@@ -268,7 +269,10 @@
     [self.interests removeObject:notInterest];
     self.chosenInterests = self.interests;
     NSLog(@"%@", self.interests);
-    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 @end

@@ -299,26 +299,43 @@ static NSUInteger const kCMDefaultSelected = 0;
 -(void)presentModalStatusViewForPost: (CMMPost *)post {
     CGRect frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
     self.modalView = [[PostDetailsView alloc]initWithFrame:frame];
+    self.post = post;
+        BOOL showChatButton = YES;
+//        NSString *blockingKey = [self.post.owner.objectId stringByAppendingString:@"-blockedUsers"];
+//        NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
+//        for (NSString *userID in blockedUsers) {
+//            if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
+//                showChatButton = NO;
+//                break;
+//            }
+//        }
+        if ([self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+            showChatButton = NO;
+        }
+        if (CMMUser.currentUser.strikes.intValue >= 3) {
+            showChatButton = NO;
+        }
     
-    [self.modalView setPostWithTitle:post.topic category:post.category user:post.owner.username time:[post.createdAt timeAgoSinceNow] description:post.detailedDescription];
+    [self.modalView setPostWithTitle:post.topic category:post.category user:post.owner.username time:[post.createdAt timeAgoSinceNow] description:post.detailedDescription showingChatButton: showChatButton];
+    
+        self.modalView.reportLabel.userInteractionEnabled = YES;
+        UITapGestureRecognizer *reportTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReport)];
+        [self.modalView.reportLabel addGestureRecognizer:reportTap];
+    
     [self.modalView.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
     [self.modalView.resourcesButton addTarget:self action:@selector(didPressResources) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.modalView];
 }
 
 - (void)didPressChat {
-    [CMMConversation createConversation:self.post.owner topic:self.post.topic withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMConversation *conversation) {
-        if (succeeded) {
-            CMMChatVC *chatVC = [[CMMChatVC alloc] init];
-            chatVC.conversation = conversation;
-            chatVC.isUserOne = YES;
-            [[self navigationController] pushViewController:chatVC animated:YES];
-        } else {
-            NSLog(@"Error: %@", error.localizedDescription);
-        }
+    [[CMMParseQueryManager shared] conversationWithTopic:self.post.topic postAuthor:self.post.owner withCompletion:^(CMMConversation *chat, NSError *error) {
+        CMMChatVC *chatVC = [[CMMChatVC alloc] init];
+        chatVC.conversation = chat;
+        chatVC.isUserOne = YES;
+        [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
+        [self.post saveInBackground];
+        [[self navigationController] pushViewController:chatVC animated:YES];
     }];
-    [self.post addObject:[NSDate date] forKey:@"userChatTaps"];
-    [self.post saveInBackground];
 }
 
 - (void)didPressResources {
@@ -385,6 +402,38 @@ static NSUInteger const kCMDefaultSelected = 0;
     }
 }
 
+#pragma mark - Extra (Chat)
+//- (void)displayProfileImageWithSize:(int)size padding:(int)padding {
+//    CGRect imageFrame = CGRectMake(12, padding, size, size);
+//    self.authorImage = [[UIImageView alloc] initWithFrame:imageFrame];
+//    self.authorImage.image = nil;
+//    [self.authorImage setImageWithURL:[NSURL URLWithString:self.post.owner.profileImage.url] placeholderImage:[UIImage imageNamed:@"placeholderProfileImage"]];
+//    self.authorImage.layer.cornerRadius = size/2;
+//    self.authorImage.clipsToBounds = YES;
+//    [self.view addSubview:self.authorImage];
+//
+//    self.authorImage.userInteractionEnabled = YES;
+//    UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(segueToProfile)];
+//    [self.authorImage addGestureRecognizer:profileTap];
+//}
+
+- (void)didTapReport {
+    [[CMMParseQueryManager shared] reportPost:self.post];
+    [self.post saveInBackground];
+}
+//
+//- (void)segueToProfile {
+//    CMMProfileVC *profileVC = [[CMMProfileVC alloc] init];
+//    profileVC.user = self.post.owner;
+//    [[self navigationController] pushViewController:profileVC animated:YES];
+//}
+
+//    self.reportLabel.userInteractionEnabled = YES;
+//    UITapGestureRecognizer *reportTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReport)];
+//    [self.reportLabel addGestureRecognizer:reportTap];
+//}
+
+#pragma mark - Location-Based Code
 //LOCATION-BASED CODE
 
 - (void)fetchNearbyPosts {

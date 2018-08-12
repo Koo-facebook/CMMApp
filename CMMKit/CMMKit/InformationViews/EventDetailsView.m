@@ -7,19 +7,9 @@
 //
 
 #import "EventDetailsView.h"
+
 @interface EventDetailsView ()
 
-@property (weak, nonatomic) IBOutlet UIView *detailsView;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
-@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UILabel *detailsLabel;
-@property (weak, nonatomic) IBOutlet UIButton *addToCalendarButton;
-@property (strong, nonatomic) NSString *startTimeHolder;
-@property (strong, nonatomic) NSString *endTimeHolder;
-@property (strong, nonatomic) NSString *titleHolder;
 
 @end
 
@@ -115,33 +105,33 @@
     self.detailsLabel.text = description;
 }
 
-- (IBAction)createCalendarEvent:(UIButton *)sender {
-    EKEventStore *store = [EKEventStore new];
-    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
-        if (!granted) { return; }
-        EKEvent *event = [EKEvent eventWithEventStore:store];
-        //Event Title
-        event.title = self.titleHolder;
-
-        NSDateFormatter *timeformatter = [[NSDateFormatter alloc] init];
-        [timeformatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
-        NSDate *startTime = [timeformatter dateFromString:self.startTimeHolder];
-        NSDate *endTime = [timeformatter dateFromString:self.endTimeHolder];
-
-        //Start Date & End Date
-        event.startDate = startTime;
-        NSLog(@"%@", event.startDate);//today
-        event.endDate = endTime;
-
-        //Calendar to store in
-        event.calendar = [store defaultCalendarForNewEvents];
-
-        NSError *err = nil;
-        [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
-    }];
-    //[self presentModalStatusView];
-    NSLog(@"Add to Calendar Button Pressed");
-}
+//- (IBAction)createCalendarEvent:(UIButton *)sender {
+//    EKEventStore *store = [EKEventStore new];
+//    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+//        if (!granted) { return; }
+//        EKEvent *event = [EKEvent eventWithEventStore:store];
+//        //Event Title
+//        event.title = self.titleHolder;
+//
+//        NSDateFormatter *timeformatter = [[NSDateFormatter alloc] init];
+//        [timeformatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+//        NSDate *startTime = [timeformatter dateFromString:self.startTimeHolder];
+//        NSDate *endTime = [timeformatter dateFromString:self.endTimeHolder];
+//
+//        //Start Date & End Date
+//        event.startDate = startTime;
+//        NSLog(@"%@", event.startDate);//today
+//        event.endDate = endTime;
+//
+//        //Calendar to store in
+//        event.calendar = [store defaultCalendarForNewEvents];
+//
+//        NSError *err = nil;
+//        [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
+//    }];
+//    //[self presentModalStatusView];
+//    NSLog(@"Add to Calendar Button Pressed");
+//}
 
 - (IBAction)closeButtonPressed:(UIButton *)sender {
     [self removeFromSuperview];
@@ -156,6 +146,9 @@
     [UIView animateWithDuration:0.15 animations:^{self.detailsView.alpha = 1.0; self.detailsView.transform = CGAffineTransformIdentity;}];
     //[NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(removeSelf) userInfo:nil repeats:false];
 }
+
+
+
 
 /*
 -(void) removeSelf {
