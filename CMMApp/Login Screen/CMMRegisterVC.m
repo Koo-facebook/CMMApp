@@ -27,7 +27,6 @@
 @property (strong, nonatomic) LOTAnimationView *lottieAnimation;
 @property (strong, nonatomic) UIView *animationContainer;
 @property (strong, nonatomic) UIScrollView *screenScrollView;
-@property (strong, nonatomic) UIScrollView *scrollView;
 
 @end
 
@@ -46,7 +45,7 @@
     self.chosenInterests = [[NSArray alloc]init];
     
     //[self createLabel];
-    [self createScreenScrollView];
+    [self createScrollView];
     [self createCancelButton];
     [self createSubmitButton];
     [self createBioTextView];
@@ -138,12 +137,12 @@
 
 #pragma mark - Elements
 -(void)createScrollView {
-    self.scrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.alwaysBounceHorizontal = NO;
-    self.scrollView.showsVerticalScrollIndicator = YES;
-    self.scrollView.scrollEnabled = YES;
-    [self.view addSubview:self.scrollView];
+    self.screenScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+    self.screenScrollView.showsHorizontalScrollIndicator = NO;
+    self.screenScrollView.alwaysBounceHorizontal = NO;
+    self.screenScrollView.showsVerticalScrollIndicator = YES;
+    self.screenScrollView.scrollEnabled = YES;
+    [self.view addSubview:self.screenScrollView];
 }
 
 -(void)createCancelButton {
@@ -207,15 +206,6 @@
     self.tapPhotoLabel.text = @"Tap to Add Profile Photo";
     [self.screenScrollView addSubview:self.tapPhotoLabel];
 }
-//
-//-(void)createVoterQuestion {
-//    self.s
-//}
-//
-//-(void)createVoterSwitch {
-//
-//}
-
 
 #pragma mark - Actions
 
@@ -362,17 +352,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [[self tableView:tableView cellForRowAtIndexPath:indexPath] setSelected:TRUE];
+    
     if (tableView == self.tableViewOne){
-    NSString *interest = self.tableOneCategories[indexPath.row];
-    [self.interests addObject:interest];
-    self.chosenInterests = self.interests;
-    NSLog(@"%@", self.interests);
+        NSString *interest = self.tableOneCategories[indexPath.row];
+        [self.interests addObject:interest];
+        self.chosenInterests = self.interests;
+        NSLog(@"%@", self.interests);
     }
     else {
-    NSString *interest = self.tableTwoCategories[indexPath.row];
-    [self.interests addObject:interest];
-    self.chosenInterests = self.interests;
-    NSLog(@"%@", self.interests);
+        NSString *interest = self.tableTwoCategories[indexPath.row];
+        [self.interests addObject:interest];
+        self.chosenInterests = self.interests;
+        NSLog(@"%@", self.interests);
     }
 }
 
@@ -460,6 +451,7 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [self.displayedName resignFirstResponder];
     [self.profileBio resignFirstResponder];
+}
 
 -(void)createTapGestureRecognizer:(SEL)selector with:(id)object {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];

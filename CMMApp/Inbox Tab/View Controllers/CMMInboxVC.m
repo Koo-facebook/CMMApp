@@ -247,12 +247,12 @@
 
 - (void)pullConversations {
     [[CMMParseQueryManager shared] fetchConversationsReported:NO WithCompletion:^(NSArray *conversations, NSError *error) {
-        if (conversations.count > 0) {
+        if (error) {
+            [self createAlert:@"Error" message:@"Unable to retrieve conversations. Check Connection"];
+        } else {
             self.conversations = [NSMutableArray arrayWithArray:conversations];
             [self.messagesTableView reloadData];
             [self.refreshControl endRefreshing];
-        } else {
-            [self createAlert:@"Error" message:@"Unable to retrieve conversations. Check Connection"];
         }
     }];
 }

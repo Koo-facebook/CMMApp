@@ -21,9 +21,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subheading;
 @property (nonatomic, strong) UIImageView *backgroundImage;
-@property (nonatomic, strong) FullScrollView *scrollView;
-@property (nonatomic, strong) UIScrollView *screenScrollView;
-@property (nonatomic, assign) CGSize keyboardSize;
+@property (nonatomic, strong) FullScrollView *scrollView;@property (nonatomic, assign) CGSize keyboardSize;
 //@property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *animate;
 
@@ -34,11 +32,6 @@
 @end
 
 @implementation CMMLoginVC
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-   // [self.lottieAnimation play];
-}
     
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,18 +42,12 @@
     self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
     
     // Create objects
-    [self createScreenScrollView];
     [self createScrollView];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self createTapGestureRecognizer:@selector(wholeViewTapped)];
 }
     
 - (void)updateConstraints {
-
-    // Whole Screen ScrollView
-    [self.screenScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
 
     // Title Label
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -240,7 +227,7 @@
     self.usernameTextField = [[UITextField alloc] init];
     self.usernameTextField.placeholder = @"Username...";
     self.usernameTextField.borderStyle = UITextBorderStyleRoundedRect;
-    [self.screenScrollView addSubview:self.usernameTextField];
+    [self.view addSubview:self.usernameTextField];
 }
     
     // Initialize Login Button
@@ -250,7 +237,7 @@
     [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.loginButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.loginButton addTarget:self action:@selector(loginButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.screenScrollView addSubview:self.loginButton];
+    [self.view addSubview:self.loginButton];
 }
     
     // Initialize Signup Button
@@ -260,7 +247,7 @@
     [self.signUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.signUpButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.signUpButton addTarget:self action:@selector(signUpButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.screenScrollView addSubview:self.signUpButton];
+    [self.view addSubview:self.signUpButton];
 }
 
 -(void)createScrollView {
@@ -269,7 +256,7 @@
     
     CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/1.45);
     self.scrollView = [[FullScrollView alloc]initWithFrame:frame andNumberOfPages:5];
-    [self.screenScrollView addSubview:self.scrollView];
+    [self.view addSubview:self.scrollView];
     
     self.scrollView.pagingEnabled = YES;
     
