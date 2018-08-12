@@ -285,9 +285,7 @@
         }
         [[CMMUser currentUser] saveInBackground];
         [self createAlert:@"Warning" message:[NSString stringWithFormat:@"Your message was classified as spam. You now have %@ warnings", [CMMUser currentUser].spamWarnings]];
-        
-    }
-    if (![self.writeMessageTextView.text isEqualToString:@""]) {
+    } else if (![self.writeMessageTextView.text isEqualToString:@""]) {
         [CMMMessage createMessage:self.conversation content:self.writeMessageTextView.text attachment:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMMessage *message) {
             if (succeeded) {
                 [self pullMessages];
@@ -457,54 +455,6 @@
     }
 }
 
-#pragma mark - Keyboard
-
--(void)keyboardWillShow: (NSNotification *) notification {
-    self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    
-    CGFloat fixedWidth = self.writeMessageTextView.frame.size.width;
-    CGSize newSize = [self.writeMessageTextView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
-    if (newSize.height < 41.67) {
-        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
-            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
-            make.left.equalTo(self.view).offset(8);
-            make.height.equalTo(@41.67);
-        }];
-    } else {
-        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
-            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
-            make.left.equalTo(self.view).offset(8);
-            make.height.equalTo(@(newSize.height));
-        }];
-    }
-}
-
--(void)keyboardDidShow: (NSNotification *) notification {
-    [self scrollToBottom:YES];
-}
-
--(void)keyboardWillHide: (NSNotification *) notification {
-    CGFloat fixedWidth = self.writeMessageTextView.frame.size.width;
-    CGSize newSize = [self.writeMessageTextView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
-    if (newSize.height < 41.67) {
-        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-8);
-            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
-            make.left.equalTo(self.view).offset(8);
-            make.height.equalTo(@41.67);
-        }];
-    } else {
-        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-8);
-            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
-            make.left.equalTo(self.view).offset(8);
-            make.height.equalTo(@(newSize.height));
-        }];
-    }
-}
-
 -(BOOL)isSpam {
     NSString *text = self.writeMessageTextView.text;
     NSString *wordsFile = @"";
@@ -564,6 +514,54 @@
         }
     }
     return YES;
+}
+
+#pragma mark - Keyboard
+
+-(void)keyboardWillShow: (NSNotification *) notification {
+    self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    
+    CGFloat fixedWidth = self.writeMessageTextView.frame.size.width;
+    CGSize newSize = [self.writeMessageTextView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+    if (newSize.height < 41.67) {
+        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
+            make.left.equalTo(self.view).offset(8);
+            make.height.equalTo(@41.67);
+        }];
+    } else {
+        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom).offset(-(self.keyboardSize.height+8));
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
+            make.left.equalTo(self.view).offset(8);
+            make.height.equalTo(@(newSize.height));
+        }];
+    }
+}
+
+-(void)keyboardDidShow: (NSNotification *) notification {
+    [self scrollToBottom:YES];
+}
+
+-(void)keyboardWillHide: (NSNotification *) notification {
+    CGFloat fixedWidth = self.writeMessageTextView.frame.size.width;
+    CGSize newSize = [self.writeMessageTextView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+    if (newSize.height < 41.67) {
+        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-8);
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
+            make.left.equalTo(self.view).offset(8);
+            make.height.equalTo(@41.67);
+        }];
+    } else {
+        [self.writeMessageTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-8);
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight).offset(-8);
+            make.left.equalTo(self.view).offset(8);
+            make.height.equalTo(@(newSize.height));
+        }];
+    }
 }
 
 #pragma mark - TextView Delegate

@@ -7,6 +7,7 @@
 //
 
 #import "CMMPost.h"
+#import "CMMLanguageProcessor.h"
 
 @implementation CMMPost
 
@@ -20,6 +21,8 @@
 @dynamic postLongitude;
 @dynamic trendingIndex;
 @dynamic reportedNumber;
+@dynamic keyWords;
+@dynamic lemmatizedVersion;
 
 + (nonnull NSString *)parseClassName {
     return @"CMMPost";
@@ -37,6 +40,7 @@
     newPost.userChatTaps = [NSMutableArray new];
     newPost.trendingIndex = 0;
     newPost.reportedNumber = @(0);
+    [newPost lemmatizeTopic];
     
     [newPost saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         completion(succeeded, error, newPost);
@@ -66,6 +70,25 @@
         self.postLongitude = nil;
         self.postLatitude = nil;
     }
+}
+
+- (void)lemmatizeTopic {
+    self.lemmatizedVersion = [self stringifyArray:[CMMLanguageProcessor lemmatizeText:self.topic]];
+}
+
+- (NSString *)stringifyArray:(NSArray *)array {
+    NSString *returnString = @"";
+    for (NSString *string in array) {
+        returnString = [returnString stringByAppendingString:string];
+    }
+    NSRange range = NSMakeRange(0, returnString.length-1);
+    returnString = [returnString substringWithRange:range];
+    return returnString;
+}
+
+- (NSArray *)getKeyWords {
+    
+    return [NSArray new];
 }
     
 @end
