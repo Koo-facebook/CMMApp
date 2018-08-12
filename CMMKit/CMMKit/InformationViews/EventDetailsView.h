@@ -17,6 +17,18 @@
 
 @interface EventDetailsView : UIView
 
+@property (weak, nonatomic) IBOutlet UIView *detailsView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UILabel *detailsLabel;
+@property (weak, nonatomic) IBOutlet UIButton *addToCalendarButton;
+@property (strong, nonatomic) NSString *startTimeHolder;
+@property (strong, nonatomic) NSString *endTimeHolder;
+@property (strong, nonatomic) NSString *titleHolder;
+
 -(void)setEventWithTitle:(NSString*)title location:(NSString *)location startTime:(NSString *)startTime endTime:(NSString *)endTime description:(NSString *)description;
 @property (weak, nonatomic) id<EventsDelegate> delegate;
 

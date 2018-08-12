@@ -17,10 +17,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *detailsLabel;
-@property (weak, nonatomic) IBOutlet UIButton *chatButton;
-@property (weak, nonatomic) IBOutlet UIButton *resourcesButton;
+@property (strong, nonatomic) UIButton *chatButton;
+@property (strong, nonatomic) UIButton *resourcesButton;
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
+@property (weak, nonatomic) IBOutlet UILabel *reportLabel;
 
--(void)setPostWithTitle:(NSString*)title category:(NSString *)category user:(NSString *)user time:(NSString *)time description:(NSString *)description;
+-(void)setPostWithTitle:(NSString*)title category:(NSString *)category user:(NSString *)user time:(NSString *)time description:(NSString *)description showingChatButton: (BOOL) chatButtonView;
 
 @end

@@ -31,6 +31,7 @@
 @property (strong, nonatomic) NSArray *eventList;
 @property (strong, nonatomic) NSMutableArray *venueList;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) CMMEvent *chosenEvent;
 
 
 //Pull to Refresh Animation Stuff
@@ -250,9 +251,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 //    CMMEventDetailsVC *eventDetailsVC = [[CMMEventDetailsVC alloc]init];
 //    UINavigationController *eventDetailsNavigation = [[UINavigationController alloc]initWithRootViewController:eventDetailsVC];
-//
+    self.chosenEvent = self.eventList[indexPath.row];
 //    eventDetailsVC.event = self.eventList[indexPath.row];
-    [self presentModalStatusViewForEvent:self.eventList[indexPath.row]];
+    [self presentModalStatusViewForEvent:self.chosenEvent];
 //    [self.navigationController pushViewController:eventDetailsVC animated:YES];
 //    [self presentViewController:eventDetailsNavigation animated:YES completion:^{}];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -343,8 +344,12 @@
     NSString *interval = [dashAdded stringByAppendingString:endTime];
     
     [modalView setEventWithTitle:event.title location:event.venue[@"localized_address_display"] startTime:event.startTime endTime:event.endTime description:event.details];
+    
+    [modalView.addToCalendarButton addTarget:self action:@selector(createCalendarEvent) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view addSubview:modalView];
 }
+
 
 - (void)eventAdded:(NSString *)eventTitle {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Calendar" message:[NSString stringWithFormat:@"%@ has been added to your calendar", eventTitle]  preferredStyle:(UIAlertControllerStyleAlert)];
@@ -353,4 +358,34 @@
     [self presentViewController:alert animated:YES completion:^{
     }];
 }
+
+- (void) createCalendarEvent{
+    EKEventStore *store = [EKEventStore new];
+    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        if (!granted) { return; }
+        EKEvent *event = [EKEvent eventWithEventStore:store];
+        //Event Title
+        event.title = self.chosenEvent.title;
+
+        NSDateFormatter *timeformatter = [[NSDateFormatter alloc] init];
+        [timeformatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+        NSDate *startTime = [timeformatter dateFromString:self.chosenEvent.startTime];
+        NSDate *endTime = [timeformatter dateFromString:self.chosenEvent.endTime];
+
+        //Start Date & End Date
+        event.startDate = startTime;
+        NSLog(@"%@", event.startDate);//today
+        event.endDate = endTime;
+
+        //Calendar to store in
+        event.calendar = [store defaultCalendarForNewEvents];
+
+        NSError *err = nil;
+        [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
+    }];
+    //[self presentModalStatusView];
+    NSLog(@"Add to Calendar Button Pressed");
+    [self createAlert:@"Event Added" message:@"Event successfully added to calendar"];
+}
+
 @end

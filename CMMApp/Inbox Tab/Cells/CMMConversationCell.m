@@ -20,9 +20,11 @@
 
 - (void)setupCell {
     [self setupUsernameLabel];
-    [self setupProfileImage];
     [self setupTopicLabel];
-    [self setupOnlineIndicator];
+    if (!self.moderator) {
+        [self setupProfileImage];
+        [self setupOnlineIndicator];
+    }
     [self updateConstraints];
 }
     
@@ -106,6 +108,10 @@
 }
 
 - (void)setUsernameText {
+    if (self.moderator) {
+        self.usernameLabel.text = [NSString stringWithFormat:@"Chat between %@ and %@", self.conversation.user1.username, self.conversation.user2.username];
+        return;
+    }
     if ([self checkIfUserOne]) {
         if ([self userStillInConversation:self.conversation.user2]) {
             self.usernameLabel.text = self.conversation.user2.username;
@@ -167,17 +173,32 @@
     
 - (void)updateConstraints {
     
-    // Read indicator
-    [self.profileImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.profileImage.superview.mas_top).offset(15);
-        make.left.equalTo(self.profileImage.superview.mas_left).offset(15);
-        make.width.height.equalTo(@48);
-    }];
+    int leftPadding;
+    
+    if (!self.moderator) {
+        // profile image
+        [self.profileImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.profileImage.superview.mas_top).offset(15);
+            make.left.equalTo(self.profileImage.superview.mas_left).offset(15);
+            make.width.height.equalTo(@48);
+        }];
+        
+        // Online Indicator
+        [self.onlineIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.profileImage.mas_right);
+            make.bottom.equalTo(self.profileImage.mas_bottom);
+            make.height.width.equalTo(@12);
+        }];
+        
+        leftPadding = 78;
+    } else {
+        leftPadding = 15;
+    }
     
     // Username label
     [self.usernameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.profileImage.mas_right).offset(10);
-        make.top.equalTo(self.profileImage.mas_top);
+        make.left.equalTo(self.usernameLabel.superview.mas_left).offset(leftPadding);
+        make.top.equalTo(self.usernameLabel.superview.mas_top).offset(15);
         make.right.equalTo(self.usernameLabel.superview.mas_right).offset(-10);
         make.height.equalTo(@(self.usernameLabel.intrinsicContentSize.height));
     }];
@@ -188,13 +209,6 @@
         make.left.equalTo(self.usernameLabel.mas_left);
         make.right.equalTo(self.usernameLabel.mas_right);
         make.bottom.equalTo(self.topicLabel.superview.mas_bottom).offset(-15);
-    }];
-    
-    // Online Indicator
-    [self.onlineIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.profileImage.mas_right);
-        make.bottom.equalTo(self.profileImage.mas_bottom);
-        make.height.width.equalTo(@12);
     }];
     
     [super updateConstraints];

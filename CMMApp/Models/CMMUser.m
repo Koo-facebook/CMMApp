@@ -40,7 +40,12 @@
 + (void) editUserInfo: ( UIImage * _Nullable )image withBio: ( NSString * _Nullable )bio withName:( NSString * _Nullable )name withInterests:(NSArray *_Nullable)interests andRegisteredVoter: (BOOL)voter withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     
     CMMUser *user = [CMMUser currentUser];
+    if (image == nil){
+        user.profileImage = [CMMUser getPFFileFromImage:[UIImage imageNamed:@"placeholderProfileImage"]];
+    }
+    else {
     user.profileImage = [self getPFFileFromImage:image];
+    }
     //user.username = PFUser.currentUser.username;
     user.profileBio = bio;
     user.displayName = name;
