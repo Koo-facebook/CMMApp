@@ -53,6 +53,8 @@
 		228588D22101183C0087E455 /* CMMParseQueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 228588D12101183C0087E455 /* CMMParseQueryManager.m */; };
 		22BF9CE9211E37E000D5D666 /* CMMLanguageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BF9CE8211E37E000D5D666 /* CMMLanguageProcessor.m */; };
 		22BF9CED211E3DCB00D5D666 /* MessageClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 22BF9CEC211E3DCA00D5D666 /* MessageClassifier.mlmodel */; };
+		22BF9CF32120C76700D5D666 /* words_ordered.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22BF9CF22120C76700D5D666 /* words_ordered.txt */; };
+		22BF9CF52120C77100D5D666 /* SMSSpamCollection.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22BF9CF42120C77100D5D666 /* SMSSpamCollection.txt */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
 		22F9EBF620FEAEAA002ADD9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBF520FEAEAA002ADD9D /* Assets.xcassets */; };
@@ -195,6 +197,8 @@
 		22BF9CE8211E37E000D5D666 /* CMMLanguageProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMLanguageProcessor.m; sourceTree = "<group>"; };
 		22BF9CEB211E3DB500D5D666 /* SentimentPolarity.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SentimentPolarity.mlmodel; sourceTree = "<group>"; };
 		22BF9CEC211E3DCA00D5D666 /* MessageClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MessageClassifier.mlmodel; sourceTree = "<group>"; };
+		22BF9CF22120C76700D5D666 /* words_ordered.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = words_ordered.txt; sourceTree = "<group>"; };
+		22BF9CF42120C77100D5D666 /* SMSSpamCollection.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SMSSpamCollection.txt; sourceTree = "<group>"; };
 		22F9EBE620FEAEA9002ADD9D /* CMMApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMMApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F9EBE920FEAEA9002ADD9D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -447,6 +451,8 @@
 		22F9EBE820FEAEA9002ADD9D /* CMMApp */ = {
 			isa = PBXGroup;
 			children = (
+				22BF9CF42120C77100D5D666 /* SMSSpamCollection.txt */,
+				22BF9CF22120C76700D5D666 /* words_ordered.txt */,
 				13A8D43E2114CABF00C0C183 /* Moderation */,
 				13A8D3A92113CC8C00C0C183 /* LottieFiles */,
 				130A10B42112D75300AA1311 /* Fonts */,
@@ -683,6 +689,7 @@
 				13A8D3CB21143C1400C0C183 /* demo.html in Resources */,
 				13A8D3C921143C1400C0C183 /* data.json in Resources */,
 				13A8D3BE21143BEF00C0C183 /* resources.json in Resources */,
+				22BF9CF52120C77100D5D666 /* SMSSpamCollection.txt in Resources */,
 				13A8D3C121143BFD00C0C183 /* search.json in Resources */,
 				13118E8D211B6947004E271C /* accountCreation.json in Resources */,
 				13A8D3C221143BFD00C0C183 /* circleFlag.json in Resources */,
@@ -693,6 +700,7 @@
 				13A8D3BC21143BE300C0C183 /* phoneVote.json in Resources */,
 				13A8D3CA21143C1400C0C183 /* data.xml in Resources */,
 				13A8D3C821143C1400C0C183 /* bodymovin.js in Resources */,
+				22BF9CF32120C76700D5D666 /* words_ordered.txt in Resources */,
 				22F9EBF620FEAEAA002ADD9D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
