@@ -43,9 +43,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejY-Bk-TTn">
                     <rect key="frame" x="111" y="433" width="111" height="30"/>
                     <state key="normal" title="Add to Calendar"/>
-                    <connections>
-                        <action selector="createCalendarEvent:" destination="-1" eventType="touchUpInside" id="cc0-Xg-S0m"/>
-                    </connections>
                 </button>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5xN-YO-LOa">
                     <rect key="frame" x="20" y="221" width="296" height="184"/>
