@@ -23,31 +23,44 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
     }];
     return tokenizedText;
 }
+
 + (NSMutableArray *)lemmatizeText: (NSString *)text {
     NSLinguisticTagger *tagger = [NSLinguisticTagger new];
     NSMutableArray *lemmatizedText = [NSMutableArray new];
     tagger.string = text;
     NSRange range = NSMakeRange(0, text.length);
+    
     [tagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeLemma options:options usingBlock:^(NSString* _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
         if (tag != nil) {
-            NSLog(@"%@", tag);
+            [lemmatizedText addObject:tag];
         }
     }];
     return lemmatizedText;
 }
-+ (NSMutableArray *)partsOfSpeech:(NSString *)text {
-    NSLinguisticTagger *tagger = [NSLinguisticTagger new];
-    NSMutableArray *parsedText = [NSMutableArray new];
+
++ (NSMutableDictionary *)partsOfSpeech:(NSString *)text {
+    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:@[NSLinguisticTagSchemeLexicalClass] options:0];
+    NSMutableDictionary *parsedText = [NSMutableDictionary new];
     tagger.string = text;
     NSRange range = NSMakeRange(0, text.length);
-    [tagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeLexicalClass options:options usingBlock:^(NSString * _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
+    NSLinguisticTaggerOptions posOptions = NSLinguisticTaggerOmitWhitespace | NSLinguisticTaggerOmitWhitespace;
+    [tagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeLexicalClass options:posOptions usingBlock:^(NSString * _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
         if (tag != nil) {
-            NSString *partOfSpeech = [text substringWithRange:tokenRange];
-            NSLog(@"%@: %@", partOfSpeech, tag);
+            NSString *word = [text substringWithRange:tokenRange];
+            NSLog(@"%@: %@", word, tag);
+            if ([parsedText objectForKey:tag] == nil) {
+                NSMutableArray *tagsArray = [NSMutableArray arrayWithObject:word];
+                [parsedText setObject:tagsArray forKey:tag];
+            } else {
+                NSMutableArray *tagsArray = [parsedText objectForKey:tag];
+                [tagsArray addObject:word];
+                [parsedText setObject:tagsArray forKey:tag];
+            }
         }
     }];
     return parsedText;
 }
+
 + (NSMutableDictionary *)namedEntityRecognition:(NSString *)text {
     NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:@[NSLinguisticTagSchemeNameType] options:0];
     NSMutableDictionary *entities = [NSMutableDictionary new];

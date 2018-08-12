@@ -37,7 +37,7 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"Inbox";
     
-    [CMMLanguageProcessor namedEntityRecognition:@"Donald Trump Daca Women"];
+    [CMMLanguageProcessor partsOfSpeech:@"Do you think Donald Trump should have the power to kick people out of the daca stuff like women and children?"];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
