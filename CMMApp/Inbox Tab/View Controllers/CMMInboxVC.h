@@ -11,6 +11,7 @@
 #import "CMMConversationCell.h"
 #import "CMMChatVC.h"
 #import "CMMParseQueryManager.h"
+#import "CMMLanguageProcessor.h"
 
 @interface CMMInboxVC : UIViewController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate>
 - (void)createAlert:(NSString *)alertTitle message:(NSString *)errorMessage;

@@ -320,6 +320,7 @@
 -(void)presentModalStatusViewForEvent: (CMMEvent *)event {
     CGRect frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
     EventDetailsView *modalView = [[EventDetailsView alloc]initWithFrame:frame];
+    modalView.delegate = self;
     
     //Format date to appear as "July 21, 2018" and set
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -347,6 +348,15 @@
     [modalView.addToCalendarButton addTarget:self action:@selector(createCalendarEvent) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:modalView];
+}
+
+
+- (void)eventAdded:(NSString *)eventTitle {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Calendar" message:[NSString stringWithFormat:@"%@ has been added to your calendar", eventTitle]  preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{
+    }];
 }
 
 - (void) createCalendarEvent{
@@ -377,7 +387,5 @@
     NSLog(@"Add to Calendar Button Pressed");
     [self createAlert:@"Event Added" message:@"Event successfully added to calendar"];
 }
-
-
 
 @end

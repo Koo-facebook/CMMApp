@@ -38,7 +38,7 @@
         }];
     }
     else {
-    [self fetchResourcesRelatingTo:self.category];
+        [self fetchResourcesRelatingTo:self.category];
     }
 }
 
@@ -55,23 +55,27 @@
     [formatter setDateFormat:@"yyyy-dd-MM"];
     NSString *date = [formatter stringFromDate:twoWeeksAgo];
     // NSString *date = [NSDateFormatter datefrom]
-    [[CMMResourcesAPIManager shared] getNewsArticlesWithTopic:topic fromDate:date withCompletion:^(NSArray *articles, NSError *error) {
+    [[CMMResourcesAPIManager shared] getNewsArticlesWithTopic:[self formatForSearch:topic] fromDate:date withCompletion:^(NSArray *articles, NSError *error) {
         if (articles) {
             NSLog(@"I am fetching articles");
-            self.articleList = articles;
-//            for(CMMArticle *article in articles) {
-//                NSString *name = article.title;
-//                NSLog(@"%@", name);
-//                //                [[CMMEventAPIManager shared] pullVenues:event.venue_id withCompletion:^(NSDictionary *venues, NSError *error) {
-//                //                    NSNumber *latitude = venues[@"latitude"];
-//                //                    NSNumber *longitude = venues [@"longitude"];
-//                //                    //NSLog(@"Latitude: %@", latitude);
-//                //                    //NSLog(@"Longitude: %@", longitude);
-//                //                    CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(latitude.floatValue,longitude.floatValue);
-//                //                    [self addingPins:venueLocation withSubTitle: event.title];
-//            }
-            NSLog(@"😎😎😎 Successfully loaded events table");
-            [self.tableView reloadData];
+            if (articles.count > 0) {
+                self.articleList = articles;
+                [self.tableView reloadData];
+            } else {
+                NSMutableDictionary *entities = [CMMLanguageProcessor namedEntityRecognition:topic];
+                NSString *searchString = @"";
+                for (id key in entities) {
+                    NSString *formattedKey = [key stringByAppendingString:@"%20"];
+                    searchString = [searchString stringByAppendingString:[entities objectForKey:formattedKey]];
+                }
+                if (![searchString isEqualToString:@""]) {
+                    [[CMMResourcesAPIManager shared] getNewsArticlesWithTopic:searchString fromDate:date withCompletion:^(NSArray *articles, NSError *error) {
+                        self.articleList = articles;
+                        [self.tableView reloadData];
+                    }];
+                }
+            }
+            
         }
         else {
             NSLog(@"😫😫😫 Error getting events: %@", error.localizedDescription);
@@ -148,6 +152,16 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
+}
+
+//Format post topic for searching
+- (NSString *)formatForSearch: (NSString *)topic{
+    NSString *categoryNoSpaces = [topic stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSString *finalCategory = [categoryNoSpaces stringByReplacingOccurrencesOfString:@" ' " withString:@"%27"];
+    
+    NSLog(@"CATEGORY FOR SEARCH: %@", finalCategory);
+    
+    return finalCategory;
 }
 
 @end
