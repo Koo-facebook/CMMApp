@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSNumber *_Nullable postLongitude;
 @property (nonatomic, assign) float trendingIndex;
 @property (nonatomic, assign) NSNumber *_Nullable reportedNumber;
-@property (nonatomic, strong) NSMutableDictionary *_Nullable keyWords;
+@property (nonatomic, strong) NSMutableArray *_Nullable keyWords;
 @property (nonatomic, strong) NSString *_Nullable lemmatizedVersion;
 @property (nonatomic, assign) BOOL overallSentiment;
     

@@ -42,6 +42,7 @@
     newPost.userChatTaps = [NSMutableArray new];
     newPost.trendingIndex = 0;
     newPost.reportedNumber = @(0);
+    newPost.keyWords = [NSMutableArray new];
     [newPost lemmatizeTopic];
     [newPost classifySentiment];
     [newPost getKeyWords];
@@ -84,7 +85,7 @@
 - (NSString *)stringifyArray:(NSArray *)array {
     NSString *returnString = @"";
     for (NSString *string in array) {
-        returnString = [returnString stringByAppendingString:string];
+        returnString = [[returnString stringByAppendingString:string] stringByAppendingString:@" "];
     }
     NSRange range = NSMakeRange(0, returnString.length-1);
     returnString = [returnString substringWithRange:range];
@@ -92,14 +93,13 @@
 }
 
 - (void)getKeyWords {
-    NSDictionary *partsOfSpeech = [CMMLanguageProcessor partsOfSpeech:self.topic];
-    for (NSString *noun in partsOfSpeech[@"noun"]) {
-        if ([self.keyWords objectForKey:noun] == nil) {
-            [self.keyWords setObject:@1 forKey:noun];
-        } else {
-            [self.keyWords setObject:[NSNumber numberWithInt:(int)[self.keyWords objectForKey:noun] + 1] forKey:noun];
+    NSMutableDictionary *namedEntities = [CMMLanguageProcessor namedEntityRecognition:self.topic];
+    for (id key in namedEntities) {
+        if (![self.keyWords containsObject:key]) {
+            [self.keyWords addObject:key];
         }
     }
+    
 }
 
 - (void)classifySentiment {
