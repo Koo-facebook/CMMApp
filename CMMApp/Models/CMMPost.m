@@ -8,6 +8,7 @@
 
 #import "CMMPost.h"
 #import "CMMLanguageProcessor.h"
+#import "SentimentPolarity.h"
 
 @implementation CMMPost
 
@@ -23,6 +24,7 @@
 @dynamic reportedNumber;
 @dynamic keyWords;
 @dynamic lemmatizedVersion;
+@dynamic overallSentiment;
 
 + (nonnull NSString *)parseClassName {
     return @"CMMPost";
@@ -41,6 +43,9 @@
     newPost.trendingIndex = 0;
     newPost.reportedNumber = @(0);
     [newPost lemmatizeTopic];
+    [newPost classifySentiment];
+    [newPost getKeyWords];
+    
     
     [newPost saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         completion(succeeded, error, newPost);
@@ -86,9 +91,62 @@
     return returnString;
 }
 
-- (NSArray *)getKeyWords {
+- (void)getKeyWords {
+    NSDictionary *partsOfSpeech = [CMMLanguageProcessor partsOfSpeech:self.topic];
+    for (NSString *noun in partsOfSpeech[@"noun"]) {
+        if ([self.keyWords objectForKey:noun] == nil) {
+            [self.keyWords setObject:@1 forKey:noun];
+        } else {
+            [self.keyWords setObject:[NSNumber numberWithInt:(int)[self.keyWords objectForKey:noun] + 1] forKey:noun];
+        }
+    }
+}
+
+- (void)classifySentiment {
+    NSDictionary *topicsSentiment = [CMMLanguageProcessor runSentimentAnalysis:self.topic];
+    if (![self.detailedDescription isEqualToString:@""]) {
+        NSDictionary *descriptionsSentiment = [CMMLanguageProcessor runSentimentAnalysis:self.detailedDescription];
     
-    return [NSArray new];
+        if ([topicsSentiment[@"classLabel"] isEqualToString:descriptionsSentiment[@"classLabel"]]) {
+            if ([topicsSentiment[@"classLabel"] isEqualToString:@"Pos"]) {
+                self.overallSentiment = YES;
+            } else {
+                self.overallSentiment = NO;
+            }
+        } else {
+            double topicsSentimentValue = [self sentimentValue:topicsSentiment];
+            double descriptionsSentimentValue = [self sentimentValue:descriptionsSentiment];
+            
+            if (topicsSentimentValue + descriptionsSentimentValue >= 0) {
+                self.overallSentiment = YES;
+            } else {
+                self.overallSentiment = NO;
+            }
+        }
+        
+    } else {
+        if ([topicsSentiment[@"classLabel"] isEqualToString:@"Pos"]) {
+            self.overallSentiment = YES;
+        } else {
+            self.overallSentiment = NO;
+        }
+    }
+}
+
+- (double)sentimentValue:(NSDictionary *)sentiment {
+
+    NSString *sentimentValue = sentiment[@"classLabel"];
+    NSString *sentimentProb = sentiment[@"classProbability"];
+    
+    double sentimentNumber = 0.0;
+
+    if ([sentimentValue isEqualToString:@"Pos"]) {
+        sentimentNumber = 1.0;
+    }
+    
+    sentimentNumber = sentimentNumber * [sentimentProb doubleValue];
+    
+    return sentimentNumber;
 }
     
 @end

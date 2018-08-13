@@ -55,6 +55,7 @@
 		22BF9CED211E3DCB00D5D666 /* MessageClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 22BF9CEC211E3DCA00D5D666 /* MessageClassifier.mlmodel */; };
 		22BF9CF32120C76700D5D666 /* words_ordered.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22BF9CF22120C76700D5D666 /* words_ordered.txt */; };
 		22BF9CF52120C77100D5D666 /* SMSSpamCollection.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22BF9CF42120C77100D5D666 /* SMSSpamCollection.txt */; };
+		22BF9CF62120EE5B00D5D666 /* SentimentPolarity.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 22BF9CEB211E3DB500D5D666 /* SentimentPolarity.mlmodel */; };
 		22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBEA20FEAEA9002ADD9D /* AppDelegate.m */; };
 		22F9EBF420FEAEA9002ADD9D /* CMMApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 22F9EBF220FEAEA9002ADD9D /* CMMApp.xcdatamodeld */; };
 		22F9EBF620FEAEAA002ADD9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F9EBF520FEAEAA002ADD9D /* Assets.xcassets */; };
@@ -806,6 +807,7 @@
 				22F9EBEB20FEAEA9002ADD9D /* AppDelegate.m in Sources */,
 				03888A0B2114C1520028E75A /* CMMUserStrikes.m in Sources */,
 				137E0DF52118EA0800D74F4E /* InterestsCell.m in Sources */,
+				22BF9CF62120EE5B00D5D666 /* SentimentPolarity.mlmodel in Sources */,
 				03CDE9D721024F11007629AD /* PostDetailVC.m in Sources */,
 				22F9EC4A21004F33002ADD9D /* CMMChatCell.m in Sources */,
 				137E0E1A211AEFD100D74F4E /* CMMModerationController.m in Sources */,

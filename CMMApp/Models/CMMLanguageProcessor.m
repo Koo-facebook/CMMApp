@@ -7,10 +7,37 @@
 //
 
 #import "CMMLanguageProcessor.h"
+#import "SentimentPolarity.h"
 
 static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespace | NSLinguisticTaggerOmitPunctuation | NSLinguisticTaggerJoinNames;
 
 @implementation CMMLanguageProcessor
+
++ (NSDictionary *)runSentimentAnalysis: (NSString *)text {
+    NSMutableDictionary *results = [NSMutableDictionary new];
+    NSMutableDictionary *wordCounts = [NSMutableDictionary new];
+    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:[NSLinguisticTagger availableTagSchemesForLanguage:@"en"] options:0];
+    tagger.string = text;
+    NSRange range = NSMakeRange(0, text.length);
+    
+    [tagger enumerateTagsInRange:range scheme:NSLinguisticTagSchemeNameType options:options usingBlock:^(NSLinguisticTag  _Nullable tag, NSRange tokenRange, NSRange sentenceRange, BOOL * _Nonnull stop) {
+        NSString *token = [[text substringWithRange:tokenRange] lowercaseString];
+        if (token.length < 3) {
+            return;
+        }
+        
+        if ([wordCounts objectForKey:token] == nil) {
+            wordCounts[token] = [NSNumber numberWithDouble:1.0];
+        } else {
+            wordCounts[token] = [NSNumber numberWithDouble:([(NSNumber *)wordCounts[token] floatValue] + 1.0)];
+        }
+    }];
+    SentimentPolarity *model = [SentimentPolarity new];
+    SentimentPolarityOutput *output = [model predictionFromInput:wordCounts error:nil];
+    results[@"classLabel"] = output.classLabel;
+    results[@"classProbability"] = output.classProbability;
+    return results;
+}
 
 + (NSMutableArray *)tokenizeText:(NSString *)text {
     NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:[NSLinguisticTagger availableTagSchemesForLanguage:@"en"] options:0];
