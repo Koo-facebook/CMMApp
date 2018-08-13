@@ -18,7 +18,7 @@
 @property (strong, nonatomic) UITextView *profileBio;
 @property (strong, nonatomic) UIImageView *profileImage;
 @property (strong, nonatomic) PFImageView *originalProfileImage;
-@property (strong, nonatomic) UILabel *tapPhotoLabel;
+@property (strong, nonatomic) UILabel *votingLabel;
 @property (strong,nonatomic) PFImageView *imageFile;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (strong, nonatomic) UIButton *submitButton;

@@ -50,12 +50,19 @@
     self.postedByLabel.text = @"";
     self.timeLabel.text = @"";
     self.detailsLabel.text = @"";
+    
+    self.userImage.image = [UIImage imageNamed:@"placeholderProfileImage"];
+    self.userImage.layer.cornerRadius = self.userImage.frame.size.height/2;
+    self.userImage.clipsToBounds = YES;
+    
+    self.usernameLabel.text = @"";
     //self.chatButton.titleLabel.text = @"Let's Chat!";
     //self.resourcesButton.titleLabel.text = @"Tell Me More!";
     self.reportLabel.text = @"Report";
     
+    
     [self addSubview:self.detailsView];
-
+    
 }
 
 -(void) layoutSubviews {
@@ -67,6 +74,7 @@
 
 -(void)setPostWithTitle:(NSString*)title category:(NSString *)category user:(NSString *)user time:(NSString *)time description:(NSString *)description showingChatButton: (BOOL) chatButtonView {
     self.titleLabel.text = title;
+    self.usernameLabel.text = user;
     self.categoryLabel.text = category;
     self.postedByLabel.text = ((void)("Posted By: %@"), user);
     self.timeLabel.text = time;
@@ -74,36 +82,36 @@
     
     int resourceLeftPadding;
     if (chatButtonView == YES) {
-                self.chatButton = [[UIButton alloc] init];
-               // [self.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
-                [self.chatButton setTitle:@"Let's Chat!" forState:UIControlStateNormal];
-                [self.chatButton setBackgroundColor:[UIColor blueColor]];
-                [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [self.detailsView addSubview:self.chatButton];
-                UIEdgeInsets chatPadding = UIEdgeInsetsMake(30, 12, 12, self.detailsView.frame.size.width/2 + 6);
-                [self.chatButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(self.detailsLabel.mas_bottom).with.offset(chatPadding.top);
-                    make.left.equalTo(self.detailsView.mas_left).with.offset(chatPadding.left);
-                    make.right.equalTo(self.detailsView.mas_right).with.offset(-chatPadding.right);
-                }];
-                resourceLeftPadding = self.detailsView.frame.size.width/2 + 6;
-            } else {
-                resourceLeftPadding = 12;
-            }
+        self.chatButton = [[UIButton alloc] init];
+        // [self.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
+        [self.chatButton setTitle:@"Let's Chat!" forState:UIControlStateNormal];
+        [self.chatButton setBackgroundColor:[UIColor blueColor]];
+        [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.detailsView addSubview:self.chatButton];
+        UIEdgeInsets chatPadding = UIEdgeInsetsMake(45, 12, 12, self.detailsView.frame.size.width/2 + 6);
+        [self.chatButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.detailsLabel.mas_bottom).with.offset(chatPadding.top);
+            make.left.equalTo(self.detailsView.mas_left).with.offset(chatPadding.left);
+            make.right.equalTo(self.detailsView.mas_right).with.offset(-chatPadding.right);
+        }];
+        resourceLeftPadding = self.detailsView.frame.size.width/2 + 6;
+    } else {
+        resourceLeftPadding = 12;
+    }
     
-            // resources button
-            self.resourcesButton = [[UIButton alloc] init];
-           // [self.resourcesButton addTarget:self action:@selector(didPressResources) forControlEvents:UIControlEventTouchUpInside];
-            [self.resourcesButton setTitle:@"Tell Me More!" forState:UIControlStateNormal];
-            [self.resourcesButton setBackgroundColor:[UIColor grayColor]];
-            [self.resourcesButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [self.detailsView addSubview:self.resourcesButton];
-            UIEdgeInsets resourcePadding = UIEdgeInsetsMake(30, resourceLeftPadding, 12, 12);
-            [self.resourcesButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.detailsLabel.mas_bottom).with.offset(resourcePadding.top);
-                make.left.equalTo(self.detailsView.mas_left).with.offset(resourcePadding.left);
-                make.right.equalTo(self.detailsView.mas_right).with.offset(-resourcePadding.right);
-            }];
+    // resources button
+    self.resourcesButton = [[UIButton alloc] init];
+    // [self.resourcesButton addTarget:self action:@selector(didPressResources) forControlEvents:UIControlEventTouchUpInside];
+    [self.resourcesButton setTitle:@"Tell Me More!" forState:UIControlStateNormal];
+    [self.resourcesButton setBackgroundColor:[UIColor grayColor]];
+    [self.resourcesButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.detailsView addSubview:self.resourcesButton];
+    UIEdgeInsets resourcePadding = UIEdgeInsetsMake(45, resourceLeftPadding, 12, 12);
+    [self.resourcesButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.detailsLabel.mas_bottom).with.offset(resourcePadding.top);
+        make.left.equalTo(self.detailsView.mas_left).with.offset(resourcePadding.left);
+        make.right.equalTo(self.detailsView.mas_right).with.offset(-resourcePadding.right);
+    }];
 }
 
 

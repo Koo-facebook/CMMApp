@@ -40,13 +40,13 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [[CMMParseQueryManager shared] updateUserInfo:PFUser.currentUser WithCompletion:^(PFObject *object, NSError *error) {
-//        PFUser *user = object;
-//        self.user = user;
-//    }];
-   // [self.tableView registerClass:[NewsfeedCell class] forCellReuseIdentifier:@"feedCell"];
-    [self.collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:@"Cell1"];
-    [self.collectionView registerClass:[InterestsViewCell class] forCellWithReuseIdentifier:@"Cell2"];
+    //    [[CMMParseQueryManager shared] updateUserInfo:PFUser.currentUser WithCompletion:^(PFObject *object, NSError *error) {
+    //        PFUser *user = object;
+    //        self.user = user;
+    //    }];
+    // [self.tableView registerClass:[NewsfeedCell class] forCellReuseIdentifier:@"feedCell"];
+    [self.collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.collectionView registerClass:[InterestsViewCell class] forCellWithReuseIdentifier:@"secondCell"];
     
     self.profileFeed = [[NSArray alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -58,8 +58,8 @@ static NSUInteger const kCMDefaultSelected = 0;
     
     
     [self createName];
-    [self createBio];
-   //[self createTableView];
+    //[self createBio];
+    //[self createTableView];
     if (self.user.objectId == CMMUser.currentUser.objectId) {
         [self createEditProfileButton];
         [self createLogoutButton];
@@ -73,8 +73,8 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self.container insertSubview:self.collectionView belowSubview:self.tabbarView];
     [self.container addSubview:self.tabbarView];
     [self.view addSubview:self.container];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    self.datas = @[@"About Me",@"My Interests",@"My Posts"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.datas = @[@"About Me",@"My Interests",@"My Posts"];
         [self.collectionView reloadData];
         [self.tabbarView reloadData];
@@ -89,37 +89,38 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (CMTabbarView *)tabbarView
 {
     if (!_tabbarView) {
-        _tabbarView = [[CMTabbarView alloc] initWithFrame:CGRectMake(0, 0, (self.view.bounds.size.width-95), 40)];
+        _tabbarView = [[CMTabbarView alloc] initWithFrame:CGRectMake(0, 0, (self.view.bounds.size.width), 40)];
         _tabbarView.delegate = self;
         _tabbarView.dataSource = self;
-        _tabbarView.backgroundColor = [UIColor blueColor];
+        _tabbarView.backgroundColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
         _tabbarView.defaultSelectedIndex = kCMDefaultSelected;
         _tabbarView.indicatorScrollType = CMTabbarIndicatorScrollTypeSpring;
-        //_tabbarView.tabPadding = 5.0f;
-        //        _tabbarView.selectionType = CMTabbarSelectionBox;
-        _tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[UIColor greenColor]};
+        _tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1],CMTabIndicatorViewHeight:@(5.0f),CMTabBoxBackgroundColor:[UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1]};
         //_tabbarView.normalAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
         //_tabbarView.selectedAttributes = @{NSForegroundColorAttributeName:[UIColor orangeColor]};
         //_tabbarView.needTextGradient = false;
     }
-   return _tabbarView;
+    return _tabbarView;
 }
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        layout.itemSize = CGSizeMake((self.view.bounds.size.width-95), (250));
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        layout.itemSize = CGSizeMake((self.view.bounds.size.width), (self.view.bounds.size.height/2.5));
         layout.sectionInset = UIEdgeInsetsZero;
         layout.minimumLineSpacing = 0;
         layout.minimumInteritemSpacing = 0;
-        CGRect frameCollect = CGRectMake(0, 0, (self.view.bounds.size.width-95), 250);
+        CGRect frameCollect = CGRectMake(0, 40, (self.view.bounds.size.width), (self.view.bounds.size.height/2.5));
         _collectionView = [[UICollectionView alloc] initWithFrame:frameCollect collectionViewLayout:layout];
-        [_collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:NSStringFromClass([ProfileCell class])];
+        //        [_collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:@"Cell"];
+        //        [_collectionView registerClass:[InterestsViewCell class] forCellWithReuseIdentifier:@"Cell2"];
         _collectionView.dataSource = self;
+        _collectionView.scrollEnabled = YES;
         _collectionView.delegate = self;
-        _collectionView.showsHorizontalScrollIndicator = true;
-        _collectionView.pagingEnabled = true;
+        _collectionView.userInteractionEnabled = YES;
+        _collectionView.showsHorizontalScrollIndicator = YES;
+        _collectionView.pagingEnabled = NO;
         _collectionView.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
         _collectionView.backgroundColor = [UIColor lightGrayColor];
     }
@@ -143,25 +144,29 @@ static NSUInteger const kCMDefaultSelected = 0;
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"SELF USER = %@", self.user);
     if (indexPath.row == 0){
-        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell1" forIndexPath:indexPath];
-        cell.title = PFUser.currentUser[@"profileBio"];
+        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+        cell.title = self.user[@"profileBio"];
         return cell;
     }
-    else if (indexPath.row == 1) {
-        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell1" forIndexPath:indexPath];
-        NSArray *cat = PFUser.currentUser[@"interests"];
-        cell.title = cat[2];
+    if (indexPath.row == 1) {
+        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+        NSArray *cat = self.user[@"interests"];
+        if(cat.count != 0){
+            cell.title = cat[0];
+        }
         cell.backgroundColor = [UIColor purpleColor];
         //cell.interests = PFUser.currentUser[@"interests"];
         return cell;
     }
-    else{
-        InterestsViewCell *cell2 = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell2" forIndexPath:indexPath];
-        //cell.title = [NSString stringWithFormat:@"%ld",indexPath.row];
-        cell2.backgroundColor = [UIColor lightGrayColor];
-        return cell2;
-        }
+    if (indexPath.row == 2){
+        InterestsViewCell *secondCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"secondCell" forIndexPath:indexPath];
+        secondCell.user = self.user;
+        secondCell.title = self.user.username;
+        secondCell.backgroundColor = [UIColor lightGrayColor];
+        return secondCell;
+    }
     return 0;
 }
 
@@ -171,7 +176,7 @@ static NSUInteger const kCMDefaultSelected = 0;
 }
 
 - (void)updateConstraints {
-
+    
     // Username Label
     [self.usernameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.profileImage.mas_bottom).offset(15);
@@ -179,7 +184,7 @@ static NSUInteger const kCMDefaultSelected = 0;
         make.height.equalTo(@(self.usernameLabel.intrinsicContentSize.height));
         make.width.equalTo(@(self.usernameLabel.intrinsicContentSize.width));
     }];
-
+    
     // Profile Image
     [self.profileImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).offset(100);
@@ -187,32 +192,33 @@ static NSUInteger const kCMDefaultSelected = 0;
         make.width.equalTo(@(150));
         make.height.equalTo(@(150));
         //Crop profile image to a circle
-
-    }];
-
-    // Profile Bio Label
-    [self.profileBioLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.usernameLabel.mas_bottom).offset(20);
-        make.centerX.equalTo(self.usernameLabel.superview.mas_centerX);
-        make.width.equalTo(@(325));
-        //make.height.equalTo(@(self.profileBioLabel.intrinsicContentSize.height));
-    }];
-
-    // TabBarView
-  [self.container mas_makeConstraints:^(MASConstraintMaker *make) {
-      make.top.equalTo(self.profileBioLabel.mas_bottom).offset(20);
-      make.centerX.equalTo(self.container.superview.mas_centerX);
-      make.height.equalTo(@(40));
-      make.width.equalTo(@(self.view.bounds.size.width-95));
+        
     }];
     
-    // CollectionView
-//    [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(_tabbarView.mas_bottom).offset(20);
-//        make.centerX.equalTo(_collectionView.superview.mas_centerX);
-//        make.height.equalTo(@(250));
-//        make.width.equalTo(@(self.view.bounds.size.width-95));
-//    }];
+    // Profile Bio Label
+    //    [self.profileBioLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.top.equalTo(self.usernameLabel.mas_bottom).offset(20);
+    //        make.centerX.equalTo(self.usernameLabel.superview.mas_centerX);
+    //        make.width.equalTo(@(325));
+    //        //make.height.equalTo(@(self.profileBioLabel.intrinsicContentSize.height));
+    //    }];
+    
+    // TabBarView
+    [self.container mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.usernameLabel.mas_bottom).offset(20);
+        make.centerX.equalTo(self.container.superview.mas_centerX);
+        make.height.equalTo(@(40));
+        make.width.equalTo(@(self.view.bounds.size.width));
+    }];
+    
+    //CollectionView
+    [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_tabbarView.mas_bottom);
+        make.centerX.equalTo(_collectionView.superview.mas_centerX);
+        //make.bottom.equalTo(_collectionView.superview.mas_bottom);
+        make.height.equalTo(@(self.view.bounds.size.height/2.5));
+        make.width.equalTo(@(self.view.bounds.size.width));
+    }];
 }
 
 -(void) createName{
@@ -220,7 +226,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.usernameLabel.textColor = [UIColor blackColor];
     self.usernameLabel.font = [UIFont fontWithName:@"Arial" size:26];
     self.usernameLabel.numberOfLines = 1;
-    self.usernameLabel.text = PFUser.currentUser[@"displayName"];
+    self.usernameLabel.text = self.user.username;
     [self.view addSubview:self.usernameLabel];
 }
 

@@ -13,6 +13,9 @@
 		13118EC8211CA80E004E271C /* close-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13118EC4211CA80D004E271C /* close-icon@3x.png */; };
 		13118ED1211CBAB9004E271C /* CMMBadge.h in Headers */ = {isa = PBXBuildFile; fileRef = 13118ECF211CBAB9004E271C /* CMMBadge.h */; };
 		13118ED2211CBAB9004E271C /* CMMBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 13118ED0211CBAB9004E271C /* CMMBadge.m */; };
+		13118EEC2121F35B004E271C /* placeholderProfileImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 13118EEA2121F35B004E271C /* placeholderProfileImage.png */; };
+		13118EED2121F35B004E271C /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 13118EEB2121F35B004E271C /* Contents.json */; };
+		13118EEF2121F365004E271C /* PostDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13118EEE2121F365004E271C /* PostDetailsView.xib */; };
 		136E30B0210A4C66009B4180 /* CMMKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E30AE210A4C66009B4180 /* CMMKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		136E30BC210A4CDE009B4180 /* CMMPopUp.h in Headers */ = {isa = PBXBuildFile; fileRef = 136E30BA210A4CDE009B4180 /* CMMPopUp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		136E30BD210A4CDE009B4180 /* CMMPopUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 136E30BB210A4CDE009B4180 /* CMMPopUp.m */; };
@@ -36,7 +39,6 @@
 		13FEA31621123FFC00E8D70D /* EventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13FEA31521123FFC00E8D70D /* EventDetailsView.xib */; };
 		13FEA31921125D5400E8D70D /* PostDetailsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 13FEA31721125D5400E8D70D /* PostDetailsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		13FEA31A21125D5400E8D70D /* PostDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13FEA31821125D5400E8D70D /* PostDetailsView.m */; };
-		13FEA31C21125D6A00E8D70D /* PostDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13FEA31B21125D6A00E8D70D /* PostDetailsView.xib */; };
 		8AC31DF34555D3F320F1B9F7 /* libPods-CMMKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EA2C51F388C4325C7E738B /* libPods-CMMKit.a */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,9 @@
 		13118EC4211CA80D004E271C /* close-icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close-icon@3x.png"; sourceTree = "<group>"; };
 		13118ECF211CBAB9004E271C /* CMMBadge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMBadge.h; sourceTree = "<group>"; };
 		13118ED0211CBAB9004E271C /* CMMBadge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMMBadge.m; sourceTree = "<group>"; };
+		13118EEA2121F35B004E271C /* placeholderProfileImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholderProfileImage.png; sourceTree = "<group>"; };
+		13118EEB2121F35B004E271C /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
+		13118EEE2121F365004E271C /* PostDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PostDetailsView.xib; path = ../../../../../Desktop/CMMApp/CMMKit/CMMKit/InformationViews/PostDetailsView.xib; sourceTree = "<group>"; };
 		136E30AB210A4C66009B4180 /* CMMKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CMMKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		136E30AE210A4C66009B4180 /* CMMKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMMKit.h; sourceTree = "<group>"; };
 		136E30AF210A4C66009B4180 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,7 +77,6 @@
 		13FEA31521123FFC00E8D70D /* EventDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsView.xib; sourceTree = "<group>"; };
 		13FEA31721125D5400E8D70D /* PostDetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailsView.h; sourceTree = "<group>"; };
 		13FEA31821125D5400E8D70D /* PostDetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDetailsView.m; sourceTree = "<group>"; };
-		13FEA31B21125D6A00E8D70D /* PostDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailsView.xib; sourceTree = "<group>"; };
 		4DCEB816559ED8FFBA921805 /* Pods-CMMKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMMKit.release.xcconfig"; path = "../Pods/Target Support Files/Pods-CMMKit/Pods-CMMKit.release.xcconfig"; sourceTree = "<group>"; };
 		AA4C31B7D648248F05F60C1A /* Pods-CMMKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMMKit.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-CMMKit/Pods-CMMKit.debug.xcconfig"; sourceTree = "<group>"; };
 		D8EA2C51F388C4325C7E738B /* libPods-CMMKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CMMKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +113,16 @@
 				13118ED0211CBAB9004E271C /* CMMBadge.m */,
 			);
 			path = Badge;
+			sourceTree = "<group>";
+		};
+		13118EE92121F35B004E271C /* placeholderProfileImage.imageset */ = {
+			isa = PBXGroup;
+			children = (
+				13118EEA2121F35B004E271C /* placeholderProfileImage.png */,
+				13118EEB2121F35B004E271C /* Contents.json */,
+			);
+			name = placeholderProfileImage.imageset;
+			path = ../../../../../Desktop/CMMApp/CMMKit/CMMKit/InformationViews/placeholderProfileImage.imageset;
 			sourceTree = "<group>";
 		};
 		136E30A1210A4C66009B4180 = {
@@ -192,13 +206,14 @@
 		13FEA30621123B3E00E8D70D /* InformationViews */ = {
 			isa = PBXGroup;
 			children = (
+				13118EE92121F35B004E271C /* placeholderProfileImage.imageset */,
 				13118EC0211CA80D004E271C /* close-icon.imageset */,
 				13FEA31121123FD800E8D70D /* EventDetailsView.h */,
 				13FEA31221123FD800E8D70D /* EventDetailsView.m */,
 				13FEA31521123FFC00E8D70D /* EventDetailsView.xib */,
 				13FEA31721125D5400E8D70D /* PostDetailsView.h */,
 				13FEA31821125D5400E8D70D /* PostDetailsView.m */,
-				13FEA31B21125D6A00E8D70D /* PostDetailsView.xib */,
+				13118EEE2121F365004E271C /* PostDetailsView.xib */,
 			);
 			path = InformationViews;
 			sourceTree = "<group>";
@@ -302,9 +317,11 @@
 			files = (
 				13118EC6211CA80E004E271C /* Contents.json in Resources */,
 				13118EC8211CA80E004E271C /* close-icon@3x.png in Resources */,
-				13FEA31C21125D6A00E8D70D /* PostDetailsView.xib in Resources */,
+				13118EED2121F35B004E271C /* Contents.json in Resources */,
+				13118EEF2121F365004E271C /* PostDetailsView.xib in Resources */,
 				13118EC7211CA80E004E271C /* close-icon@2x.png in Resources */,
 				13118EC5211CA80E004E271C /* close-icon.png in Resources */,
+				13118EEC2121F35B004E271C /* placeholderProfileImage.png in Resources */,
 				13FEA31621123FFC00E8D70D /* EventDetailsView.xib in Resources */,
 				136E3117210A762E009B4180 /* CMMPopUpView.xib in Resources */,
 			);
