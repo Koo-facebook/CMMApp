@@ -154,7 +154,9 @@ static NSUInteger const kCMDefaultSelected = 0;
             for (CMMPost *post in postsToRemove) {
                 [tempPosts removeObject:post];
             }
-            tempPosts = [self applyNLPFilter:tempPosts];
+            if (self.NLPFilter) {
+                tempPosts = [NSMutableArray arrayWithArray:[self applyNLPFilter:tempPosts]];
+            }
             self.posts = tempPosts;
             self.filteredPosts = self.posts;
             [self.table reloadData];
@@ -179,7 +181,37 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self.sideMenuController showRightViewAnimated];
 }
 
-- (NSArray *)applyNLPFilter: (NSMutableArray *)arrayToChange {
+- (NSArray *)applyNLPFilter: (NSMutableArray *)unfilteredArray {
+    
+    NSMutableDictionary *separatedPosts = [NSMutableDictionary new];
+    if ([CMMUser.currentUser.interests isEqualToArray:@[]]) {
+        return [self filterByKeyword:unfilteredArray];
+    } else {
+        for (CMMPost *post in unfilteredArray) {
+            if ([CMMUser.currentUser.interests containsObject:post.category]) {
+                if (separatedPosts[post.category] == nil) {
+                    [separatedPosts setObject:[NSMutableArray arrayWithObject:post] forKey:post.category];
+                } else {
+                    NSMutableArray *postsArray = [separatedPosts objectForKey:post.category];
+                    postsArray = [NSMutableArray arrayWithArray:[postsArray arrayByAddingObject:post]];
+                    [separatedPosts setObject:postsArray forKey:post.category];
+                }
+            }
+        }
+        for (id key in separatedPosts) {
+            NSMutableArray *categorizedPosts = separatedPosts[key];
+            for (CMMPost *post in categorizedPosts) {
+                [unfilteredArray removeObject:post];
+            }
+            categorizedPosts = [self filterByKeyword:categorizedPosts];
+            unfilteredArray = [NSMutableArray arrayWithArray:[categorizedPosts arrayByAddingObjectsFromArray:unfilteredArray]];
+        }
+        
+        return unfilteredArray;
+    }
+}
+
+- (NSMutableArray *)filterByKeyword: (NSMutableArray *)arrayToChange {
     NSMutableArray *returnArray = [NSMutableArray new];
     for (CMMPost *post in arrayToChange) {
         NSLog(@"%@", CMMUser.currentUser.objectId);
@@ -208,9 +240,7 @@ static NSUInteger const kCMDefaultSelected = 0;
         [arrayToChange removeObject:post];
     }
     
-    
-    
-    return [returnArray arrayByAddingObjectsFromArray:arrayToChange];
+    return [NSMutableArray arrayWithArray:[returnArray arrayByAddingObjectsFromArray:arrayToChange]];
 }
 
 //SEARCH BAR CODE
@@ -426,17 +456,19 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (void)tabbarView:(CMTabbarView *)tabbarView1 didSelectedAtIndex:(NSInteger)index
 {
     if([self.datas[index] isEqual:@"Trending"]){
+        self.NLPFilter = NO;
         self.categories = [CMMStyles getCategories];
         NSLog(@"Category picked:%@", self.categories);
         [self reloadNewsfeedWithCategories:self.categories Trending:YES];
-        
     }
     else if ([self.datas[index] isEqual:@"Recent"]){
+        self.NLPFilter = YES;
         self.categories = [CMMStyles getCategories];
         NSLog(@"Category picked:%@", self.categories);
         [self reloadNewsfeedWithCategories:self.categories Trending:NO];
     }
     else {
+        self.NLPFilter = NO;
         NSArray *categoryPicked = [[NSArray alloc]initWithObjects:self.datas[index], nil];
         NSLog(@"Category picked:%@", categoryPicked);
         [self reloadNewsfeedWithCategories:categoryPicked Trending:NO];
