@@ -13,12 +13,13 @@
 #import "PostDetailVC.h"
 #import "Parse.h"
 #import "CMMParseQueryManager.h"
+#import "Masonry.h"
 
 @interface InterestsViewCell () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSArray *profileFeed;
 @property (strong, nonatomic) UITableView *tableView;
-@property (nonatomic, weak) CMMUser *user;
+@property (strong, nonatomic) UIScrollView *scrollView;
 
 @end
 @implementation InterestsViewCell
@@ -27,14 +28,20 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        if (!self.user) {
+            self.user = PFUser.currentUser;
+        }
+        NSLog(@"User in Interest Cell:%@", self.user);
+        [self createScrollView];
         [self createTableView];
         [self fetchPosts];
+        self.userInteractionEnabled = YES;
     }
     return self;
 }
 
 - (void) fetchPosts {
-    [[CMMParseQueryManager shared] fetchPosts:20 ByAuthor:PFUser.currentUser WithCompletion:^(NSArray *posts, NSError *error) {
+    [[CMMParseQueryManager shared] fetchPosts:20 ByAuthor:self.user WithCompletion:^(NSArray *posts, NSError *error) {
         if (posts) {
             self.profileFeed = posts;
             [self.tableView reloadData];
@@ -45,14 +52,27 @@
     }];
 }
 
+//Create ScrollView
+-(void)createScrollView {
+    self.scrollView = [[UIScrollView alloc]initWithFrame:self.bounds];
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.alwaysBounceHorizontal = NO;
+    self.scrollView.showsVerticalScrollIndicator = YES;
+    self.scrollView.scrollEnabled = YES;
+    [self.contentView addSubview:self.scrollView];
+}
+
 //Create tableView
 - (void) createTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] init];
+    self.tableView.frame = self.bounds;//CGRectMake(5, 5, (self.frame.size.width-10), (self.frame.size.height-20));
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.alwaysBounceVertical = YES;
     self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.scrollEnabled = YES;
     [self fetchPosts];
-    [self addSubview:self.tableView];
+    [self.scrollView addSubview:self.tableView];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -73,6 +93,7 @@
     PostDetailVC *detailVC = [[PostDetailVC alloc] init];
     CMMPost *post = self.profileFeed[indexPath.row];
     [detailVC configureDetails:post];
+    NSLog(@"CELL SELECTED");
     //[[self navigationController] pushViewController:detailVC animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

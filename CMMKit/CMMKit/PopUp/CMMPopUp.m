@@ -10,11 +10,7 @@
 
 @interface CMMPopUp ()
 
-@property (weak, nonatomic) IBOutlet UIView *contentView;
-@property (weak, nonatomic) IBOutlet UIImageView *statusImage;
-@property (weak, nonatomic) IBOutlet UILabel *headlineLabel;
-@property (weak, nonatomic) IBOutlet UILabel *subheadLabel;
-@property (strong, nonatomic) IBOutlet UIVisualEffectView *overallView;
+
 
 @end
 
@@ -61,14 +57,6 @@
 
 -(void)setImage:(UIImage *)image {
     self.statusImage.image = image;
-}
-
--(void)setHeadline:(NSString*)text {
-    self.headlineLabel.text = text;
-}
-
--(void)setSubheading:(NSString *)text {
-    self.subheadLabel.text = text;
 }
 
 -(void) didMoveToSuperview {

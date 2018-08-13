@@ -23,18 +23,17 @@
         self.titleLabel = [UILabel new];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.numberOfLines = 0;
+        NSLog(@"USER INTERESTS: %@", self.userInterests[0]);
+        self.titleLabel.text = self.title;
         [self addSubview:self.titleLabel];
-        
-        self.titleLabel.translatesAutoresizingMaskIntoConstraints = false;
-        NSDictionary *views = NSDictionaryOfVariableBindings(_titleLabel);
-        NSString *verticalConstraints = [NSString stringWithFormat:@"V:|-%f-[_titleLabel]-%f-|", .0,.0];
-        NSString *horizontalConstraints = [NSString stringWithFormat:@"H:|-%f-[_titleLabel]-%f-|",.0,.0];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:horizontalConstraints options:0 metrics:nil views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:verticalConstraints options:0 metrics:nil views:views]];
         
     }
     return self;
 }
+         
+ -(void)configureCell {
+     
+ }
 
 - (void)prepareForReuse
 {

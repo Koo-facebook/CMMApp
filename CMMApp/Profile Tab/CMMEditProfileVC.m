@@ -170,7 +170,7 @@
 
 -(void)finishedEditing {
     [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withInterests:self.chosenInterests andRegisteredVoter:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-
+        
         //[self dismissViewControllerAnimated:YES completion:^{}];
     }];
     [self dismissViewControllerAnimated:YES completion:^{}];
@@ -276,3 +276,4 @@
 }
 
 @end
+

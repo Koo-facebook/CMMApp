@@ -24,6 +24,8 @@
 #import "Datetools.h"
 #import "CMMModerationController.h"
 #import "AppDelegate.h"
+#import "UIImageView+AFNetworking.h"
+
 
 static NSUInteger const kCMDefaultSelected = 0;
 
@@ -79,7 +81,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.navigationItem.title = @"Newsfeed";
     
     [self createBarButtonItem];
-
+    
     self.sortByTrending = NO;
     self.isMoreDataLoading = NO;
     
@@ -97,7 +99,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.queryNumber = 20;
     self.categories = [CMMStyles getCategories];
     
-
+    
     // add search bar to table view
     CGRect searchFrame = CGRectMake(self.table.frame.origin.x, self.table.frame.origin.y+45, self.view.frame.size.width, 45);
     self.searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
@@ -106,13 +108,13 @@ static NSUInteger const kCMDefaultSelected = 0;
     //[self.table addSubview:self.searchBar];
     self.table.tableHeaderView = self.searchBar;
     [self.view addSubview:self.table];
-
+    
     // add refresh control to table view
     self.refreshControl = [[UIRefreshControl alloc] init];//WithFrame:customRefreshControlFrame];
     [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
     [self.table insertSubview:self.refreshControl atIndex:0];
     
-
+    
     [self createProfileButton];
 }
 
@@ -125,7 +127,7 @@ static NSUInteger const kCMDefaultSelected = 0;
 -(void)profileButtonTapped {
     // PFUser.current() will now be nil
     CMMProfileVC *profileVC = [[CMMProfileVC alloc]init];
-    profileVC.user = CMMUser.currentUser;
+    profileVC.user = PFUser.currentUser;
     [[self navigationController] pushViewController:profileVC animated:YES];
 }
 
@@ -323,9 +325,9 @@ static NSUInteger const kCMDefaultSelected = 0;
         }
     }
     self.refreshContainer = [[UIView alloc]init];//WithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.refreshControl.frame.size.width, (self.refreshControl.frame.size.height+(self.table.contentSize.height - self.table.bounds.size.height)))];
-        self.refreshContainer.backgroundColor = [UIColor purpleColor];
+    self.refreshContainer.backgroundColor = [UIColor whiteColor];
     self.refreshControl.tintColor = [UIColor clearColor];
-        [self.refreshControl addSubview:self.refreshContainer];
+    [self.refreshControl addSubview:self.refreshContainer];
     
     [self.refreshContainer mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tabbarView.mas_bottom);
@@ -355,7 +357,7 @@ static NSUInteger const kCMDefaultSelected = 0;
 
 -(void)presentRefreshView {
     
-    self.lottieAnimation = [LOTAnimationView animationNamed:@"newsfeed_refresh"];
+    self.lottieAnimation = [LOTAnimationView animationNamed:@"newsfeed_refresh5"];
     
     self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.lottieAnimation.loopAnimation = YES;
@@ -365,47 +367,55 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.lottieAnimation.frame = lottieRect;
     
     [self.refreshContainer addSubview:self.lottieAnimation];
-//    [self.lottieAnimation playFromProgress:0.0 toProgress:0.8 withCompletion:^(BOOL animationFinished) {
-//        if (animationFinished) {
-//            [self.animationContainer removeFromSuperview];
-//            CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
-//            [self presentViewController:tabBarVC animated:YES completion:^{}];
-//        }
-//    }];
+    
+    //    [self.lottieAnimation playFromProgress:0.5 toProgress:1.0 withCompletion:^(BOOL animationFinished) {
+    //    }];
+    
     [self.lottieAnimation play];
-    //
-    //[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeSelf:) userInfo:nil repeats:false];
 }
 
 -(void)presentModalStatusViewForPost: (CMMPost *)post {
     CGRect frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
     self.modalView = [[PostDetailsView alloc]initWithFrame:frame];
     self.post = post;
-        BOOL showChatButton = YES;
-//        NSString *blockingKey = [self.post.owner.objectId stringByAppendingString:@"-blockedUsers"];
-//        NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
-//        for (NSString *userID in blockedUsers) {
-//            if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
-//                showChatButton = NO;
-//                break;
-//            }
-//        }
-        if ([self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+    BOOL showChatButton = YES;
+    NSString *blockingKey = [self.post.owner.objectId stringByAppendingString:@"-blockedUsers"];
+    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
+    for (NSString *userID in blockedUsers) {
+        if ([userID isEqualToString:CMMUser.currentUser.objectId]) {
             showChatButton = NO;
+            break;
         }
-        if (CMMUser.currentUser.strikes.intValue >= 3) {
-            showChatButton = NO;
-        }
+    }
+    if ([self.post.owner.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+        showChatButton = NO;
+    }
+    if (CMMUser.currentUser.strikes.intValue >= 3) {
+        showChatButton = NO;
+    }
     
     [self.modalView setPostWithTitle:post.topic category:post.category user:post.owner.username time:[post.createdAt timeAgoSinceNow] description:post.detailedDescription showingChatButton: showChatButton];
+    //Report Button
+    self.modalView.reportLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *reportTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReport)];
+    [self.modalView.reportLabel addGestureRecognizer:reportTap];
+    //UserImage
+    [self.modalView.userImage setImageWithURL:[NSURL URLWithString:self.post.owner.profileImage.url] placeholderImage:[UIImage imageNamed:@"placeholderProfileImage"]];
     
-        self.modalView.reportLabel.userInteractionEnabled = YES;
-        UITapGestureRecognizer *reportTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReport)];
-        [self.modalView.reportLabel addGestureRecognizer:reportTap];
-    
+    self.modalView.userImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(segueToProfile)];
+    [self.modalView.userImage addGestureRecognizer:profileTap];
+    //Chat Button
     [self.modalView.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
+    //Resources Button
     [self.modalView.resourcesButton addTarget:self action:@selector(didPressResources) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.modalView];
+}
+
+- (void)segueToProfile {
+    CMMProfileVC *profileVC = [[CMMProfileVC alloc] init];
+    profileVC.user = self.post.owner;
+    [[self navigationController] pushViewController:profileVC animated:YES];
 }
 
 - (void)didPressChat {
@@ -425,21 +435,15 @@ static NSUInteger const kCMDefaultSelected = 0;
     //Format post topic for searching
     CMMPost *currentPost = self.filteredPosts[self.index];
     NSString *categoryNoSpaces = [currentPost.topic stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-    NSString *finalCategory = [categoryNoSpaces stringByReplacingOccurrencesOfString:@" ' " withString:@"%27"];
-    NSLog(@"CATEGORY FOR SEARCH: %@", finalCategory);
-    //    for (int x = 0;x < self.post.topic.length; ++x ){
-    //        char currentCharacter = [self.post.topic characterAtIndex:x];
-    //        if (currentCharacter == ' '){
-    //
-    //        }
-    //    }
+    NSString *finalCategory = [categoryNoSpaces stringByReplacingOccurrencesOfString:@"\u2019" withString:@"%27"];
     
     resourcesVC.category = finalCategory;
     [self.navigationController pushViewController:resourcesVC animated:YES];
     //[self presentViewController:resourcesVC animated:YES completion:^{}];
     
 }
-//TOP TABBAR CODE
+#pragma mark - TabBarView
+
 - (CMTabbarView *)tabbarView
 {
     if (!_tabbarView) {
@@ -447,12 +451,12 @@ static NSUInteger const kCMDefaultSelected = 0;
         _tabbarView.backgroundColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
         _tabbarView.delegate = self;
         _tabbarView.dataSource = self;
-        _tabbarView.defaultSelectedIndex = kCMDefaultSelected;
+        _tabbarView.defaultSelectedIndex = 0;
         _tabbarView.indicatorScrollType = CMTabbarIndicatorScrollTypeSpring;
         //_tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[UIColor orangeColor]};
         //_tabbarView.normalAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
         //_tabbarView.selectedAttributes = @{NSForegroundColorAttributeName:[UIColor orangeColor]};
-
+        //_tabbarView.defaultSelectedIndex =
         
     }
     return _tabbarView;
@@ -524,17 +528,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     [[CMMParseQueryManager shared] reportPost:self.post];
     [self.post saveInBackground];
 }
-//
-//- (void)segueToProfile {
-//    CMMProfileVC *profileVC = [[CMMProfileVC alloc] init];
-//    profileVC.user = self.post.owner;
-//    [[self navigationController] pushViewController:profileVC animated:YES];
-//}
 
-//    self.reportLabel.userInteractionEnabled = YES;
-//    UITapGestureRecognizer *reportTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReport)];
-//    [self.reportLabel addGestureRecognizer:reportTap];
-//}
 
 #pragma mark - Location-Based Code
 //LOCATION-BASED CODE

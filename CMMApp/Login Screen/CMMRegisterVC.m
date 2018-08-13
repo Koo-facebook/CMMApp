@@ -50,7 +50,7 @@
     [self createSubmitButton];
     [self createBioTextView];
     [self createNameTextField];
-    [self createTapPhotoLabel];
+    [self createVotingLabel];
     [self createProfileImageContainer];
     [self createTableViewOne];
     [self createtableViewTwo];
@@ -64,10 +64,6 @@
 
 - (void)updateConstraints {
 
-    //Screen ScrollView
-    [self.screenScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.screenScrollView.superview);
-    }];
     //Cancel Button
     [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.cancelButton.superview.mas_top).offset(30);
@@ -85,10 +81,18 @@
     //Profile Image Container
     [self.profileImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.profileImage.superview.mas_top).offset(85);
-        make.centerX.equalTo(self.view.mas_centerX);
+        make.left.equalTo(self.view.mas_left).offset(20);
         make.height.equalTo(@(200));
         make.width.equalTo(@(200));
     }];
+    
+    //Voting Label
+    [self.votingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.profileImage.mas_top).offset(70);
+        make.left.equalTo(self.profileImage.mas_right).offset(15);
+        make.width.equalTo(@(125));
+    }];
+    
     //Name TextField
     [self.displayedName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.profileImage.mas_bottom).offset(20);
@@ -103,20 +107,12 @@
         make.height.equalTo(@(75));
         make.width.equalTo(@(325));
     }];
-
-    //Tap Photo Label
-    [self.tapPhotoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.profileImage.mas_top).offset(100);
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.height.equalTo(@(self.tapPhotoLabel.intrinsicContentSize.height));
-        make.width.equalTo(@(self.tapPhotoLabel.intrinsicContentSize.width));
-    }];
-
+    
     //TableViewOne
     [self.tableViewOne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.profileBio.mas_bottom).offset(25);
         make.bottom.equalTo(self.view.mas_bottom);
-       // make.centerX.equalTo(self.view.mas_centerX);
+        // make.centerX.equalTo(self.view.mas_centerX);
         //make.height.equalTo(@(self.tableViewOne.intrinsicContentSize.height));
         make.left.equalTo(self.view.mas_left).offset(15);
         make.width.equalTo(@(self.view.frame.size.width/2.3));
@@ -132,7 +128,7 @@
         make.left.equalTo(self.tableViewOne.mas_right);
         make.width.equalTo(@(self.view.frame.size.width/2));
     }];
-
+    
 }
 
 #pragma mark - Elements
@@ -198,14 +194,19 @@
     [self.screenScrollView addSubview:self.profileBio];
 }
 
--(void) createTapPhotoLabel{
-    self.tapPhotoLabel = [[UILabel alloc] init];
-    self.tapPhotoLabel.textColor = [UIColor whiteColor];
-    self.tapPhotoLabel.font = [UIFont fontWithName:@"Arial" size:14];
-    self.tapPhotoLabel.numberOfLines = 1;
-    self.tapPhotoLabel.text = @"Tap to Add Profile Photo";
-    [self.screenScrollView addSubview:self.tapPhotoLabel];
+-(void) createVotingLabel{
+    self.votingLabel = [[UILabel alloc] init];
+    self.votingLabel.textColor = [UIColor blackColor];
+    self.votingLabel.font = [UIFont fontWithName:@"Arial" size:14];
+    self.votingLabel.numberOfLines = 0;
+    self.votingLabel.text = @"Are you a registered voter?";
+    [self.view addSubview:self.votingLabel];
 }
+
+//-(void)createVoterSwitch {
+//
+//}
+
 
 #pragma mark - Actions
 
@@ -320,18 +321,18 @@
     self.tableViewTwo.scrollEnabled = NO;
     //[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableViewTwo setEditing:YES animated:NO];
-   // self.tableViewTwo.backgroundColor = [UIColor purpleColor];
+    // self.tableViewTwo.backgroundColor = [UIColor purpleColor];
     [self.view addSubview:self.tableViewTwo];
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-   InterestsCell *cell = [[InterestsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"interestsCell"];
+    InterestsCell *cell = [[InterestsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"interestsCell"];
     //cell.title.text = self.numbers[indexPath.row];
-   // NSLog(@"%@",self.numbers[indexPath.row]);
+    // NSLog(@"%@",self.numbers[indexPath.row]);
     if(tableView == self.tableViewOne){
-            [cell configureInterestsCell:self.tableOneCategories[indexPath.row]];
-            cell.tintColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
-            return cell;
+        [cell configureInterestsCell:self.tableOneCategories[indexPath.row]];
+        cell.tintColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
+        return cell;
     }
     else {
         [cell configureInterestsCell:self.tableTwoCategories[indexPath.row]];
@@ -343,7 +344,7 @@
 
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-   return self.tableOneCategories.count;
+    return self.tableOneCategories.count;
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -380,11 +381,11 @@
         self.chosenInterests = self.interests;
         NSLog(@"%@", self.interests);
     }
-//    NSString *notInterest = self.numbers[indexPath.row];
-//    [self.interests removeObject:notInterest];
-//    self.chosenInterests = self.interests;
-//    NSLog(@"%@", self.interests);
-
+    //    NSString *notInterest = self.numbers[indexPath.row];
+    //    [self.interests removeObject:notInterest];
+    //    self.chosenInterests = self.interests;
+    //    NSLog(@"%@", self.interests);
+    
 }
 
 #pragma mark - Animation
@@ -400,22 +401,22 @@
     
     self.lottieAnimation = [LOTAnimationView animationNamed:@"accountCreation"];
     
-        self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        self.lottieAnimation.loopAnimation = NO;
+    self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    self.lottieAnimation.loopAnimation = NO;
     
-        self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
-        CGRect lottieRect = CGRectMake(0, 0, (self.animationContainer.bounds.size.width), (self.animationContainer.bounds.size.height));
-        self.lottieAnimation.frame = lottieRect;
+    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
+    CGRect lottieRect = CGRectMake(0, 0, (self.animationContainer.bounds.size.width), (self.animationContainer.bounds.size.height));
+    self.lottieAnimation.frame = lottieRect;
     
-        [self.animationContainer addSubview:self.lottieAnimation];
-        [self.lottieAnimation playFromProgress:0.0 toProgress:0.8 withCompletion:^(BOOL animationFinished) {
-            if (animationFinished) {
-                [self.animationContainer removeFromSuperview];
-                CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
-                [self presentViewController:tabBarVC animated:YES completion:^{}];
-            }
-        }];
-
+    [self.animationContainer addSubview:self.lottieAnimation];
+    [self.lottieAnimation playFromProgress:0.0 toProgress:0.8 withCompletion:^(BOOL animationFinished) {
+        if (animationFinished) {
+            [self.animationContainer removeFromSuperview];
+            CMMMainTabBarVC *tabBarVC = [[CMMMainTabBarVC alloc] init];
+            [self presentViewController:tabBarVC animated:YES completion:^{}];
+        }
+    }];
+    
 }
 
 -(void) removeSelf: (UIView *)view {
@@ -464,4 +465,5 @@
 }
 
 @end
+
 

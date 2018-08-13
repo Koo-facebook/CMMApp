@@ -7,6 +7,7 @@
 //
 
 #import "AboutViewCell.h"
+#import "Masonry.h"
 
 @interface AboutViewCell ()
 
@@ -22,14 +23,15 @@
         self.titleLabel = [UILabel new];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.numberOfLines = 0;
+        self.titleLabel.font = [UIFont fontWithName:@"Arial" size:20];
         [self addSubview:self.titleLabel];
         
-        self.titleLabel.translatesAutoresizingMaskIntoConstraints = false;
-        NSDictionary *views = NSDictionaryOfVariableBindings(_titleLabel);
-        NSString *verticalConstraints = [NSString stringWithFormat:@"V:|-%f-[_titleLabel]-%f-|", .0,.0];
-        NSString *horizontalConstraints = [NSString stringWithFormat:@"H:|-%f-[_titleLabel]-%f-|",.0,.0];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:horizontalConstraints options:0 metrics:nil views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:verticalConstraints options:0 metrics:nil views:views]];
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleLabel.superview.mas_top).offset(25);
+            make.bottom.equalTo(self.titleLabel.superview.mas_bottom).offset(-15);
+            make.left.equalTo(self.titleLabel.superview.mas_left).offset(15);
+            make.right.equalTo(self.titleLabel.superview.mas_right).offset(-15);
+        }];
         
     }
     return self;

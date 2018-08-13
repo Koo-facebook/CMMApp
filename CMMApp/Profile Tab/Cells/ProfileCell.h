@@ -20,5 +20,6 @@
 @property (strong, nonatomic, nullable) UIFont *selectedTextFont;
 
 @property (nonatomic, copy, nullable) NSString *title;
+@property (nonatomic, strong) NSArray *userInterests;
 
 @end

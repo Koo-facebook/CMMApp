@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CMMUser.h"
 
 @interface InterestsViewCell : UICollectionViewCell
 
+@property (strong, nonatomic) CMMUser *user;
+@property (strong, nonatomic) NSString *title;
 
 @end
