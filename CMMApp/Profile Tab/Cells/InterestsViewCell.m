@@ -28,11 +28,11 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        //        if (!self.user) {
-        //            self.user = PFUser.currentUser;
-        //        }
+        if (!self.user) {
+            self.user = PFUser.currentUser;
+        }
         NSLog(@"User in Interest Cell:%@", self.user);
-        //[self createScrollView];
+        [self createScrollView];
         [self createTableView];
         [self fetchPosts];
         self.userInteractionEnabled = YES;
@@ -51,27 +51,28 @@
         }
     }];
 }
+
 //Create ScrollView
 -(void)createScrollView {
-    self.scrollView = [[UIScrollView alloc]initWithFrame:self.frame];
+    self.scrollView = [[UIScrollView alloc]initWithFrame:self.bounds];
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.alwaysBounceHorizontal = NO;
     self.scrollView.showsVerticalScrollIndicator = YES;
     self.scrollView.scrollEnabled = YES;
-    [self addSubview:self.scrollView];
+    [self.contentView addSubview:self.scrollView];
 }
 
 //Create tableView
 - (void) createTableView {
     self.tableView = [[UITableView alloc] init];
-    self.tableView.frame = CGRectMake(5, 5, (self.frame.size.width-10), (self.frame.size.height-20));
+    self.tableView.frame = self.bounds;//CGRectMake(5, 5, (self.frame.size.width-10), (self.frame.size.height-20));
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.alwaysBounceVertical = YES;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.scrollEnabled = YES;
     [self fetchPosts];
-    [self addSubview:self.tableView];
+    [self.scrollView addSubview:self.tableView];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

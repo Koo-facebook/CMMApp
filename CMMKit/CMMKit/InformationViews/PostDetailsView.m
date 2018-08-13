@@ -45,11 +45,12 @@
     self.detailsView.layer.cornerRadius = 15;
     
     self.titleLabel.text = @"";
-    self.titleLabel.numberOfLines = 0;
+    self.titleLabel.numberOfLines = 2;
     self.categoryLabel.text = @"";
     self.postedByLabel.text = @"";
     self.timeLabel.text = @"";
     self.detailsLabel.text = @"";
+    self.detailsLabel.numberOfLines = 0;
     
     self.userImage.image = [UIImage imageNamed:@"placeholderProfileImage"];
     self.userImage.layer.cornerRadius = self.userImage.frame.size.height/2;
@@ -88,9 +89,9 @@
         [self.chatButton setBackgroundColor:[UIColor blueColor]];
         [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.detailsView addSubview:self.chatButton];
-        UIEdgeInsets chatPadding = UIEdgeInsetsMake(45, 12, 12, self.detailsView.frame.size.width/2 + 6);
+        UIEdgeInsets chatPadding = UIEdgeInsetsMake(15, 12, 12, self.detailsView.frame.size.width/2 + 6);
         [self.chatButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.detailsLabel.mas_bottom).with.offset(chatPadding.top);
+            make.top.equalTo(self.scrollView.mas_bottom).with.offset(chatPadding.top);
             make.left.equalTo(self.detailsView.mas_left).with.offset(chatPadding.left);
             make.right.equalTo(self.detailsView.mas_right).with.offset(-chatPadding.right);
         }];
@@ -106,9 +107,9 @@
     [self.resourcesButton setBackgroundColor:[UIColor grayColor]];
     [self.resourcesButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.detailsView addSubview:self.resourcesButton];
-    UIEdgeInsets resourcePadding = UIEdgeInsetsMake(45, resourceLeftPadding, 12, 12);
+    UIEdgeInsets resourcePadding = UIEdgeInsetsMake(15, resourceLeftPadding, 12, 12);
     [self.resourcesButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.detailsLabel.mas_bottom).with.offset(resourcePadding.top);
+        make.top.equalTo(self.scrollView.mas_bottom).with.offset(resourcePadding.top);
         make.left.equalTo(self.detailsView.mas_left).with.offset(resourcePadding.left);
         make.right.equalTo(self.detailsView.mas_right).with.offset(-resourcePadding.right);
     }];

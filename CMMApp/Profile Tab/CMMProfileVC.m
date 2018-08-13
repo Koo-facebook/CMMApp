@@ -20,6 +20,7 @@
 #import "CMTabbarView.h"
 #import "ProfileCell.h"
 #import "InterestsViewCell.h"
+#import "AboutViewCell.h"
 
 static NSUInteger const kCMDefaultSelected = 0;
 
@@ -46,6 +47,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     //    }];
     // [self.tableView registerClass:[NewsfeedCell class] forCellReuseIdentifier:@"feedCell"];
     [self.collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.collectionView registerClass:[AboutViewCell class] forCellWithReuseIdentifier:@"aboutCell"];
     [self.collectionView registerClass:[InterestsViewCell class] forCellWithReuseIdentifier:@"secondCell"];
     
     self.profileFeed = [[NSArray alloc]init];
@@ -111,7 +113,7 @@ static NSUInteger const kCMDefaultSelected = 0;
         layout.sectionInset = UIEdgeInsetsZero;
         layout.minimumLineSpacing = 0;
         layout.minimumInteritemSpacing = 0;
-        CGRect frameCollect = CGRectMake(0, 40, (self.view.bounds.size.width), (self.view.bounds.size.height/2.5));
+        CGRect frameCollect = CGRectMake(0, 40, (self.view.bounds.size.width), (self.view.bounds.size.height/2.6));
         _collectionView = [[UICollectionView alloc] initWithFrame:frameCollect collectionViewLayout:layout];
         //        [_collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:@"Cell"];
         //        [_collectionView registerClass:[InterestsViewCell class] forCellWithReuseIdentifier:@"Cell2"];
@@ -143,24 +145,23 @@ static NSUInteger const kCMDefaultSelected = 0;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+{   
     NSLog(@"SELF USER = %@", self.user);
-    if (indexPath.row == 0){
-        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    if (indexPath.item == 0){
+        AboutViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"aboutCell" forIndexPath:indexPath];
         cell.title = self.user[@"profileBio"];
         return cell;
     }
-    if (indexPath.row == 1) {
-        ProfileCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-        NSArray *cat = self.user[@"interests"];
-        if(cat.count != 0){
-            cell.title = cat[0];
-        }
-        cell.backgroundColor = [UIColor purpleColor];
+    else if (indexPath.item == 1) {
+        ProfileCell *profileCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+        profileCell.userInterests = self.user[@"interests"];
+        NSLog(@"USER INTERESTS ON PROFILE: %@", profileCell.userInterests);
+        profileCell.title = @"Social Issues";
+        profileCell.backgroundColor = [UIColor purpleColor];
         //cell.interests = PFUser.currentUser[@"interests"];
-        return cell;
+        return profileCell;
     }
-    if (indexPath.row == 2){
+    else {
         InterestsViewCell *secondCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"secondCell" forIndexPath:indexPath];
         secondCell.user = self.user;
         secondCell.title = self.user.username;
