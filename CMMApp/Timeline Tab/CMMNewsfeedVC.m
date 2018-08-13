@@ -182,32 +182,43 @@ static NSUInteger const kCMDefaultSelected = 0;
 }
 
 - (NSArray *)applyNLPFilter: (NSMutableArray *)unfilteredArray {
-    
-    NSMutableDictionary *separatedPosts = [NSMutableDictionary new];
     if ([CMMUser.currentUser.interests isEqualToArray:@[]]) {
         return [self filterByKeyword:unfilteredArray];
     } else {
+        NSMutableArray *returnArray = [NSMutableArray new];
+        int interestAndKeywordIndex = 0;
+        int interestOnlyIndex = 0;
         for (CMMPost *post in unfilteredArray) {
+            BOOL added = NO;
             if ([CMMUser.currentUser.interests containsObject:post.category]) {
-                if (separatedPosts[post.category] == nil) {
-                    [separatedPosts setObject:[NSMutableArray arrayWithObject:post] forKey:post.category];
-                } else {
-                    NSMutableArray *postsArray = [separatedPosts objectForKey:post.category];
-                    postsArray = [NSMutableArray arrayWithArray:[postsArray arrayByAddingObject:post]];
-                    [separatedPosts setObject:postsArray forKey:post.category];
+                for (NSString *keyword in CMMUser.currentUser.positiveKeyWords) {
+                    if ([post.topic containsString:keyword] || [post.detailedDescription containsString:keyword]) {
+                        [returnArray insertObject:post atIndex:interestAndKeywordIndex];
+                        interestAndKeywordIndex += 1;
+                        interestOnlyIndex += 1;
+                        added = YES;
+                    }
                 }
+                if (!added) {
+                    for (NSString *keyword in CMMUser.currentUser.negativeKeyWords) {
+                        if ([post.topic containsString:keyword] || [post.detailedDescription containsString:keyword]) {
+                            [returnArray insertObject:post atIndex:interestAndKeywordIndex];
+                            interestAndKeywordIndex += 1;
+                            interestOnlyIndex += 1;
+                            added = YES;
+                        }
+                    }
+                }
+                
+                if (!added) {
+                    [returnArray insertObject:post atIndex:interestOnlyIndex];
+                    interestOnlyIndex +=1;
+                }
+            } else {
+                [returnArray addObject:post];
             }
         }
-        for (id key in separatedPosts) {
-            NSMutableArray *categorizedPosts = separatedPosts[key];
-            for (CMMPost *post in categorizedPosts) {
-                [unfilteredArray removeObject:post];
-            }
-            categorizedPosts = [self filterByKeyword:categorizedPosts];
-            unfilteredArray = [NSMutableArray arrayWithArray:[categorizedPosts arrayByAddingObjectsFromArray:unfilteredArray]];
-        }
-        
-        return unfilteredArray;
+        return returnArray;
     }
 }
 
