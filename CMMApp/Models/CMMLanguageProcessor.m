@@ -7,13 +7,40 @@
 //
 
 #import "CMMLanguageProcessor.h"
+#import "SentimentPolarity.h"
 
 static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespace | NSLinguisticTaggerOmitPunctuation | NSLinguisticTaggerJoinNames;
 
 @implementation CMMLanguageProcessor
 
++ (NSDictionary *)runSentimentAnalysis: (NSString *)text {
+    NSMutableDictionary *results = [NSMutableDictionary new];
+    NSMutableDictionary *wordCounts = [NSMutableDictionary new];
+    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:[NSLinguisticTagger availableTagSchemesForLanguage:@"en"] options:0];
+    tagger.string = text;
+    NSRange range = NSMakeRange(0, text.length);
+    
+    [tagger enumerateTagsInRange:range scheme:NSLinguisticTagSchemeNameType options:options usingBlock:^(NSLinguisticTag  _Nullable tag, NSRange tokenRange, NSRange sentenceRange, BOOL * _Nonnull stop) {
+        NSString *token = [[text substringWithRange:tokenRange] lowercaseString];
+        if (token.length < 3) {
+            return;
+        }
+        
+        if ([wordCounts objectForKey:token] == nil) {
+            wordCounts[token] = [NSNumber numberWithDouble:1.0];
+        } else {
+            wordCounts[token] = [NSNumber numberWithDouble:([(NSNumber *)wordCounts[token] floatValue] + 1.0)];
+        }
+    }];
+    SentimentPolarity *model = [SentimentPolarity new];
+    SentimentPolarityOutput *output = [model predictionFromInput:wordCounts error:nil];
+    results[@"classLabel"] = output.classLabel;
+    results[@"classProbability"] = output.classProbability;
+    return results;
+}
+
 + (NSMutableArray *)tokenizeText:(NSString *)text {
-    NSLinguisticTagger *tagger = [NSLinguisticTagger new];
+    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:[NSLinguisticTagger availableTagSchemesForLanguage:@"en"] options:0];
     NSMutableArray *tokenizedText = [NSMutableArray new];
     tagger.string = text;
     NSRange range = NSMakeRange(0, text.length);
@@ -25,7 +52,7 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 }
 
 + (NSMutableArray *)lemmatizeText: (NSString *)text {
-    NSLinguisticTagger *tagger = [NSLinguisticTagger new];
+    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:[NSLinguisticTagger availableTagSchemesForLanguage:@"en"] options:0];
     NSMutableArray *lemmatizedText = [NSMutableArray new];
     tagger.string = text;
     NSRange range = NSMakeRange(0, text.length);
@@ -39,12 +66,11 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 }
 
 + (NSMutableDictionary *)partsOfSpeech:(NSString *)text {
-    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:@[NSLinguisticTagSchemeLexicalClass] options:0];
+    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:[NSLinguisticTagger availableTagSchemesForLanguage:@"en"] options:0];
     NSMutableDictionary *parsedText = [NSMutableDictionary new];
     tagger.string = text;
     NSRange range = NSMakeRange(0, text.length);
-    NSLinguisticTaggerOptions posOptions = NSLinguisticTaggerOmitWhitespace | NSLinguisticTaggerOmitWhitespace;
-    [tagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeLexicalClass options:posOptions usingBlock:^(NSString * _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
+    [tagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeLexicalClass options:options usingBlock:^(NSString * _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
         if (tag != nil) {
             NSString *word = [text substringWithRange:tokenRange];
             NSLog(@"%@: %@", word, tag);
@@ -62,7 +88,7 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 }
 
 + (NSMutableDictionary *)namedEntityRecognition:(NSString *)text {
-    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:@[NSLinguisticTagSchemeNameType] options:0];
+    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:[NSLinguisticTagger availableTagSchemesForLanguage:@"en"] options:0];
     NSMutableDictionary *entities = [NSMutableDictionary new];
     tagger.string = text;
     NSRange range = NSMakeRange(0, text.length);

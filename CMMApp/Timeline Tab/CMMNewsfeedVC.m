@@ -223,6 +223,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self.searchBar resignFirstResponder];
     self.index = indexPath.row;
     [self presentModalStatusViewForPost:self.filteredPosts[indexPath.row]];
+    [self addInterests:self.filteredPosts[indexPath.row]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -404,6 +405,25 @@ static NSUInteger const kCMDefaultSelected = 0;
         NSLog(@"Category picked:%@", categoryPicked);
         [self reloadNewsfeedWithCategories:categoryPicked Trending:NO];
     }
+}
+
+- (void)addInterests:(CMMPost *_Nullable)post {
+    for (NSString *keyWord in post.keyWords) {
+        if (post.overallSentiment) {
+            if (![CMMUser.currentUser.positiveKeyWords containsObject:keyWord]) {
+                CMMUser.currentUser.positiveKeyWords = [CMMUser.currentUser.positiveKeyWords arrayByAddingObject:keyWord];
+            }
+        } else {
+            if (![CMMUser.currentUser.negativeKeyWords containsObject:keyWord]) {
+                CMMUser.currentUser.negativeKeyWords = [CMMUser.currentUser.negativeKeyWords arrayByAddingObject:keyWord];
+            }
+        }
+    }
+    [CMMUser.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"succeeded");
+        }
+    }];
 }
 
 #pragma mark - Extra (Chat)

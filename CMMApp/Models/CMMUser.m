@@ -17,6 +17,9 @@
 @dynamic displayName;
 @dynamic strikes;
 @dynamic voter;
+@dynamic spamWarnings;
+@dynamic positiveKeyWords;
+@dynamic negativeKeyWords;
     
 + (void)createUser: (NSString *_Nonnull)username password:(NSString *_Nonnull)password withCompletion:(void(^_Nullable)(BOOL succeeded, NSError * _Nullable error))completion{
     CMMUser *newUser = [CMMUser new];
@@ -26,6 +29,9 @@
     newUser.profileImage = [CMMUser getPFFileFromImage:[UIImage imageNamed:@"placeholderProfileImage"]];
     newUser.online = @NO;
     newUser.strikes = @(0);
+    newUser.spamWarnings = @(0);
+    newUser.positiveKeyWords = [NSArray new];
+    newUser.negativeKeyWords = [NSArray new];
     
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         completion(succeeded, error);
@@ -65,6 +71,5 @@
     }
     return [PFFile fileWithName:@"image.png" data:imageData];
 }
-
     
 @end

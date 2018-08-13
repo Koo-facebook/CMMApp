@@ -12,7 +12,8 @@
 
 + (NSMutableArray *)tokenizeText:(NSString *)text;
 + (NSMutableArray *)lemmatizeText: (NSString *)text;
-+ (NSMutableArray *)partsOfSpeech:(NSString *)text;
++ (NSMutableDictionary *)partsOfSpeech:(NSString *)text;
 + (NSMutableDictionary *)namedEntityRecognition:(NSString *)text;
++ (NSDictionary *)runSentimentAnalysis: (NSString *)text;
 
 @end
