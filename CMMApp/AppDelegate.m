@@ -41,6 +41,7 @@
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     if (CMMUser.currentUser) {
         CMMUser.currentUser.online = YES;
+        CMMUser.currentUser.interests = [NSArray arrayWithObjects:@"Social Issues", @"Economics", nil];
         [CMMUser.currentUser saveInBackground];
         self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
     } else {
