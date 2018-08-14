@@ -15,6 +15,8 @@
 #import "CMMResourcesAPIManager.h"
 #import "CMMArticle.h"
 #import "CMMStyles.h"
+#import "CMMTopHeadlinesVC.h"
+
 @interface CMMResourcesVC ()
 
 @property (strong, nonatomic) NSArray *topicList;
@@ -27,12 +29,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.topicList = [[NSArray alloc]init];
-    self.topicList = [CMMStyles getCategories];
+    self.topicList = @[@"Social Issues",@"Education", @"Criminal Issues", @"Economics", @"Elections", @"Environment", @"Foreign Policy", @"Healthcare", @"Immigration", @"National Security"];
     //self.articles = [[NSArray alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"Resources";
     //[self fetchResourcesRelatingTo:@"Donald Trump"];
-    [self.topicsCollectionView registerClass:[TopicsCollectionCell class] forCellWithReuseIdentifier:@"topicCell"];
 
     // Create properties
     [self createSearchBar];
@@ -110,22 +111,6 @@
     [self.searchBar resignFirstResponder];
 }
 
-////Create UIImage (Focus Category)
-//-(void) createCoverImage {
-//    self.topicCoverImage = [[UIImageView alloc]init];
-//    self.topicCoverImage.backgroundColor = [UIColor blackColor];
-//    [self.view addSubview:self.topicCoverImage];
-//}
-//
-//// Create Label to go ontop of Image
-//-(void) createLabel {
-//    self.categoryLabel = [[UILabel alloc]init];
-//    self.categoryLabel.font = [UIFont fontWithName:@"Arial" size:20];
-//    self.categoryLabel.numberOfLines = 2;
-//    self.categoryLabel.textColor = [UIColor whiteColor];
-//    self.categoryLabel.text = @"Environmental";
-//    [self.topicCoverImage addSubview:self.categoryLabel];
-//}
 
 //Create CollectionView
 - (void) createCollectionView {
@@ -133,9 +118,9 @@
     self.topicsCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     self.topicsCollectionView.delegate = self;
     self.topicsCollectionView.dataSource = self;
-    //self.topicsCollectionView.contentLayoutGuide = collectionviewl
-    [self.topicsCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"topicCell"];
+    [self.topicsCollectionView registerClass:[TopicsCollectionCell class] forCellWithReuseIdentifier:@"topicCell"];
     self.topicsCollectionView.backgroundColor = [UIColor whiteColor];
+    self.topicsCollectionView.userInteractionEnabled = YES;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     //layout.minimumLineSpacing = 5;
     //layout.minimumInteritemSpacing = 5;
@@ -159,17 +144,23 @@
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    TopicsCollectionCell *cell = [[TopicsCollectionCell alloc]init];
-    cell.title = self.topicList[indexPath.item];
-    cell.backgroundColor = [UIColor grayColor];
-    cell = [self.topicsCollectionView dequeueReusableCellWithReuseIdentifier:@"topicCell" forIndexPath:indexPath];
-    //NSLog(@"%@", cell.title.text);
-    //[cell configureCollectionCell:self.topicList[indexPath.item]];
+    TopicsCollectionCell *cell = [self.topicsCollectionView dequeueReusableCellWithReuseIdentifier:@"topicCell" forIndexPath:indexPath];
+    [cell configureCollectionCell:self.topicList[indexPath.item]];
+
     return cell;
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.topicList.count;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    CMMTopHeadlinesVC *resourcesVC = [[CMMTopHeadlinesVC alloc]init];
+    UINavigationController *resourcesNavigation = [[UINavigationController alloc]initWithRootViewController:resourcesVC];
+    NSLog(@"We are in selected collection view cell");
+    resourcesVC.category = self.topicList[indexPath.item];
+    [self.navigationController pushViewController:resourcesVC animated:YES];
+    //[self presentViewController:resourcesVC animated:YES completion:^{}];
 }
 
 // Make keyboard disappear action
@@ -180,6 +171,7 @@
 // Creates Generic TapGestureRecognizer
 - (void)createTapGestureRecognizer:(SEL)selector {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];
+    tapGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGesture];
 }
 @end

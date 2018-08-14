@@ -22,7 +22,7 @@
     return [UIFont fontWithName:@"Montserrat" size:size];
 }
 + (NSArray *)getCategories {
-    NSArray *array = @[@"Social Issues",@"Education", @"Criminal Issues", @"Economics", @"Elections", @"Environment", @"Foreign Policy", @"Healthcare", @"Immigration", @"Local Politics", @"National Security", ];
+    NSArray *array = @[@"Social Issues",@"Education", @"Criminal Issues", @"Economics", @"Elections", @"Environment", @"Foreign Policy", @"Healthcare", @"Immigration", @"Local Politics", @"National Security"];
     return array;
 }
 

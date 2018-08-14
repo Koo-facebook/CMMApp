@@ -153,14 +153,6 @@
         [query whereKey:@"reportedNumber" greaterThan:@(0)];
     }
     [query includeKey:@"owner"];
-    /*[query includeKey:@"owner.objectId"];
-    NSString *blockingKey = [CMMUser.currentUser.objectId stringByAppendingString:@"-blockedUsers"];
-    NSMutableArray *blockedUsers = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:blockingKey]];
-    for (NSString *blockID in blockedUsers) {
-        [query whereKey:@"owner.objectId" notEqualTo:blockID];
-    }*/
-    /*NSNumber *three = [NSNumber numberWithInteger:3];
-    [query whereKey:@"owner.strikes" notEqualTo:three];*/
     if (trending) {
         [self updateTrendingLimit:number WithCompletion:^(NSError *error) {
             if (error) {

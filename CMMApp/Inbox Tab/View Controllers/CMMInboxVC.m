@@ -10,6 +10,7 @@
 #import "CMMModeratorFeedVC.h"
 #import "AppDelegate.h"
 #import "CMMModerationController.h"
+#import <UserNotifications/UserNotifications.h>
 
 @interface CMMInboxVC ()
 
@@ -36,6 +37,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"Inbox";
+    
+    [CMMLanguageProcessor lemmatizeText:@"Do you think Donald Trump should have the power to kick people out of the daca stuff like women and children?"];
+    [CMMLanguageProcessor namedEntityRecognition:@"Do you think Donald Trump should have the power to kick people out of the daca stuff like women and children?"];
+    [CMMLanguageProcessor partsOfSpeech:@"Do you think Donald Trump should have the power to kick people out of the daca stuff like women and children?"];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -245,12 +250,12 @@
 
 - (void)pullConversations {
     [[CMMParseQueryManager shared] fetchConversationsReported:NO WithCompletion:^(NSArray *conversations, NSError *error) {
-        if (conversations.count > 0) {
+        if (error) {
+            [self createAlert:@"Error" message:@"Unable to retrieve conversations. Check Connection"];
+        } else {
             self.conversations = [NSMutableArray arrayWithArray:conversations];
             [self.messagesTableView reloadData];
             [self.refreshControl endRefreshing];
-        } else {
-            [self createAlert:@"Error" message:@"Unable to retrieve conversations. Check Connection"];
         }
     }];
 }

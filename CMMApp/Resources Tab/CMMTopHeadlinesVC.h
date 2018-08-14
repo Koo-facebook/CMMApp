@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CMMLanguageProcessor.h"
 
 @interface CMMTopHeadlinesVC : UIViewController <UITableViewDelegate, UITableViewDataSource >
 

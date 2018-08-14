@@ -15,19 +15,17 @@
 
 @implementation AppDelegate
 
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    UNNotificationPresentationOptions presentationOptions = UNNotificationPresentationOptionAlert + UNNotificationPresentationOptionSound;
+    completionHandler(presentationOptions);
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    //[self registerForRemoteNotifications];
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
 
-    // Navigation Customization
-    //UIFont *font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:24.0];
-    /*[[UINavigationBar appearance] setBarTintColor:[UIColor grayColor]];
-    NSShadow *shadow = [[NSShadow alloc] init];
-    shadow.shadowColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
-    shadow.shadowOffset = CGSizeMake(0, 1);*/
-    //[[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blueColor], NSForegroundColorAttributeName,font, NSFontAttributeName, nil]];
-    
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
         configuration.applicationId = @"myAppId";
@@ -41,6 +39,7 @@
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     if (CMMUser.currentUser) {
         CMMUser.currentUser.online = YES;
+        CMMUser.currentUser.interests = [NSArray arrayWithObjects:@"Social Issues", @"Economics", nil];
         [CMMUser.currentUser saveInBackground];
         self.window.rootViewController = [[CMMMainTabBarVC alloc] init];
     } else {

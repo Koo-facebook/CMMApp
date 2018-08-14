@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "ParseUI.h"
 
-@interface CMMRegisterVC : UIViewController
+@interface CMMRegisterVC : UIViewController 
 
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *password;

@@ -18,7 +18,7 @@
 #import "MBProgressHUD.h"
 #import <Lottie/Lottie.h>
 
-@interface CMMRegisterVC () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface CMMRegisterVC () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSArray *tableOneCategories;
 @property (strong, nonatomic) NSArray *tableTwoCategories;
@@ -26,7 +26,9 @@
 @property (strong, nonatomic) NSArray *chosenInterests;
 @property (strong, nonatomic) LOTAnimationView *lottieAnimation;
 @property (strong, nonatomic) UIView *animationContainer;
-@property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) UIScrollView *screenScrollView;
+@property (strong, nonatomic) UILabel *placeholderLabel;
+
 
 @end
 
@@ -45,7 +47,7 @@
     self.chosenInterests = [[NSArray alloc]init];
     
     //[self createLabel];
-    //[self createScrollView];
+    [self createScrollView];
     [self createCancelButton];
     [self createSubmitButton];
     [self createBioTextView];
@@ -63,7 +65,6 @@
 }
 
 - (void)updateConstraints {
-    
     //Cancel Button
     [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.cancelButton.superview.mas_top).offset(30);
@@ -73,7 +74,7 @@
     }];
     //Submit Button
     [self.submitButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.submitButton.superview.mas_top).offset(30);
+        make.top.equalTo(self.cancelButton.mas_top);
         make.width.equalTo(@(75));
         make.height.equalTo(@(40));
         make.right.equalTo(self.cancelButton.superview.mas_right).offset(-25);
@@ -133,12 +134,12 @@
 
 #pragma mark - Elements
 -(void)createScrollView {
-    self.scrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.alwaysBounceHorizontal = NO;
-    self.scrollView.showsVerticalScrollIndicator = YES;
-    self.scrollView.scrollEnabled = YES;
-    [self.view addSubview:self.scrollView];
+    self.screenScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+    self.screenScrollView.showsHorizontalScrollIndicator = NO;
+    self.screenScrollView.alwaysBounceHorizontal = NO;
+    self.screenScrollView.showsVerticalScrollIndicator = YES;
+    self.screenScrollView.scrollEnabled = YES;
+    [self.view addSubview:self.screenScrollView];
 }
 
 -(void)createCancelButton {
@@ -176,14 +177,20 @@
 -(void)createNameTextField {
     self.displayedName = [[UITextField alloc]init];
     self.displayedName.placeholder = @"Name";
-    //self.displayedName.backgroundColor = [UIColor grayColor];
+    self.displayedName.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.displayedName];
 }
 
 -(void)createBioTextView {
     self.profileBio = [[UITextView alloc]init];
+
+    self.profileBio.delegate = self;
+    self.profileBio.text = @"Enter Bio..";
+    self.profileBio.backgroundColor = [UIColor grayColor];
+
     
     //self.profileBio.backgroundColor = [UIColor grayColor];
+
     self.profileBio.font = [UIFont fontWithName:@"Arial" size:14];
     [self.view addSubview:self.profileBio];
 }
@@ -201,6 +208,23 @@
 //
 //}
 
+-(void)createPlaceHolderText {
+    // text view placeholder text
+    CGRect placeholderFrame = CGRectMake(5, 70, self.view.frame.size.width - 10, 40);
+    self.placeholderLabel = [[UILabel alloc] initWithFrame:placeholderFrame];
+    self.placeholderLabel.text = @"  Tell us why!";
+    self.placeholderLabel.textColor = [UIColor grayColor];
+    self.placeholderLabel.font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:14.0];
+    [self.profileBio addSubview:self.placeholderLabel];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    if ([self.profileBio.text isEqualToString:@""]) {
+        [self.placeholderLabel setHidden:NO];
+    } else {
+        [self.placeholderLabel setHidden:YES];
+    }
+}
 
 #pragma mark - Actions
 
@@ -212,39 +236,6 @@
     [self.view endEditing:YES];
 }
 
-//-(void)completeUserRegistration {
-//    [CMMUser createUser:self.username password:self.password withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-//
-//        if (error != nil) {
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//            NSLog(@"Error: %@", error.localizedDescription);
-//            [self createAlert:@"Sign Up Error" message:@"There was a problem signing up. Please try again"];
-//        } else {
-//            NSLog(@"User registered successfully");
-//
-//            [CMMUser logInWithUsernameInBackground:self.username password:self.password block:^(PFUser * user, NSError *  error) {
-//                // NSLog(@"User logged in successfully");
-//                PFACL *userACL = [PFACL ACLWithUser:CMMUser.currentUser];
-//                [userACL setPublicReadAccess:YES];
-//                [userACL setPublicWriteAccess:YES];
-//                CMMUser.currentUser.ACL = userACL;
-//                [CMMUser.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//                    NSLog(@"finished");
-//                }];
-//                if (CMMUser.currentUser.online == YES) {
-//                    //[self createAlert:@"Error" message:@"User already logged in"];
-//                    //                        CMMRegisterVC *registerVC = [[CMMRegisterVC alloc] init];
-//                    //                        [self presentViewController:registerVC animated:YES completion:^{}];
-//                } else {
-//                    CMMUser.currentUser.online = YES;
-//                    //                        CMMRegisterVC *registerVC = [[CMMRegisterVC alloc] init];
-//                    //                        [self presentViewController:registerVC animated:YES completion:^{}];
-//                }
-//            }];
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//        }
-//    }];
-//}
 
 -(void)deleteUser {
     PFQuery *query;
@@ -337,7 +328,7 @@
     //[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableViewOne setEditing:YES animated:NO];
     //self.tableView.backgroundColor = [UIColor purpleColor];
-    [self.view addSubview:self.tableViewOne];
+    [self.screenScrollView addSubview:self.tableViewOne];
 }
 
 - (void) createtableViewTwo {
@@ -380,6 +371,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [[self tableView:tableView cellForRowAtIndexPath:indexPath] setSelected:TRUE];
+    
     if (tableView == self.tableViewOne){
         NSString *interest = self.tableOneCategories[indexPath.row];
         [self.interests addObject:interest];
@@ -460,13 +452,35 @@
     }];
 }
 
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    if ([textView.text isEqualToString:@"Enter Bio.."]) {
+        textView.text = @"";
+    }
+    [textView becomeFirstResponder];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if([textView.text isEqualToString:@""]) {
+        textView.text = @"Enter Bio..";
+    }
+    [textView resignFirstResponder];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.displayedName resignFirstResponder];
+    [self.profileBio resignFirstResponder];
+}
+
 -(void)createTapGestureRecognizer:(SEL)selector with:(id)object {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];
+    tapGesture.cancelsTouchesInView = NO;
     [object addGestureRecognizer:tapGesture];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+
 }
 
 @end

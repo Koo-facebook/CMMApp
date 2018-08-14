@@ -7,8 +7,8 @@
 //
 
 #import "CMMChatVC.h"
-
-static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespace | NSLinguisticTaggerOmitPunctuation | NSLinguisticTaggerJoinNames;
+#import <CoreML/CoreML.h>
+#import <UserNotifications/UserNotifications.h>
 
 @interface CMMChatVC ()
 
@@ -20,7 +20,6 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 @property (nonatomic, assign) BOOL isMoreDataLoading;
 @property (nonatomic, assign) CGSize keyboardSize;
 @property (nonatomic, strong) UITextView *writeMessageTextView;
-@property (nonatomic, strong) NSLinguisticTagger *textTagger;
 @end
 
 @implementation CMMChatVC
@@ -28,6 +27,7 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 #pragma mark - VC Life Cycle
 
 - (void)viewWillAppear:(BOOL)animated {
+
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
@@ -36,18 +36,17 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 
 - (void)viewDidAppear:(BOOL)animated {
     [self pullMessages];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.isMoreDataLoading = YES;
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Chat";
-    
-    [self createNLPTagger];
     
     [self createBarButtonItem];
     [self setupUsernameTitleLabel];
@@ -66,8 +65,6 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    [self.timer invalidate];
-    self.timer = nil;
 }
 
 #pragma mark - View Setup
@@ -246,10 +243,6 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 
 #pragma mark - Actions
 
-- (void)createNLPTagger {
-    self.textTagger = [[NSLinguisticTagger alloc] initWithTagSchemes:@[NSLinguisticTagSchemeTokenType, NSLinguisticTagSchemeLanguage, NSLinguisticTagSchemeLexicalClass, NSLinguisticTagSchemeNameType, NSLinguisticTagSchemeLemma] options:0];
-}
-
 - (void)checkPermissions {
     CMMUser *otherUser;
     if (self.isUserOne) {
@@ -283,7 +276,15 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
 }
 
 - (void)sendButtonPressed {
-    if (![self.writeMessageTextView.text isEqualToString:@""]) {
+    if ([self isSpam]) {
+        if ([CMMUser currentUser].spamWarnings == nil) {
+            [CMMUser currentUser].spamWarnings = [NSNumber numberWithInt:1];
+        } else {
+            [CMMUser currentUser].spamWarnings = [NSNumber numberWithInt:[[CMMUser currentUser].spamWarnings integerValue] + 1];
+        }
+        [[CMMUser currentUser] saveInBackground];
+        [self createAlert:@"Warning" message:[NSString stringWithFormat:@"Your message was classified as spam. You now have %@ warnings", [CMMUser currentUser].spamWarnings]];
+    } else if (![self.writeMessageTextView.text isEqualToString:@""]) {
         [CMMMessage createMessage:self.conversation content:self.writeMessageTextView.text attachment:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMMessage *message) {
             if (succeeded) {
                 [self pullMessages];
@@ -389,6 +390,7 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
         if ([messageFromSelf.objectId isEqualToString:messageFromQuery.objectId]) {
             return NO;
         } else {
+            [self showLocalNotification:messages.firstObject];
             return YES;
         }
     }
@@ -453,51 +455,88 @@ static NSLinguisticTaggerOptions const options = NSLinguisticTaggerOmitWhitespac
     }
 }
 
-- (NSMutableArray *)tokenizeText:(NSString *)text {
-    NSMutableArray *tokenizedText = [NSMutableArray new];
-    self.textTagger.string = text;
-    NSRange range = NSMakeRange(0, text.length);
-    [self.textTagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeTokenType options:options usingBlock:^(NSLinguisticTag  _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
-        NSString *word = [text substringWithRange:tokenRange];
-        [tokenizedText addObject:word];
-    }];
-    return tokenizedText;
+-(BOOL)isSpam {
+    NSString *text = self.writeMessageTextView.text;
+    NSString *wordsFile = @"";
+    wordsFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"words_ordered" ofType:@"txt"];
+    NSString *smsFile = [[NSBundle mainBundle] pathForResource:@"SMSSpamCollection" ofType:@"txt"];
+    NSString *wordsFileText = [NSString stringWithContentsOfFile:wordsFile encoding:NSUTF8StringEncoding error:nil];
+    NSMutableArray *wordsData = [NSMutableArray arrayWithArray:[wordsFileText componentsSeparatedByString:@"\n"]];
+    [wordsData removeLastObject];
+    NSString *smsFileText = [NSString stringWithContentsOfFile:smsFile encoding:NSUTF8StringEncoding error:nil];
+    NSMutableArray *smsData = [NSMutableArray arrayWithArray:[smsFileText componentsSeparatedByString:@"\n"]];
+    [smsData removeLastObject];
+    NSMutableArray *wordsInMessage = [NSMutableArray arrayWithArray:[text componentsSeparatedByString:@" "]];
+    
+    MLMultiArray *vectorized = [[MLMultiArray alloc] initWithShape:[NSArray arrayWithObject:[NSNumber numberWithUnsignedInteger:wordsData.count]] dataType:MLMultiArrayDataTypeDouble error:nil];
+    
+    for (int i = 0; i < wordsData.count; i++) {
+        NSString *word = wordsData[i];
+        if ([text containsString:word]) {
+            int wordCount = 0;
+            for (NSString *substr in wordsInMessage) {
+                if ([self elementsEqual:substr secondString:word]) {
+                    wordCount += 1;
+                }
+            }
+            double tf = (double)wordCount / (double)wordsInMessage.count;
+            int docCount = 0;
+            for (NSString *sms in smsData) {
+                if ([sms containsString:word]) {
+                    docCount += 1;
+                }
+            }
+            double idf = log((double)smsData.count / (double)docCount);
+            vectorized[i] = [NSNumber numberWithDouble:tf * idf];
+        } else {
+            vectorized[i] = [NSNumber numberWithDouble:0.0];
+        }
+    }
+    
+    MessageClassifier *model = [MessageClassifier new];
+    MessageClassifierOutput *output = [model predictionFromMessage:vectorized error:nil];
+    if ([output.label isEqualToString:@"spam"]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
- - (NSMutableArray *)lemmatizeText: (NSString *)text {
-    NSMutableArray *lemmatizedText = [NSMutableArray new];
-    self.textTagger.string = text;
-    NSRange range = NSMakeRange(0, text.length);
-    [self.textTagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeLemma options:options usingBlock:^(NSString* _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
-        if (tag != nil) {
-            NSLog(@"%@", tag);
+
+- (BOOL)elementsEqual:(NSString *)firstString secondString: (NSString *)secondString {
+    NSArray *firstArray = [firstString componentsSeparatedByString:@""];
+    NSArray *secondArray = [secondString componentsSeparatedByString:@""];
+    if (secondArray.count > firstArray.count) {
+        return NO;
+    }
+    for (int i = 0; i < secondArray.count; i++) {
+        if (![secondArray[i] isEqualToString:firstArray[i]]) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (void)showLocalNotification: (CMMMessage *)latestMessage {
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert+UNAuthorizationOptionSound;
+    
+    [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        if (granted) {
+            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+                
+            UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+            content.title = latestMessage.messageSender.username;
+            content.body = latestMessage.content;
+            content.sound = [UNNotificationSound defaultSound];
+            
+            UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0.1 repeats:NO];
+                
+            UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"UYLocalNotification" content:content trigger:trigger];
+                
+            [center addNotificationRequest:request withCompletionHandler:nil];
         }
     }];
-    return lemmatizedText;
-}
- - (NSMutableArray *)partsOfSpeech:(NSString *)text {
-    NSMutableArray *parsedText = [NSMutableArray new];
-    self.textTagger.string = text;
-    NSRange range = NSMakeRange(0, text.length);
-    [self.textTagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeLexicalClass options:options usingBlock:^(NSString * _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
-        if (tag != nil) {
-            NSString *partOfSpeech = [text substringWithRange:tokenRange];
-            NSLog(@"%@: %@", partOfSpeech, tag);
-        }
-    }];
-    return parsedText;
-}
- - (NSMutableArray *)namedEntityRecognition:(NSString *)text {
-    NSMutableArray *entities = [NSMutableArray new];
-    self.textTagger.string = text;
-    NSRange range = NSMakeRange(0, text.length);
-    NSArray *tags = @[NSLinguisticTagPersonalName, NSLinguisticTagPlaceName, NSLinguisticTagOrganizationName];
-    [self.textTagger enumerateTagsInRange:range unit:NSLinguisticTaggerUnitWord scheme:NSLinguisticTagSchemeNameType options:options usingBlock:^(NSLinguisticTag _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
-        if ((tag != nil) && ([tags containsObject:tag])) {
-            NSString *name = [text substringWithRange:tokenRange];
-            NSLog(@"%@: %@", name, tag);
-        }
-    }];
-    return entities;
 }
 
 #pragma mark - Keyboard

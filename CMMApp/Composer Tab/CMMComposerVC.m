@@ -11,6 +11,8 @@
 #import "CMMPost.h"
 #import <CCDropDownMenus/CCDropDownMenus.h>
 #import "CMMStyles.h"
+#import <CoreML/CoreML.h>
+#import "MessageClassifier.h"
 
 @interface CMMComposerVC () <CCDropDownMenuDelegate, UITextViewDelegate>
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -117,22 +119,32 @@
     if ([self.questionTextField.text isEqualToString:@""]) {
         [self showAlert:@"Oops!" Message:@"Don't forget to type your post" Sender:self];
         return;
-    }
-    if (!self.categoryString) {
+    } else if (!self.categoryString) {
         [self showAlert:@"Oops!" Message:@"Don't forget to categorize your post" Sender:self];
         return;
-    }
-    [CMMPost createPost:self.questionTextField.text description:self.descriptionTextView.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMPost *post) {
-        if (error) {
-            NSLog(@"Error: %@", error.localizedDescription);
+    } else if (([self isSpam:self.questionTextField.text]) || ([self isSpam:self.descriptionTextView.text])) {
+        if ([CMMUser currentUser].spamWarnings == nil) {
+            [CMMUser currentUser].spamWarnings = [NSNumber numberWithInt:1];
         } else {
-            NSLog(@"successful post");
-            [CMMUser.currentUser saveInBackground];
-            self.questionTextField.text = @"";
-            self.descriptionTextView.text = @"";
-            self.tabBarController.selectedIndex = 0;
+            [CMMUser currentUser].spamWarnings = [NSNumber numberWithInt:[[CMMUser currentUser].spamWarnings integerValue] + 1];
         }
-    }];
+        [[CMMUser currentUser] saveInBackground];
+        [self showAlert:@"Warning" Message:[NSString stringWithFormat:@"Your message was classified as spam. You now have %@ warnings", [CMMUser currentUser].spamWarnings] Sender:self];
+        self.questionTextField.text = @"";
+        self.descriptionTextView.text = @"";
+    } else {
+        [CMMPost createPost:self.questionTextField.text description:self.descriptionTextView.text category:self.categoryString tags:nil withCompletion:^(BOOL succeeded, NSError * _Nullable error, CMMPost *post) {
+            if (error) {
+                NSLog(@"Error: %@", error.localizedDescription);
+            } else {
+                NSLog(@"successful post");
+                [CMMUser.currentUser saveInBackground];
+                self.questionTextField.text = @"";
+                self.descriptionTextView.text = @"";
+                self.tabBarController.selectedIndex = 0;
+            }
+        }];
+    }
 }
 
 - (void)dropDownMenu:(CCDropDownMenu *)dropDownMenu didSelectRowAtIndex:(NSInteger)index {
@@ -158,6 +170,67 @@
     theViewGradient.endPoint = CGPointMake(1, 1);
     
     [self.view.layer insertSublayer:theViewGradient atIndex:0];
+}
+
+-(BOOL)isSpam:(NSString *)checkText {
+    NSString *text = checkText;
+    NSString *wordsFile = @"";
+    wordsFile = [[NSBundle bundleForClass:[self class]] pathForResource:@"words_ordered" ofType:@"txt"];
+    NSString *smsFile = [[NSBundle mainBundle] pathForResource:@"SMSSpamCollection" ofType:@"txt"];
+    NSString *wordsFileText = [NSString stringWithContentsOfFile:wordsFile encoding:NSUTF8StringEncoding error:nil];
+    NSMutableArray *wordsData = [NSMutableArray arrayWithArray:[wordsFileText componentsSeparatedByString:@"\n"]];
+    [wordsData removeLastObject];
+    NSString *smsFileText = [NSString stringWithContentsOfFile:smsFile encoding:NSUTF8StringEncoding error:nil];
+    NSMutableArray *smsData = [NSMutableArray arrayWithArray:[smsFileText componentsSeparatedByString:@"\n"]];
+    [smsData removeLastObject];
+    NSMutableArray *wordsInMessage = [NSMutableArray arrayWithArray:[text componentsSeparatedByString:@" "]];
+    
+    MLMultiArray *vectorized = [[MLMultiArray alloc] initWithShape:[NSArray arrayWithObject:[NSNumber numberWithUnsignedInteger:wordsData.count]] dataType:MLMultiArrayDataTypeDouble error:nil];
+    
+    for (int i = 0; i < wordsData.count; i++) {
+        NSString *word = wordsData[i];
+        if ([text containsString:word]) {
+            int wordCount = 0;
+            for (NSString *substr in wordsInMessage) {
+                if ([self elementsEqual:substr secondString:word]) {
+                    wordCount += 1;
+                }
+            }
+            double tf = (double)wordCount / (double)wordsInMessage.count;
+            int docCount = 0;
+            for (NSString *sms in smsData) {
+                if ([sms containsString:word]) {
+                    docCount += 1;
+                }
+            }
+            double idf = log((double)smsData.count / (double)docCount);
+            vectorized[i] = [NSNumber numberWithDouble:tf * idf];
+        } else {
+            vectorized[i] = [NSNumber numberWithDouble:0.0];
+        }
+    }
+    
+    MessageClassifier *model = [MessageClassifier new];
+    MessageClassifierOutput *output = [model predictionFromMessage:vectorized error:nil];
+    if ([output.label isEqualToString:@"spam"]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)elementsEqual:(NSString *)firstString secondString: (NSString *)secondString {
+    NSArray *firstArray = [firstString componentsSeparatedByString:@""];
+    NSArray *secondArray = [secondString componentsSeparatedByString:@""];
+    if (secondArray.count > firstArray.count) {
+        return NO;
+    }
+    for (int i = 0; i < secondArray.count; i++) {
+        if (![secondArray[i] isEqualToString:firstArray[i]]) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end

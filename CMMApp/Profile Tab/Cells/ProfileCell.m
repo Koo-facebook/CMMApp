@@ -19,20 +19,18 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        self.titleLabel = [UILabel new];
-        self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.numberOfLines = 0;
-        NSLog(@"USER INTERESTS: %@", self.userInterests[0]);
-        self.titleLabel.text = self.title;
-        [self addSubview:self.titleLabel];
-        
-    }
+
     return self;
 }
          
- -(void)configureCell {
-     
+-(void)configureProfileCell:(CMMUser *)user {
+    self.userInterests = user[@"interests"];
+    self.titleLabel = [UILabel new];
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.titleLabel.numberOfLines = 0;
+    NSLog(@"USER INTERESTS: %@", self.userInterests[0]);
+    self.titleLabel.text = self.title;
+    [self addSubview:self.titleLabel];
  }
 
 - (void)prepareForReuse
