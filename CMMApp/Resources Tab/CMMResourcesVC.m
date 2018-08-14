@@ -111,6 +111,10 @@
     [self.searchBar resignFirstResponder];
 }
 
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSString *searchText = self.searchBar.text;
+    [self moveToHeadLinesVC:searchText];
+}
 
 //Create CollectionView
 - (void) createCollectionView {
@@ -155,12 +159,16 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self moveToHeadLinesVC:self.topicList[indexPath.item]];
+    //[self presentViewController:resourcesVC animated:YES completion:^{}];
+}
+
+-(void)moveToHeadLinesVC: (NSString *)category {
     CMMTopHeadlinesVC *resourcesVC = [[CMMTopHeadlinesVC alloc]init];
     UINavigationController *resourcesNavigation = [[UINavigationController alloc]initWithRootViewController:resourcesVC];
     NSLog(@"We are in selected collection view cell");
-    resourcesVC.category = self.topicList[indexPath.item];
+    resourcesVC.category = category;
     [self.navigationController pushViewController:resourcesVC animated:YES];
-    //[self presentViewController:resourcesVC animated:YES completion:^{}];
 }
 
 // Make keyboard disappear action
