@@ -10,6 +10,7 @@
 #import "CMMModeratorFeedVC.h"
 #import "AppDelegate.h"
 #import "CMMModerationController.h"
+#import <UserNotifications/UserNotifications.h>
 
 @interface CMMInboxVC ()
 

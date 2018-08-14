@@ -8,6 +8,7 @@
 
 #import "CMMChatVC.h"
 #import <CoreML/CoreML.h>
+#import <UserNotifications/UserNotifications.h>
 
 @interface CMMChatVC ()
 
@@ -35,7 +36,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [self pullMessages];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(pullMessages) userInfo:nil repeats:true];
 }
 
 - (void)viewDidLoad {
@@ -64,8 +65,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    [self.timer invalidate];
-    self.timer = nil;
 }
 
 #pragma mark - View Setup
@@ -391,6 +390,7 @@
         if ([messageFromSelf.objectId isEqualToString:messageFromQuery.objectId]) {
             return NO;
         } else {
+            [self showLocalNotification:messages.firstObject];
             return YES;
         }
     }
@@ -514,6 +514,29 @@
         }
     }
     return YES;
+}
+
+- (void)showLocalNotification: (CMMMessage *)latestMessage {
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert+UNAuthorizationOptionSound;
+    
+    [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        if (granted) {
+            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+                
+            UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+            content.title = latestMessage.messageSender.username;
+            content.body = latestMessage.content;
+            content.sound = [UNNotificationSound defaultSound];
+            
+            UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0.1 repeats:NO];
+                
+            UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"UYLocalNotification" content:content trigger:trigger];
+                
+            [center addNotificationRequest:request withCompletionHandler:nil];
+        }
+    }];
 }
 
 #pragma mark - Keyboard
