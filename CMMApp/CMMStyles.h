@@ -11,6 +11,12 @@
 
 @interface CMMStyles : NSObject
 
+@property (strong, nonatomic) UIColor *globalCoral;
+@property (strong, nonatomic) UIColor *globalLightBlue;
+@property (strong, nonatomic) UIColor *globalNavy;
+@property (strong, nonatomic) UIColor *globalBurgundy;
+@property (strong, nonatomic) UIColor *globalTan;
+
 + (UIColor *)getTealColor;
 + (UIFont *)getTitleFontWithSize: (CGFloat)size;
 + (UIFont *)getTextFontWithSize:(CGFloat)size;
