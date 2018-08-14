@@ -12,6 +12,7 @@
 #import "CMMLoginVC.h"
 #import "Parse.h"
 #import <UserNotifications/UserNotifications.h>
+@import UserNotifications;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate>
 
