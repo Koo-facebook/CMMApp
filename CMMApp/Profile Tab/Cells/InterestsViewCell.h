@@ -14,4 +14,6 @@
 @property (strong, nonatomic) CMMUser *user;
 @property (strong, nonatomic) NSString *title;
 
+- (void)configureInterestCell: (CMMUser *)user;
+
 @end

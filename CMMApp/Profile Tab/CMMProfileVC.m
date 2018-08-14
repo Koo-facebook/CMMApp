@@ -41,11 +41,7 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //    [[CMMParseQueryManager shared] updateUserInfo:PFUser.currentUser WithCompletion:^(PFObject *object, NSError *error) {
-    //        PFUser *user = object;
-    //        self.user = user;
-    //    }];
-    // [self.tableView registerClass:[NewsfeedCell class] forCellReuseIdentifier:@"feedCell"];
+
     [self.collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:@"Cell"];
     [self.collectionView registerClass:[AboutViewCell class] forCellWithReuseIdentifier:@"aboutCell"];
     [self.collectionView registerClass:[InterestsViewCell class] forCellWithReuseIdentifier:@"secondCell"];
@@ -154,17 +150,14 @@ static NSUInteger const kCMDefaultSelected = 0;
     }
     else if (indexPath.item == 1) {
         ProfileCell *profileCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-        profileCell.userInterests = self.user[@"interests"];
-        NSLog(@"USER INTERESTS ON PROFILE: %@", profileCell.userInterests);
-        profileCell.title = @"Social Issues";
+        [profileCell configureProfileCell:self.user];
         profileCell.backgroundColor = [UIColor purpleColor];
         //cell.interests = PFUser.currentUser[@"interests"];
         return profileCell;
     }
     else {
         InterestsViewCell *secondCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"secondCell" forIndexPath:indexPath];
-        secondCell.user = self.user;
-        secondCell.title = self.user.username;
+        [secondCell configureInterestCell:self.user];
         secondCell.backgroundColor = [UIColor lightGrayColor];
         return secondCell;
     }

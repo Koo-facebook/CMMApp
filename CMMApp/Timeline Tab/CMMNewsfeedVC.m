@@ -510,19 +510,6 @@ static NSUInteger const kCMDefaultSelected = 0;
 }
 
 #pragma mark - Extra (Chat)
-//- (void)displayProfileImageWithSize:(int)size padding:(int)padding {
-//    CGRect imageFrame = CGRectMake(12, padding, size, size);
-//    self.authorImage = [[UIImageView alloc] initWithFrame:imageFrame];
-//    self.authorImage.image = nil;
-//    [self.authorImage setImageWithURL:[NSURL URLWithString:self.post.owner.profileImage.url] placeholderImage:[UIImage imageNamed:@"placeholderProfileImage"]];
-//    self.authorImage.layer.cornerRadius = size/2;
-//    self.authorImage.clipsToBounds = YES;
-//    [self.view addSubview:self.authorImage];
-//
-//    self.authorImage.userInteractionEnabled = YES;
-//    UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(segueToProfile)];
-//    [self.authorImage addGestureRecognizer:profileTap];
-//}
 
 - (void)didTapReport {
     [[CMMParseQueryManager shared] reportPost:self.post];

@@ -27,17 +27,16 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        if (!self.user) {
-            self.user = PFUser.currentUser;
-        }
-        NSLog(@"User in Interest Cell:%@", self.user);
-        [self createScrollView];
-        [self createTableView];
-        [self fetchPosts];
-        self.userInteractionEnabled = YES;
-    }
+
     return self;
+}
+
+- (void)configureInterestCell: (CMMUser *)user {
+    self.user = user;
+    [self createScrollView];
+    [self createTableView];
+    [self fetchPosts];
+    self.userInteractionEnabled = YES;
 }
 
 - (void) fetchPosts {

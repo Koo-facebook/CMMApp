@@ -27,6 +27,8 @@
 @property (strong, nonatomic) LOTAnimationView *lottieAnimation;
 @property (strong, nonatomic) UIView *animationContainer;
 @property (strong, nonatomic) UIScrollView *screenScrollView;
+@property (strong, nonatomic) UILabel *placeholderLabel;
+
 
 @end
 
@@ -63,7 +65,6 @@
 }
 
 - (void)updateConstraints {
-
     //Cancel Button
     [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.cancelButton.superview.mas_top).offset(30);
@@ -73,7 +74,7 @@
     }];
     //Submit Button
     [self.submitButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.submitButton.superview.mas_top).offset(30);
+        make.top.equalTo(self.cancelButton.mas_top);
         make.width.equalTo(@(75));
         make.height.equalTo(@(40));
         make.right.equalTo(self.cancelButton.superview.mas_right).offset(-25);
@@ -147,7 +148,7 @@
     [self.cancelButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.cancelButton addTarget:self action:@selector(exitRegisterVC) forControlEvents:UIControlEventTouchUpInside];
-    [self.screenScrollView addSubview:self.cancelButton];
+    [self.view addSubview:self.cancelButton];
 }
 
 -(void)createSubmitButton {
@@ -156,7 +157,7 @@
     [self.submitButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     self.submitButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.submitButton addTarget:self action:@selector(finishedEditing) forControlEvents:UIControlEventTouchUpInside];
-    [self.screenScrollView addSubview:self.submitButton];
+    [self.view addSubview:self.submitButton];
 }
 
 -(void)createProfileImageContainer {
@@ -170,14 +171,14 @@
     self.originalProfileImage.file = PFUser.currentUser[@"profileImage"];
     [self.originalProfileImage loadInBackground];
     
-    [self.screenScrollView addSubview:self.profileImage];
+    [self.view addSubview:self.profileImage];
 }
 
 -(void)createNameTextField {
     self.displayedName = [[UITextField alloc]init];
     self.displayedName.placeholder = @"Name";
     self.displayedName.backgroundColor = [UIColor grayColor];
-    [self.screenScrollView addSubview:self.displayedName];
+    [self.view addSubview:self.displayedName];
 }
 
 -(void)createBioTextView {
@@ -191,7 +192,7 @@
     //self.profileBio.backgroundColor = [UIColor grayColor];
 
     self.profileBio.font = [UIFont fontWithName:@"Arial" size:14];
-    [self.screenScrollView addSubview:self.profileBio];
+    [self.view addSubview:self.profileBio];
 }
 
 -(void) createVotingLabel{
@@ -207,6 +208,23 @@
 //
 //}
 
+-(void)createPlaceHolderText {
+    // text view placeholder text
+    CGRect placeholderFrame = CGRectMake(5, 70, self.view.frame.size.width - 10, 40);
+    self.placeholderLabel = [[UILabel alloc] initWithFrame:placeholderFrame];
+    self.placeholderLabel.text = @"  Tell us why!";
+    self.placeholderLabel.textColor = [UIColor grayColor];
+    self.placeholderLabel.font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:14.0];
+    [self.profileBio addSubview:self.placeholderLabel];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    if ([self.profileBio.text isEqualToString:@""]) {
+        [self.placeholderLabel setHidden:NO];
+    } else {
+        [self.placeholderLabel setHidden:YES];
+    }
+}
 
 #pragma mark - Actions
 
@@ -456,6 +474,7 @@
 
 -(void)createTapGestureRecognizer:(SEL)selector with:(id)object {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:selector];
+    tapGesture.cancelsTouchesInView = NO;
     [object addGestureRecognizer:tapGesture];
 }
 

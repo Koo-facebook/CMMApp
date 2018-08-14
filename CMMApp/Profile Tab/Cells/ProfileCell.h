@@ -7,19 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CMMUser.h"
 
 @interface ProfileCell : UICollectionViewCell
 
 
 @property (strong, nonatomic, nullable) UIColor *textColor;
-
 @property (strong, nonatomic, nullable) UIFont *textFont;
-
 @property (strong, nonatomic, nullable) UIColor *selectedTextColor;
-
 @property (strong, nonatomic, nullable) UIFont *selectedTextFont;
-
 @property (nonatomic, copy, nullable) NSString *title;
 @property (nonatomic, strong) NSArray *userInterests;
+
+-(void)configureProfileCell:(CMMUser *)user;
 
 @end
