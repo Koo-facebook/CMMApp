@@ -189,7 +189,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     } else {
         NSMutableArray *returnArray = [NSMutableArray new];
         int interestAndKeywordIndex = 0;
-        int interestOnlyIndex = 0;
+        int interestOrKeywordIndex = 0;
         for (CMMPost *post in unfilteredArray) {
             BOOL added = NO;
             if ([CMMUser.currentUser.interests containsObject:post.category]) {
@@ -197,7 +197,7 @@ static NSUInteger const kCMDefaultSelected = 0;
                     if ([post.topic containsString:keyword] || [post.detailedDescription containsString:keyword]) {
                         [returnArray insertObject:post atIndex:interestAndKeywordIndex];
                         interestAndKeywordIndex += 1;
-                        interestOnlyIndex += 1;
+                        interestOrKeywordIndex += 1;
                         added = YES;
                     }
                 }
@@ -206,18 +206,39 @@ static NSUInteger const kCMDefaultSelected = 0;
                         if ([post.topic containsString:keyword] || [post.detailedDescription containsString:keyword]) {
                             [returnArray insertObject:post atIndex:interestAndKeywordIndex];
                             interestAndKeywordIndex += 1;
-                            interestOnlyIndex += 1;
+                            interestOrKeywordIndex += 1;
                             added = YES;
                         }
                     }
                 }
                 
                 if (!added) {
-                    [returnArray insertObject:post atIndex:interestOnlyIndex];
-                    interestOnlyIndex +=1;
+                    [returnArray insertObject:post atIndex:interestOrKeywordIndex];
+                    interestOrKeywordIndex +=1;
                 }
             } else {
-                [returnArray addObject:post];
+                BOOL secondAdded = NO;
+                if (!added) {
+                    for (NSString *keyword in CMMUser.currentUser.positiveKeyWords) {
+                        if ([post.topic containsString:keyword] || [post.detailedDescription containsString:keyword]) {
+                            [returnArray insertObject:post atIndex:interestOrKeywordIndex];
+                            interestOrKeywordIndex += 1;
+                            secondAdded = YES;
+                        }
+                    }
+                    if (!added) {
+                        for (NSString *keyword in CMMUser.currentUser.negativeKeyWords) {
+                            if ([post.topic containsString:keyword] || [post.detailedDescription containsString:keyword]) {
+                                [returnArray insertObject:post atIndex:interestOrKeywordIndex];
+                                interestOrKeywordIndex += 1;
+                                secondAdded = YES;
+                            }
+                        }
+                    }
+                }
+                if (!secondAdded) {
+                    [returnArray addObject:post];
+                }
             }
         }
         return returnArray;
