@@ -84,6 +84,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     //[self fetchPosts];
 }
 
+#pragma mark - CMTabBar
 - (CMTabbarView *)tabbarView
 {
     if (!_tabbarView) {
@@ -101,6 +102,17 @@ static NSUInteger const kCMDefaultSelected = 0;
     return _tabbarView;
 }
 
+- (NSArray<NSString *> *)tabbarTitlesForTabbarView:(CMTabbarView *)tabbarView
+{
+    return self.datas;
+}
+
+- (void)tabbarView:(CMTabbarView *)tabbarView1 didSelectedAtIndex:(NSInteger)index
+{
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:false];
+}
+
+#pragma mark - CollectionView
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -114,8 +126,10 @@ static NSUInteger const kCMDefaultSelected = 0;
         //        [_collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:@"Cell"];
         //        [_collectionView registerClass:[InterestsViewCell class] forCellWithReuseIdentifier:@"Cell2"];
         _collectionView.dataSource = self;
-        _collectionView.scrollEnabled = YES;
         _collectionView.delegate = self;
+        _collectionView.scrollEnabled = YES;
+        _collectionView.bounces = YES;
+        _collectionView.alwaysBounceVertical = YES;
         _collectionView.userInteractionEnabled = YES;
         _collectionView.showsHorizontalScrollIndicator = YES;
         _collectionView.pagingEnabled = NO;
@@ -123,16 +137,6 @@ static NSUInteger const kCMDefaultSelected = 0;
         _collectionView.backgroundColor = [UIColor lightGrayColor];
     }
     return _collectionView;
-}
-
-- (NSArray<NSString *> *)tabbarTitlesForTabbarView:(CMTabbarView *)tabbarView
-{
-    return self.datas;
-}
-
-- (void)tabbarView:(CMTabbarView *)tabbarView1 didSelectedAtIndex:(NSInteger)index
-{
-    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:false];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

@@ -33,7 +33,7 @@
 
 - (void)configureInterestCell: (CMMUser *)user {
     self.user = user;
-    [self createScrollView];
+    //[self createScrollView];
     [self createTableView];
     [self fetchPosts];
     self.userInteractionEnabled = YES;
@@ -71,7 +71,7 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.scrollEnabled = YES;
     [self fetchPosts];
-    [self.scrollView addSubview:self.tableView];
+    [self.contentView addSubview:self.tableView];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

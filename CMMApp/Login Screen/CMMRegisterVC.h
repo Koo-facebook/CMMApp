@@ -27,5 +27,6 @@
 @property (strong, nonatomic) NSArray *categories;
 @property (strong, nonatomic) UILabel * voterQuestion;
 @property (strong, nonatomic) UISwitch * voterSwitch;
+@property BOOL voter;
 
 @end

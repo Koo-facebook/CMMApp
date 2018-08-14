@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSArray *tableOneCategories;
 @property (strong, nonatomic) NSArray *tableTwoCategories;
 @property (strong, nonatomic) NSMutableArray *interests;
+@property (strong, nonatomic) UILabel *interestsLabel;
 @property (strong, nonatomic) NSArray *chosenInterests;
 @property (strong, nonatomic) LOTAnimationView *lottieAnimation;
 @property (strong, nonatomic) UIView *animationContainer;
@@ -47,13 +48,14 @@
     self.chosenInterests = [[NSArray alloc]init];
     
     //[self createLabel];
-    [self createScrollView];
+    //[self createScrollView];
     [self createCancelButton];
     [self createSubmitButton];
     [self createBioTextView];
     [self createNameTextField];
     [self createVotingLabel];
     [self createProfileImageContainer];
+    [self createInterestLabel];
     [self createTableViewOne];
     [self createtableViewTwo];
     [self updateConstraints];
@@ -94,6 +96,14 @@
         make.width.equalTo(@(125));
     }];
     
+    //Voting Switch
+    [self.voterSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.votingLabel.mas_bottom).offset(10);
+        make.left.equalTo(self.votingLabel.mas_left);
+        make.width.equalTo(self.votingLabel.mas_width);
+        make.height.equalTo(@(40));
+    }];
+    
     //Name TextField
     [self.displayedName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.profileImage.mas_bottom).offset(20);
@@ -109,9 +119,16 @@
         make.width.equalTo(@(325));
     }];
     
+    //Interest Label
+    [self.interestsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.profileBio.mas_bottom).offset(10);
+        make.width.equalTo(self.profileBio.mas_width);
+        make.left.equalTo(self.profileBio.mas_left);
+    }];
+    
     //TableViewOne
     [self.tableViewOne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.profileBio.mas_bottom).offset(25);
+        make.top.equalTo(self.interestsLabel.mas_bottom).offset(10);
         make.bottom.equalTo(self.view.mas_bottom);
         // make.centerX.equalTo(self.view.mas_centerX);
         //make.height.equalTo(@(self.tableViewOne.intrinsicContentSize.height));
@@ -121,13 +138,13 @@
     
     //TableViewTwo
     [self.tableViewTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.profileBio.mas_bottom).offset(25);
+        make.top.equalTo(self.interestsLabel.mas_bottom).offset(10);
         make.bottom.equalTo(self.view.mas_bottom);
         make.right.equalTo(self.view.mas_right).offset(-25);
         //make.centerX.equalTo(self.view.mas_centerX);
         //make.height.equalTo(@(self.tableViewOne.intrinsicContentSize.height));
         make.left.equalTo(self.tableViewOne.mas_right);
-        make.width.equalTo(@(self.view.frame.size.width/2));
+        make.width.equalTo(@(self.view.frame.size.width/2.3));
     }];
     
 }
@@ -195,6 +212,15 @@
     [self.view addSubview:self.profileBio];
 }
 
+-(void) createInterestLabel {
+    self.interestsLabel = [[UILabel alloc] init];
+    self.interestsLabel.textColor = [UIColor blackColor];
+    self.interestsLabel.font = [UIFont fontWithName:@"Arial" size:14];
+    self.interestsLabel.numberOfLines = 0;
+    self.interestsLabel.text = @"Which of the following political issues are you interested in?";
+    [self.view addSubview:self.interestsLabel];
+}
+
 -(void) createVotingLabel{
     self.votingLabel = [[UILabel alloc] init];
     self.votingLabel.textColor = [UIColor blackColor];
@@ -204,9 +230,12 @@
     [self.view addSubview:self.votingLabel];
 }
 
-//-(void)createVoterSwitch {
-//
-//}
+-(void)createVoterSwitch {
+    self.voterSwitch = [[UISwitch alloc]init];
+    self.voterSwitch.selected = NO;
+    self.voterSwitch.tintColor = [UIColor blueColor];
+    [self.view addSubview:self.voterSwitch];
+}
 
 -(void)createPlaceHolderText {
     // text view placeholder text
@@ -261,8 +290,14 @@
 }
 
 -(void)finishedEditing {
+    if(self.voterSwitch.selected){
+        self.voter = YES;
+    }
+    else {
+        self.voter = NO;
+    }
     //[self completeUserRegistration];
-    [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withInterests:self.interests andRegisteredVoter:YES withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+    [CMMUser editUserInfo:self.profileImage.image withBio:self.profileBio.text withName:self.displayedName.text withInterests:self.interests andRegisteredVoter:self.voter withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
     }];
     [self presentModalStatusView];
 }
@@ -328,7 +363,7 @@
     //[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableViewOne setEditing:YES animated:NO];
     //self.tableView.backgroundColor = [UIColor purpleColor];
-    [self.screenScrollView addSubview:self.tableViewOne];
+    [self.view addSubview:self.tableViewOne];
 }
 
 - (void) createtableViewTwo {
