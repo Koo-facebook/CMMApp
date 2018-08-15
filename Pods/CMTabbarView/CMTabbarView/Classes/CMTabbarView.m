@@ -103,7 +103,7 @@ NSString *  const CMTabBoxBackgroundColor = @"CMBoxbackgroundColor";
     _selectionType = CMTabbarSelectionIndicator;
     _locationType = CMTabbarIndicatorLocationDown;
     _contentInset = UIEdgeInsetsMake(.0f, CMTabbarViewDefaultHorizontalInset, 0, CMTabbarViewDefaultHorizontalInset);
-    _indicatorAttributes = @{CMTabIndicatorColor:[UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1],CMTabIndicatorViewHeight:@(4.0f),CMTabBoxBackgroundColor:CMHEXCOLOR(0x3ebd6e)};
+    _indicatorAttributes = @{CMTabIndicatorColor:[UIColor colorWithRed:(CGFloat)(224.0/255.0) green:(CGFloat)(82.0/255.0) blue:(CGFloat)(99.0/255.0) alpha:1],CMTabIndicatorViewHeight:@(4.0f),CMTabBoxBackgroundColor:CMHEXCOLOR(0x3ebd6e)};
     _normalAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.0f],NSForegroundColorAttributeName:CMHEXCOLOR(0x6d7989)};
     _selectedAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15.0f],NSForegroundColorAttributeName:CMHEXCOLOR(0x3ebd6e)};
     _defaultSelectedIndex = 0;
@@ -172,7 +172,7 @@ NSString *  const CMTabBoxBackgroundColor = @"CMBoxbackgroundColor";
     if (!_indicatorView) {
         _indicatorView = [UIView new];
         _indicatorView.userInteractionEnabled = false;
-        _indicatorView.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];//_indicatorAttributes[CMTabIndicatorColor];
+        _indicatorView.backgroundColor = [UIColor colorWithRed:(CGFloat)(224.0/255.0) green:(CGFloat)(82.0/255.0) blue:(CGFloat)(99.0/255.0) alpha:1];
         _indicatorView.layer.cornerRadius = 1.0f;
     }
     return _indicatorView;

@@ -40,6 +40,7 @@
     
     self.detailsView.center = self.center;
     self.detailsView.autoresizingMask = UIViewAutoresizingNone;
+    //self.detailsView.backgroundColor = [UIColor colorWithRed:(CGFloat)(239.0/255.0) green:(CGFloat)(235.0/255.0) blue:(CGFloat)(233.0/255.0) alpha:1];
 // CGRect frame = CGRectMake(self.frame.size.width/4, self.frame.size.height/4, 230, 230);
     //self.contentView.frame = self.bounds;
     
@@ -50,6 +51,7 @@
     self.detailsView.layer.cornerRadius = 15;
     
     self.titleLabel.text = @"";
+    self.titleLabel.textColor = [UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1];
     self.titleLabel.numberOfLines = 0;
     self.locationLabel.text = @"";
     self.dateLabel.text = @"";
@@ -58,6 +60,7 @@
     self.detailsLabel.numberOfLines = 0;
     self.addToCalendarButton.titleLabel.text = @"Add to Calendar";
     
+
     //[self addSubview:self.blurredView];
     //[self addSubview:self.blurredView];
     [self addSubview:self.detailsView];

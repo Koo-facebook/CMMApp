@@ -38,6 +38,7 @@
     
     self.detailsView.center = self.center;
     self.detailsView.autoresizingMask = UIViewAutoresizingNone;
+    self.detailsView.backgroundColor = [UIColor colorWithRed:(CGFloat)(239.0/255.0) green:(CGFloat)(235.0/255.0) blue:(CGFloat)(233.0/255.0) alpha:1];
     //CGRect frame = CGRectMake(self.frame.size.width/4, self.frame.size.height/4, 230, 230);
     
     self.detailsView.layer.masksToBounds = YES;
@@ -45,7 +46,7 @@
     self.detailsView.layer.cornerRadius = 15;
     
     self.titleLabel.text = @"";
-    self.titleLabel.numberOfLines = 2;
+    self.titleLabel.numberOfLines = 3;
     self.categoryLabel.text = @"";
     self.postedByLabel.text = @"";
     self.timeLabel.text = @"";
@@ -75,6 +76,7 @@
 
 -(void)setPostWithTitle:(NSString*)title category:(NSString *)category user:(NSString *)user time:(NSString *)time description:(NSString *)description showingChatButton: (BOOL) chatButtonView {
     self.titleLabel.text = title;
+    self.titleLabel.textColor = [UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1];
     self.usernameLabel.text = user;
     self.categoryLabel.text = category;
     self.postedByLabel.text = ((void)("Posted By: %@"), user);
@@ -86,7 +88,7 @@
         self.chatButton = [[UIButton alloc] init];
         // [self.chatButton addTarget:self action:@selector(didPressChat) forControlEvents:UIControlEventTouchUpInside];
         [self.chatButton setTitle:@"Let's Chat!" forState:UIControlStateNormal];
-        [self.chatButton setBackgroundColor:[UIColor blueColor]];
+        [self.chatButton setBackgroundColor:[UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1]];
         [self.chatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.detailsView addSubview:self.chatButton];
         UIEdgeInsets chatPadding = UIEdgeInsetsMake(15, 12, 12, self.detailsView.frame.size.width/2 + 6);
@@ -104,7 +106,7 @@
     self.resourcesButton = [[UIButton alloc] init];
     // [self.resourcesButton addTarget:self action:@selector(didPressResources) forControlEvents:UIControlEventTouchUpInside];
     [self.resourcesButton setTitle:@"Tell Me More!" forState:UIControlStateNormal];
-    [self.resourcesButton setBackgroundColor:[UIColor grayColor]];
+    [self.resourcesButton setBackgroundColor:[UIColor colorWithRed:(CGFloat)(114.0/255.0) green:(CGFloat)(17.0/255.0) blue:(CGFloat)(33.0/255.0) alpha:1]];
     [self.resourcesButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.detailsView addSubview:self.resourcesButton];
     UIEdgeInsets resourcePadding = UIEdgeInsetsMake(15, resourceLeftPadding, 12, 12);

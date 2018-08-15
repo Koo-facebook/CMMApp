@@ -42,7 +42,9 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejY-Bk-TTn">
                     <rect key="frame" x="111" y="433" width="111" height="30"/>
-                    <state key="normal" title="Add to Calendar"/>
+                    <state key="normal" title="Add to Calendar">
+                        <color key="titleColor" red="0.82917592005076146" green="0.24598140623337678" blue="0.40174393122159685" alpha="0.85108090753424659" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
                 </button>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5xN-YO-LOa">
                     <rect key="frame" x="20" y="221" width="296" height="184"/>
