@@ -31,6 +31,11 @@
 		137E0E1A211AEFD100D74F4E /* CMMModerationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 137E0E19211AEFD100D74F4E /* CMMModerationController.m */; };
 		137E0E1D211AEFE800D74F4E /* CMMModeratorInboxVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 137E0E1C211AEFE800D74F4E /* CMMModeratorInboxVC.m */; };
 		137E0E20211AEFF700D74F4E /* CMMReportedChatVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 137E0E1E211AEFF700D74F4E /* CMMReportedChatVC.m */; };
+		13A0AF53212349BA00C6916B /* gotMail.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A0AF4F212349BA00C6916B /* gotMail.json */; };
+		13A0AF54212349BA00C6916B /* addToCalendar.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A0AF50212349BA00C6916B /* addToCalendar.json */; };
+		13A0AF55212349BA00C6916B /* eventsPin.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A0AF51212349BA00C6916B /* eventsPin.json */; };
+		13A0AF56212349BA00C6916B /* phone_newsfeed.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A0AF52212349BA00C6916B /* phone_newsfeed.json */; };
+		13A0AF59212390B200C6916B /* plusSign.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A0AF58212390B100C6916B /* plusSign.json */; };
 		13A8D3A32113BB3A00C0C183 /* CMMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130D43C22113B9F5005E0C5B /* CMMKit.framework */; };
 		13A8D3A42113BB3A00C0C183 /* CMMKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 130D43C22113B9F5005E0C5B /* CMMKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		13A8D3AB2113E69000C0C183 /* newsfeed_refresh5.json in Resources */ = {isa = PBXBuildFile; fileRef = 13A8D3AA2113E69000C0C183 /* newsfeed_refresh5.json */; };
@@ -164,6 +169,11 @@
 		137E0E1C211AEFE800D74F4E /* CMMModeratorInboxVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMMModeratorInboxVC.m; sourceTree = "<group>"; };
 		137E0E1E211AEFF700D74F4E /* CMMReportedChatVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMMReportedChatVC.m; sourceTree = "<group>"; };
 		137E0E1F211AEFF700D74F4E /* CMMReportedChatVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMMReportedChatVC.h; sourceTree = "<group>"; };
+		13A0AF4F212349BA00C6916B /* gotMail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gotMail.json; sourceTree = "<group>"; };
+		13A0AF50212349BA00C6916B /* addToCalendar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = addToCalendar.json; sourceTree = "<group>"; };
+		13A0AF51212349BA00C6916B /* eventsPin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = eventsPin.json; sourceTree = "<group>"; };
+		13A0AF52212349BA00C6916B /* phone_newsfeed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = phone_newsfeed.json; sourceTree = "<group>"; };
+		13A0AF58212390B100C6916B /* plusSign.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = plusSign.json; sourceTree = "<group>"; };
 		13A8D3AA2113E69000C0C183 /* newsfeed_refresh5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = newsfeed_refresh5.json; sourceTree = "<group>"; };
 		13A8D3AC2113E69500C0C183 /* newsfeed_refresh.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = newsfeed_refresh.json; sourceTree = "<group>"; };
 		13A8D3AE2113E69A00C0C183 /* events_refresh.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = events_refresh.json; sourceTree = "<group>"; };
@@ -330,6 +340,11 @@
 				13A8D3BB21143BE300C0C183 /* phoneVote.json */,
 				13A8D3BD21143BEF00C0C183 /* resources.json */,
 				13118E8C211B6947004E271C /* accountCreation.json */,
+				13A0AF50212349BA00C6916B /* addToCalendar.json */,
+				13A0AF51212349BA00C6916B /* eventsPin.json */,
+				13A0AF4F212349BA00C6916B /* gotMail.json */,
+				13A0AF52212349BA00C6916B /* phone_newsfeed.json */,
+				13A0AF58212390B100C6916B /* plusSign.json */,
 				13A8D3D821143C2100C0C183 /* Map */,
 				13A8D3C321143C1400C0C183 /* Vote */,
 			);
@@ -687,18 +702,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13A0AF54212349BA00C6916B /* addToCalendar.json in Resources */,
+				13A0AF56212349BA00C6916B /* phone_newsfeed.json in Resources */,
 				13A8D3CB21143C1400C0C183 /* demo.html in Resources */,
 				13A8D3C921143C1400C0C183 /* data.json in Resources */,
 				13A8D3BE21143BEF00C0C183 /* resources.json in Resources */,
 				22BF9CF52120C77100D5D666 /* SMSSpamCollection.txt in Resources */,
 				13A8D3C121143BFD00C0C183 /* search.json in Resources */,
+				13A0AF59212390B200C6916B /* plusSign.json in Resources */,
 				13118E8D211B6947004E271C /* accountCreation.json in Resources */,
 				13A8D3C221143BFD00C0C183 /* circleFlag.json in Resources */,
 				13A8D3AD2113E69500C0C183 /* newsfeed_refresh.json in Resources */,
 				22F9EBF920FEAEAA002ADD9D /* LaunchScreen.storyboard in Resources */,
 				13A8D3AB2113E69000C0C183 /* newsfeed_refresh5.json in Resources */,
 				13A8D3AF2113E69B00C0C183 /* events_refresh.json in Resources */,
+				13A0AF53212349BA00C6916B /* gotMail.json in Resources */,
 				13A8D3BC21143BE300C0C183 /* phoneVote.json in Resources */,
+				13A0AF55212349BA00C6916B /* eventsPin.json in Resources */,
 				13A8D3CA21143C1400C0C183 /* data.xml in Resources */,
 				13A8D3C821143C1400C0C183 /* bodymovin.js in Resources */,
 				22BF9CF32120C76700D5D666 /* words_ordered.txt in Resources */,

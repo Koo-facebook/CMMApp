@@ -17,6 +17,8 @@
 #import "CMMVenue.h"
 #import <Lottie/Lottie.h>
 #import <CMMKit/EventDetailsView.h>
+#import <CMMKit/CMMPopUp.h>
+
 
 @interface CMMEventsVC () 
 
@@ -32,6 +34,7 @@
 @property (strong, nonatomic) NSMutableArray *venueList;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) CMMEvent *chosenEvent;
+@property (strong, nonatomic) EventDetailsView *eventDetailsHolder;
 
 
 //Pull to Refresh Animation Stuff
@@ -321,6 +324,7 @@
     CGRect frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
     EventDetailsView *modalView = [[EventDetailsView alloc]initWithFrame:frame];
     modalView.delegate = self;
+    self.eventDetailsHolder = modalView;
     
     //Format date to appear as "July 21, 2018" and set
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -348,6 +352,7 @@
     [modalView.addToCalendarButton addTarget:self action:@selector(createCalendarEvent) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:modalView];
+    
 }
 
 
@@ -383,9 +388,33 @@
         NSError *err = nil;
         [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
     }];
-    //[self presentModalStatusView];
-    NSLog(@"Add to Calendar Button Pressed");
-    [self createAlert:@"Event Added" message:@"Event successfully added to calendar"];
+    [self.eventDetailsHolder removeFromSuperview];
+    [self presentCalendarView];
+}
+
+-(void)presentCalendarView {
+    CGRect frame = CGRectMake(self.view.frame.size.width/5.5,self.view.frame.size.height/3,self.view.frame.size.width/1.5, self.view.frame.size.height/3);
+    CMMPopUp *calendarAlert = [[CMMPopUp alloc]initWithFrame:frame];
+    calendarAlert.headlineLabel.text = @"Added Event";
+    calendarAlert.subheadLabel.text = @"Event successfully added to calendar.";
+    
+    
+    self.lottieAnimation = [LOTAnimationView animationNamed:@"addToCalendar"];
+    self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    self.lottieAnimation.loopAnimation = NO;
+
+    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
+    CGRect lottieRect = CGRectMake(0, 0, (calendarAlert.animationView.bounds.size.width), (calendarAlert.animationView.bounds.size.height));
+    self.lottieAnimation.frame = lottieRect;
+
+    [calendarAlert.animationView addSubview:self.lottieAnimation];
+    [self.lottieAnimation playWithCompletion:^(BOOL animationFinished) {
+        if(animationFinished) {
+        [calendarAlert removeFromSuperview];
+        }
+    }];
+    [self.view addSubview:calendarAlert];
+
 }
 
 @end

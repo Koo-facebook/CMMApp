@@ -39,8 +39,10 @@
 
     self.contentView.center = self.center;
     self.contentView.autoresizingMask = UIViewAutoresizingNone;
-    //CGRect frame = CGRectMake(self.frame.size.width/4, self.frame.size.height/4, 230, 230);
+
     self.contentView.frame = self.bounds;
+    
+    self.animationView.backgroundColor = [UIColor whiteColor];
     
     self.headlineLabel.text = @"";
     self.subheadLabel.text = @"";
@@ -55,9 +57,6 @@
     self.contentView.layer.cornerRadius = 15;
 }
 
--(void)setImage:(UIImage *)image {
-    self.statusImage.image = image;
-}
 
 -(void) didMoveToSuperview {
     //Fade in when added to SuperView
@@ -69,10 +68,10 @@
 
 -(void) removeSelf {
     // Animate removal of view
-    [UIView animateWithDuration:2 animations:^{
-        self.contentView.transform = CGAffineTransformMakeScale(0.25, 0.25);
-        self.contentView.alpha = 0;}
-     ];
+//    [UIView animateWithDuration:2 animations:^{
+//        self.contentView.transform = CGAffineTransformMakeScale(0.25, 0.25);
+//        self.contentView.alpha = 0;}
+//     ];
     [self removeFromSuperview];
     
 }

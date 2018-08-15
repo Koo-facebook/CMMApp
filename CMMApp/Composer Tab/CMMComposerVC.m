@@ -13,8 +13,11 @@
 #import "CMMStyles.h"
 #import <CoreML/CoreML.h>
 #import "MessageClassifier.h"
+#import <CMMKit/CMMPopUp.h>
+#import <Lottie/Lottie.h>
 
 @interface CMMComposerVC () <CCDropDownMenuDelegate, UITextViewDelegate>
+
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UITextField *questionTextField;
 @property (strong, nonatomic) UITextView *descriptionTextView;
@@ -22,6 +25,8 @@
 @property (strong, nonatomic) NSString *categoryString;
 @property (strong, nonatomic) NSArray *categoryOptions;
 @property (strong, nonatomic) UILabel *placeholderLabel;
+@property (nonatomic, strong) LOTAnimationView *lottieAnimation;
+
 @end
 
 @implementation CMMComposerVC
@@ -145,6 +150,30 @@
             }
         }];
     }
+}
+
+-(void)presentPostView {
+    CGRect frame = CGRectMake(self.view.frame.size.width/5.5,self.view.frame.size.height/3,self.view.frame.size.width/1.5, self.view.frame.size.height/3);
+    CMMPopUp *postAlert = [[CMMPopUp alloc]initWithFrame:frame];
+    postAlert.headlineLabel.text = @"Post";
+    postAlert.subheadLabel.text = @"Post successfully sent";
+    
+    [self.view addSubview:postAlert];
+    
+    self.lottieAnimation = [LOTAnimationView animationNamed:@"plusSign"];
+    self.lottieAnimation.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    self.lottieAnimation.loopAnimation = NO;
+    
+    self.lottieAnimation.contentMode = UIViewContentModeScaleAspectFit;
+    CGRect lottieRect = CGRectMake(0, 0, (postAlert.animationView.bounds.size.width), (postAlert.animationView.bounds.size.height));
+    self.lottieAnimation.frame = lottieRect;
+    
+    [postAlert.animationView addSubview:self.lottieAnimation];
+    [self.lottieAnimation playWithCompletion:^(BOOL animationFinished) {
+        if(animationFinished) {
+            [postAlert removeFromSuperview];
+        }
+    }];
 }
 
 - (void)dropDownMenu:(CCDropDownMenu *)dropDownMenu didSelectRowAtIndex:(NSInteger)index {
