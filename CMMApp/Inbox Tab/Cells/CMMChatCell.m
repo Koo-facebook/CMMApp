@@ -18,6 +18,8 @@
 
 - (void)showMessage {
 
+    self.contentView.backgroundColor = [UIColor whiteColor];
+
     if ([self.message.messageSender.objectId isEqualToString:CMMUser.currentUser.objectId]) {
         self.isOutgoing = YES;
     } else {

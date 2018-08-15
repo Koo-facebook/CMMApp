@@ -41,6 +41,12 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [CMMStyles new].globalTan;
+    
+    self.navigationController.navigationBar.tintColor = [CMMStyles new].globalNavy;
+    self.navigationController.navigationBar.barTintColor = [CMMStyles new].globalTan;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
 
     [self.collectionView registerClass:[ProfileCell class] forCellWithReuseIdentifier:@"Cell"];
     [self.collectionView registerClass:[AboutViewCell class] forCellWithReuseIdentifier:@"aboutCell"];

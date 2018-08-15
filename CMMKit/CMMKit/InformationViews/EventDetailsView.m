@@ -38,6 +38,9 @@
     
    // self.blurredView.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:0.3];
     
+    self.detailsView.layer.borderColor = [[UIColor colorWithRed:46/255.0 green:64/255.0 blue:87/255.0 alpha:1.0] CGColor];
+    self.detailsView.layer.borderWidth = 0.5;
+    self.detailsView.backgroundColor = [UIColor colorWithRed:239.0/255.0 green:235/255.0 blue:233/255.0 alpha:1.0];
     self.detailsView.center = self.center;
     self.detailsView.autoresizingMask = UIViewAutoresizingNone;
 // CGRect frame = CGRectMake(self.frame.size.width/4, self.frame.size.height/4, 230, 230);
@@ -51,12 +54,18 @@
     
     self.titleLabel.text = @"";
     self.titleLabel.numberOfLines = 0;
+    self.titleLabel.textColor = [UIColor colorWithRed:46/255.0 green:64/255.0 blue:87/255.0 alpha:1.0];
     self.locationLabel.text = @"";
+    self.locationLabel.textColor = [UIColor colorWithRed:46/255.0 green:64/255.0 blue:87/255.0 alpha:1.0];
     self.dateLabel.text = @"";
+    self.dateLabel.textColor = [UIColor colorWithRed:46/255.0 green:64/255.0 blue:87/255.0 alpha:1.0];
     self.timeLabel.text = @"";
+    self.timeLabel.textColor = [UIColor colorWithRed:46/255.0 green:64/255.0 blue:87/255.0 alpha:1.0];
     self.detailsLabel.text = @"";
     self.detailsLabel.numberOfLines = 0;
+    self.detailsLabel.textColor = [UIColor colorWithRed:46/255.0 green:64/255.0 blue:87/255.0 alpha:1.0];
     self.addToCalendarButton.titleLabel.text = @"Add to Calendar";
+    [self.addToCalendarButton setTitleColor:[UIColor colorWithRed:114/255.0 green:17/255.0 blue:33/255.0 alpha:1.0] forState:UIControlStateNormal];
     
     //[self addSubview:self.blurredView];
     //[self addSubview:self.blurredView];

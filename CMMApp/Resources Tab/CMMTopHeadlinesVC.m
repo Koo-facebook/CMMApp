@@ -9,6 +9,7 @@
 #import "CMMTopHeadlinesVC.h"
 #import "ArticleCell.h"
 #import "CMMWebVC.h"
+#import "CMMStyles.h"
 
 @interface CMMTopHeadlinesVC ()
 
@@ -27,7 +28,11 @@
     
     self.articleList = [[NSArray alloc]init];
     //Navigation Bar Set-up
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [CMMStyles new].globalNavy;
+    
+    self.navigationController.navigationBar.tintColor = [CMMStyles new].globalNavy;
+    self.navigationController.navigationBar.barTintColor = [CMMStyles new].globalTan;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     [self.tableView registerClass:[ArticleCell class] forCellReuseIdentifier:@"articleCell"];
     //self.navigationItem.title = @"Events";
@@ -62,11 +67,12 @@
                 self.articleList = articles;
                 [self.tableView reloadData];
             } else {
-                NSMutableDictionary *entities = [CMMLanguageProcessor namedEntityRecognition:topic];
+                NSMutableDictionary *entities = [CMMLanguageProcessor partsOfSpeech:[self unFormatBeforeSearch:topic]];
                 NSString *searchString = @"";
-                for (id key in entities) {
-                    NSString *formattedKey = [key stringByAppendingString:@"%20"];
-                    searchString = [searchString stringByAppendingString:[entities objectForKey:formattedKey]];
+                NSMutableArray *nouns = entities[@"Noun"];
+                for (NSString *noun in nouns) {
+                    NSString *formattedKey = [noun stringByAppendingString:@"%20"];
+                    searchString = [searchString stringByAppendingString:formattedKey];
                 }
                 if (![searchString isEqualToString:@""]) {
                     [[CMMResourcesAPIManager shared] getNewsArticlesWithTopic:searchString fromDate:date withCompletion:^(NSArray *articles, NSError *error) {
@@ -91,7 +97,7 @@
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    self.tableView.rowHeight = 125;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     [self.view addSubview:self.tableView];
 }
@@ -162,6 +168,11 @@
     NSLog(@"CATEGORY FOR SEARCH: %@", finalCategory);
     
     return finalCategory;
+}
+
+- (NSString *)unFormatBeforeSearch: (NSString *)formattedTopic {
+    NSString *categoryWithSpaces = [[formattedTopic stringByReplacingOccurrencesOfString:@"%20" withString:@" "] stringByReplacingOccurrencesOfString:@"%27" withString:@" ' "];
+    return categoryWithSpaces;
 }
 
 @end

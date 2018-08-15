@@ -8,6 +8,7 @@
 
 #import "ArticleCell.h"
 #import "Masonry.h"
+#import "CMMStyles.h"
 
 @interface ArticleCell ()
 
@@ -24,7 +25,7 @@
 
 - (void)configureArticleCell:(CMMArticle*)article {
     
-    self.contentView.backgroundColor = [UIColor whiteColor];
+    self.contentView.backgroundColor = [CMMStyles new].globalNavy;
     
     self.cellInfoView = [[UIView alloc]init];//WithFrame:CGRectMake(10, 10, (self.contentView.frame.size.width), 110)];
     [self.contentView addSubview:self.cellInfoView];
@@ -38,7 +39,8 @@
     self.articleName = [[UILabel alloc]init];
     self.articleName.text = self.article.title;
     self.articleName.numberOfLines = 0;
-    self.articleName.textColor = [UIColor whiteColor];
+    self.articleName.textColor = [CMMStyles new].globalNavy;
+    self.articleName.textAlignment = NSTextAlignmentCenter;
     [self.cellInfoView addSubview:self.articleName];
     
     self.articleImage = [[UIImageView alloc]init];
@@ -61,20 +63,20 @@
     
     [self.articleImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.cellInfoView.mas_top);
-        make.bottom.equalTo(self.cellInfoView.mas_bottom);
         make.left.equalTo(self.cellInfoView.mas_left);
-        make.width.equalTo(@(150));
+        make.right.equalTo(self.cellInfoView.mas_right);
+        make.height.equalTo(@300);
     }];
     
     UIEdgeInsets titlePadding = UIEdgeInsetsMake(12, 5, 12, 5);
     [self.articleName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.cellInfoView.mas_top).offset(titlePadding.top);
-        make.left.equalTo(self.articleImage.mas_right).offset(titlePadding.left);
+        make.top.equalTo(self.articleImage.mas_bottom).offset(titlePadding.top);
+        make.left.equalTo(self.cellInfoView.mas_left).offset(titlePadding.left);
         make.right.equalTo(self.cellInfoView.mas_right).offset(-titlePadding.right);
         make.bottom.equalTo(self.cellInfoView.mas_bottom).with.offset(-titlePadding.bottom);
     }];
     
-    self.cellInfoView.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
+    self.cellInfoView.backgroundColor = [CMMStyles new].globalTan;
     self.cellInfoView.layer.cornerRadius = 10;
     self.cellInfoView.clipsToBounds = YES;
     

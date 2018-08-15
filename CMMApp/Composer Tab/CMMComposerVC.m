@@ -34,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureViews];
+    self.view.backgroundColor = [CMMStyles new].globalNavy;
     self.descriptionTextView.delegate = self;
 }
 

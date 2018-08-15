@@ -20,8 +20,8 @@
     
     //self.tabBar.barTintColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
     CMMBounceAnimation *bounceAnimation = [[CMMBounceAnimation alloc] init];
-    bounceAnimation.textSelectedColor = [UIColor blueColor];
-    bounceAnimation.iconSelectedColor = [UIColor blueColor];
+    bounceAnimation.textSelectedColor = [CMMStyles new].globalBurgundy;
+    bounceAnimation.iconSelectedColor = [CMMStyles new].globalBurgundy;
     
     CMMAnimatedBarItem *firstTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"icon_home"] selectedImage:nil];
     firstTabBarItem.animation = bounceAnimation;
@@ -45,8 +45,8 @@
 
     // Second ViewController
     CMMBounceAnimation *bounceAnimation_two = [[CMMBounceAnimation alloc] init];
-    bounceAnimation_two.textSelectedColor = [UIColor blueColor];
-    bounceAnimation_two.iconSelectedColor = [UIColor blueColor];
+    bounceAnimation_two.textSelectedColor = [CMMStyles new].globalBurgundy;
+    bounceAnimation_two.iconSelectedColor = [CMMStyles new].globalBurgundy;
     
     CMMAnimatedBarItem *secondTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Event" image:[UIImage imageNamed:@"icon_pinmap"] selectedImage:nil];
     secondTabBarItem.animation = bounceAnimation_two;
@@ -62,8 +62,8 @@
     
     //Third View Controller
     CMMBounceAnimation *bounceAnimation_three = [[CMMBounceAnimation alloc] init];
-    bounceAnimation_three.textSelectedColor = [UIColor blueColor];
-    bounceAnimation_three.iconSelectedColor = [UIColor blueColor];
+    bounceAnimation_three.textSelectedColor = [CMMStyles new].globalBurgundy;
+    bounceAnimation_three.iconSelectedColor = [CMMStyles new].globalBurgundy;
     
     CMMAnimatedBarItem *thirdTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Post" image:[UIImage imageNamed:@"icon_post"] selectedImage:nil];
     thirdTabBarItem.animation = bounceAnimation_three;
@@ -78,8 +78,8 @@
     
     // Fourth ViewController
     RotationAnimation *rotationAnimation = [[RotationAnimation alloc] init];
-    rotationAnimation.textSelectedColor = [UIColor blueColor];
-    rotationAnimation.iconSelectedColor = [UIColor blueColor];
+    rotationAnimation.textSelectedColor = [CMMStyles new].globalBurgundy;
+    rotationAnimation.iconSelectedColor = [CMMStyles new].globalBurgundy;
     
     CMMAnimatedBarItem *fourthTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Inbox" image:[UIImage imageNamed:@"icon_user"] selectedImage:nil];
     fourthTabBarItem.animation = rotationAnimation;
@@ -96,8 +96,8 @@
     
     //Fifth View Controller
     CMMBounceAnimation *bounceAnimation_four = [[CMMBounceAnimation alloc] init];
-    bounceAnimation_four.textSelectedColor = [UIColor blueColor];
-    bounceAnimation_four.iconSelectedColor = [UIColor blueColor];
+    bounceAnimation_four.textSelectedColor = [CMMStyles new].globalBurgundy;
+    bounceAnimation_four.iconSelectedColor = [CMMStyles new].globalBurgundy;
     
     CMMAnimatedBarItem *fifthTabBarItem = [[CMMAnimatedBarItem alloc] initWithTitle:@"Resources" image:[UIImage imageNamed:@"icon_book"] selectedImage:nil];
     fifthTabBarItem.animation = bounceAnimation_four;
