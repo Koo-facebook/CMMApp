@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [CMMStyles new].globalTan;
     // Do any additional setup after loading the view.
 }
 
@@ -33,7 +34,6 @@
 }
 
 - (void)configureDetails:(CMMPost *)post {
-    self.view.backgroundColor = [UIColor whiteColor];
     self.post = post;
     self.title = @"Post Details";
     
@@ -56,14 +56,15 @@
     
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.numberOfLines = 0;
+    self.titleLabel.textColor = [CMMStyles new].globalNavy;
     [self configureLabel:self.titleLabel text:self.post.topic fontSize:16];
     
     self.dateLabel = [[UILabel alloc] init];
-    self.dateLabel.textColor = [CMMStyles getTealColor];
+    self.dateLabel.textColor = [CMMStyles new].globalNavy;
     [self configureLabel:self.dateLabel text:[self.post.createdAt timeAgoSinceNow] fontSize:14];
     
     self.categoryLabel = [[UILabel alloc] init];
-    self.categoryLabel.textColor = [CMMStyles getTealColor];
+    self.categoryLabel.textColor = [CMMStyles new].globalNavy;
     [self configureLabel:self.categoryLabel text:self.post.category fontSize:14];
     
     self.detailLabel = [[UILabel alloc] init];
@@ -71,7 +72,7 @@
     [self configureLabel:self.detailLabel text:self.post.detailedDescription fontSize:16];
     
     self.authorLabel = [[UILabel alloc] init];
-    self.authorLabel.textColor = [CMMStyles getTealColor];
+    self.authorLabel.textColor = [CMMStyles new].globalNavy;
     [self configureLabel:self.authorLabel text:self.post.owner.username fontSize:14];
     
     self.reportLabel = [[UILabel alloc] init];

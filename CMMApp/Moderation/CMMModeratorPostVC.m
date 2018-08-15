@@ -95,14 +95,14 @@
 - (void)createButtons {
     
     self.moderatorView = [[UIView alloc] init];
-    self.moderatorView.backgroundColor = [CMMStyles getTealColor];
+    self.moderatorView.backgroundColor = [CMMStyles new].globalNavy;
     [self.view addSubview:self.moderatorView];
     UITapGestureRecognizer *modTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapMenu)];
     [self.moderatorView addGestureRecognizer:modTapRecognizer];
     
     self.moderatorLabel = [[UILabel alloc] init];
     self.moderatorLabel.text = @"Does this chat violate our community guidelines?";
-    self.moderatorLabel.textColor = [UIColor whiteColor];
+    self.moderatorLabel.textColor = [CMMStyles new].globalTan;
     self.moderatorLabel.numberOfLines = 0;
     [self.view addSubview:self.moderatorLabel];
     
@@ -132,7 +132,7 @@
     self.submitButton = [[UIButton alloc] init];
     [self.submitButton addTarget:self action:@selector(submitReport) forControlEvents:UIControlEventTouchUpInside];
     [self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];
-    [self.submitButton setBackgroundColor:[UIColor grayColor]];
+    [self.submitButton setBackgroundColor:[UIColor colorWithRed:167/255.0 green:173/255.0 blue:186/255.0 alpha:1.0]];
     [self.submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:self.submitButton];
     
