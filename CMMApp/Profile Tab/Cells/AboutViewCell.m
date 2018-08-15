@@ -20,10 +20,12 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+
         self.titleLabel = [UILabel new];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.numberOfLines = 0;
         self.titleLabel.font = [UIFont fontWithName:@"Arial" size:20];
+        self.titleLabel.textColor = [UIColor whiteColor];
         [self addSubview:self.titleLabel];
         
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -63,7 +65,7 @@
 
 - (void)setTextColor:(UIColor *)textColor
 {
-    _textColor = textColor;
-    self.titleLabel.textColor = textColor;
+    _textColor = [UIColor whiteColor];
+    self.titleLabel.textColor = [UIColor whiteColor];
 }
 @end

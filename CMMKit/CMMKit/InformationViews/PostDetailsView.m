@@ -41,6 +41,7 @@
     self.detailsView.layer.borderWidth = 0.5;
     self.detailsView.center = self.center;
     self.detailsView.autoresizingMask = UIViewAutoresizingNone;
+    self.detailsView.backgroundColor = [UIColor colorWithRed:(CGFloat)(239.0/255.0) green:(CGFloat)(235.0/255.0) blue:(CGFloat)(233.0/255.0) alpha:1];
     //CGRect frame = CGRectMake(self.frame.size.width/4, self.frame.size.height/4, 230, 230);
     
     self.detailsView.layer.masksToBounds = YES;
@@ -48,8 +49,8 @@
     self.detailsView.layer.cornerRadius = 15;
     
     self.titleLabel.text = @"";
-    self.titleLabel.numberOfLines = 2;
     self.titleLabel.textColor = [UIColor colorWithRed:46/255.0 green:64/255.0 blue:87/255.0 alpha:1.0];
+    self.titleLabel.numberOfLines = 3;
     self.categoryLabel.text = @"";
     self.categoryLabel.textColor = [UIColor colorWithRed:46/255.0 green:64/255.0 blue:87/255.0 alpha:1.0];
     self.postedByLabel.text = @"";
@@ -83,6 +84,7 @@
 
 -(void)setPostWithTitle:(NSString*)title category:(NSString *)category user:(NSString *)user time:(NSString *)time description:(NSString *)description showingChatButton: (BOOL) chatButtonView {
     self.titleLabel.text = title;
+    self.titleLabel.textColor = [UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1];
     self.usernameLabel.text = user;
     self.categoryLabel.text = category;
     self.postedByLabel.text = ((void)("Posted By: %@"), user);

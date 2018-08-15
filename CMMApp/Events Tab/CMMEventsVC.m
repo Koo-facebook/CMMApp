@@ -19,6 +19,7 @@
 #import <CMMKit/EventDetailsView.h>
 #import <CMMKit/CMMPopUp.h>
 #import "CMMStyles.h"
+#import "MyCustomPointAnnotation.h"
 
 
 @interface CMMEventsVC () 
@@ -106,15 +107,30 @@
 
 //Adding Pins
 -(void) addingPins: (CLLocationCoordinate2D)location withSubTitle: (NSString *)title{
-    MKPointAnnotation *annotation = [MKPointAnnotation new];
+    MyCustomPointAnnotation* point = [[MyCustomPointAnnotation alloc] init];
     //CLLocationCoordinate2D venueLocation = CLLocationCoordinate2DMake(37.783333, -122.416667);
-    annotation.coordinate = location;
+    point.coordinate = location;
     //annotation.title = @"Event";
-    annotation.subtitle = title;
+    point.subtitle = title;
+    //annotation
     
-    [self.mapView addAnnotation:annotation];
+    [self.mapView addAnnotation:point];
 }
 
+//- (MKAnnotationView*)mapView:(MKMapView *)mapView
+//           viewForAnnotation:(id<MKAnnotation>)annotation
+//{
+//    // Don't do anything if it's the user's location point
+//    if([annotation isKindOfClass:[MKUserLocation class]]) return nil;
+//
+//    // Fetch all necessary data from the point object
+//    float price = ((MyCustomPointAnnotation*)annotation).price;
+//
+//    MyCustomPinAnnotationView* pin =
+//    [[MyCustomPinAnnotationView alloc]initWithAnnotation:annotation
+//                                                   price:price];
+//    return pin;
+//}
 
 //Delegate function of mapView that will center map on user location
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {

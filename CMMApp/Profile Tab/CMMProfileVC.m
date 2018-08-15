@@ -21,6 +21,7 @@
 #import "ProfileCell.h"
 #import "InterestsViewCell.h"
 #import "AboutViewCell.h"
+#import "CMMStyles.h"
 
 static NSUInteger const kCMDefaultSelected = 0;
 
@@ -53,8 +54,10 @@ static NSUInteger const kCMDefaultSelected = 0;
     [self.collectionView registerClass:[InterestsViewCell class] forCellWithReuseIdentifier:@"secondCell"];
     
     self.profileFeed = [[NSArray alloc]init];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithRed:(CGFloat)(239.0/255.0) green:(CGFloat)(235.0/255.0) blue:(CGFloat)(233.0/255.0) alpha:1];
+    
     self.navigationItem.title = @"Profile";
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1];
     
     if (!self.user) {
         self.user = PFUser.currentUser;
@@ -97,10 +100,10 @@ static NSUInteger const kCMDefaultSelected = 0;
         _tabbarView = [[CMTabbarView alloc] initWithFrame:CGRectMake(0, 0, (self.view.bounds.size.width), 40)];
         _tabbarView.delegate = self;
         _tabbarView.dataSource = self;
-        _tabbarView.backgroundColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
+        _tabbarView.backgroundColor = [UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1];
         _tabbarView.defaultSelectedIndex = kCMDefaultSelected;
         _tabbarView.indicatorScrollType = CMTabbarIndicatorScrollTypeSpring;
-        _tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1],CMTabIndicatorViewHeight:@(5.0f),CMTabBoxBackgroundColor:[UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1]};
+        _tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[UIColor colorWithRed:(CGFloat)(224.0/255.0) green:(CGFloat)(82.0/255.0) blue:(CGFloat)(99.0/255.0) alpha:1],CMTabIndicatorViewHeight:@(5.0f),CMTabBoxBackgroundColor:[UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1]};
         //_tabbarView.normalAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
         //_tabbarView.selectedAttributes = @{NSForegroundColorAttributeName:[UIColor orangeColor]};
         //_tabbarView.needTextGradient = false;
@@ -140,7 +143,7 @@ static NSUInteger const kCMDefaultSelected = 0;
         _collectionView.showsHorizontalScrollIndicator = YES;
         _collectionView.pagingEnabled = NO;
         _collectionView.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
-        _collectionView.backgroundColor = [UIColor lightGrayColor];
+        _collectionView.backgroundColor = [UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1];
     }
     return _collectionView;
 }
@@ -161,7 +164,7 @@ static NSUInteger const kCMDefaultSelected = 0;
     else if (indexPath.item == 1) {
         ProfileCell *profileCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
         [profileCell configureProfileCell:self.user];
-        profileCell.backgroundColor = [UIColor purpleColor];
+        //profileCell.backgroundColor = [UIColor purpleColor];
         //cell.interests = PFUser.currentUser[@"interests"];
         return profileCell;
     }
@@ -263,7 +266,7 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (void)createEditProfileButton {
     self.editProfileButton = [[UIButton alloc] init];
     [self.editProfileButton setTitle:@"Edit Profile" forState:UIControlStateNormal];
-    [self.editProfileButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.editProfileButton setTitleColor:[UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1] forState:UIControlStateNormal];
     self.editProfileButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.editProfileButton addTarget:self action:@selector(editButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.editProfileButton];
@@ -282,6 +285,7 @@ static NSUInteger const kCMDefaultSelected = 0;
 // Create Logout Button
 - (void)createLogoutButton {
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logoutButtonTapped)];
+    logoutButton.tintColor = [UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1];
     self.navigationItem.rightBarButtonItem = logoutButton;
 }
 

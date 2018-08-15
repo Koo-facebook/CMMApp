@@ -54,6 +54,7 @@
     [self createBioTextView];
     [self createNameTextField];
     [self createVotingLabel];
+    [self createVoterSwitch];
     [self createProfileImageContainer];
     [self createInterestLabel];
     [self createTableViewOne];
@@ -162,7 +163,7 @@
 -(void)createCancelButton {
     self.cancelButton = [[UIButton alloc]init];
     [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [self.cancelButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.cancelButton setTitleColor:[UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1] forState:UIControlStateNormal];
     self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.cancelButton addTarget:self action:@selector(exitRegisterVC) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.cancelButton];
@@ -171,7 +172,7 @@
 -(void)createSubmitButton {
     self.submitButton = [[UIButton alloc]init];
     [self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];
-    [self.submitButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.submitButton setTitleColor:[UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1] forState:UIControlStateNormal];
     self.submitButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [self.submitButton addTarget:self action:@selector(finishedEditing) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.submitButton];
@@ -180,6 +181,7 @@
 -(void)createProfileImageContainer {
     self.profileImage = [[UIImageView alloc]init];
     self.profileImage.backgroundColor = [UIColor blackColor];
+    self.profileImage.image = [UIImage imageNamed:@"placeholderProfileImage"];
     self.profileImage.userInteractionEnabled = YES;
     self.profileImage.frame = CGRectMake(self.profileImage.frame.origin.x,self.profileImage.frame.origin.y, 150, 150);
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/1.5;
@@ -194,7 +196,9 @@
 -(void)createNameTextField {
     self.displayedName = [[UITextField alloc]init];
     self.displayedName.placeholder = @"Name";
-    self.displayedName.backgroundColor = [UIColor grayColor];
+    //self.displayedName.borderStyle = UITextBorderStyleRoundedRect;
+    //[self.displayedName setTintColor:[UIColor colorWithRed:(CGFloat)(46.0/255.0) green:(CGFloat)(64.0/255.0) blue:(CGFloat)(87.0/255.0) alpha:1]];
+    //self.displayedName.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.displayedName];
 }
 
@@ -203,10 +207,7 @@
 
     self.profileBio.delegate = self;
     self.profileBio.text = @"Enter Bio..";
-    self.profileBio.backgroundColor = [UIColor grayColor];
-
-    
-    //self.profileBio.backgroundColor = [UIColor grayColor];
+    //self.profileBio.backgroundColor = [UIColor lightGrayColor];
 
     self.profileBio.font = [UIFont fontWithName:@"Arial" size:14];
     [self.view addSubview:self.profileBio];
@@ -242,7 +243,7 @@
     CGRect placeholderFrame = CGRectMake(5, 70, self.view.frame.size.width - 10, 40);
     self.placeholderLabel = [[UILabel alloc] initWithFrame:placeholderFrame];
     self.placeholderLabel.text = @"  Tell us why!";
-    self.placeholderLabel.textColor = [UIColor grayColor];
+    self.placeholderLabel.textColor = [UIColor lightGrayColor];
     self.placeholderLabel.font = [UIFont fontWithName:@"Montserrat-Regular.ttf" size:14.0];
     [self.profileBio addSubview:self.placeholderLabel];
 }
