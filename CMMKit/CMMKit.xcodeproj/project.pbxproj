@@ -211,8 +211,8 @@
 				13FEA31221123FD800E8D70D /* EventDetailsView.m */,
 				13FEA31521123FFC00E8D70D /* EventDetailsView.xib */,
 				13FEA31721125D5400E8D70D /* PostDetailsView.h */,
-				13118EF921221254004E271C /* PostDetailsView.xib */,
 				13FEA31821125D5400E8D70D /* PostDetailsView.m */,
+				13118EF921221254004E271C /* PostDetailsView.xib */,
 			);
 			path = InformationViews;
 			sourceTree = "<group>";

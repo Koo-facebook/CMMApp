@@ -8,6 +8,7 @@
 
 #import "TopicsCollectionCell.h"
 #import "Masonry.h"
+#import "CMMStyles.h"
 
 @interface TopicsCollectionCell ()
 
@@ -26,16 +27,15 @@
 
 - (void)configureCollectionCell: (NSString *)category {
     //self.backgroundColor = [UIColor purpleColor];
-
-    self.cellInfoView = [[UIView alloc]init];//WithFrame:CGRectMake(10, 10, (self.contentView.frame.size.width), 110)];
-    //self.cellInfoView.backgroundColor = [UIColor purpleColor];
+    
+    self.cellInfoView = [[UIView alloc]init];
     [self.contentView addSubview:self.cellInfoView];
 
     //Set category name
     self.category = [[UILabel alloc]init];
     self.category.text = category;
     self.category.numberOfLines = 1;
-    self.category.textColor = [UIColor whiteColor];
+    self.category.textColor = [CMMStyles new].globalNavy;
     [self.cellInfoView addSubview:self.category];
 
     //Set icon image
@@ -71,7 +71,7 @@
         //make.height.equalTo(@(self.cellInfoView.intrinsicContentSize.height));
     }];
 
-    self.cellInfoView.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
+    self.cellInfoView.backgroundColor = [CMMStyles new].globalTan;
     self.cellInfoView.layer.cornerRadius = 10;
     self.cellInfoView.clipsToBounds = YES;
 

@@ -48,26 +48,30 @@ static NSUInteger const kCMDefaultSelected = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureView];
+    
+    self.view.backgroundColor = [CMMStyles new].globalTan;
+    self.navigationController.navigationBar.tintColor = [CMMStyles new].globalNavy;
+    self.navigationController.navigationBar.barTintColor = [CMMStyles new].globalTan;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
     [self.view addSubview:self.tabbarView];
     
-    NSMutableArray *tempCategoryHolder = [[NSMutableArray alloc]initWithObjects:@"Trending",@"Recent", nil];
+    NSMutableArray *tempCategoryHolder = [[NSMutableArray alloc]initWithObjects:@"Suggested",@"Trending", nil];
     NSArray *temp = [CMMStyles getCategories];
     [tempCategoryHolder addObjectsFromArray:temp];
     self.categories = tempCategoryHolder;
     
-    [self reloadNewsfeedWithCategories:self.categories Trending:YES];
+    [self reloadNewsfeedWithCategories:self.categories Trending:NO];
     [self.view insertSubview:self.table belowSubview:self.tabbarView];
     //[self.view addSubview:self.tabbarView];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.datas = self.categories;
-        [self.tabbarView reloadData];
-        //self.table.contentOffset = CGPointMake(self.view.bounds.size.width*kCMDefaultSelected, 0);
-    });
+    self.datas = self.categories;
+    [self.tabbarView reloadData];
     self.user = CMMUser.currentUser;
 }
 
 - (void)createBarButtonItem {
     UIBarButtonItem *viewProfileButton =[[UIBarButtonItem alloc] initWithTitle:@"Moderate" style:UIBarButtonItemStylePlain target:self action:@selector(moderatorMode)];
+    viewProfileButton.tintColor = [CMMStyles new].globalNavy;
     self.navigationItem.rightBarButtonItem = viewProfileButton;
 }
 
@@ -96,16 +100,21 @@ static NSUInteger const kCMDefaultSelected = 0;
     self.table.backgroundColor = [UIColor whiteColor];
     self.table.delegate = self;
     self.table.dataSource = self;
+    self.table.backgroundColor = [CMMStyles new].globalNavy;
     self.queryNumber = 20;
     self.categories = [CMMStyles getCategories];
     
     
     // add search bar to table view
-    CGRect searchFrame = CGRectMake(self.table.frame.origin.x, self.table.frame.origin.y+45, self.view.frame.size.width, 45);
+    CGRect searchFrame = CGRectMake(0, self.table.frame.origin.y+45, self.view.frame.size.width, 45);
     self.searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
+    self.searchBar.barTintColor = [CMMStyles new].globalNavy;
     self.searchBar.hidden = YES;
     self.searchBar.delegate = self;
-    //[self.table addSubview:self.searchBar];
+    UITextField *searchBarTextField = (UITextField *)[self.searchBar valueForKey:@"searchField"];
+    searchBarTextField.backgroundColor = [CMMStyles new].globalTan;
+    searchBarTextField.layer.cornerRadius = 16;
+    searchBarTextField.clipsToBounds = YES;
     self.table.tableHeaderView = self.searchBar;
     [self.view addSubview:self.table];
     
@@ -121,13 +130,14 @@ static NSUInteger const kCMDefaultSelected = 0;
 // Create Profile Button
 - (void)createProfileButton {
     UIBarButtonItem *profileButton = [[UIBarButtonItem alloc] initWithTitle:@"Profile" style:UIBarButtonItemStylePlain target:self action:@selector(profileButtonTapped)];
+    profileButton.tintColor = [CMMStyles new].globalNavy;
     self.navigationItem.leftBarButtonItem = profileButton;
 }
 
 -(void)profileButtonTapped {
     // PFUser.current() will now be nil
     CMMProfileVC *profileVC = [[CMMProfileVC alloc]init];
-    profileVC.user = PFUser.currentUser;
+    profileVC.user = CMMUser.currentUser;
     [[self navigationController] pushViewController:profileVC animated:YES];
 }
 
@@ -346,7 +356,7 @@ static NSUInteger const kCMDefaultSelected = 0;
         }
     }
     self.refreshContainer = [[UIView alloc]init];//WithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.refreshControl.frame.size.width, (self.refreshControl.frame.size.height+(self.table.contentSize.height - self.table.bounds.size.height)))];
-    self.refreshContainer.backgroundColor = [UIColor whiteColor];
+    self.refreshContainer.backgroundColor = [CMMStyles new].globalTan;
     self.refreshControl.tintColor = [UIColor clearColor];
     [self.refreshControl addSubview:self.refreshContainer];
     
@@ -469,14 +479,14 @@ static NSUInteger const kCMDefaultSelected = 0;
 {
     if (!_tabbarView) {
         _tabbarView = [[CMTabbarView alloc] initWithFrame:CGRectMake(0, (self.navigationController.navigationBar.frame.size.height+ UIApplication.sharedApplication.statusBarFrame.size.height), self.view.bounds.size.width, 45)];
-        _tabbarView.backgroundColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
+        _tabbarView.backgroundColor = [CMMStyles new].globalNavy;
         _tabbarView.delegate = self;
         _tabbarView.dataSource = self;
         _tabbarView.defaultSelectedIndex = 0;
         _tabbarView.indicatorScrollType = CMTabbarIndicatorScrollTypeSpring;
-        //_tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[UIColor orangeColor]};
-        //_tabbarView.normalAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]};
-        //_tabbarView.selectedAttributes = @{NSForegroundColorAttributeName:[UIColor orangeColor]};
+        _tabbarView.indicatorAttributes = @{CMTabIndicatorColor:[CMMStyles new].globalCoral,CMTabIndicatorViewHeight:@(4.0f),CMTabBoxBackgroundColor:[CMMStyles new].globalNavy};
+        _tabbarView.normalAttributes = @{NSForegroundColorAttributeName:[CMMStyles new].globalNavy};
+        _tabbarView.selectedAttributes = @{NSForegroundColorAttributeName:[CMMStyles new].globalNavy};
         //_tabbarView.defaultSelectedIndex =
         
     }
@@ -497,7 +507,7 @@ static NSUInteger const kCMDefaultSelected = 0;
         NSLog(@"Category picked:%@", self.categories);
         [self reloadNewsfeedWithCategories:self.categories Trending:YES];
     }
-    else if ([self.datas[index] isEqual:@"Recent"]){
+    else if ([self.datas[index] isEqual:@"Suggested"]){
         self.NLPFilter = YES;
         self.categories = [CMMStyles getCategories];
         NSLog(@"Category picked:%@", self.categories);

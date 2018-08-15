@@ -9,6 +9,7 @@
 #import "NewsfeedCell.h"
 #import <DateTools.h>
 #import "Masonry.h"
+#import "CMMStyles.h"
 
 @interface NewsfeedCell ()
 
@@ -34,7 +35,8 @@
 - (void)configureCell:(CMMPost *)post {
     
     //self.contentView.backgroundColor = [UIColor colorWithRed:(CGFloat)(245.0/255.0) green:(CGFloat)(247.0/255.0) blue:(CGFloat)(248.0/255.0) alpha:1];
-    self.contentView.backgroundColor = [UIColor whiteColor];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.contentView.backgroundColor = [CMMStyles new].globalNavy;;
     
     self.cellInfoView = [[UIView alloc]init];//WithFrame:CGRectMake(10, 10, (self.contentView.frame.size.width), 110)];
     [self.contentView addSubview:self.cellInfoView];
@@ -43,7 +45,7 @@
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.numberOfLines = 0;
-    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.textColor = [CMMStyles new].globalNavy;
     titleLabel.text = post.topic;
     //titleLabel.font = [UIFont fontWithName:@"Prata" size:14];
     [self.cellInfoView addSubview:titleLabel];
@@ -51,7 +53,7 @@
     
     UILabel *dateLabel = [[UILabel alloc] init];
     dateLabel.text = [post.createdAt timeAgoSinceNow];
-    dateLabel.textColor = [UIColor whiteColor];
+    dateLabel.textColor = [CMMStyles new].globalNavy;
     [self.cellInfoView addSubview:dateLabel];
     [dateLabel setFont:[UIFont systemFontOfSize:10]];
     
@@ -64,7 +66,7 @@
     
     UILabel *categoryLabel = [[UILabel alloc]init];
     categoryLabel.text = post.category;
-    categoryLabel.textColor = [UIColor colorWithRed:(CGFloat)(153.0/255.0) green:(CGFloat)(194.0/255.0) blue:(CGFloat)(77.0/255.0) alpha:1];
+    categoryLabel.textColor = [CMMStyles new].globalNavy;
     [self.contentView addSubview:categoryLabel];
     [categoryLabel setFont:[UIFont systemFontOfSize:16]];
     
@@ -108,7 +110,7 @@
         make.right.equalTo(self.cellInfoView.mas_right).with.offset(-datePadding.right);
     }];
     
-    self.cellInfoView.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
+    self.cellInfoView.backgroundColor = [CMMStyles new].globalTan;
     //self.cellInfoView.backgroundColor = [UIColor colorWithRed:(CGFloat)(77.0/255.0) green:(CGFloat)(179.0/255.0) blue:(CGFloat)(179.0/255.0) alpha:1];
     self.cellInfoView.layer.cornerRadius = 10;
     self.cellInfoView.clipsToBounds = YES;

@@ -8,6 +8,7 @@
 
 #import "EventsCell.h"
 #import "Masonry.h"
+#import "CMMStyles.h"
 
 @interface EventsCell ()
 
@@ -23,8 +24,8 @@
 }
 
 - (void)configureEventCell:(CMMEvent*)event {
-    
-    self.contentView.backgroundColor = [UIColor whiteColor];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.contentView.backgroundColor = [CMMStyles new].globalTan;
     
     self.cellInfoView = [[UIView alloc]init];//WithFrame:CGRectMake(10, 10, (self.contentView.frame.size.width), 110)];
     [self.contentView addSubview:self.cellInfoView];
@@ -35,7 +36,7 @@
     self.eventName = [[UILabel alloc]init];
     self.eventName.text = self.event.title;
     self.eventName.numberOfLines = 0;
-    self.eventName.textColor = [UIColor whiteColor];
+    self.eventName.textColor = [CMMStyles new].globalTan;
     [self.cellInfoView addSubview:self.eventName];
     
     
@@ -57,7 +58,7 @@
     
     //Formate time to appear as "4:30 PM - 6:00 PM" and set
     self.time = [[UILabel alloc]init];
-    self.time.textColor = [UIColor whiteColor];
+    self.time.textColor = [CMMStyles new].globalTan;
     NSDateFormatter *timeformatter = [[NSDateFormatter alloc] init];
     [timeformatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
     NSDate *stime = [timeformatter dateFromString:self.event.startTime];
@@ -114,7 +115,7 @@
         //make.height.equalTo(@(self.time.intrinsicContentSize.height));
     }];
     
-    self.cellInfoView.backgroundColor = [UIColor colorWithRed:(CGFloat)(9.0/255.0) green:(CGFloat)(99.0/255.0) blue:(CGFloat)(117.0/255.0) alpha:1];
+    self.cellInfoView.backgroundColor = [CMMStyles new].globalNavy;
     self.cellInfoView.layer.cornerRadius = 10;
     self.cellInfoView.clipsToBounds = YES;
     

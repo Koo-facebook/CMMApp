@@ -9,6 +9,7 @@
 #import "CMMChatVC.h"
 #import <CoreML/CoreML.h>
 #import <UserNotifications/UserNotifications.h>
+#import "CMMStyles.h"
 
 @interface CMMChatVC ()
 
@@ -32,6 +33,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    self.navigationController.navigationBar.prefersLargeTitles = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -42,10 +44,15 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [CMMStyles new].globalTan;
+    self.navigationController.navigationBar.tintColor = [CMMStyles new].globalNavy;
+    self.navigationController.navigationBar.barTintColor = [CMMStyles new].globalTan;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
     // Do any additional setup after loading the view.
     self.isMoreDataLoading = YES;
 
-    self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Chat";
     
     [self createBarButtonItem];
@@ -58,6 +65,10 @@
     [self setupMessagingTextView];
     [self checkPermissions];
     [self updateConstraints];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    self.navigationController.navigationBar.prefersLargeTitles = YES;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -98,6 +109,8 @@
     [self.chatTableView registerClass:[CMMChatCell class] forCellReuseIdentifier:@"chatCell"];
     self.chatTableView.translatesAutoresizingMaskIntoConstraints = false;
     self.chatTableView.allowsSelection = NO;
+    self.chatTableView.backgroundColor = [UIColor whiteColor];
+    [self.chatTableView setShowsVerticalScrollIndicator:NO];
     
     [self.view addSubview:self.chatTableView];
 }
@@ -115,6 +128,7 @@
     
     NSString *text = [@"Topic: " stringByAppendingString:self.conversation.topic];
     [self boldFirstSixLetters: text];
+    self.topicLabel.numberOfLines = 0;
     [self.topicLabel sizeToFit];
     
     [self.view addSubview:self.topicLabel];
@@ -170,6 +184,7 @@
 
 - (void)createBarButtonItem {
     UIBarButtonItem *viewProfileButton =[[UIBarButtonItem alloc] initWithTitle:@"View Profile" style:UIBarButtonItemStylePlain target:self action:@selector(viewProfile:)];
+    viewProfileButton.tintColor = [CMMStyles new].globalNavy;
     self.navigationItem.rightBarButtonItem = viewProfileButton;
 }
 
@@ -194,7 +209,6 @@
         make.top.equalTo(self.usersProfileImage.mas_bottom).offset(5);
         make.left.equalTo(self.usersProfileImage.mas_left);
         make.right.equalTo(self.titleLabel.mas_right);
-        make.height.equalTo(@(self.topicLabel.intrinsicContentSize.height));
     }];
     
     // Chats TableView
@@ -390,7 +404,9 @@
         if ([messageFromSelf.objectId isEqualToString:messageFromQuery.objectId]) {
             return NO;
         } else {
-            [self showLocalNotification:messages.firstObject];
+            if (![messageFromQuery.messageSender.objectId isEqualToString:CMMUser.currentUser.objectId]) {
+                [self showLocalNotification:messageFromQuery];
+            }
             return YES;
         }
     }

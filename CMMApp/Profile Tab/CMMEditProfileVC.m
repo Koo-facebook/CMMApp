@@ -40,6 +40,12 @@
     [self.tableViewOne registerClass:[InterestsCell class] forCellReuseIdentifier:@"interestsCell"];
     [self.tableViewTwo registerClass:[InterestsCell class] forCellReuseIdentifier:@"interestsCell"];
     
+    self.view.backgroundColor = [CMMStyles new].globalTan;
+    
+    self.navigationController.navigationBar.tintColor = [CMMStyles new].globalNavy;
+    self.navigationController.navigationBar.barTintColor = [CMMStyles new].globalTan;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.tableOneCategories = @[@"Social Issues",@"Education",@"Criminal Issues",@"Economics",@"Elections",@"Environment"];

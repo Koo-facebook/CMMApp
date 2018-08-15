@@ -172,7 +172,7 @@ NSString *  const CMTabBoxBackgroundColor = @"CMBoxbackgroundColor";
     if (!_indicatorView) {
         _indicatorView = [UIView new];
         _indicatorView.userInteractionEnabled = false;
-        _indicatorView.backgroundColor = [UIColor colorWithRed:(CGFloat)(224.0/255.0) green:(CGFloat)(82.0/255.0) blue:(CGFloat)(99.0/255.0) alpha:1];
+        _indicatorView.backgroundColor = [UIColor colorWithRed:224/255.0 green:82/255.0 blue:99/255.0 alpha:1.0];//_indicatorAttributes[CMTabIndicatorColor];
         _indicatorView.layer.cornerRadius = 1.0f;
     }
     return _indicatorView;
@@ -191,7 +191,8 @@ NSString *  const CMTabBoxBackgroundColor = @"CMBoxbackgroundColor";
     [self updateCellInterface:cell];
     CMTabbarItem *item = self.tabbarTitles[indexPath.row];
     cell.title = item.tabTitle;
-    cell.textColor = [UIColor whiteColor];//item.isSelected ? self.selectedAttributes[NSForegroundColorAttributeName] : self.normalAttributes[NSForegroundColorAttributeName];
+    cell.textColor = [UIColor colorWithRed:46/255.0 green:64/255.0 blue:87/255.0 alpha:1.0];
+    //item.isSelected ? self.selectedAttributes[NSForegroundColorAttributeName] : self.normalAttributes[NSForegroundColorAttributeName];
     if ((!_haveShowedDefault && indexPath.row == self.defaultSelectedIndex)) {
         self.haveShowedDefault = true;
         [self updateTabWithCurrentCell:cell nextCell:nil progress:1.0f backwards:true];
@@ -635,8 +636,8 @@ NSString *  const CMTabBoxBackgroundColor = @"CMBoxbackgroundColor";
 
 - (void)setTextColor:(UIColor *)textColor
 {
-    _textColor = [UIColor whiteColor];
-    self.titleLabel.textColor = [UIColor whiteColor];
+    _textColor = [UIColor colorWithRed:239.0/255.0 green:235/255.0 blue:233/255.0 alpha:1.0];
+    self.titleLabel.textColor = [UIColor colorWithRed:239.0/255.0 green:235/255.0 blue:233/255.0 alpha:1.0];
 }
 
 @end

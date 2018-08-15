@@ -25,6 +25,9 @@
         [self setupProfileImage];
         [self setupOnlineIndicator];
     }
+    if (self.moderator) {
+        self.usernameLabel.textColor = [CMMStyles new].globalBurgundy;
+    }
     [self updateConstraints];
 }
     
@@ -115,7 +118,7 @@
     if ([self checkIfUserOne]) {
         if ([self userStillInConversation:self.conversation.user2]) {
             self.usernameLabel.text = self.conversation.user2.username;
-            self.usernameLabel.textColor = [UIColor colorWithRed:54.0/255.0 green:173.0/255.0 blue:157.0/255.0 alpha:1.0];
+            self.usernameLabel.textColor = [CMMStyles new].globalNavy;
         } else {
             self.usernameLabel.text = [NSString stringWithFormat:@"%@ has left the conversation", self.conversation.userWhoLeft.username];
             self.usernameLabel.textColor = [UIColor redColor];
@@ -123,7 +126,7 @@
     } else {
         if ([self userStillInConversation:self.conversation.user1]) {
             self.usernameLabel.text = self.conversation.user1.username;
-            self.usernameLabel.textColor = [UIColor colorWithRed:54.0/255.0 green:173.0/255.0 blue:157.0/255.0 alpha:1.0];
+            self.usernameLabel.textColor = [CMMStyles new].globalNavy;
         } else {
             self.usernameLabel.text = [NSString stringWithFormat:@"%@ has left the conversation", self.conversation.userWhoLeft.username];
             self.usernameLabel.textColor = [UIColor redColor];

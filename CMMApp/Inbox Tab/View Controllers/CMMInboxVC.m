@@ -23,8 +23,10 @@
 
 #pragma mark - VC Life Cycle
 
+
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationItem.hidesSearchBarWhenScrolling = NO;
+    self.navigationController.navigationBar.prefersLargeTitles = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -38,11 +40,15 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"Inbox";
     
+    
     [CMMLanguageProcessor lemmatizeText:@"Do you think Donald Trump should have the power to kick people out of the daca stuff like women and children?"];
     [CMMLanguageProcessor namedEntityRecognition:@"Do you think Donald Trump should have the power to kick people out of the daca stuff like women and children?"];
     [CMMLanguageProcessor partsOfSpeech:@"Do you think Donald Trump should have the power to kick people out of the daca stuff like women and children?"];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [CMMStyles new].globalTan;
+    
+    self.navigationController.navigationBar.barTintColor = [CMMStyles new].globalTan;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     [self createSearchController];
     [self createMessagesTableView];
@@ -63,6 +69,7 @@
 
 - (void)createBarButtonItem {
     UIBarButtonItem *viewProfileButton =[[UIBarButtonItem alloc] initWithTitle:@"Moderate" style:UIBarButtonItemStylePlain target:self action:@selector(moderatorMode)];
+    viewProfileButton.tintColor = [CMMStyles new].globalNavy;
     self.navigationItem.rightBarButtonItem = viewProfileButton;
 }
 

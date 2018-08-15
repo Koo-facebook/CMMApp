@@ -18,6 +18,7 @@
 #import <Lottie/Lottie.h>
 #import <CMMKit/EventDetailsView.h>
 #import <CMMKit/CMMPopUp.h>
+#import "CMMStyles.h"
 #import "MyCustomPointAnnotation.h"
 
 
@@ -283,7 +284,7 @@
     //Initialize pull down to refresh control
     self.refreshControl = [[UIRefreshControl alloc]init];
     //Customize Refresh Control
-    self.refreshControl.backgroundColor = [UIColor clearColor];
+    self.refreshControl.backgroundColor = [CMMStyles new].globalTan;
     self.refreshControl.tintColor = [UIColor clearColor];
     //Linking pull down action to refresh control
     [self.refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
@@ -293,7 +294,7 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     self.refreshContainer = [[UIView alloc]init];//WithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.refreshControl.frame.size.width, (self.refreshControl.frame.size.height+(self.table.contentSize.height - self.table.bounds.size.height)))];
-    self.refreshContainer.backgroundColor = [UIColor whiteColor];
+    self.refreshContainer.backgroundColor = [CMMStyles new].globalTan;
     self.refreshControl.tintColor = [UIColor clearColor];
     [self.refreshControl addSubview:self.refreshContainer];
     

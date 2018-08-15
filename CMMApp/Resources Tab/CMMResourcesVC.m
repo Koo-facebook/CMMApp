@@ -28,10 +28,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [CMMStyles new].globalNavy;
+    
+    self.navigationController.navigationBar.tintColor = [CMMStyles new].globalNavy;
+    self.navigationController.navigationBar.barTintColor = [CMMStyles new].globalTan;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
     self.topicList = [[NSArray alloc]init];
     self.topicList = @[@"Social Issues",@"Education", @"Criminal Issues", @"Economics", @"Elections", @"Environment", @"Foreign Policy", @"Healthcare", @"Immigration", @"National Security"];
     //self.articles = [[NSArray alloc]init];
-    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"Resources";
     //[self fetchResourcesRelatingTo:@"Donald Trump"];
 
@@ -97,6 +102,11 @@
     self.searchBar = [[UISearchBar alloc] initWithFrame:searchFrame];
     self.searchBar.delegate = self;
     self.searchBar.placeholder = @"Search a topic...";
+    self.searchBar.barTintColor = [CMMStyles new].globalNavy;
+    UITextField *searchBarTextField = (UITextField *)[self.searchBar valueForKey:@"searchField"];
+    searchBarTextField.backgroundColor = [CMMStyles new].globalTan;
+    searchBarTextField.layer.cornerRadius = 16;
+    searchBarTextField.clipsToBounds = YES;
     [self.view addSubview:self.searchBar];
 }
 
@@ -126,6 +136,7 @@
     self.topicsCollectionView.backgroundColor = [UIColor whiteColor];
     self.topicsCollectionView.userInteractionEnabled = YES;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    self.topicsCollectionView.backgroundColor = [CMMStyles new].globalNavy;
     //layout.minimumLineSpacing = 5;
     //layout.minimumInteritemSpacing = 5;
     CGFloat postersPerLine = 2;

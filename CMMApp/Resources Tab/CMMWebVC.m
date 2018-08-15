@@ -7,6 +7,8 @@
 //
 
 #import "CMMWebVC.h"
+#import "CMMStyles.h"
+
 
 @interface CMMWebVC () <UIWebViewDelegate>
 
@@ -17,6 +19,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.navigationController.navigationBar.tintColor = [CMMStyles new].globalNavy;
+    
     [self createWebkit];
     [self createBackButton];
 }
