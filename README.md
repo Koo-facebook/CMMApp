@@ -1,6 +1,6 @@
 # ChangeMyMind
 
-**ChangeMyMind** is an app that allows users to communicate with others who have different political opinions.
+**ChangeMyMind** is an app that serves as a platform to encourage positive political discussion between people of different opinions. Users can post their questions or opinions and others can message them to start a conversation and learn more. 
 
 ## User Stories
 
@@ -9,23 +9,22 @@ The following **required** functionality is completed:
 - [x] User can log in and log out of his or her account
 - [x] The current signed in user is persisted across app restarts
 - [x] Newsfeed displays opinion posts
-- [ ] User can search in newsfeed, filter it by category, and view trending posts
+- [x] User can search in newsfeed, filter it by category, and view trending posts
 - [x] User can compose a new post and post it to the newsfeed
 - [x] User can click on a post to chat with its author
 - [x] User can view their message threads in a separate tab
-- [ ] User gets push notifications when someone responds to their post or messafes them
 - [x] User can view nearby political events
 
 The following **optional** features are implemented:
 
 - [x] Users have a profile page with their interests and a profile picture
-- [ ] Users can view curated resources about political issues
-- [ ] Users can meet up with other users to discuss issues in person
-- [ ] Users can register to vote through the app
+- [x] Users can view curated resources about political issues
+- [x] Users can meet up with other users to discuss issues in person
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [x] Sentiment analysis to give users a timeline that they would be more willing to interact with
+- [x] Spam detection machine learning to help rid our platform of unnecessary content
 
 ## Video Walkthrough
 
